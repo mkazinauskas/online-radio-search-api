@@ -11,4 +11,6 @@ cache:
   - $HOME/.gradle
 
 #Build api
-build: ./api/gradlew clean build --continue --parallel
+build: 
+  - cd api
+  - ./gradlew clean build --continue --parallel
