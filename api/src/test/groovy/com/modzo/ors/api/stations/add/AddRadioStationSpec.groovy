@@ -19,7 +19,10 @@ class AddRadioStationSpec extends Specification {
 
     def 'should add radio station'() {
         given:
-            AddRadioStationRequest request = new AddRadioStationRequest(url: 'http://someradiostation.com')
+            AddRadioStationRequest request = new AddRadioStationRequest(
+                    url: 'http://someradiostation.com',
+                    name: 'Some name'
+            )
         when:
             ResponseEntity response = restTemplate.postForEntity('/stations', request, String)
         then:

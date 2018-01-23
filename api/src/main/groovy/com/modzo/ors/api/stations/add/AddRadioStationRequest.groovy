@@ -7,4 +7,7 @@ class AddRadioStationRequest {
     @URL
     @NotBlank
     String url
+
+    @NotBlank
+    String name
 }
