@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
 @SpringBootApplication
-class OrsApplication {
+class OnlineRadioSearchApplication {
 
 	static void main(String[] args) {
-		SpringApplication.run OrsApplication, args
+		SpringApplication.run OnlineRadioSearchApplication, args
 	}
 }
