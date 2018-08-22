@@ -1,4 +1,4 @@
-package com.mozdzo.keycloak
+package com.mozdzo.ors
 
 class TestUsers {
 

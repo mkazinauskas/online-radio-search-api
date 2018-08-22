@@ -1,4 +1,4 @@
-package com.mozdzo.keycloak;
+package com.mozdzo.ors;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

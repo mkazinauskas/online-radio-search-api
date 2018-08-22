@@ -1,4 +1,4 @@
-package com.mozdzo.keycloak;
+package com.mozdzo.ors;
 
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;

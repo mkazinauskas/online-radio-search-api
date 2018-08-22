@@ -1,7 +1,7 @@
-package com.mozdzo.keycloak.resources
+package com.mozdzo.ors.resources
 
-import com.mozdzo.keycloak.HttpEntityBuilder
-import com.mozdzo.keycloak.TokenProvider
+import com.mozdzo.ors.HttpEntityBuilder
+import com.mozdzo.ors.TokenProvider
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.test.web.servlet.RequestBuilder
 import spock.lang.Specification
 
-import static com.mozdzo.keycloak.TestUsers.ADMIN
-import static com.mozdzo.keycloak.TestUsers.USER
+import static com.mozdzo.ors.TestUsers.ADMIN
+import static com.mozdzo.ors.TestUsers.USER
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpStatus.*

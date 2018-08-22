@@ -1,4 +1,4 @@
-package com.mozdzo.keycloak
+package com.mozdzo.ors
 
 import groovy.transform.CompileStatic
 import org.springframework.http.HttpEntity

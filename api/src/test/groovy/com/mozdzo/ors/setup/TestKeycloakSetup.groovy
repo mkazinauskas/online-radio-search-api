@@ -1,4 +1,4 @@
-package com.mozdzo.keycloak.setup
+package com.mozdzo.ors.setup
 
 import groovy.util.logging.Slf4j
 import org.keycloak.test.TestsHelper

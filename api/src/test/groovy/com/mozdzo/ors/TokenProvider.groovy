@@ -1,4 +1,4 @@
-package com.mozdzo.keycloak
+package com.mozdzo.ors
 
 import org.keycloak.test.TestsHelper
 import org.springframework.stereotype.Component

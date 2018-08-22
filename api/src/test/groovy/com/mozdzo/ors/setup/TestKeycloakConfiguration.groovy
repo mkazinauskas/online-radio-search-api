@@ -1,4 +1,4 @@
-package com.mozdzo.keycloak.setup
+package com.mozdzo.ors.setup
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.stereotype.Component
