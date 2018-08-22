@@ -1,24 +1,10 @@
-spring:
-  profiles:
-    active: prod
-  jpa:
-    hibernate:
-      ddl-auto: validate
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:8081/jwt
-    username: dockeruser
-    password: dockerpassword
+server:
+  port: 8080
 
-security.oauth2.authorization:
-  signing-key: veryStongSigningKey
-
-application.init.data: true
-
-spring.mail:
-  host: smtp.gmail.com
-  port: 587
-  username: <login user to smtp server>
-  password: <login password to smtp server>
-  properties.mail.smtp.auth: true
-  properties.mail.smtp.starttls.enable: true
+keycloak:
+  auth-server-url: http://localhost:8081/auth
+  resource: keycloak-demo-app
+  realm: spring-security-example
+  principal-attribute: preferred_username
+  bearer-only: true
+  use-resource-role-mappings: true

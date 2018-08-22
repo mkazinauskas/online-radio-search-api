@@ -1,8 +1,0 @@
-apply plugin: 'codenarc'
-
-codenarc {
-    toolVersion = '1.1'
-    reportFormat = 'html'
-    ignoreFailures false
-    configFile file('gradle/codenarc/rules.groovy')
-}
