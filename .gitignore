@@ -1,5 +1,3 @@
 .idea
 *.yaml
-.gradle
 out
-build
