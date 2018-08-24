@@ -6,6 +6,8 @@ import org.springframework.http.HttpHeaders
 
 import java.nio.charset.Charset
 
+import static org.springframework.http.MediaType.APPLICATION_JSON
+
 @CompileStatic
 class HttpEntityBuilder<B> {
 
@@ -19,6 +21,11 @@ class HttpEntityBuilder<B> {
 
     def <B> HttpEntityBuilder<B> body(B body) {
         this.body = body
+        return this
+    }
+
+    HttpEntityBuilder<B> jsonType() {
+        headers.setContentType(APPLICATION_JSON)
         return this
     }
 

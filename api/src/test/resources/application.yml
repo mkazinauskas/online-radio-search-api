@@ -2,6 +2,16 @@ server:
   connection-timeout: 5000s
   port: 8080
 
+spring:
+  profiles.active: test
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties.hibernate.jdbc.lob.non_contextual_creation: true
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:postgresql:10://hostname/databasename
+
 test:
   keycloak:
     port: 8081

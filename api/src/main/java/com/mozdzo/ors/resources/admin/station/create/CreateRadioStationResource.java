@@ -1,0 +1,26 @@
+package com.mozdzo.ors.resources.admin.station.create;
+
+import com.mozdzo.ors.domain.station.commands.CreateRadioStation;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
+import java.net.URI;
+
+@RestController
+class CreateRadioStationResource {
+
+    private final CreateRadioStation.Handler createStationHandler;
+
+    public CreateRadioStationResource(CreateRadioStation.Handler createStationHandler) {
+        this.createStationHandler = createStationHandler;
+    }
+
+    @PostMapping("/admin/radio-stations")
+    ResponseEntity createRadioStation(@Valid @RequestBody CreateRadioStationRequest request) {
+        createStationHandler.handle(new CreateRadioStation(request.getTitle()));
+        return ResponseEntity.created(URI.create("")).build();
+    }
+}

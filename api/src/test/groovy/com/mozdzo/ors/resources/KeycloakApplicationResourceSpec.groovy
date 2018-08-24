@@ -1,28 +1,15 @@
 package com.mozdzo.ors.resources
 
 import com.mozdzo.ors.HttpEntityBuilder
-import com.mozdzo.ors.TokenProvider
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.ResponseEntity
 import org.springframework.test.web.servlet.RequestBuilder
-import spock.lang.Specification
 
 import static com.mozdzo.ors.TestUsers.ADMIN
 import static com.mozdzo.ors.TestUsers.USER
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpStatus.*
 
-@SpringBootTest(webEnvironment = DEFINED_PORT)
-class KeycloakApplicationResourceSpec extends Specification {
-
-    @Autowired
-    TestRestTemplate restTemplate
-
-    @Autowired
-    TokenProvider tokenProvider
+class KeycloakApplicationResourceSpec extends IntegrationSpec {
 
     def 'should access admin resource with admin token'() {
         when:

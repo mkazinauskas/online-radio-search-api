@@ -6,12 +6,12 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
     }
 }
 
 apply plugin: 'groovy'
-apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
@@ -21,7 +21,6 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    maven { url 'https://jitpack.io' }
 }
 
 ext {
@@ -31,15 +30,22 @@ ext {
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.liquibase:liquibase-core'
     compile 'org.keycloak:keycloak-spring-boot-2-starter'
-    compile 'org.codehaus.groovy:groovy'
+    compile 'org.apache.commons:commons-lang3:3.8'
+
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 
+    runtime 'org.postgresql:postgresql'
+
+    testCompile 'org.codehaus.groovy:groovy'
     testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
     testCompile 'org.spockframework:spock-spring:1.1-groovy-2.4'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.springframework.security:spring-security-test'
     testCompile 'org.testcontainers:testcontainers:1.8.3'
+    testCompile 'org.testcontainers:postgresql:1.8.3'
     testCompile "org.keycloak:keycloak-test-helper:${keycloakVersion}"
 }
 
