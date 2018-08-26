@@ -12,10 +12,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
 @EnableWebSecurity
@@ -47,7 +50,9 @@ public class KeycloakConfiguration extends KeycloakWebSecurityConfigurerAdapter 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         super.configure(http);
-        http
+        http.sessionManagement().sessionCreationPolicy(STATELESS)
+                .and()
+                .csrf().disable()
                 .authorizeRequests()
                 .mvcMatchers("/admin/**").hasRole("ADMIN")
                 .mvcMatchers("/user/**").hasRole("USER")

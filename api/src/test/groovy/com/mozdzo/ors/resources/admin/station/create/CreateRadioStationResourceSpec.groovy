@@ -6,7 +6,6 @@ import com.mozdzo.ors.resources.IntegrationSpec
 import com.mozdzo.ors.resources.admin.station.create.CreateRadioStationRequest
 import org.springframework.http.ResponseEntity
 
-import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.HttpStatus.CREATED
 import static org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils.randomAlphanumeric

@@ -7,6 +7,7 @@ import org.springframework.test.web.servlet.RequestBuilder
 import static com.mozdzo.ors.TestUsers.ADMIN
 import static com.mozdzo.ors.TestUsers.USER
 import static org.springframework.http.HttpMethod.GET
+import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.HttpStatus.*
 
 class KeycloakApplicationResourceSpec extends IntegrationSpec {
@@ -16,6 +17,23 @@ class KeycloakApplicationResourceSpec extends IntegrationSpec {
             ResponseEntity<String> response = restTemplate.exchange(
                     '/admin/hello',
                     GET,
+                    HttpEntityBuilder.builder()
+                            .bearer(tokenProvider.token(ADMIN))
+                            .build(),
+                    String
+            )
+        then:
+            response.statusCode == OK
+            response.body == 'Hello Admin'
+
+            RequestBuilder
+    }
+
+    def 'should access admin resource with admin token post'() {
+        when:
+            ResponseEntity<String> response = restTemplate.exchange(
+                    '/admin/hello',
+                    POST,
                     HttpEntityBuilder.builder()
                             .bearer(tokenProvider.token(ADMIN))
                             .build(),
