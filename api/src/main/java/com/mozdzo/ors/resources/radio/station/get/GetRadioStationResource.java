@@ -1,7 +1,7 @@
 package com.mozdzo.ors.resources.radio.station.get;
 
-import com.mozdzo.ors.domain.station.RadioStation;
-import com.mozdzo.ors.domain.station.commands.GetRadioStation;
+import com.mozdzo.ors.domain.radio.station.RadioStation;
+import com.mozdzo.ors.domain.radio.station.commands.GetRadioStation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

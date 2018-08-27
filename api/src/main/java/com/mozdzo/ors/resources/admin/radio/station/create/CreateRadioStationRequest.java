@@ -1,4 +1,4 @@
-package com.mozdzo.ors.resources.admin.station.create;
+package com.mozdzo.ors.resources.admin.radio.station.create;
 
 import javax.validation.constraints.NotBlank;
 

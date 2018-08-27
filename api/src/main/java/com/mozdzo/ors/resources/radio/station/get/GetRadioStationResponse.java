@@ -1,6 +1,6 @@
 package com.mozdzo.ors.resources.radio.station.get;
 
-import com.mozdzo.ors.domain.station.RadioStation;
+import com.mozdzo.ors.domain.radio.station.RadioStation;
 
 public class GetRadioStationResponse {
     private long id;
