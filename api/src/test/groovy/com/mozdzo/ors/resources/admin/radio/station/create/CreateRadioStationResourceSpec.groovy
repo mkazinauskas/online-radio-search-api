@@ -1,9 +1,9 @@
-package com.mozdzo.ors.resources.admin.station.create
+package com.mozdzo.ors.resources.admin.radio.station.create
 
 import com.mozdzo.ors.HttpEntityBuilder
 import com.mozdzo.ors.TestUsers
+import com.mozdzo.ors.helpers.Location
 import com.mozdzo.ors.resources.IntegrationSpec
-import com.mozdzo.ors.resources.admin.station.create.CreateRadioStationRequest
 import org.springframework.http.ResponseEntity
 
 import static org.springframework.http.HttpMethod.POST
@@ -14,7 +14,9 @@ class CreateRadioStationResourceSpec extends IntegrationSpec {
 
     def 'admin should create radio station'() {
         given:
-            CreateRadioStationRequest request = new CreateRadioStationRequest(title: randomAlphanumeric(100))
+            CreateRadioStationRequest request = new CreateRadioStationRequest(
+                    title: randomAlphanumeric(100)
+            )
         when:
             ResponseEntity<String> response = restTemplate.exchange(
                     '/admin/radio-stations',
@@ -27,6 +29,6 @@ class CreateRadioStationResourceSpec extends IntegrationSpec {
             )
         then:
             response.statusCode == CREATED
-            response.headers.getLocation().path.split('/').last() == 1
+            Location.formHeader(response.headers)> 0
     }
 }

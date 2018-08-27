@@ -1,4 +1,4 @@
-package com.mozdzo.ors.domain.station;
+package com.mozdzo.ors.domain.radio.station;
 
 import org.springframework.data.repository.CrudRepository;
 

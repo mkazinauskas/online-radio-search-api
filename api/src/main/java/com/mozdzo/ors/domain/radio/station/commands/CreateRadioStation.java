@@ -1,8 +1,8 @@
-package com.mozdzo.ors.domain.station.commands;
+package com.mozdzo.ors.domain.radio.station.commands;
 
 import com.mozdzo.ors.domain.DomainException;
-import com.mozdzo.ors.domain.station.RadioStation;
-import com.mozdzo.ors.domain.station.RadioStations;
+import com.mozdzo.ors.domain.radio.station.RadioStation;
+import com.mozdzo.ors.domain.radio.station.RadioStations;
 import org.springframework.stereotype.Component;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
