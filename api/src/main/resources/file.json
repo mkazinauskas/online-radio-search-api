@@ -1,0 +1,11 @@
+{
+  "response": {
+    "id": 1,
+    "title": "8L27bSRkEZvfhebTky2oBeXpkmcNKFcXkVbIXQkQgKaDgtErmmYa5wb1EbUhWTIZYym7rGd6auCb4rumh0XSYhVB4GsVtoWnfaLH"
+  },
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/radio-stations/1"
+    }
+  }
+}

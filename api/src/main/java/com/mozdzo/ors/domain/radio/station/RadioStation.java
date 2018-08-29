@@ -10,10 +10,10 @@ public class RadioStation {
     @Id
     @GeneratedValue(generator = "radio_stations_sequence", strategy = SEQUENCE)
     @SequenceGenerator(name = "radio_stations_sequence", sequenceName = "radio_stations_sequence", allocationSize = 1)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "TITLE", length = 100)
+    @Column(name = "title", length = 100)
     private String title;
 
     RadioStation() {

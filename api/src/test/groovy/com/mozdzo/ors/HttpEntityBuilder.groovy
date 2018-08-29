@@ -46,4 +46,9 @@ class HttpEntityBuilder<B> {
     HttpEntity<B> build() {
         return new HttpEntity(body, headers)
     }
+
+
+    static HttpEntity<B> quick() {
+        return builder().build()
+    }
 }
