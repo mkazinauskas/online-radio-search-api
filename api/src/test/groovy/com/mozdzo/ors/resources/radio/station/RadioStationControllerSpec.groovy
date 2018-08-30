@@ -11,6 +11,31 @@ import static org.springframework.http.HttpStatus.OK
 
 class RadioStationControllerSpec extends IntegrationSpec {
 
+    def 'anyone should retrieve radio station streams'() {
+        given:
+            testRadioStation.create()
+        and:
+            String url = '/radio-stations'
+        when:
+            ResponseEntity<RadioStationsResource> result = restTemplate.exchange(
+                    url + '?size=100&page=0',
+                    GET,
+                    HttpEntityBuilder.builder()
+                            .build(),
+                    RadioStationsResource
+            )
+        then:
+            result.statusCode == OK
+        and:
+            with(result.body) {
+                content.first().radioStation.id > 0
+                content.first().radioStation.title.size() > 0
+
+                links.first().rel == REL_SELF
+                links.first().href.endsWith(url)
+            }
+    }
+
     def 'anyone should retrieve radio station'() {
         given:
             RadioStation radioStation = testRadioStation.create()
