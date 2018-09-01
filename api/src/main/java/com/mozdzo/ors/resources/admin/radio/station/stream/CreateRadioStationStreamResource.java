@@ -31,7 +31,7 @@ class CreateRadioStationStreamResource {
         CreateRadioStationStream.Result result = createStationStreamHandler.handle(
                 new CreateRadioStationStream(radioStationId, request.getUrl())
         );
-        return created(create(format("/admin/radio-stations/%s/streams/%s", radioStationId, result.id)))
+        return created(create(format("/radio-stations/%s/streams/%s", radioStationId, result.id)))
                 .build();
     }
 }

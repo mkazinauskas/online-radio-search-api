@@ -21,6 +21,6 @@ class CreateRadioStationResource {
     @PostMapping("/admin/radio-stations")
     ResponseEntity createRadioStation(@Valid @RequestBody CreateRadioStationRequest request) {
         CreateRadioStation.Result result = createStationHandler.handle(new CreateRadioStation(request.getTitle()));
-        return ResponseEntity.created(URI.create(String.format("/admin/radio-stations/%s", result.id))).build();
+        return ResponseEntity.created(URI.create(String.format("/radio-stations/%s", result.id))).build();
     }
 }

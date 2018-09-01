@@ -14,7 +14,7 @@ public class RadioStationStream {
     private Long id;
 
     @Column(name = "radio_station_id")
-    private Long radioStationId;
+    private long radioStationId;
 
     @Column(name = "url", length = 100)
     private String url;
@@ -22,7 +22,7 @@ public class RadioStationStream {
     RadioStationStream() {
     }
 
-    public RadioStationStream(Long radioStationId, String url) {
+    public RadioStationStream(long radioStationId, String url) {
         this.radioStationId = radioStationId;
         this.url = url;
     }
@@ -31,11 +31,7 @@ public class RadioStationStream {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getRadioStationId() {
+    public long getRadioStationId() {
         return radioStationId;
     }
 
