@@ -1,19 +1,24 @@
 package com.mozdzo.ors.domain.radio.station.stream.commands;
 
 import com.mozdzo.ors.domain.DomainException;
+import com.mozdzo.ors.domain.radio.station.RadioStation;
 import com.mozdzo.ors.domain.radio.station.RadioStations;
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream;
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStreams;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-public class GetRadioStationStream {
+import static java.util.Objects.requireNonNull;
+
+public class GetRadioStationStreams {
     private final long radioStationId;
 
-    private final long streamId;
+    private final Pageable pageable;
 
-    public GetRadioStationStream(long radioStationId, long streamId) {
+    public GetRadioStationStreams(long radioStationId, Pageable pageable) {
         this.radioStationId = radioStationId;
-        this.streamId = streamId;
+        this.pageable = requireNonNull(pageable);
     }
 
     @Component
@@ -27,13 +32,9 @@ public class GetRadioStationStream {
             this.validator = validator;
         }
 
-        public RadioStationStream handle(GetRadioStationStream command) {
+        public Page<RadioStationStream> handle(GetRadioStationStreams command) {
             validator.validate(command);
-            return radioStationStreams.findByRadioStationIdAndId(command.radioStationId, command.streamId)
-                    .orElseThrow(() -> new DomainException(
-                            "RADIO_STATION_STREAM_BY_ID_NOT_FOUND",
-                            "Radio station stream by id was not found")
-                    );
+            return radioStationStreams.findAllByRadioStationId(command.radioStationId, command.pageable);
         }
     }
 
@@ -45,7 +46,7 @@ public class GetRadioStationStream {
             this.radioStations = radioStations;
         }
 
-        void validate(GetRadioStationStream command) {
+        void validate(GetRadioStationStreams command) {
             if (command.radioStationId <= 0) {
                 throw new DomainException("FIELD_RADIO_STATION_ID_IS_LESS_OR_EQUAL_TO_ZERO",
                         "Radio station id cannot be less or equal to zero");
@@ -53,11 +54,6 @@ public class GetRadioStationStream {
 
             if (!radioStations.findById(command.radioStationId).isPresent()) {
                 throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT", "Radio station with id is not available");
-            }
-
-            if (command.streamId <= 0) {
-                throw new DomainException("FIELD_STREAM_ID_IS_LESS_OR_EQUAL_TO_ZERO",
-                        "Radio station stream id cannot be less or equal to zero");
             }
         }
     }

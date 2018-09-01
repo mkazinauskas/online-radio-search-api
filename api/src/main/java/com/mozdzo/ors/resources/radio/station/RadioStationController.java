@@ -38,6 +38,5 @@ class RadioStationController {
     ResponseEntity<RadioStationResource> getRadioStation(@PathVariable("id") long id) {
         RadioStation foundRadioStation = radioStationHandler.handle(new GetRadioStation(id));
         return ok(create(foundRadioStation));
-        //https://lankydanblog.com/2017/09/10/applying-hateoas-to-a-rest-api-with-spring-boot/
     }
 }

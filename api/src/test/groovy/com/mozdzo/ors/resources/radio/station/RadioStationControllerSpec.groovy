@@ -11,7 +11,7 @@ import static org.springframework.http.HttpStatus.OK
 
 class RadioStationControllerSpec extends IntegrationSpec {
 
-    def 'anyone should retrieve radio station streams'() {
+    def 'anyone should retrieve radio stations'() {
         given:
             testRadioStation.create()
         and:
@@ -28,11 +28,11 @@ class RadioStationControllerSpec extends IntegrationSpec {
             result.statusCode == OK
         and:
             with(result.body) {
-                content.first().radioStation.id > 0
-                content.first().radioStation.title.size() > 0
+                it.content.first().radioStation.id > 0
+                it.content.first().radioStation.title.size() > 0
 
-                links.first().rel == REL_SELF
-                links.first().href.endsWith(url)
+                it.links.first().rel == REL_SELF
+                it.links.first().href.endsWith(url)
             }
     }
 
@@ -53,11 +53,11 @@ class RadioStationControllerSpec extends IntegrationSpec {
             result.statusCode == OK
         and:
             with(result.body) {
-                radioStation.id == radioStation.id
-                radioStation.title == radioStation.title
+                it.radioStation.id == radioStation.id
+                it.radioStation.title == radioStation.title
 
-                links.first().rel == REL_SELF
-                links.first().href.endsWith(url)
+                it.links.first().rel == REL_SELF
+                it.links.first().href.endsWith(url)
             }
     }
 }
