@@ -3,7 +3,6 @@ package com.mozdzo.ors.resources.radio.station.stream;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream;
-import com.mozdzo.ors.resources.radio.station.RadioStationResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
@@ -28,7 +27,9 @@ class RadioStationStreamsResource extends PagedResources<RadioStationStreamResou
         super(content.get("radioStationStreamResourceList"), metadata, parseLinks(links));
     }
 
-    static RadioStationStreamsResource create(Page<RadioStationStream> radioStations, long radioStationId, Pageable pageable) {
+    static RadioStationStreamsResource create(Page<RadioStationStream> radioStations,
+                                              long radioStationId,
+                                              Pageable pageable) {
         PageMetadata pageMetadata = new PageMetadata(
                 radioStations.getSize(),
                 radioStations.getNumber(),

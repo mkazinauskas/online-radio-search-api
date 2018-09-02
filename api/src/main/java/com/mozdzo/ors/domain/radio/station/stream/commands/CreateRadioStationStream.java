@@ -51,10 +51,12 @@ public class CreateRadioStationStream {
 
         void validate(CreateRadioStationStream command) {
             if (command.radioStationId <= 0) {
-                throw new DomainException("FIELD_RADIO_STATION_ID_IS_NOT_POSITIVE", "Field radio station id should be positive");
+                throw new DomainException("FIELD_RADIO_STATION_ID_IS_NOT_POSITIVE",
+                        "Field radio station id should be positive");
             }
             if (!radioStations.findById(command.radioStationId).isPresent()) {
-                throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT", "Radio station with id is not available");
+                throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT",
+                        "Radio station with id is not available");
             }
             if (isBlank(command.url)) {
                 throw new DomainException("FIELD_URL_NOT_BLANK", "Field url cannot be blank");

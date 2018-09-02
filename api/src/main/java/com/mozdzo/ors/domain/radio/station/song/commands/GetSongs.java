@@ -4,8 +4,6 @@ import com.mozdzo.ors.domain.DomainException;
 import com.mozdzo.ors.domain.radio.station.RadioStations;
 import com.mozdzo.ors.domain.radio.station.song.Song;
 import com.mozdzo.ors.domain.radio.station.song.Songs;
-import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream;
-import com.mozdzo.ors.domain.radio.station.stream.RadioStationStreams;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -54,7 +52,8 @@ public class GetSongs {
             }
 
             if (!radioStations.findById(command.radioStationId).isPresent()) {
-                throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT", "Radio station with id is not available");
+                throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT",
+                        "Radio station with id is not available");
             }
         }
     }

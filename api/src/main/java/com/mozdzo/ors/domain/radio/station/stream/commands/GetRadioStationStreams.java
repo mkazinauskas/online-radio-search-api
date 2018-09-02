@@ -1,7 +1,6 @@
 package com.mozdzo.ors.domain.radio.station.stream.commands;
 
 import com.mozdzo.ors.domain.DomainException;
-import com.mozdzo.ors.domain.radio.station.RadioStation;
 import com.mozdzo.ors.domain.radio.station.RadioStations;
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream;
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStreams;
@@ -53,7 +52,8 @@ public class GetRadioStationStreams {
             }
 
             if (!radioStations.findById(command.radioStationId).isPresent()) {
-                throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT", "Radio station with id is not available");
+                throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT",
+                        "Radio station with id is not available");
             }
         }
     }

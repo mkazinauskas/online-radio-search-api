@@ -15,6 +15,7 @@ apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply from: "${rootDir}/gradle/codenarc/codenarc.gradle"
+apply from: "${rootDir}/gradle/checkstyle/checkstyle.gradle"
 
 group = 'com.mozdzo'
 version = '0.0.1-SNAPSHOT'
@@ -49,6 +50,8 @@ dependencies {
     testCompile 'org.testcontainers:testcontainers:1.8.3'
     testCompile 'org.testcontainers:postgresql:1.8.3'
     testCompile "org.keycloak:keycloak-test-helper:${keycloakVersion}"
+
+    compileOnly group: 'org.gmetrics', name: 'GMetrics', version: '0.7'
 }
 
 dependencyManagement {

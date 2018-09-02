@@ -14,7 +14,7 @@ public class CreateRadioStation {
         this.title = title;
     }
 
-    private RadioStation toRadioStation (){
+    private RadioStation toRadioStation() {
         return new RadioStation(this.title);
     }
 

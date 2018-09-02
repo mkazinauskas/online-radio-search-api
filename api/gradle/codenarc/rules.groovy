@@ -135,11 +135,11 @@ ruleset {
 //    DuplicateNumberLiteral
 //    DuplicateStringLiteral
 
-    // rulesets/enhanced.xml
-    CloneWithoutCloneable
-    JUnitAssertEqualsConstantActualValue
-    MissingOverrideAnnotation
-    UnsafeImplementationAsMap
+//    // rulesets/enhanced.xml
+//    CloneWithoutCloneable
+//    JUnitAssertEqualsConstantActualValue
+//    MissingOverrideAnnotation
+//    UnsafeImplementationAsMap
 
     // rulesets/exceptions.xml
     CatchArrayIndexOutOfBoundsException
@@ -340,10 +340,10 @@ ruleset {
     SerializableClassMustDefineSerialVersionUID
 
     // rulesets/size.xml
-    AbcMetric   // Requires the GMetrics jar
+//    AbcMetric   // Requires the GMetrics jar
     ClassSize
-    CrapMetric   // Requires the GMetrics jar and a Cobertura coverage file
-    CyclomaticComplexity   // Requires the GMetrics jar
+//    CrapMetric   // Requires the GMetrics jar and a Cobertura coverage file
+//    CyclomaticComplexity   // Requires the GMetrics jar
     MethodCount
     MethodSize
     NestedBlockDepth
@@ -406,6 +406,4 @@ ruleset {
     UnusedPrivateMethod
     UnusedPrivateMethodParameter
     UnusedVariable
-
-
 }

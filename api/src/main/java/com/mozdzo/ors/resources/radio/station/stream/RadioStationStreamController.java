@@ -38,9 +38,12 @@ class RadioStationStreamController {
     }
 
     @GetMapping("/radio-stations/{radioStationId}/streams/{streamId}")
-    ResponseEntity<RadioStationStreamResource> getRadioStationStream(@PathVariable("radioStationId") long radioStationId,
-                                                                     @PathVariable("streamId") long streamId) {
-        RadioStationStream foundStream = radioStationStreamHandler.handle(new GetRadioStationStream(radioStationId, streamId));
+    ResponseEntity<RadioStationStreamResource> getRadioStationStream(
+            @PathVariable("radioStationId") long radioStationId,
+            @PathVariable("streamId") long streamId) {
+        RadioStationStream foundStream = radioStationStreamHandler.handle(
+                new GetRadioStationStream(radioStationId, streamId)
+        );
         return ok(RadioStationStreamResource.create(radioStationId, foundStream));
     }
 }

@@ -6,7 +6,6 @@ import com.mozdzo.ors.domain.radio.station.RadioStation;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 
-import java.util.Collections;
 import java.util.Map;
 
 import static java.util.Collections.singletonMap;

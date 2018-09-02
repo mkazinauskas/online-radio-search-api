@@ -1,6 +1,11 @@
 package com.mozdzo.ors.domain.radio.station.stream;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -9,7 +14,11 @@ import static javax.persistence.GenerationType.SEQUENCE;
 public class RadioStationStream {
     @Id
     @GeneratedValue(generator = "radio_station_streams_sequence", strategy = SEQUENCE)
-    @SequenceGenerator(name = "radio_station_streams_sequence", sequenceName = "radio_station_streams_sequence", allocationSize = 1)
+    @SequenceGenerator(
+            name = "radio_station_streams_sequence",
+            sequenceName = "radio_station_streams_sequence",
+            allocationSize = 1
+    )
     @Column(name = "id")
     private Long id;
 

@@ -52,7 +52,8 @@ public class GetRadioStationStream {
             }
 
             if (!radioStations.findById(command.radioStationId).isPresent()) {
-                throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT", "Radio station with id is not available");
+                throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT",
+                        "Radio station with id is not available");
             }
 
             if (command.streamId <= 0) {
