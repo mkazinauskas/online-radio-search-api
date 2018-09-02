@@ -1,11 +1,12 @@
 package com.mozdzo.ors.resources.admin.radio.station.song
 
 import com.mozdzo.ors.HttpEntityBuilder
-import com.mozdzo.ors.TestUsers
 import com.mozdzo.ors.domain.radio.station.RadioStation
 import com.mozdzo.ors.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
 
+import static com.mozdzo.ors.TestUsers.ADMIN
+import static com.mozdzo.ors.TokenProvider.token
 import static java.time.LocalDateTime.now
 import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.HttpStatus.CREATED
@@ -14,7 +15,7 @@ import static org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtil
 
 class CreateSongControllerSpec extends IntegrationSpec {
 
-    def 'admin should create radio station song'() {
+    void 'admin should create radio station song'() {
         given:
             RadioStation radioStation = testRadioStation.create()
         and:
@@ -27,7 +28,7 @@ class CreateSongControllerSpec extends IntegrationSpec {
                     "/admin/radio-stations/${radioStation.id}/songs",
                     POST,
                     HttpEntityBuilder.builder()
-                            .bearer(tokenProvider.token(TestUsers.ADMIN))
+                            .bearer(token(ADMIN))
                             .body(request)
                             .build(),
                     String

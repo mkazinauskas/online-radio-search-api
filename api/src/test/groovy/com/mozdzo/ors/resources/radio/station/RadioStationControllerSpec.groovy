@@ -11,7 +11,7 @@ import static org.springframework.http.HttpStatus.OK
 
 class RadioStationControllerSpec extends IntegrationSpec {
 
-    def 'anyone should retrieve radio stations'() {
+    void 'anyone should retrieve radio stations'() {
         given:
             testRadioStation.create()
         and:
@@ -36,7 +36,7 @@ class RadioStationControllerSpec extends IntegrationSpec {
             }
     }
 
-    def 'anyone should retrieve radio station'() {
+    void 'anyone should retrieve radio station'() {
         given:
             RadioStation radioStation = testRadioStation.create()
         and:

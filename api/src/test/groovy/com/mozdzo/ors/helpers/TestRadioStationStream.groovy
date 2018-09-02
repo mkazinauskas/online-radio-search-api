@@ -1,6 +1,5 @@
 package com.mozdzo.ors.helpers
 
-
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream
 import com.mozdzo.ors.domain.radio.station.stream.commands.CreateRadioStationStream
 import com.mozdzo.ors.domain.radio.station.stream.commands.GetRadioStationStream
@@ -19,7 +18,10 @@ class TestRadioStationStream {
     private GetRadioStationStream.Handler getRadioStationHandler
 
     RadioStationStream create(long radioStationId) {
-        CreateRadioStationStream createRadioStation = new CreateRadioStationStream(radioStationId, randomAlphanumeric(100))
+        CreateRadioStationStream createRadioStation = new CreateRadioStationStream(
+                radioStationId,
+                randomAlphanumeric(100)
+        )
         long newStationId = createRadioStationHandler.handle(createRadioStation).id
 
         return getRadioStationHandler.handle(new GetRadioStationStream(radioStationId, newStationId))

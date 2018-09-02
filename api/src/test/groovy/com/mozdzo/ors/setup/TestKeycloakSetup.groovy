@@ -60,7 +60,7 @@ class TestKeycloakSetup implements InitializingBean, DisposableBean {
         private final static int KEYCLOAK_INTERNAL_PORT = 8080
 
         private final static WaitStrategy WAITING_STRATEGY = new HttpWaitStrategy()
-                .forPath("/")
+                .forPath('/')
                 .forPort(KEYCLOAK_INTERNAL_PORT)
 
         private final GenericContainer container
