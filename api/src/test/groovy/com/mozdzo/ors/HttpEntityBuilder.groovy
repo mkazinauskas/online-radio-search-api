@@ -15,7 +15,7 @@ class HttpEntityBuilder<B> {
         return new HttpEntityBuilder<B>()
     }
 
-    def <B> HttpEntityBuilder<B> body(B body) {
+    HttpEntityBuilder<B> body(B body) {
         this.body = body
         return this
     }
