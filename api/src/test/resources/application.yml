@@ -18,6 +18,8 @@ test:
     username: admin
     password: password
     realmJsonPath: /keycloak-test-realm.json
+  wiremock:
+    port: 8885
 
 keycloak:
   auth-server-url: http://localhost:8081/auth

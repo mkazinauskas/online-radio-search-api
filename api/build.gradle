@@ -37,6 +37,7 @@ dependencies {
     compile 'org.keycloak:keycloak-spring-boot-2-starter'
     compile 'org.springframework.boot:spring-boot-starter-hateoas'
     compile 'org.apache.commons:commons-lang3:3.8'
+    compile 'org.jsoup:jsoup:1.8.3'
 
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 
@@ -50,6 +51,7 @@ dependencies {
     testCompile 'org.testcontainers:testcontainers:1.8.3'
     testCompile 'org.testcontainers:postgresql:1.8.3'
     testCompile "org.keycloak:keycloak-test-helper:${keycloakVersion}"
+    testCompile 'com.github.tomakehurst:wiremock:2.18.0'
 
     compileOnly group: 'org.gmetrics', name: 'GMetrics', version: '0.7'
 }

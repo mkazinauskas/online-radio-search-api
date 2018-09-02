@@ -3,6 +3,7 @@ package com.mozdzo.ors.resources
 import com.mozdzo.ors.helpers.TestRadioStation
 import com.mozdzo.ors.helpers.TestRadioStationStream
 import com.mozdzo.ors.helpers.TestSong
+import com.mozdzo.ors.setup.TestWireMockServer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -24,4 +25,7 @@ class IntegrationSpec extends Specification {
 
     @Autowired
     TestSong testSong
+
+    @Autowired
+    TestWireMockServer testWiremockServer
 }
