@@ -101,7 +101,6 @@ ruleset {
     NoTabCharacter
     ParameterReassignment
     TernaryCouldBeElvis
-//    TrailingComma
     VariableTypeRequired
     VectorIsObsolete
 
@@ -110,7 +109,6 @@ ruleset {
     AbstractClassWithoutAbstractMethod
     AssignmentToStaticFieldFromInstanceMethod
     BooleanMethodReturnsNull
-//    BuilderMethodWithSideEffects
     CloneableWithoutClone
     CloseWithoutCloseable
     CompareToWithoutComparable
@@ -129,22 +127,9 @@ ruleset {
     StatelessSingleton
     ToStringReturnsNull
 
-    // rulesets/dry.xml
-//    DuplicateListLiteral
-//    DuplicateMapLiteral
-//    DuplicateNumberLiteral
-//    DuplicateStringLiteral
-
-//    // rulesets/enhanced.xml
-//    CloneWithoutCloneable
-//    JUnitAssertEqualsConstantActualValue
-//    MissingOverrideAnnotation
-//    UnsafeImplementationAsMap
-
     // rulesets/exceptions.xml
     CatchArrayIndexOutOfBoundsException
     CatchError
-//    CatchException
     CatchIllegalMonitorStateException
     CatchIndexOutOfBoundsException
     CatchNullPointerException
@@ -172,11 +157,8 @@ ruleset {
     BracesForIfElse
     BracesForMethod
     BracesForTryCatchFinally
-//    ClassJavadoc
     ClosureStatementOnOpeningLineOfMultipleLineClosure
     ConsecutiveBlankLines
-//    FileEndsWithoutNewline
-//    Indentation
     LineLength
     MissingBlankLineAfterImports
     MissingBlankLineAfterPackage
@@ -185,12 +167,10 @@ ruleset {
     SpaceAfterComma
     SpaceAfterFor
     SpaceAfterIf
-//    SpaceAfterOpeningBrace
     SpaceAfterSemicolon
     SpaceAfterSwitch
     SpaceAfterWhile
     SpaceAroundClosureArrow
-//    SpaceAroundMapEntryColon
     SpaceAroundOperator
     SpaceBeforeClosingBrace
     SpaceBeforeOpeningBrace
@@ -257,8 +237,6 @@ ruleset {
     DuplicateImport
     ImportFromSamePackage
     ImportFromSunPackages
-//    MisorderedStaticImports
-//    NoWildcardImports
     UnnecessaryGroovyImport
     UnusedImport
 
@@ -267,32 +245,6 @@ ruleset {
     JdbcConnectionReference
     JdbcResultSetReference
     JdbcStatementReference
-
-    // rulesets/junit.xml
-//    ChainedTest
-//    CoupledTestCase
-//    JUnitAssertAlwaysFails
-//    JUnitAssertAlwaysSucceeds
-//    JUnitFailWithoutMessage
-//    JUnitLostTest
-//    JUnitPublicField
-//    JUnitPublicNonTestMethod
-//    JUnitPublicProperty
-//    JUnitSetUpCallsSuper
-//    JUnitStyleAssertions
-//    JUnitTearDownCallsSuper
-//    JUnitTestMethodWithoutAssert
-//    JUnitUnnecessarySetUp
-//    JUnitUnnecessaryTearDown
-//    JUnitUnnecessaryThrowsException
-//    SpockIgnoreRestUsed
-//    UnnecessaryFail
-//    UseAssertEqualsInsteadOfAssertTrue
-//    UseAssertFalseInsteadOfNegation
-//    UseAssertNullInsteadOfAssertEquals
-//    UseAssertSameInsteadOfAssertTrue
-//    UseAssertTrueInsteadOfAssertEquals
-//    UseAssertTrueInsteadOfNegation
 
     // rulesets/logging.xml
     LoggerForDifferentClass
@@ -309,12 +261,9 @@ ruleset {
     ClassName
     ClassNameSameAsFilename
     ClassNameSameAsSuperclass
-//    ConfusingMethodName
-//    FactoryMethodName
     FieldName
     InterfaceName
     InterfaceNameSameAsSuperInterface
-//    MethodName
     ObjectOverrideMisspelledMethodName
     PackageName
     PackageNameMatchesFilePath
@@ -340,10 +289,7 @@ ruleset {
     SerializableClassMustDefineSerialVersionUID
 
     // rulesets/size.xml
-//    AbcMetric   // Requires the GMetrics jar
     ClassSize
-//    CrapMetric   // Requires the GMetrics jar and a Cobertura coverage file
-//    CyclomaticComplexity   // Requires the GMetrics jar
     MethodCount
     MethodSize
     NestedBlockDepth
@@ -373,7 +319,6 @@ ruleset {
     UnnecessaryFinalOnPrivateMethod
     UnnecessaryFloatInstantiation
     UnnecessaryGString
-//    UnnecessaryGetter
     UnnecessaryIfStatement
     UnnecessaryInstanceOfCheck
     UnnecessaryInstantiationToGetClass
@@ -382,12 +327,10 @@ ruleset {
     UnnecessaryModOne
     UnnecessaryNullCheck
     UnnecessaryNullCheckBeforeInstanceOf
-//    UnnecessaryObjectReferences
     UnnecessaryOverridingMethod
     UnnecessaryPackageReference
     UnnecessaryParenthesesForMethodCallWithClosure
     UnnecessaryPublicModifier
-//    UnnecessaryReturnKeyword
     UnnecessarySafeNavigationOperator
     UnnecessarySelfAssignment
     UnnecessarySemicolon
