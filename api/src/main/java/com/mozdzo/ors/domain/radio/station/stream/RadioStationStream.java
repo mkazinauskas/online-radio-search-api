@@ -2,6 +2,8 @@ package com.mozdzo.ors.domain.radio.station.stream;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
@@ -27,6 +29,14 @@ public class RadioStationStream {
 
     @Column(name = "url", length = 100)
     private String url;
+
+    @Column(name = "bit_rate")
+    private Integer bitRate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private Type type;
+
 
     RadioStationStream() {
     }
@@ -54,5 +64,25 @@ public class RadioStationStream {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Integer getBitRate() {
+        return bitRate;
+    }
+
+    public void setBitRate(Integer bitRate) {
+        this.bitRate = bitRate;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public enum Type {
+        MP3, ACC, UNKNOWN
     }
 }
