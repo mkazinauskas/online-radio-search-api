@@ -1,4 +1,4 @@
-package com.mozdzo.ors.services.scrapper.stream;
+package com.mozdzo.ors.services.scrapper;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -7,7 +7,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Optional;
 
 @Component
-class WebPageReader {
+public class WebPageReader {
 
     private final RestTemplate restTemplate;
 
@@ -15,7 +15,7 @@ class WebPageReader {
         this.restTemplate = restTemplate;
     }
 
-    Optional<String> read(String url) {
+    public Optional<String> read(String url) {
         try {
             ResponseEntity<String> forEntity = restTemplate.getForEntity(url, String.class);
             return Optional.ofNullable(forEntity.getBody());

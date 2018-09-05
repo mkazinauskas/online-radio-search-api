@@ -1,6 +1,6 @@
-package com.mozdzo.ors.services.scrapper.stream;
+package com.mozdzo.ors.services.scrapper;
 
-import com.mozdzo.ors.services.scrapper.WebPageReader;
+import com.mozdzo.ors.services.scrapper.stream.StreamScrapper;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -22,7 +22,7 @@ import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang3.math.NumberUtils.isCreatable;
 
 @Component
-public class StreamScrapper {
+public class LastPlayedSongs {
 
     private final WebPageReader siteReader;
 
@@ -30,7 +30,7 @@ public class StreamScrapper {
         this.siteReader = siteReader;
     }
 
-    public Optional<Response> scrap(Request request) {
+    public Optional<StreamScrapper.Response> scrap(StreamScrapper.Request request) {
         Optional<String> site = siteReader.read(request.getUrl());
         if (!site.isPresent()) {
             return empty();
@@ -42,9 +42,9 @@ public class StreamScrapper {
                 .flatMap(Collection::stream)
                 .collect(toList());
         Map<String, String> map = tableValues(trs);
-        return Optional.of(new Response(
+        return Optional.of(new StreamScrapper.Response(
                 map.getOrDefault("Listing Status:", ""),
-                Response.Format.findFormat(map.getOrDefault("Stream Status:", "")),
+                StreamScrapper.Response.Format.findFormat(map.getOrDefault("Stream Status:", "")),
                 bitRate(map.getOrDefault("Stream Status:", "")),
                 listenerPeak(map.getOrDefault("Listener Peak:", "")),
                 map.getOrDefault("Stream Name:", ""),
@@ -101,14 +101,14 @@ public class StreamScrapper {
 
     public static class Response {
         private final String listingStatus;
-        private final Format format;
+        private final StreamScrapper.Response.Format format;
         private final int bitrate;
         private final int listenerPeak;
         private final String streamName;
         private final List<String> genres;
         private final String website;
 
-        Response(String listingStatus, Format format, int bitrate,
+        Response(String listingStatus, StreamScrapper.Response.Format format, int bitrate,
                  int listenerPeak, String streamName, List<String> genres, String website) {
             this.listingStatus = listingStatus;
             this.format = format;
@@ -123,7 +123,7 @@ public class StreamScrapper {
             return listingStatus;
         }
 
-        public Format getFormat() {
+        public StreamScrapper.Response.Format getFormat() {
             return format;
         }
 
@@ -150,9 +150,9 @@ public class StreamScrapper {
         public enum Format {
             MP3, AAC, UNKNOWN;
 
-            public static Format findFormat(String line) {
+            public static StreamScrapper.Response.Format findFormat(String line) {
                 String uppercaseLine = line.toUpperCase();
-                for (Format format : values()) {
+                for (StreamScrapper.Response.Format format : values()) {
                     if (uppercaseLine.contains(format.name())) {
                         return format;
                     }

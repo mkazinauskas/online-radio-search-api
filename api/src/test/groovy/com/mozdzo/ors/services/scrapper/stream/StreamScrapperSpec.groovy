@@ -1,5 +1,6 @@
 package com.mozdzo.ors.services.scrapper.stream
 
+import com.mozdzo.ors.services.scrapper.WebPageReader
 import spock.lang.Specification
 
 import static com.mozdzo.ors.services.scrapper.stream.StreamScrapper.Response.Format.MP3
