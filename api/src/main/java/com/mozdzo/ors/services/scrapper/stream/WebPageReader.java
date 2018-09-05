@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Component
 class WebPageReader {
+
     private final RestTemplate restTemplate;
 
     WebPageReader(RestTemplate restTemplate) {

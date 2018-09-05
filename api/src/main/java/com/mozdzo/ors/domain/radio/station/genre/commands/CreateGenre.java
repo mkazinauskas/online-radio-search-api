@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CreateGenre {
+
     private final String title;
 
     public CreateGenre(String title) {

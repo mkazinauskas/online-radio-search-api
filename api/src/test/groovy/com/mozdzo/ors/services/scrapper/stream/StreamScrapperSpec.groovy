@@ -1,33 +1,34 @@
 package com.mozdzo.ors.services.scrapper.stream
 
-import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream
-import com.mozdzo.ors.resources.IntegrationSpec
-import org.springframework.beans.factory.annotation.Autowired
+import spock.lang.Specification
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*
+import static com.mozdzo.ors.services.scrapper.stream.StreamScrapper.Response.Format.MP3
 
-class StreamScrapperSpec extends IntegrationSpec {
-
-    @Autowired
-    StreamScrapper testTarget
+class StreamScrapperSpec extends Specification {
 
     void 'should scrap the stream'() {
         given:
-            RadioStationStream stream = testRadioStationStream.create()
+            String url = 'someUrl'
         and:
-            mockStream(stream.url)
-        expect:
-            testTarget.scrap(stream)
+            StreamScrapper scrapper = prepareScrapper(url)
+        when:
+            StreamScrapper.Response scraped = scrapper.scrap(new StreamScrapper.Request(url)).get()
+        then:
+            scraped.listingStatus == 'Stream is currently up and public'
+            scraped.format == MP3
+            scraped.bitrate == 192
+            scraped.listenerPeak == 411
+            scraped.streamName == 'Radio 2.0 - Valli di Bergamo'
+            scraped.genres == ['Pop', 'Rock', '80s', '70s', 'Top 40']
+            scraped.website == 'www.radioduepuntozero.it'
     }
 
-    private void mockStream(String url) {
+    StreamScrapper prepareScrapper(String url) {
         String page = getClass().getResource('/services/scrappers/stream/sample-source.html').text
 
-        testWiremockServer.server().stubFor(
-                get(urlEqualTo('/' + url.split('/').last()))
-                        .willReturn(aResponse()
-                        .withStatus(200)
-                        .withBody(page))
-        )
+        return new StreamScrapper(Stub(WebPageReader) {
+            read(url) >> Optional.of(page)
+        })
+
     }
 }
