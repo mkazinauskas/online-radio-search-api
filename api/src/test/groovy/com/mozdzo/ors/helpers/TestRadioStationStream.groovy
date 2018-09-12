@@ -1,6 +1,5 @@
 package com.mozdzo.ors.helpers
 
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import com.mozdzo.ors.domain.radio.station.RadioStation
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream
 import com.mozdzo.ors.domain.radio.station.stream.commands.CreateRadioStationStream
@@ -41,7 +40,7 @@ class TestRadioStationStream {
         return create(radioStation.id)
     }
 
-    private String randomStreamUrl(){
+    private String randomStreamUrl() {
         return "http://localhost:${wiremockConfiguration.port}/${randomAlphanumeric(50)}"
     }
 }

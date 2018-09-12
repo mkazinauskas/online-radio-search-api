@@ -30,6 +30,5 @@ class StreamScrapperSpec extends Specification {
         return new StreamScrapper(Stub(WebPageReader) {
             read(url) >> Optional.of(page)
         })
-
     }
 }

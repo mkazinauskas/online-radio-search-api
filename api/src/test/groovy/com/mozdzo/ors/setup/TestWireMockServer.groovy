@@ -17,7 +17,7 @@ class TestWireMockServer implements DisposableBean {
         if (!wireMockServer.isRunning()) {
             wireMockServer.start()
         }
-        return wireMockServer;
+        return wireMockServer
     }
 
     @Override
