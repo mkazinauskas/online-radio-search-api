@@ -1,0 +1,153 @@
+databaseChangeLog:
+- changeSet:
+    id: 1
+    author: modestukasai
+    changes:
+    - createTable:
+        tableName: radio_stations
+        columns:
+        - column:
+            name: id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: title
+            type: varchar(100)
+            constraints:
+              nullable: false
+              unique: true
+        - column:
+            name: website
+            type: varchar(100)
+            constraints:
+              nullable: true
+    - createSequence:
+        schemaName: public
+        sequenceName: radio_stations_sequence
+        incrementBy: 1
+        startValue: 1
+- changeSet:
+    id: 2
+    author: modestukasai
+    changes:
+    - createTable:
+        tableName: radio_station_streams
+        columns:
+        - column:
+            name: id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: radio_station_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: url
+            type: varchar(100)
+            constraints:
+              nullable: false
+        - column:
+            name: bit_rate
+            type: int
+            constraints:
+              nullable: true
+        - column:
+            name: type
+            type: varchar(100)
+            constraints:
+              nullable: true
+    - createSequence:
+        schemaName: public
+        sequenceName: radio_station_streams_sequence
+        incrementBy: 1
+        startValue: 1
+    - addForeignKeyConstraint:
+        baseColumnNames: radio_station_id
+        baseTableName: radio_station_streams
+        constraintName: fk_radio_station_stream_to_radio_station_id
+        deferrable: true
+        initiallyDeferred: true
+        onDelete: CASCADE
+        onUpdate: RESTRICT
+        referencedColumnNames: id
+        referencedTableName: radio_stations
+- changeSet:
+    id: 3
+    author: modestukasai
+    changes:
+    - createTable:
+        tableName: songs
+        columns:
+        - column:
+            name: id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: radio_station_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: title
+            type: varchar(100)
+            constraints:
+              nullable: false
+        - column:
+            name: playing_time
+            type: timestamp
+            constraints:
+              nullable: false
+    - createSequence:
+        schemaName: public
+        sequenceName: songs_sequence
+        incrementBy: 1
+        startValue: 1
+    - addForeignKeyConstraint:
+        baseColumnNames: radio_station_id
+        baseTableName: radio_station_streams
+        constraintName: fk_song_to_radio_station_id
+        deferrable: true
+        initiallyDeferred: true
+        onDelete: CASCADE
+        onUpdate: RESTRICT
+        referencedColumnNames: id
+        referencedTableName: radio_stations
+- changeSet:
+    id: 4
+    author: modestukasai
+    changes:
+    - createTable:
+        tableName: genres
+        columns:
+        - column:
+            name: id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: title
+            type: varchar(100)
+            constraints:
+              nullable: false
+              unique: true
+    - createSequence:
+        schemaName: public
+        sequenceName: genres_sequence
+        incrementBy: 1
+        startValue: 1
