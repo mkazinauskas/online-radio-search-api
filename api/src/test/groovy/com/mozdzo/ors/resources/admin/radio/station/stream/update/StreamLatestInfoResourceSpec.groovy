@@ -25,7 +25,7 @@ class StreamLatestInfoResourceSpec extends IntegrationSpec {
         and:
             RadioStationStream stream = testRadioStationStream.create(radioStation.id)
         and:
-            mockStream(stream.url)
+            serverResponseExist(stream.url)
         when:
             ResponseEntity<String> response = restTemplate.exchange(
                     "/admin/radio-stations/${radioStation.id}/streams/${stream.id}/latest-info",
@@ -47,7 +47,7 @@ class StreamLatestInfoResourceSpec extends IntegrationSpec {
             updatedStream.bitRate == 192
     }
 
-    private void mockStream(String url) {
+    private void serverResponseExist(String url) {
         String page = getClass().getResource('/services/scrappers/stream/sample-source.html').text
 
         testWiremockServer.server().stubFor(
