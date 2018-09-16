@@ -5,6 +5,7 @@ import com.mozdzo.ors.domain.radio.station.RadioStations;
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream;
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStreams;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 public class GetRadioStationStream {
     private final long radioStationId;
@@ -27,6 +28,7 @@ public class GetRadioStationStream {
             this.validator = validator;
         }
 
+        @Transactional(readOnly = true)
         public RadioStationStream handle(GetRadioStationStream command) {
             validator.validate(command);
             return radioStationStreams.findByRadioStationIdAndId(command.radioStationId, command.streamId)

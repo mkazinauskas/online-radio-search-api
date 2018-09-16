@@ -7,6 +7,7 @@ import com.mozdzo.ors.domain.radio.station.song.Songs;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import static java.util.Objects.requireNonNull;
 
@@ -31,6 +32,7 @@ public class GetSongs {
             this.validator = validator;
         }
 
+        @Transactional(readOnly = true)
         public Page<Song> handle(GetSongs command) {
             validator.validate(command);
             return songs.findAllByRadioStationId(command.radioStationId, command.pageable);

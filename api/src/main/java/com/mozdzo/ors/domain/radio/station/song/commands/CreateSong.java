@@ -5,6 +5,7 @@ import com.mozdzo.ors.domain.radio.station.RadioStations;
 import com.mozdzo.ors.domain.radio.station.song.Song;
 import com.mozdzo.ors.domain.radio.station.song.Songs;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -38,6 +39,7 @@ public class CreateSong {
             this.validator = validator;
         }
 
+        @Transactional
         public Result handle(CreateSong command) {
             validator.validate(command);
             Song saved = songs.save(command.toSong());

@@ -7,6 +7,7 @@ import com.mozdzo.ors.domain.radio.station.song.Songs;
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream;
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStreams;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 public class GetSong {
     private final long radioStationId;
@@ -29,6 +30,7 @@ public class GetSong {
             this.validator = validator;
         }
 
+        @Transactional(readOnly = true)
         public Song handle(GetSong command) {
             validator.validate(command);
             return songs.findByRadioStationIdAndId(command.radioStationId, command.songId)

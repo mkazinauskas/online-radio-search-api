@@ -9,18 +9,54 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
-public class CreateRadioStationStream {
+public class UpdateRadioStationStream {
+
     private final long radioStationId;
 
-    private final String url;
+    private final long streamId;
 
-    public CreateRadioStationStream(long radioStationId, String url) {
+    private final Data data;
+
+    public UpdateRadioStationStream(long radioStationId, long streamId, Data data) {
         this.radioStationId = radioStationId;
-        this.url = url;
+        this.streamId = streamId;
+        this.data = data;
     }
 
-    private RadioStationStream toRadioStationStream() {
-        return new RadioStationStream(this.radioStationId, this.url);
+    public long getRadioStationId() {
+        return radioStationId;
+    }
+
+    public long getStreamId() {
+        return streamId;
+    }
+
+    public Data getData() {
+        return data;
+    }
+
+    public static class Data {
+        private final String url;
+        private final Integer bitRate;
+        private final RadioStationStream.Type type;
+
+        public Data(String url, Integer bitRate, RadioStationStream.Type type) {
+            this.url = url;
+            this.bitRate = bitRate;
+            this.type = type;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public Integer getBitRate() {
+            return bitRate;
+        }
+
+        public RadioStationStream.Type getType() {
+            return type;
+        }
     }
 
     @Component
@@ -35,10 +71,14 @@ public class CreateRadioStationStream {
         }
 
         @Transactional
-        public Result handle(CreateRadioStationStream command) {
+        public void handle(UpdateRadioStationStream command) {
             validator.validate(command);
-            RadioStationStream savedRadioStationStream = radioStationStreams.save(command.toRadioStationStream());
-            return new Result(savedRadioStationStream.getId());
+            RadioStationStream radioStation = radioStationStreams
+                    .findByRadioStationIdAndId(command.radioStationId, command.streamId).get();
+
+            radioStation.setBitRate(command.data.bitRate);
+            radioStation.setType(command.data.type);
+            radioStation.setUrl(command.data.url);
         }
     }
 
@@ -51,7 +91,7 @@ public class CreateRadioStationStream {
             this.radioStations = radioStations;
         }
 
-        void validate(CreateRadioStationStream command) {
+        void validate(UpdateRadioStationStream command) {
             if (command.radioStationId <= 0) {
                 throw new DomainException("FIELD_RADIO_STATION_ID_IS_NOT_POSITIVE",
                         "Field radio station id should be positive");
@@ -60,17 +100,9 @@ public class CreateRadioStationStream {
                 throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT",
                         "Radio station with id is not available");
             }
-            if (isBlank(command.url)) {
-                throw new DomainException("FIELD_URL_NOT_BLANK", "Field url cannot be blank");
+            if (isBlank(command.data.url)) {
+                throw new DomainException("FIELD_URL_NOT_BLANK", "Field data url cannot be blank");
             }
-        }
-    }
-
-    public static class Result {
-        public final long id;
-
-        Result(long id) {
-            this.id = id;
         }
     }
 }
