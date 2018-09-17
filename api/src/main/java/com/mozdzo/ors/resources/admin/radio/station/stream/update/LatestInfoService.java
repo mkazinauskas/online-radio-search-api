@@ -37,10 +37,15 @@ public class LatestInfoService {
                 new StreamScrapper.Request(streamUrl)
         );
 
-        scrappedPage.ifPresent(response -> update(response, stream));
+        scrappedPage.ifPresent(response -> updateRadioStreamInfo(response, stream));
+        scrappedPage.ifPresent(response -> updateRadioStationInfo(response, stream.getRadioStationId()));
     }
 
-    private void update(StreamScrapper.Response response, RadioStationStream stream) {
+    private void updateRadioStationInfo(StreamScrapper.Response response, long radioStationId) {
+
+    }
+
+    private void updateRadioStreamInfo(StreamScrapper.Response response, RadioStationStream stream) {
         UpdateRadioStationStream update = new UpdateRadioStationStream(
                 stream.getRadioStationId(),
                 stream.getId(),

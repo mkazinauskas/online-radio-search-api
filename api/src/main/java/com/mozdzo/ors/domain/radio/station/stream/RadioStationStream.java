@@ -37,7 +37,6 @@ public class RadioStationStream {
     @Column(name = "type")
     private Type type;
 
-
     RadioStationStream() {
     }
 

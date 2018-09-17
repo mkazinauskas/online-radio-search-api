@@ -151,3 +151,42 @@ databaseChangeLog:
         sequenceName: genres_sequence
         incrementBy: 1
         startValue: 1
+- changeSet:
+      id: 5
+      author: modestukasai
+      changes:
+      - createTable:
+            tableName: genres_to_radio_stations
+            columns:
+            - column:
+                  name: radio_station_id
+                  type: bigint
+                  constraints:
+                      primaryKey: true
+                      nullable: false
+            - column:
+                  name: genre_id
+                  type: bigint
+                  constraints:
+                      primaryKey: true
+                      nullable: false
+      - addForeignKeyConstraint:
+            baseColumnNames: radio_station_id
+            baseTableName: genres_to_radio_stations
+            constraintName: fk_genres_to_radio_stations_to_radio_stations_id
+            deferrable: true
+            initiallyDeferred: true
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: radio_stations
+      - addForeignKeyConstraint:
+            baseColumnNames: genre_id
+            baseTableName: genres_to_radio_stations
+            constraintName: fk_genres_to_radio_stations_to_genres_id
+            deferrable: true
+            initiallyDeferred: true
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: genres

@@ -1,11 +1,20 @@
 package com.mozdzo.ors.domain.radio.station;
 
+import com.mozdzo.ors.domain.radio.station.genre.Genre;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -23,6 +32,15 @@ public class RadioStation {
 
     @Column(name = "website", length = 100, unique = true)
     private String website;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "genres_to_radio_stations",
+            joinColumns = {@JoinColumn(name = "radio_station_id")},
+            inverseJoinColumns = {@JoinColumn(name = "genre_id")}
+    )
+    @OrderBy("genre_id asc")
+    private Set<Genre> genres = new HashSet<>();
 
     RadioStation() {
     }
@@ -49,5 +67,13 @@ public class RadioStation {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public Set<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
     }
 }
