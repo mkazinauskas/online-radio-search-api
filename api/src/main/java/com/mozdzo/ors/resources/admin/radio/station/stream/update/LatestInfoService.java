@@ -1,28 +1,46 @@
 package com.mozdzo.ors.resources.admin.radio.station.stream.update;
 
+import com.mozdzo.ors.domain.radio.station.RadioStation;
+import com.mozdzo.ors.domain.radio.station.commands.GetRadioStation;
+import com.mozdzo.ors.domain.radio.station.commands.UpdateRadioStation;
+import com.mozdzo.ors.domain.radio.station.genre.Genre;
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream;
 import com.mozdzo.ors.domain.radio.station.stream.commands.GetRadioStationStream;
 import com.mozdzo.ors.domain.radio.station.stream.commands.UpdateRadioStationStream;
 import com.mozdzo.ors.services.scrapper.stream.StreamScrapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static java.lang.String.format;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Component
 public class LatestInfoService {
     private final GetRadioStationStream.Handler radioStationStream;
 
+    private final GetRadioStation.Handler radioStation;
+
     private final UpdateRadioStationStream.Handler updateRadioStationStream;
+
+    private final UpdateRadioStation.Handler updateRadioStation;
 
     private final StreamScrapper streamScrapper;
 
     public LatestInfoService(GetRadioStationStream.Handler radioStationStream,
+                             GetRadioStation.Handler radioStation,
                              UpdateRadioStationStream.Handler updateRadioStationStream,
+                             UpdateRadioStation.Handler updateRadioStation,
                              StreamScrapper streamScrapper) {
         this.radioStationStream = radioStationStream;
+        this.radioStation = radioStation;
         this.updateRadioStationStream = updateRadioStationStream;
+        this.updateRadioStation = updateRadioStation;
         this.streamScrapper = streamScrapper;
     }
 
@@ -42,7 +60,25 @@ public class LatestInfoService {
     }
 
     private void updateRadioStationInfo(StreamScrapper.Response response, long radioStationId) {
+        RadioStation currentRadioStation = radioStation.handle(new GetRadioStation(radioStationId));
 
+        String radioStationName = isNotBlank(currentRadioStation.getTitle()) && response.getStreamName()
+
+        updateRadioStation.handle(new UpdateRadioStation(radioStationId,
+                new UpdateRadioStation.Data(
+                        response.getStreamName(),
+                        response.getWebsite(),
+                        genres(response.getGenres())
+                )));
+    }
+
+    private String resolveString(String previousString, String newString){
+        if(isBlank(previousString) && isNotBlank(newString))
+
+    }
+
+    private Set<Genre> genres(List<String> genres) {
+        return new HashSet<>();
     }
 
     private void updateRadioStreamInfo(StreamScrapper.Response response, RadioStationStream stream) {

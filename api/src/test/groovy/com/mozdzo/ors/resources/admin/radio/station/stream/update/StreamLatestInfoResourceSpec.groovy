@@ -2,6 +2,7 @@ package com.mozdzo.ors.resources.admin.radio.station.stream.update
 
 import com.mozdzo.ors.HttpEntityBuilder
 import com.mozdzo.ors.domain.radio.station.RadioStation
+import com.mozdzo.ors.domain.radio.station.commands.GetRadioStation
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream
 import com.mozdzo.ors.domain.radio.station.stream.commands.GetRadioStationStream
 import com.mozdzo.ors.resources.IntegrationSpec
@@ -18,6 +19,9 @@ class StreamLatestInfoResourceSpec extends IntegrationSpec {
 
     @Autowired
     GetRadioStationStream.Handler radioStationStreamHandler
+
+    @Autowired
+    GetRadioStation.Handler radioStationHandler
 
     void 'admin should update latest radio station'() {
         given:
@@ -45,6 +49,11 @@ class StreamLatestInfoResourceSpec extends IntegrationSpec {
             updatedStream.url == stream.url
             updatedStream.type == RadioStationStream.Type.MP3
             updatedStream.bitRate == 192
+        and:
+            RadioStation updateRadioStation = radioStationHandler.handle(new GetRadioStation(radioStation.id))
+            updateRadioStation.title == 'Radio 2.0 - Valli di Bergamo'
+            updateRadioStation.website == 'www.radioduepuntozero.it'
+            updateRadioStation.genres.collect { it.title }.containsAll(['Pop', 'Rock', '80s', '70s', 'Top 40'])
     }
 
     private void serverResponseExist(String url) {

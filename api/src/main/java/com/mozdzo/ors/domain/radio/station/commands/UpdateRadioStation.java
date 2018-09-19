@@ -6,7 +6,7 @@ import com.mozdzo.ors.domain.radio.station.RadioStations;
 import com.mozdzo.ors.domain.radio.station.genre.Genre;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Set;
 
 import static java.lang.String.format;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -34,9 +34,9 @@ public class UpdateRadioStation {
 
         private final String website;
 
-        private final List<Genre> genres;
+        private final Set<Genre> genres;
 
-        public Data(String title, String website, List<Genre> genres) {
+        public Data(String title, String website, Set<Genre> genres) {
             this.title = title;
             this.website = website;
             this.genres = genres;
@@ -50,7 +50,7 @@ public class UpdateRadioStation {
             return website;
         }
 
-        public List<Genre> getGenres() {
+        public Set<Genre> getGenres() {
             return genres;
         }
     }
