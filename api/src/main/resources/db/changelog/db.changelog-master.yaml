@@ -162,13 +162,11 @@ databaseChangeLog:
                   name: radio_station_id
                   type: bigint
                   constraints:
-                      primaryKey: true
                       nullable: false
             - column:
                   name: genre_id
                   type: bigint
                   constraints:
-                      primaryKey: true
                       nullable: false
       - addForeignKeyConstraint:
             baseColumnNames: radio_station_id

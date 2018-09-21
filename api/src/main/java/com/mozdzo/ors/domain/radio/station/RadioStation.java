@@ -39,7 +39,6 @@ public class RadioStation {
             joinColumns = {@JoinColumn(name = "radio_station_id")},
             inverseJoinColumns = {@JoinColumn(name = "genre_id")}
     )
-    @OrderBy("genre_id asc")
     private Set<Genre> genres = new HashSet<>();
 
     RadioStation() {

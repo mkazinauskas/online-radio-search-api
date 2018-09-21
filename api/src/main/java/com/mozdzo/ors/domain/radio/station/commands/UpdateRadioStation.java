@@ -5,6 +5,7 @@ import com.mozdzo.ors.domain.radio.station.RadioStation;
 import com.mozdzo.ors.domain.radio.station.RadioStations;
 import com.mozdzo.ors.domain.radio.station.genre.Genre;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -66,6 +67,7 @@ public class UpdateRadioStation {
             this.validator = validator;
         }
 
+        @Transactional
         public void handle(UpdateRadioStation command) {
             validator.validate(command);
             RadioStation radioStation = radioStations.findById(command.radioStationId).get();

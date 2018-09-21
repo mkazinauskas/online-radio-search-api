@@ -8,7 +8,6 @@ import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream;
 import com.mozdzo.ors.domain.radio.station.stream.commands.GetRadioStationStream;
 import com.mozdzo.ors.domain.radio.station.stream.commands.UpdateRadioStationStream;
 import com.mozdzo.ors.services.scrapper.stream.StreamScrapper;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -19,6 +18,7 @@ import java.util.Set;
 import static java.lang.String.format;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Component
 public class LatestInfoService {
@@ -62,19 +62,32 @@ public class LatestInfoService {
     private void updateRadioStationInfo(StreamScrapper.Response response, long radioStationId) {
         RadioStation currentRadioStation = radioStation.handle(new GetRadioStation(radioStationId));
 
-        String radioStationName = isNotBlank(currentRadioStation.getTitle()) && response.getStreamName()
+        String radioStationName = resolveString(currentRadioStation.getTitle(), response.getStreamName());
+        String website = resolveString(currentRadioStation.getWebsite(), response.getWebsite());
 
+        Set<Genre> genres = resolveSet(currentRadioStation.getGenres(), genres(response.getGenres()));
         updateRadioStation.handle(new UpdateRadioStation(radioStationId,
                 new UpdateRadioStation.Data(
-                        response.getStreamName(),
-                        response.getWebsite(),
-                        genres(response.getGenres())
+                        radioStationName,
+                        website,
+                        genres
                 )));
     }
 
-    private String resolveString(String previousString, String newString){
-        if(isBlank(previousString) && isNotBlank(newString))
+    private Set<Genre> resolveSet(Set<Genre> previousSet, Set<Genre> newSet) {
+        if (!isEmpty(previousSet) && isEmpty(newSet)) {
+            return previousSet;
+        }
 
+        return newSet;
+    }
+
+    private String resolveString(String previousString, String newString) {
+        if (isNotBlank(previousString) && isBlank(newString)) {
+            return previousString;
+        }
+
+        return newString;
     }
 
     private Set<Genre> genres(List<String> genres) {
