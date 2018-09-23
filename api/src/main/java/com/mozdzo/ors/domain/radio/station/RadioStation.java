@@ -1,10 +1,12 @@
 package com.mozdzo.ors.domain.radio.station;
 
 import com.mozdzo.ors.domain.radio.station.genre.Genre;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -16,6 +18,8 @@ import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
+import static javax.persistence.CascadeType.REFRESH;
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
@@ -33,7 +37,7 @@ public class RadioStation {
     @Column(name = "website", length = 100, unique = true)
     private String website;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = REFRESH, fetch = EAGER)
     @JoinTable(
             name = "genres_to_radio_stations",
             joinColumns = {@JoinColumn(name = "radio_station_id")},

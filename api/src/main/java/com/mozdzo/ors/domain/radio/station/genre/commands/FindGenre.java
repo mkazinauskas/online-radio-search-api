@@ -4,6 +4,7 @@ import com.mozdzo.ors.domain.DomainException;
 import com.mozdzo.ors.domain.radio.station.genre.Genre;
 import com.mozdzo.ors.domain.radio.station.genre.Genres;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -27,6 +28,7 @@ public class FindGenre {
             this.validator = validator;
         }
 
+        @Transactional(readOnly = true)
         public Optional<Genre> handle(FindGenre command) {
             validator.validate(command);
             return genres.findByTitle(command.title);

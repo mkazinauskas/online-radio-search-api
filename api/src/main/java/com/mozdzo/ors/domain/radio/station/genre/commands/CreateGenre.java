@@ -4,6 +4,7 @@ import com.mozdzo.ors.domain.DomainException;
 import com.mozdzo.ors.domain.radio.station.genre.Genre;
 import com.mozdzo.ors.domain.radio.station.genre.Genres;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -30,6 +31,7 @@ public class CreateGenre {
             this.validator = validator;
         }
 
+        @Transactional
         public Result handle(CreateGenre command) {
             validator.validate(command);
             Genre genre = genres.save(command.toGenre());

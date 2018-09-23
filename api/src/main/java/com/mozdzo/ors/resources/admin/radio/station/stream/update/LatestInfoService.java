@@ -4,18 +4,20 @@ import com.mozdzo.ors.domain.radio.station.RadioStation;
 import com.mozdzo.ors.domain.radio.station.commands.GetRadioStation;
 import com.mozdzo.ors.domain.radio.station.commands.UpdateRadioStation;
 import com.mozdzo.ors.domain.radio.station.genre.Genre;
+import com.mozdzo.ors.domain.radio.station.genre.commands.CreateGenre;
+import com.mozdzo.ors.domain.radio.station.genre.commands.FindGenre;
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream;
 import com.mozdzo.ors.domain.radio.station.stream.commands.GetRadioStationStream;
 import com.mozdzo.ors.domain.radio.station.stream.commands.UpdateRadioStationStream;
 import com.mozdzo.ors.services.scrapper.stream.StreamScrapper;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toSet;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.springframework.util.CollectionUtils.isEmpty;
@@ -32,16 +34,23 @@ public class LatestInfoService {
 
     private final StreamScrapper streamScrapper;
 
+    private final CreateGenre.Handler createGenre;
+
+    private final FindGenre.Handler findGenre;
+
     public LatestInfoService(GetRadioStationStream.Handler radioStationStream,
                              GetRadioStation.Handler radioStation,
                              UpdateRadioStationStream.Handler updateRadioStationStream,
                              UpdateRadioStation.Handler updateRadioStation,
-                             StreamScrapper streamScrapper) {
+                             StreamScrapper streamScrapper,
+                             CreateGenre.Handler createGenre, FindGenre.Handler findGenre) {
         this.radioStationStream = radioStationStream;
         this.radioStation = radioStation;
         this.updateRadioStationStream = updateRadioStationStream;
         this.updateRadioStation = updateRadioStation;
         this.streamScrapper = streamScrapper;
+        this.createGenre = createGenre;
+        this.findGenre = findGenre;
     }
 
     void update(long radioStationId, long streamId) {
@@ -91,7 +100,19 @@ public class LatestInfoService {
     }
 
     private Set<Genre> genres(List<String> genres) {
-        return new HashSet<>();
+        return genres.stream()
+                .map(this::findOrCreateGenre)
+                .collect(toSet());
+    }
+
+    private Genre findOrCreateGenre(String genre) {
+        Optional<Genre> foundGenre = findGenre.handle(new FindGenre(genre));
+        if (foundGenre.isPresent()) {
+            return foundGenre.get();
+        } else {
+            createGenre.handle(new CreateGenre(genre));
+            return findGenre.handle(new FindGenre(genre)).get();
+        }
     }
 
     private void updateRadioStreamInfo(StreamScrapper.Response response, RadioStationStream stream) {
