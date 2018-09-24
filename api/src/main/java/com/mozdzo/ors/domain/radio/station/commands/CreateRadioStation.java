@@ -1,9 +1,12 @@
 package com.mozdzo.ors.domain.radio.station.commands;
 
 import com.mozdzo.ors.domain.DomainException;
+import com.mozdzo.ors.domain.events.RadioStationCreated;
 import com.mozdzo.ors.domain.radio.station.RadioStation;
 import com.mozdzo.ors.domain.radio.station.RadioStations;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -24,14 +27,27 @@ public class CreateRadioStation {
 
         private final Validator validator;
 
-        Handler(RadioStations radioStations, Validator validator) {
+        private final ApplicationEventPublisher applicationEventPublisher;
+
+        Handler(RadioStations radioStations,
+                Validator validator,
+                ApplicationEventPublisher applicationEventPublisher) {
             this.radioStations = radioStations;
             this.validator = validator;
+            this.applicationEventPublisher = applicationEventPublisher;
         }
 
+        @Transactional
         public Result handle(CreateRadioStation command) {
             validator.validate(command);
             RadioStation savedRadioStation = radioStations.save(command.toRadioStation());
+            applicationEventPublisher.publishEvent(
+                    new RadioStationCreated(
+                            savedRadioStation,
+                            savedRadioStation.getUniqueId(),
+                            savedRadioStation.getTitle()
+                    )
+            );
             return new Result(savedRadioStation.getId());
         }
     }

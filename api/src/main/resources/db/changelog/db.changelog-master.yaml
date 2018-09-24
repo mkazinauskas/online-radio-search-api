@@ -14,6 +14,12 @@ databaseChangeLog:
               primaryKey: true
               nullable: false
         - column:
+            name: unique_id
+            type: varchar(20)
+            constraints:
+              nullable: false
+              unique: true
+        - column:
             name: title
             type: varchar(100)
             constraints:
@@ -152,39 +158,73 @@ databaseChangeLog:
         incrementBy: 1
         startValue: 1
 - changeSet:
-      id: 5
-      author: modestukasai
-      changes:
-      - createTable:
-            tableName: genres_to_radio_stations
-            columns:
-            - column:
-                  name: radio_station_id
-                  type: bigint
-                  constraints:
-                      nullable: false
-            - column:
-                  name: genre_id
-                  type: bigint
-                  constraints:
-                      nullable: false
-      - addForeignKeyConstraint:
-            baseColumnNames: radio_station_id
-            baseTableName: genres_to_radio_stations
-            constraintName: fk_genres_to_radio_stations_to_radio_stations_id
-            deferrable: true
-            initiallyDeferred: true
-            onDelete: CASCADE
-            onUpdate: RESTRICT
-            referencedColumnNames: id
-            referencedTableName: radio_stations
-      - addForeignKeyConstraint:
-            baseColumnNames: genre_id
-            baseTableName: genres_to_radio_stations
-            constraintName: fk_genres_to_radio_stations_to_genres_id
-            deferrable: true
-            initiallyDeferred: true
-            onDelete: CASCADE
-            onUpdate: RESTRICT
-            referencedColumnNames: id
-            referencedTableName: genres
+    id: 5
+    author: modestukasai
+    changes:
+    - createTable:
+        tableName: genres_to_radio_stations
+        columns:
+        - column:
+            name: radio_station_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: genre_id
+            type: bigint
+            constraints:
+              nullable: false
+    - addForeignKeyConstraint:
+        baseColumnNames: radio_station_id
+        baseTableName: genres_to_radio_stations
+        constraintName: fk_genres_to_radio_stations_to_radio_stations_id
+        deferrable: true
+        initiallyDeferred: true
+        onDelete: CASCADE
+        onUpdate: RESTRICT
+        referencedColumnNames: id
+        referencedTableName: radio_stations
+    - addForeignKeyConstraint:
+        baseColumnNames: genre_id
+        baseTableName: genres_to_radio_stations
+        constraintName: fk_genres_to_radio_stations_to_genres_id
+        deferrable: true
+        initiallyDeferred: true
+        onDelete: CASCADE
+        onUpdate: RESTRICT
+        referencedColumnNames: id
+        referencedTableName: genres
+- changeSet:
+    id: 6
+    author: modestukasai
+    changes:
+    - createTable:
+        tableName: events
+        columns:
+        - column:
+            name: id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: created
+            type: timestamp
+            constraints:
+              nullable: false
+        - column:
+            name: type
+            type: varchar(100)
+            constraints:
+              nullable: false
+        - column:
+            name: body
+            type: clob
+            constraints:
+              nullable: false
+    - createSequence:
+        schemaName: public
+        sequenceName: events_sequence
+        incrementBy: 1
+        startValue: 1
