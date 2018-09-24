@@ -1,4 +1,4 @@
-package com.mozdzo.ors.resources.admin.radio.station.stream.update;
+package com.mozdzo.ors.resources.admin.radio.station.stream.info;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;

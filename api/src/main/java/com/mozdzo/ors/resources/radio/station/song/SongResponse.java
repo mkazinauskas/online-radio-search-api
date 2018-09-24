@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mozdzo.ors.domain.radio.station.song.Song;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 public class SongResponse {
 
@@ -12,12 +13,12 @@ public class SongResponse {
 
     private final String title;
 
-    private final LocalDateTime playingTime;
+    private final ZonedDateTime playingTime;
 
     @JsonCreator
     private SongResponse(@JsonProperty("id") long id,
                          @JsonProperty("title") String title,
-                         @JsonProperty("playingTime") LocalDateTime playingTime) {
+                         @JsonProperty("playingTime") ZonedDateTime playingTime) {
         this.id = id;
         this.title = title;
         this.playingTime = playingTime;
@@ -35,7 +36,7 @@ public class SongResponse {
         return title;
     }
 
-    public LocalDateTime getPlayingTime() {
+    public ZonedDateTime getPlayingTime() {
         return playingTime;
     }
 }

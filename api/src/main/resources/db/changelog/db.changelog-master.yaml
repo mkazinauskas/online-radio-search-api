@@ -108,7 +108,7 @@ databaseChangeLog:
               nullable: false
         - column:
             name: playing_time
-            type: timestamp
+            type: timestamp with time zone
             constraints:
               nullable: false
     - createSequence:

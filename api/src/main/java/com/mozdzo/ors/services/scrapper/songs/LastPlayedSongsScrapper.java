@@ -6,11 +6,18 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static java.util.Optional.empty;
 import static java.util.stream.Collectors.toList;
@@ -37,9 +44,12 @@ public class LastPlayedSongsScrapper {
                 .flatMap(Collection::stream)
                 .collect(toList());
         Map<String, String> requiredTrs = tableValues(trs);
-        return Optional.of(new LastPlayedSongsScrapper.Response(
-                toSongList(requiredTrs)
-        ));
+        List<Response.PlayedSong> playedSongs = toSongList(requiredTrs);
+        if (CollectionUtils.isEmpty(playedSongs)) {
+            return empty();
+        } else {
+            return Optional.of(new LastPlayedSongsScrapper.Response(playedSongs));
+        }
     }
 
     private List<Response.PlayedSong> toSongList(Map<String, String> map) {
@@ -50,8 +60,8 @@ public class LastPlayedSongsScrapper {
                 .collect(toList());
     }
 
-    private LocalDateTime toLocalDateTime(String time) {
-        return LocalDate.now().atTime(LocalTime.parse(time));
+    private ZonedDateTime toLocalDateTime(String time) {
+        return LocalDate.now().atTime(LocalTime.parse(time)).atZone(ZoneId.systemDefault());
     }
 
     private Map<String, String> tableValues(List<Element> elements) {
@@ -94,15 +104,15 @@ public class LastPlayedSongsScrapper {
         }
 
         public static class PlayedSong {
-            private final LocalDateTime playedTime;
+            private final ZonedDateTime playedTime;
             private final String name;
 
-            public PlayedSong(LocalDateTime playedTime, String name) {
+            public PlayedSong(ZonedDateTime playedTime, String name) {
                 this.playedTime = playedTime;
                 this.name = name;
             }
 
-            public LocalDateTime getPlayedTime() {
+            public ZonedDateTime getPlayedTime() {
                 return playedTime;
             }
 

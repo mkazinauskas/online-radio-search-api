@@ -6,7 +6,7 @@ import com.mozdzo.ors.domain.radio.station.song.commands.GetSong
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
-import static java.time.LocalDateTime.now
+import static java.time.ZonedDateTime.now
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 
 @Component

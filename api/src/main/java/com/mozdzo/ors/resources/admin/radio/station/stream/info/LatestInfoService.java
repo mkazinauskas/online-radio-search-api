@@ -1,4 +1,4 @@
-package com.mozdzo.ors.resources.admin.radio.station.stream.update;
+package com.mozdzo.ors.resources.admin.radio.station.stream.info;
 
 import com.mozdzo.ors.domain.radio.station.RadioStation;
 import com.mozdzo.ors.domain.radio.station.commands.GetRadioStation;

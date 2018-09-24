@@ -6,6 +6,7 @@ import com.mozdzo.ors.domain.radio.station.song.Song
 import com.mozdzo.ors.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
 
+import static java.time.ZoneId.systemDefault
 import static org.springframework.hateoas.Link.REL_SELF
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpStatus.OK
@@ -35,7 +36,7 @@ class SongsControllerSpec extends IntegrationSpec {
 
                 resource.song.id == song.id
                 resource.song.title == song.title
-                resource.song.playingTime == song.playingTime
+                resource.song.playingTime.withZoneSameInstant(systemDefault()) == song.playingTime
 
                 resource.links.first().rel == REL_SELF
                 resource.links.first().href.endsWith("${url}/${song.id}")
@@ -65,7 +66,7 @@ class SongsControllerSpec extends IntegrationSpec {
             with(result.body as SongResource) {
                 it.song.id == song.id
                 it.song.title == song.title
-                it.song.playingTime == song.playingTime
+                it.song.playingTime.withZoneSameInstant(systemDefault()) == song.playingTime
 
                 links.first().rel == REL_SELF
                 links.first().href.endsWith(url)

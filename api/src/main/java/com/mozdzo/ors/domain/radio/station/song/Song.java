@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -26,12 +27,12 @@ public class Song {
     private String title;
 
     @Column(name = "playing_time")
-    private LocalDateTime playingTime;
+    private ZonedDateTime playingTime;
 
     Song() {
     }
 
-    public Song(long radioStationId, String title, LocalDateTime playingTime) {
+    public Song(long radioStationId, String title, ZonedDateTime playingTime) {
         this.radioStationId = radioStationId;
         this.title = title;
         this.playingTime = playingTime;
@@ -53,11 +54,11 @@ public class Song {
         this.title = title;
     }
 
-    public LocalDateTime getPlayingTime() {
+    public ZonedDateTime getPlayingTime() {
         return playingTime;
     }
 
-    public void setPlayingTime(LocalDateTime playingTime) {
+    public void setPlayingTime(ZonedDateTime playingTime) {
         this.playingTime = playingTime;
     }
 }

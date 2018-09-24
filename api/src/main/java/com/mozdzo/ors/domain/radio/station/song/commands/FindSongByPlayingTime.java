@@ -7,26 +7,17 @@ import com.mozdzo.ors.domain.radio.station.song.Songs;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.util.Optional;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
-
-public class CreateSong {
+public class FindSongByPlayingTime {
     private final long radioStationId;
 
-    private final String title;
+    private final ZonedDateTime playedTime;
 
-    private final ZonedDateTime playingTime;
-
-    public CreateSong(long radioStationId, String title, ZonedDateTime playingTime) {
+    public FindSongByPlayingTime(long radioStationId, ZonedDateTime playedTime) {
         this.radioStationId = radioStationId;
-        this.title = title;
-        this.playingTime = playingTime;
-    }
-
-    private Song toSong() {
-        return new Song(radioStationId, title, playingTime);
+        this.playedTime = playedTime;
     }
 
     @Component
@@ -40,11 +31,10 @@ public class CreateSong {
             this.validator = validator;
         }
 
-        @Transactional
-        public Result handle(CreateSong command) {
+        @Transactional(readOnly = true)
+        public Optional<Song> handle(FindSongByPlayingTime command) {
             validator.validate(command);
-            Song saved = songs.save(command.toSong());
-            return new Result(saved.getId());
+            return songs.findByRadioStationIdAndPlayingTime(command.radioStationId, command.playedTime);
         }
     }
 
@@ -56,29 +46,21 @@ public class CreateSong {
             this.radioStations = radioStations;
         }
 
-        void validate(CreateSong command) {
+        void validate(FindSongByPlayingTime command) {
             if (command.radioStationId <= 0) {
-                throw new DomainException("FIELD_RADIO_STATION_ID_IS_NOT_POSITIVE",
-                        "Field radio station id should be positive");
+                throw new DomainException("FIELD_RADIO_STATION_ID_IS_LESS_OR_EQUAL_TO_ZERO",
+                        "Radio station id cannot be less or equal to zero");
             }
+
             if (!radioStations.findById(command.radioStationId).isPresent()) {
                 throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT",
                         "Radio station with id is not available");
             }
-            if (isBlank(command.title)) {
-                throw new DomainException("FIELD_TITLE_NOT_BLANK", "Field title cannot be blank");
-            }
-            if (command.playingTime == null) {
-                throw new DomainException("FIELD_PLAYING_TIME_NOT_NULL", "Field playing time cannot be blank");
-            }
-        }
-    }
 
-    public static class Result {
-        public final long id;
-
-        Result(long id) {
-            this.id = id;
+            if (command.playedTime == null) {
+                throw new DomainException("FIELD_PLAYED_TIME_CANNOT_BE_NULL",
+                        "Song played time cannot be null");
+            }
         }
     }
 }
