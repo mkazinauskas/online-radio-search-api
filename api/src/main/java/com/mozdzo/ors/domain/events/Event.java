@@ -1,5 +1,7 @@
 package com.mozdzo.ors.domain.events;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -8,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 import static java.time.LocalDateTime.now;
@@ -33,11 +36,11 @@ public class Event {
     private String body;
 
     public enum Type {
-        RADIO_STATION_CREATED(RadioStationCreated.class);
+        RADIO_STATION_CREATED(RadioStationCreated.Data.class);
 
         private final Class eventClass;
 
-        Type(Class eventClass) {
+        Type(Class<? extends DomainEvent.Data> eventClass) {
             this.eventClass = eventClass;
         }
 
@@ -76,5 +79,13 @@ public class Event {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public  <T extends DomainEvent.Data> T deserialize(Class<T> eventClass) {
+        try {
+            return new ObjectMapper().readValue(body, eventClass);
+        } catch (IOException e) {
+            throw new EventDeserializationFailedException(body, type.eventClass);
+        }
     }
 }

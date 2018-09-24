@@ -17,6 +17,10 @@ public class CreateRadioStation {
         this.title = title;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
     private RadioStation toRadioStation() {
         return new RadioStation(this.title);
     }
@@ -44,8 +48,10 @@ public class CreateRadioStation {
             applicationEventPublisher.publishEvent(
                     new RadioStationCreated(
                             savedRadioStation,
-                            savedRadioStation.getUniqueId(),
-                            savedRadioStation.getTitle()
+                            new RadioStationCreated.Data(
+                                    savedRadioStation.getUniqueId(),
+                                    savedRadioStation.getTitle()
+                            )
                     )
             );
             return new Result(savedRadioStation.getId());

@@ -10,11 +10,16 @@ abstract class DomainEvent extends ApplicationEvent {
         super(source);
     }
 
+    abstract static class Data {
+    }
+
     abstract Event.Type type();
+
+    abstract Data getData();
 
     String serialize() {
         try {
-            return new ObjectMapper().writeValueAsString(this);
+            return new ObjectMapper().writeValueAsString(this.getData());
         } catch (JsonProcessingException e) {
             throw new EventSerializationFailedException(this.getClass());
         }
