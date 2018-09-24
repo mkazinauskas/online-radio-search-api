@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity
 
 import static com.mozdzo.ors.TestUsers.ADMIN
 import static com.mozdzo.ors.TokenProvider.token
-import static java.time.LocalDateTime.now
+import static java.time.ZonedDateTime.now
 import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.OK

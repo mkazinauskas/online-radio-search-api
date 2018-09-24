@@ -53,7 +53,7 @@ class StreamLatestInfoResourceSpec extends IntegrationSpec {
             RadioStation updateRadioStation = radioStationHandler.handle(new GetRadioStation(radioStation.id))
             updateRadioStation.title == 'Radio 2.0 - Valli di Bergamo'
             updateRadioStation.website == 'www.radioduepuntozero.it'
-            updateRadioStation.genres.collect { it.title }.containsAll(['Pop', 'Rock', '80s', '70s', 'Top 40'])
+            updateRadioStation.genres*.title.containsAll(['Pop', 'Rock', '80s', '70s', 'Top 40'])
     }
 
     private void serverResponseExist(String url) {
