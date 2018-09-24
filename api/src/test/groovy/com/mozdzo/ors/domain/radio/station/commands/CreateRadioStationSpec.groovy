@@ -24,7 +24,7 @@ class CreateRadioStationSpec extends IntegrationSpec {
     @Autowired
     private Events events
 
-    def 'should create radio station'() {
+    void 'should create radio station'() {
         given:
             CreateRadioStation command = new CreateRadioStation(
                     RandomStringUtils.randomAlphanumeric(10)
@@ -39,6 +39,6 @@ class CreateRadioStationSpec extends IntegrationSpec {
             Page<Event> events = events.findAllByType(RADIO_STATION_CREATED, unpaged())
             events.content
                     .collect { it.deserialize(it.type.eventClass) }
-                    .find{ RadioStationCreated.Data data -> data.uniqueId == savedRadioStation.uniqueId}
+                    .find { RadioStationCreated.Data data -> data.uniqueId == savedRadioStation.uniqueId }
     }
 }
