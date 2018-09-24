@@ -15,7 +15,7 @@ import static com.mozdzo.ors.TokenProvider.token
 import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.HttpStatus.NO_CONTENT
 
-class StreamLatestInfoResourceSpec extends IntegrationSpec {
+class StreamLatestInfoControllerSpec extends IntegrationSpec {
 
     @Autowired
     GetRadioStationStream.Handler radioStationStreamHandler

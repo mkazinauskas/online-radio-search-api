@@ -23,7 +23,7 @@ class CreateSongController {
     }
 
     @PostMapping("/admin/radio-stations/{id}/songs")
-    ResponseEntity createRadioStation(@PathVariable("id") long radioStationId,
+    ResponseEntity createSong(@PathVariable("id") long radioStationId,
                                       @Valid @RequestBody CreateSongRequest request) {
         CreateSong.Result result = createSongHandler.handle(
                 new CreateSong(radioStationId, request.getTitle(), request.getPlayedTime())

@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.http.ResponseEntity.noContent;
 
 @RestController
-class UpdateStreamSongsResource {
+class UpdateStreamSongsController {
 
     private final StreamSongsService streamSongsService;
 
-    public UpdateStreamSongsResource(StreamSongsService streamSongsService) {
+    public UpdateStreamSongsController(StreamSongsService streamSongsService) {
         this.streamSongsService = streamSongsService;
     }
 

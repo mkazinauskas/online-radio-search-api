@@ -10,11 +10,11 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-class CreateRadioStationResource {
+class CreateRadioStationController {
 
     private final CreateRadioStation.Handler createStationHandler;
 
-    public CreateRadioStationResource(CreateRadioStation.Handler createStationHandler) {
+    public CreateRadioStationController(CreateRadioStation.Handler createStationHandler) {
         this.createStationHandler = createStationHandler;
     }
 

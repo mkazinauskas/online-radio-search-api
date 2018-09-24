@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.http.ResponseEntity.noContent;
 
 @RestController
-class StreamLatestInfoResource {
+class StreamLatestInfoController {
 
     private final LatestInfoService latestInfoService;
 
-    public StreamLatestInfoResource(LatestInfoService latestInfoService) {
+    public StreamLatestInfoController(LatestInfoService latestInfoService) {
         this.latestInfoService = latestInfoService;
     }
 

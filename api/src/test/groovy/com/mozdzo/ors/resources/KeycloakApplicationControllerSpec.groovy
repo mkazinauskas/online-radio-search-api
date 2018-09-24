@@ -11,7 +11,7 @@ import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.HttpStatus.*
 
-class KeycloakApplicationResourceSpec extends IntegrationSpec {
+class KeycloakApplicationControllerSpec extends IntegrationSpec {
 
     void 'should access admin resource with admin token'() {
         when:
