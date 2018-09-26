@@ -1,9 +1,7 @@
 package com.mozdzo.ors.domain.radio.station.commands
 
-
 import com.mozdzo.ors.domain.events.Event
 import com.mozdzo.ors.domain.events.Events
-import com.mozdzo.ors.domain.events.RadioStationUpdated
 import com.mozdzo.ors.domain.radio.station.RadioStation
 import com.mozdzo.ors.domain.radio.station.RadioStations
 import com.mozdzo.ors.domain.radio.station.genre.Genre
@@ -43,7 +41,7 @@ class UpdateRadioStationSpec extends IntegrationSpec {
             RadioStation savedRadioStation = radioStations.findById(radioStation.id).get()
             savedRadioStation.title == command.data.title
             savedRadioStation.website == command.data.website
-            savedRadioStation.genres.collect { it.uniqueId }.first() == genre.uniqueId
+            savedRadioStation.genres*.uniqueId.first() == genre.uniqueId
         and:
             Page<Event> events = events.findAllByType(RADIO_STATION_UPDATED, unpaged())
         and:
