@@ -36,10 +36,14 @@ class CreateRadioStationSpec extends IntegrationSpec {
             RadioStation savedRadioStation = radioStations.findById(result.id).get()
             savedRadioStation.title == command.title
             savedRadioStation.id == result.id
+            savedRadioStation.uniqueId.size() == 20
+            savedRadioStation.genres.empty
         and:
             Page<Event> events = events.findAllByType(RADIO_STATION_CREATED, unpaged())
-            events.content
+        and:
+            Data event = events.content
                     .collect { deserialize(it.body, it.type.eventClass) }
                     .find { Data data -> data.uniqueId == savedRadioStation.uniqueId }
+            event.title == command.title
     }
 }
