@@ -1,5 +1,6 @@
 package com.mozdzo.ors.resources
 
+import com.mozdzo.ors.helpers.TestGenre
 import com.mozdzo.ors.helpers.TestRadioStation
 import com.mozdzo.ors.helpers.TestRadioStationStream
 import com.mozdzo.ors.helpers.TestSong
@@ -19,6 +20,9 @@ class IntegrationSpec extends Specification {
 
     @Autowired
     TestRadioStation testRadioStation
+
+    @Autowired
+    TestGenre testGenre
 
     @Autowired
     TestRadioStationStream testRadioStationStream

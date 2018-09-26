@@ -28,6 +28,7 @@ public class RadioStation {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "unique_id", length = 20, unique = true, nullable = false)
     private String uniqueId = randomAlphanumeric(20);
 
     @Column(name = "title", length = 100, unique = true, nullable = false)

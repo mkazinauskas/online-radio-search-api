@@ -1,15 +1,18 @@
 package com.mozdzo.ors.domain.radio.station.commands;
 
 import com.mozdzo.ors.domain.DomainException;
+import com.mozdzo.ors.domain.events.RadioStationUpdated;
 import com.mozdzo.ors.domain.radio.station.RadioStation;
 import com.mozdzo.ors.domain.radio.station.RadioStations;
 import com.mozdzo.ors.domain.radio.station.genre.Genre;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toSet;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class UpdateRadioStation {
@@ -62,9 +65,13 @@ public class UpdateRadioStation {
 
         private final Validator validator;
 
-        Handler(RadioStations radioStations, Validator validator) {
+        private final ApplicationEventPublisher applicationEventPublisher;
+
+        public Handler(RadioStations radioStations, Validator validator,
+                       ApplicationEventPublisher applicationEventPublisher) {
             this.radioStations = radioStations;
             this.validator = validator;
+            this.applicationEventPublisher = applicationEventPublisher;
         }
 
         @Transactional
@@ -75,6 +82,15 @@ public class UpdateRadioStation {
             radioStation.setTitle(command.data.title);
             radioStation.setWebsite(command.data.website);
             radioStation.getGenres().addAll(command.data.genres);
+            applicationEventPublisher.publishEvent(new RadioStationUpdated(radioStation, new RadioStationUpdated.Data(
+                    radioStation.getUniqueId(),
+                    radioStation.getTitle(),
+                    radioStation.getWebsite(),
+                    radioStation.getGenres().stream()
+                            .map(genre -> new RadioStationUpdated.Data.Genre(genre.getUniqueId(), genre
+                                    .getTitle()))
+                            .collect(toSet())
+            )));
         }
     }
 

@@ -33,7 +33,8 @@ public class Event {
     private String body;
 
     public enum Type {
-        RADIO_STATION_CREATED(RadioStationCreated.Data.class);
+        RADIO_STATION_CREATED(RadioStationCreated.Data.class),
+        RADIO_STATION_UPDATED(RadioStationUpdated.Data.class);
 
         private final Class<? extends DomainEvent.Data> eventClass;
 
