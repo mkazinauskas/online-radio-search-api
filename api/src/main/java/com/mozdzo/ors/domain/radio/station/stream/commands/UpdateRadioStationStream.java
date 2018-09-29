@@ -1,9 +1,11 @@
 package com.mozdzo.ors.domain.radio.station.stream.commands;
 
 import com.mozdzo.ors.domain.DomainException;
+import com.mozdzo.ors.domain.events.StreamUpdated;
 import com.mozdzo.ors.domain.radio.station.RadioStations;
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream;
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStreams;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,20 +67,35 @@ public class UpdateRadioStationStream {
 
         private final Validator validator;
 
-        Handler(RadioStationStreams radioStationStreams, Validator validator) {
+        private final ApplicationEventPublisher applicationEventPublisher;
+
+        public Handler(RadioStationStreams radioStationStreams,
+                       Validator validator,
+                       ApplicationEventPublisher applicationEventPublisher) {
             this.radioStationStreams = radioStationStreams;
             this.validator = validator;
+            this.applicationEventPublisher = applicationEventPublisher;
         }
 
         @Transactional
         public void handle(UpdateRadioStationStream command) {
             validator.validate(command);
-            RadioStationStream radioStation = radioStationStreams
+            RadioStationStream stream = radioStationStreams
                     .findByRadioStationIdAndId(command.radioStationId, command.streamId).get();
 
-            radioStation.setBitRate(command.data.bitRate);
-            radioStation.setType(command.data.type);
-            radioStation.setUrl(command.data.url);
+            stream.setBitRate(command.data.bitRate);
+            stream.setType(command.data.type);
+            stream.setUrl(command.data.url);
+
+            applicationEventPublisher.publishEvent(
+                    new StreamUpdated(stream,
+                            new StreamUpdated.Data(
+                                    stream.getUniqueId(),
+                                    command.data.url,
+                                    command.data.bitRate,
+                                    command.data.type)
+                    )
+            );
         }
     }
 
