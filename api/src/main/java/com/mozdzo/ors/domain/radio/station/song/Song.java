@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 import static javax.persistence.GenerationType.SEQUENCE;
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
 @Entity
 @Table(name = "songs")
@@ -22,6 +23,10 @@ public class Song {
 
     @Column(name = "radio_station_id")
     private long radioStationId;
+
+    @Column(name = "unique_id", length = 20, unique = true, nullable = false)
+    private String uniqueId = randomAlphanumeric(40);
+
 
     @Column(name = "title", length = 100)
     private String title;
@@ -44,6 +49,10 @@ public class Song {
 
     public long getRadioStationId() {
         return radioStationId;
+    }
+
+    public String getUniqueId() {
+        return uniqueId;
     }
 
     public String getTitle() {

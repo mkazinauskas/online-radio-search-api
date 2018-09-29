@@ -1,13 +1,14 @@
 package com.mozdzo.ors.domain.radio.station.song.commands;
 
 import com.mozdzo.ors.domain.DomainException;
+import com.mozdzo.ors.domain.events.SongCreated;
 import com.mozdzo.ors.domain.radio.station.RadioStations;
 import com.mozdzo.ors.domain.radio.station.song.Song;
 import com.mozdzo.ors.domain.radio.station.song.Songs;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -25,6 +26,18 @@ public class CreateSong {
         this.playingTime = playingTime;
     }
 
+    public long getRadioStationId() {
+        return radioStationId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public ZonedDateTime getPlayingTime() {
+        return playingTime;
+    }
+
     private Song toSong() {
         return new Song(radioStationId, title, playingTime);
     }
@@ -35,16 +48,27 @@ public class CreateSong {
 
         private final Validator validator;
 
-        public Handler(Songs songs, Validator validator) {
+        private final ApplicationEventPublisher applicationEventPublisher;
+
+        public Handler(Songs songs, Validator validator, ApplicationEventPublisher applicationEventPublisher) {
             this.songs = songs;
             this.validator = validator;
+            this.applicationEventPublisher = applicationEventPublisher;
         }
 
         @Transactional
         public Result handle(CreateSong command) {
             validator.validate(command);
-            Song saved = songs.save(command.toSong());
-            return new Result(saved.getId());
+            Song song = songs.save(command.toSong());
+            applicationEventPublisher.publishEvent(
+                    new SongCreated(
+                            song,
+                            new SongCreated.Data(
+                                    song.getUniqueId(),
+                                    song.getTitle()
+                            ))
+            );
+            return new Result(song.getId());
         }
     }
 
