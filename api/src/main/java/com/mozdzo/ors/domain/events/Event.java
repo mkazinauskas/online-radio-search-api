@@ -36,7 +36,8 @@ public class Event {
         RADIO_STATION_CREATED(RadioStationCreated.Data.class),
         RADIO_STATION_UPDATED(RadioStationUpdated.Data.class),
         RADIO_STATION_STREAM_CREATED(RadioStationStreamCreated.Data.class),
-        RADIO_STATION_STREAM_UPDATED(RadioStationStreamUpdated.Data.class);
+        RADIO_STATION_STREAM_UPDATED(RadioStationStreamUpdated.Data.class),
+        GENRE_CREATED(GenreCreated.Data.class);
 
         private final Class<? extends DomainEvent.Data> eventClass;
 

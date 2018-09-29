@@ -1,8 +1,10 @@
 package com.mozdzo.ors.domain.radio.station.genre.commands;
 
 import com.mozdzo.ors.domain.DomainException;
+import com.mozdzo.ors.domain.events.GenreCreated;
 import com.mozdzo.ors.domain.radio.station.genre.Genre;
 import com.mozdzo.ors.domain.radio.station.genre.Genres;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,10 @@ public class CreateGenre {
         this.title = title;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
     private Genre toGenre() {
         return new Genre(this.title);
     }
@@ -26,15 +32,25 @@ public class CreateGenre {
 
         private final Validator validator;
 
-        Handler(Genres genres, Validator validator) {
+        private final ApplicationEventPublisher applicationEventPublisher;
+
+        public Handler(Genres genres,
+                       Validator validator,
+                       ApplicationEventPublisher applicationEventPublisher) {
             this.genres = genres;
             this.validator = validator;
+            this.applicationEventPublisher = applicationEventPublisher;
         }
 
         @Transactional
         public Result handle(CreateGenre command) {
             validator.validate(command);
             Genre genre = genres.save(command.toGenre());
+            applicationEventPublisher.publishEvent(
+                    new GenreCreated(genre,
+                            new GenreCreated.Data(genre.getUniqueId(),
+                                    genre.getTitle()))
+            );
             return new Result(genre.getId());
         }
     }
