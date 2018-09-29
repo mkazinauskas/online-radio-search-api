@@ -10,6 +10,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import static javax.persistence.GenerationType.SEQUENCE;
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
 @Entity
 @Table(name = "radio_station_streams")
@@ -23,6 +24,9 @@ public class RadioStationStream {
     )
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "unique_id", length = 20, unique = true, nullable = false)
+    private String uniqueId = randomAlphanumeric(20);
 
     @Column(name = "radio_station_id")
     private long radioStationId;
@@ -47,6 +51,10 @@ public class RadioStationStream {
 
     public Long getId() {
         return id;
+    }
+
+    public String getUniqueId() {
+        return uniqueId;
     }
 
     public long getRadioStationId() {

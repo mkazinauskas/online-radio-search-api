@@ -50,6 +50,12 @@ databaseChangeLog:
               primaryKey: true
               nullable: false
         - column:
+            name: unique_id
+            type: varchar(20)
+            constraints:
+              nullable: false
+              unique: true
+        - column:
             name: radio_station_id
             type: bigint
             autoIncrement: true
