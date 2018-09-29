@@ -6,10 +6,10 @@ import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream;
 
 import static com.mozdzo.ors.domain.events.Event.Type.RADIO_STATION_STREAM_UPDATED;
 
-public class StreamUpdated extends DomainEvent {
+public class RadioStationStreamUpdated extends DomainEvent {
     private final Data data;
 
-    public StreamUpdated(Object source, Data data) {
+    public RadioStationStreamUpdated(Object source, Data data) {
         super(source);
         this.data = data;
     }
@@ -21,13 +21,13 @@ public class StreamUpdated extends DomainEvent {
 
         private final Integer bitRate;
 
-        private final RadioStationStream.Type type;
+        private final String type;
 
         @JsonCreator
         public Data(@JsonProperty("uniqueId") String uniqueId,
                     @JsonProperty("url")String url,
                     @JsonProperty("bitRate") Integer bitRate,
-                    @JsonProperty("type") RadioStationStream.Type type) {
+                    @JsonProperty("type") String type) {
             this.uniqueId = uniqueId;
             this.url = url;
             this.bitRate = bitRate;
@@ -46,7 +46,7 @@ public class StreamUpdated extends DomainEvent {
             return bitRate;
         }
 
-        public RadioStationStream.Type getType() {
+        public String getType() {
             return type;
         }
     }

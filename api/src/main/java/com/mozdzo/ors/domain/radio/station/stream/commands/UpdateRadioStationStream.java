@@ -1,7 +1,7 @@
 package com.mozdzo.ors.domain.radio.station.stream.commands;
 
 import com.mozdzo.ors.domain.DomainException;
-import com.mozdzo.ors.domain.events.StreamUpdated;
+import com.mozdzo.ors.domain.events.RadioStationStreamUpdated;
 import com.mozdzo.ors.domain.radio.station.RadioStations;
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream;
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStreams;
@@ -88,12 +88,13 @@ public class UpdateRadioStationStream {
             stream.setUrl(command.data.url);
 
             applicationEventPublisher.publishEvent(
-                    new StreamUpdated(stream,
-                            new StreamUpdated.Data(
+                    new RadioStationStreamUpdated(stream,
+                            new RadioStationStreamUpdated.Data(
                                     stream.getUniqueId(),
                                     command.data.url,
                                     command.data.bitRate,
-                                    command.data.type)
+                                    command.data.type.name()
+                            )
                     )
             );
         }

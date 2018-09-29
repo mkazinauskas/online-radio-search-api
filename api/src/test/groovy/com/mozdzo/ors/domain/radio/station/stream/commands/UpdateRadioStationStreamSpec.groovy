@@ -2,7 +2,7 @@ package com.mozdzo.ors.domain.radio.station.stream.commands
 
 import com.mozdzo.ors.domain.events.Event
 import com.mozdzo.ors.domain.events.Events
-import com.mozdzo.ors.domain.events.StreamUpdated
+import com.mozdzo.ors.domain.events.RadioStationStreamUpdated
 import com.mozdzo.ors.domain.radio.station.RadioStation
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStreams
@@ -41,12 +41,12 @@ class UpdateRadioStationStreamSpec extends IntegrationSpec {
         and:
             Page<Event> events = events.findAllByType(Event.Type.RADIO_STATION_STREAM_UPDATED, unpaged())
         and:
-            StreamUpdated.Data foundEvent = events.content
+            RadioStationStreamUpdated.Data foundEvent = events.content
                     .collect { deserialize(it.body, it.type.eventClass) }
-                    .find { StreamUpdated.Data data -> data.uniqueId == savedStream.uniqueId }
+                    .find { RadioStationStreamUpdated.Data data -> data.uniqueId == savedStream.uniqueId }
 
             foundEvent.url == command.data.url
-            foundEvent.type == command.data.type
+            foundEvent.type == command.data.type.name()
             foundEvent.bitRate == command.data.bitRate
     }
 }

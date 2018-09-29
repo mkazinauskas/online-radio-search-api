@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import static com.mozdzo.ors.domain.events.Event.Type.RADIO_STATION_STREAM_CREATED;
 
-public class StreamCreated extends DomainEvent {
+public class RadioStationStreamCreated extends DomainEvent {
     private final Data data;
 
-    public StreamCreated(Object source, Data data) {
+    public RadioStationStreamCreated(Object source, Data data) {
         super(source);
         this.data = data;
     }
