@@ -1,8 +1,8 @@
-package com.mozdzo.ors.resources.radio.station.song;
+package com.mozdzo.ors.resources.song;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mozdzo.ors.domain.radio.station.song.Song;
+import com.mozdzo.ors.domain.song.Song;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
@@ -27,7 +27,7 @@ class SongsResource extends PagedResources<SongResource> {
         super(content.get("songResourceList"), metadata, parseLinks(links));
     }
 
-    static SongsResource create(Page<Song> songs, long radioStationId, Pageable pageable) {
+    static SongsResource create(Page<Song> songs, Pageable pageable) {
         PageMetadata pageMetadata = new PageMetadata(
                 songs.getSize(),
                 songs.getNumber(),
@@ -36,11 +36,11 @@ class SongsResource extends PagedResources<SongResource> {
         );
         Collection<SongResource> resources = songs.getContent()
                 .stream()
-                .map((Song song) -> SongResource.create(radioStationId, song))
+                .map(SongResource::create)
                 .collect(toList());
 
-        Link link = linkTo(methodOn(SongsController.class)
-                .getSongs(radioStationId, pageable)).withSelfRel();
+        Link link = linkTo(methodOn(SongController.class)
+                .getSongs(pageable)).withSelfRel();
 
         return new SongsResource(singletonMap("songResourceList", resources),
                 pageMetadata,

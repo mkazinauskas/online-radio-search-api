@@ -1,8 +1,8 @@
-package com.mozdzo.ors.resources.radio.station.song;
+package com.mozdzo.ors.resources.song;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mozdzo.ors.domain.radio.station.song.Song;
+import com.mozdzo.ors.domain.song.Song;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -23,10 +23,10 @@ public class SongResource extends ResourceSupport {
         links.forEach((label, link) -> add(link.withRel(label)));
     }
 
-    static SongResource create(long radioStationId, Song song) {
+    static SongResource create(Song song) {
         SongResponse response = SongResponse.create(song);
-        Link link = linkTo(methodOn(SongsController.class)
-                .getSong(radioStationId, response.getId()))
+        Link link = linkTo(methodOn(SongController.class)
+                .getSong(response.getId()))
                 .withSelfRel();
         return new SongResource(response, singletonMap(link.getRel(), link));
     }

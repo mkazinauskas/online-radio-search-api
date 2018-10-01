@@ -1,11 +1,11 @@
-package com.mozdzo.ors.domain.radio.station.song.commands
+package com.mozdzo.ors.domain.song.commands
 
 import com.mozdzo.ors.domain.events.Event
 import com.mozdzo.ors.domain.events.Events
 import com.mozdzo.ors.domain.events.SongCreated
 import com.mozdzo.ors.domain.radio.station.RadioStation
-import com.mozdzo.ors.domain.radio.station.song.Song
-import com.mozdzo.ors.domain.radio.station.song.Songs
+import com.mozdzo.ors.domain.song.Song
+import com.mozdzo.ors.domain.song.Songs
 import com.mozdzo.ors.resources.IntegrationSpec
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page

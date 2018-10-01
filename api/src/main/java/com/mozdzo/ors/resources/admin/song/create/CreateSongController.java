@@ -1,8 +1,7 @@
-package com.mozdzo.ors.resources.admin.radio.station.song;
+package com.mozdzo.ors.resources.admin.song.create;
 
-import com.mozdzo.ors.domain.radio.station.song.commands.CreateSong;
+import com.mozdzo.ors.domain.song.commands.CreateSong;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,13 +21,12 @@ class CreateSongController {
         this.createSongHandler = createSongHandler;
     }
 
-    @PostMapping("/admin/radio-stations/{id}/songs")
-    ResponseEntity createSong(@PathVariable("id") long radioStationId,
-                                      @Valid @RequestBody CreateSongRequest request) {
+    @PostMapping("/admin/songs")
+    ResponseEntity createSong(@Valid @RequestBody CreateSongRequest request) {
         CreateSong.Result result = createSongHandler.handle(
-                new CreateSong(radioStationId, request.getTitle(), request.getPlayedTime())
+                new CreateSong(request.getTitle())
         );
-        return created(create(format("/radio-stations/%s/songs/%s", radioStationId, result.id)))
+        return created(create(format("/songs/%s", result.id)))
                 .build();
     }
 }

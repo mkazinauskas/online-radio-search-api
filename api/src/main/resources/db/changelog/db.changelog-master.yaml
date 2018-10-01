@@ -107,7 +107,31 @@ databaseChangeLog:
               primaryKey: true
               nullable: false
         - column:
-            name: radio_station_id
+            name: unique_id
+            type: varchar(40)
+            constraints:
+              nullable: false
+              unique: true
+        - column:
+            name: title
+            type: varchar(100)
+            constraints:
+              nullable: false
+              unique: true
+    - createSequence:
+        schemaName: public
+        sequenceName: songs_sequence
+        incrementBy: 1
+        startValue: 1
+- changeSet:
+    id: 3.1
+    author: modestukasai
+    changes:
+    - createTable:
+        tableName: radio_station_songs
+        columns:
+        - column:
+            name: id
             type: bigint
             autoIncrement: true
             constraints:
@@ -120,8 +144,13 @@ databaseChangeLog:
               nullable: false
               unique: true
         - column:
-            name: title
-            type: varchar(100)
+            name: radio_station_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: song_id
+            type: bigint
             constraints:
               nullable: false
         - column:
@@ -129,21 +158,31 @@ databaseChangeLog:
             type: timestamp with time zone
             constraints:
               nullable: false
-    - createSequence:
-        schemaName: public
-        sequenceName: songs_sequence
-        incrementBy: 1
-        startValue: 1
     - addForeignKeyConstraint:
         baseColumnNames: radio_station_id
-        baseTableName: radio_station_streams
-        constraintName: fk_song_to_radio_station_id
+        baseTableName: radio_station_songs
+        constraintName: fk_song_to_radio_stations_to_radio_stations_id
         deferrable: true
         initiallyDeferred: true
         onDelete: CASCADE
         onUpdate: RESTRICT
         referencedColumnNames: id
         referencedTableName: radio_stations
+    - addForeignKeyConstraint:
+        baseColumnNames: song_id
+        baseTableName: radio_station_songs
+        constraintName: fk_songs_to_radio_stations_to_genres_id
+        deferrable: true
+        initiallyDeferred: true
+        onDelete: CASCADE
+        onUpdate: RESTRICT
+        referencedColumnNames: id
+        referencedTableName: songs
+    - createSequence:
+        schemaName: public
+        sequenceName: radio_station_songs_sequence
+        incrementBy: 1
+        startValue: 1
 - changeSet:
     id: 4
     author: modestukasai
@@ -159,11 +198,11 @@ databaseChangeLog:
               primaryKey: true
               nullable: false
         - column:
-              name: unique_id
-              type: varchar(20)
-              constraints:
-                  nullable: false
-                  unique: true
+            name: unique_id
+            type: varchar(20)
+            constraints:
+              nullable: false
+              unique: true
         - column:
             name: title
             type: varchar(100)
@@ -176,7 +215,7 @@ databaseChangeLog:
         incrementBy: 1
         startValue: 1
 - changeSet:
-    id: 5
+    id: 4.1
     author: modestukasai
     changes:
     - createTable:
@@ -213,7 +252,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: genres
 - changeSet:
-    id: 6
+    id: 5
     author: modestukasai
     changes:
     - createTable:

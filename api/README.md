@@ -33,3 +33,4 @@ Execute commands inside container
 * Create elastic search repository for full text search
 * Create unique songs
 * Create docker images to run locally 
+* REn some db tables

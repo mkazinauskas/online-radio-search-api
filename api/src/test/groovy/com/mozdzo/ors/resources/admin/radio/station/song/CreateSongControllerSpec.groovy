@@ -19,7 +19,7 @@ class CreateSongControllerSpec extends IntegrationSpec {
         given:
             RadioStation radioStation = testRadioStation.create()
         and:
-            CreateSongRequest request = new CreateSongRequest(
+            CreateRadioStationSongRequest request = new CreateRadioStationSongRequest(
                     title: randomAlphanumeric(100),
                     playedTime: now()
             )

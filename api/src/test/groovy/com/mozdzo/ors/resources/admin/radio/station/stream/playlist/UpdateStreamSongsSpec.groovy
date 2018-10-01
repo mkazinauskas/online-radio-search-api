@@ -3,8 +3,11 @@ package com.mozdzo.ors.resources.admin.radio.station.stream.playlist
 import com.mozdzo.ors.HttpEntityBuilder
 import com.mozdzo.ors.domain.radio.station.RadioStation
 import com.mozdzo.ors.domain.radio.station.commands.GetRadioStation
-import com.mozdzo.ors.domain.radio.station.song.Song
-import com.mozdzo.ors.domain.radio.station.song.commands.GetSongs
+import com.mozdzo.ors.domain.radio.station.song.RadioStationSong
+import com.mozdzo.ors.domain.radio.station.song.commands.GetRadioStationSongs
+import com.mozdzo.ors.domain.song.Song
+import com.mozdzo.ors.domain.song.commands.GetSong
+import com.mozdzo.ors.domain.song.commands.GetSongs
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream
 import com.mozdzo.ors.domain.radio.station.stream.commands.GetRadioStationStream
 import com.mozdzo.ors.resources.IntegrationSpec
@@ -16,6 +19,7 @@ import org.springframework.http.ResponseEntity
 import static com.github.tomakehurst.wiremock.client.WireMock.*
 import static com.mozdzo.ors.TestUsers.ADMIN
 import static com.mozdzo.ors.TokenProvider.token
+import static org.springframework.data.domain.Pageable.unpaged
 import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.HttpStatus.NO_CONTENT
 
@@ -28,7 +32,10 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
     GetRadioStation.Handler radioStationHandler
 
     @Autowired
-    GetSongs.Handler songsHandler
+    GetSong.Handler getSongHandler
+
+    @Autowired
+    GetRadioStationSongs.Handler radioStationSongsHandler
 
     void 'admin should update latest radio station'() {
         given:
@@ -50,8 +57,11 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
         then:
             response.statusCode == NO_CONTENT
         and:
-            Page<Song> songs = songsHandler.handle(new GetSongs(radioStation.id, Pageable.unpaged()))
-            songs.totalElements == 20
+            Page<RadioStationSong> radioStationSongs = radioStationSongsHandler.handle(new GetRadioStationSongs(radioStation.id, unpaged()))
+            radioStationSongs.totalElements == 20
+
+            List<Song> songs = radioStationSongs.content.collect { getSongHandler.handle(new GetSong(it.id)) }
+            songs.size() == 20
             songs.find { it.title == 'Advert Trigger:  Studio Associato CF&C' }
             songs.find { it.title == 'Notiziario nazionale - Sigla finale' }
             songs.find { it.title == 'Notiziario nazionale' }

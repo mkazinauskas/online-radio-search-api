@@ -1,45 +1,29 @@
-package com.mozdzo.ors.domain.radio.station.song.commands;
+package com.mozdzo.ors.domain.song.commands;
 
 import com.mozdzo.ors.domain.DomainException;
 import com.mozdzo.ors.domain.events.SongCreated;
 import com.mozdzo.ors.domain.radio.station.RadioStations;
-import com.mozdzo.ors.domain.radio.station.song.Song;
-import com.mozdzo.ors.domain.radio.station.song.Songs;
+import com.mozdzo.ors.domain.song.Song;
+import com.mozdzo.ors.domain.song.Songs;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.ZonedDateTime;
-
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CreateSong {
-    private final long radioStationId;
-
     private final String title;
 
-    private final ZonedDateTime playingTime;
-
-    public CreateSong(long radioStationId, String title, ZonedDateTime playingTime) {
-        this.radioStationId = radioStationId;
+    public CreateSong(String title) {
         this.title = title;
-        this.playingTime = playingTime;
-    }
-
-    public long getRadioStationId() {
-        return radioStationId;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public ZonedDateTime getPlayingTime() {
-        return playingTime;
-    }
-
     private Song toSong() {
-        return new Song(radioStationId, title, playingTime);
+        return new Song(title);
     }
 
     @Component
@@ -81,19 +65,8 @@ public class CreateSong {
         }
 
         void validate(CreateSong command) {
-            if (command.radioStationId <= 0) {
-                throw new DomainException("FIELD_RADIO_STATION_ID_IS_NOT_POSITIVE",
-                        "Field radio station id should be positive");
-            }
-            if (!radioStations.findById(command.radioStationId).isPresent()) {
-                throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT",
-                        "Radio station with id is not available");
-            }
             if (isBlank(command.title)) {
                 throw new DomainException("FIELD_TITLE_NOT_BLANK", "Field title cannot be blank");
-            }
-            if (command.playingTime == null) {
-                throw new DomainException("FIELD_PLAYING_TIME_NOT_NULL", "Field playing time cannot be blank");
             }
         }
     }

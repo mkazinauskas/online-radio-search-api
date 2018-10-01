@@ -1,23 +1,24 @@
 package com.mozdzo.ors.resources.admin.radio.station.song;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
-public class CreateSongRequest {
-    @NotBlank
-    private String title;
+public class CreateRadioStationSongRequest {
+    @Min(1L)
+    private long songId;
 
     @NotNull
     private ZonedDateTime playedTime;
 
-    public String getTitle() {
-        return title;
+    public long getSongId() {
+        return songId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setSongId(long songId) {
+        this.songId = songId;
     }
 
     public ZonedDateTime getPlayedTime() {
