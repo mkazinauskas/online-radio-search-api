@@ -2,6 +2,7 @@ package com.mozdzo.ors.resources.admin.radio.station.song
 
 import com.mozdzo.ors.HttpEntityBuilder
 import com.mozdzo.ors.domain.radio.station.RadioStation
+import com.mozdzo.ors.domain.song.Song
 import com.mozdzo.ors.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
 
@@ -19,8 +20,10 @@ class CreateSongControllerSpec extends IntegrationSpec {
         given:
             RadioStation radioStation = testRadioStation.create()
         and:
+            Song song = testSong.create()
+        and:
             CreateRadioStationSongRequest request = new CreateRadioStationSongRequest(
-                    title: randomAlphanumeric(100),
+                    songId: song.id,
                     playedTime: now()
             )
         when:
