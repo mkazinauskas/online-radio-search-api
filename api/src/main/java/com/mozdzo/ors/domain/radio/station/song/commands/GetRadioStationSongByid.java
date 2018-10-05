@@ -7,14 +7,14 @@ import com.mozdzo.ors.domain.radio.station.song.RadioStationSongs;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-public class GetRadioStationSong {
+public class GetRadioStationSongByid {
     private final long radioStationId;
 
-    private final long songId;
+    private final long id;
 
-    public GetRadioStationSong(long radioStationId, long songId) {
+    public GetRadioStationSongByid(long radioStationId, long id) {
         this.radioStationId = radioStationId;
-        this.songId = songId;
+        this.id = id;
     }
 
     @Component
@@ -29,11 +29,11 @@ public class GetRadioStationSong {
         }
 
         @Transactional(readOnly = true)
-        public RadioStationSong handle(GetRadioStationSong command) {
+        public RadioStationSong handle(GetRadioStationSongByid command) {
             validator.validate(command);
-            return radioStationSongs.findByRadioStationIdAndSongId(command.radioStationId, command.songId)
+            return radioStationSongs.findByRadioStationIdAndId(command.radioStationId, command.id)
                     .orElseThrow(() -> new DomainException(
-                            "SONG_BY_ID_NOT_FOUND",
+                            "RADIO_STATION_SONG_BY_ID_NOT_FOUND",
                             "Radio station song by id was not found")
                     );
         }
@@ -47,7 +47,7 @@ public class GetRadioStationSong {
             this.radioStations = radioStations;
         }
 
-        void validate(GetRadioStationSong command) {
+        void validate(GetRadioStationSongByid command) {
             if (command.radioStationId <= 0) {
                 throw new DomainException("FIELD_RADIO_STATION_ID_IS_LESS_OR_EQUAL_TO_ZERO",
                         "Radio station id cannot be less or equal to zero");
@@ -58,7 +58,7 @@ public class GetRadioStationSong {
                         "Radio station with id is not available");
             }
 
-            if (command.songId <= 0) {
+            if (command.id <= 0) {
                 throw new DomainException("FIELD_SONG_ID_IS_LESS_OR_EQUAL_TO_ZERO",
                         "Radio station song id cannot be less or equal to zero");
             }

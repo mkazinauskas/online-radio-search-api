@@ -28,7 +28,7 @@ class SongControllerSpec extends IntegrationSpec {
             result.statusCode == OK
         and:
             with(result.body as SongsResource) {
-                SongResource resource = it.content.find { it.song.id == song.id } as SongResource
+                SongResource resource = it.content.find { it.getRadioStationSong.id == song.id } as SongResource
 
                 resource.song.title == song.title
 
@@ -56,8 +56,8 @@ class SongControllerSpec extends IntegrationSpec {
             result.statusCode == OK
         and:
             with(result.body as SongResource) {
-                it.song.id == song.id
-                it.song.title == song.title
+                it.getRadioStationSong.id == song.id
+                it.getRadioStationSong.title == song.title
 
                 links.first().rel == REL_SELF
                 links.first().href.endsWith(url)

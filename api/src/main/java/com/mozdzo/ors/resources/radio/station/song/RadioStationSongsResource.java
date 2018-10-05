@@ -3,14 +3,14 @@ package com.mozdzo.ors.resources.radio.station.song;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mozdzo.ors.domain.radio.station.song.RadioStationSong;
-import com.mozdzo.ors.domain.radio.station.song.RadioStationSongs;
-import com.mozdzo.ors.domain.song.Song;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedResources;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 import static com.mozdzo.ors.resources.HateoasHelper.parseLinks;
@@ -26,7 +26,11 @@ class RadioStationSongsResource extends PagedResources<RadioStationSongResource>
             @JsonProperty("_embedded") Map<String, Collection<RadioStationSongResource>> content,
             @JsonProperty("page") PageMetadata metadata,
             @JsonProperty("_links") Map<String, Link> links) {
-        super(content.get("songResourceList"), metadata, parseLinks(links));
+        super(resolve(content), metadata, parseLinks(links));
+    }
+
+    private static Collection<RadioStationSongResource> resolve(Map<String, Collection<RadioStationSongResource>> content) {
+        return CollectionUtils.isEmpty(content) ? Collections.emptyList() : content.get("songResourceList");
     }
 
     static RadioStationSongsResource create(Page<RadioStationSong> songs, long radioStationId, Pageable pageable) {

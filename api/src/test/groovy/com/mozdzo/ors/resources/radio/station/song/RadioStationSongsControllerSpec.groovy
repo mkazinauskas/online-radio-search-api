@@ -2,7 +2,7 @@ package com.mozdzo.ors.resources.radio.station.song
 
 import com.mozdzo.ors.HttpEntityBuilder
 import com.mozdzo.ors.domain.radio.station.RadioStation
-import com.mozdzo.ors.domain.song.Song
+import com.mozdzo.ors.domain.radio.station.song.RadioStationSong
 import com.mozdzo.ors.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
 
@@ -17,42 +17,41 @@ class RadioStationSongsControllerSpec extends IntegrationSpec {
         given:
             RadioStation radioStation = testRadioStation.create()
         and:
-            Song song = testSong.create(radioStation.id)
+            RadioStationSong radioStationSong = testRadioStationSong.create(radioStation.id)
         and:
             String url = "/radio-stations/${radioStation.id}/songs"
         when:
             ResponseEntity<RadioStationSongsResource> result = restTemplate.exchange(
                     url + '?size=100&page=0',
                     GET,
-                    HttpEntityBuilder.builder()
-                            .build(),
+                    HttpEntityBuilder.quick(),
                     RadioStationSongsResource
             )
         then:
             result.statusCode == OK
         and:
             with(result.body as RadioStationSongsResource) {
-                RadioStationSongResource resource = it.content.first() as RadioStationSongResource
+                RadioStationSongResource resource = it.content
+                        .find { RadioStationSongResource resource -> resource.radioStationSong.id == radioStationSong.id } as RadioStationSongResource
 
-                resource.song.id == song.id
-                resource.song.title == song.title
-                resource.song.playingTime.withZoneSameInstant(systemDefault()) == song.playingTime
+                resource.radioStationSong.id == radioStationSong.id
+                resource.radioStationSong.playingTime.withZoneSameInstant(systemDefault()) == radioStationSong.playingTime
 
                 resource.links.first().rel == REL_SELF
-                resource.links.first().href.endsWith("${url}/${song.id}")
+                resource.links.first().href.endsWith("${url}/${radioStationSong.id}")
 
                 links.first().rel == REL_SELF
                 links.first().href.endsWith(url)
             }
     }
 
-    void 'anyone should retrieve radio station stream'() {
+    void 'anyone should retrieve radio station song'() {
         given:
             RadioStation radioStation = testRadioStation.create()
         and:
-            Song song = testSong.create(radioStation.id)
+            RadioStationSong radioStationSong = testRadioStationSong.create(radioStation.id)
         and:
-            String url = "/radio-stations/${radioStation.id}/songs/${song.id}"
+            String url = "/radio-stations/${radioStation.id}/songs/${radioStationSong.id}"
         when:
             ResponseEntity<RadioStationSongResource> result = restTemplate.exchange(
                     url,
@@ -64,9 +63,9 @@ class RadioStationSongsControllerSpec extends IntegrationSpec {
             result.statusCode == OK
         and:
             with(result.body as RadioStationSongResource) {
-                it.setSongId.id == song.id
-                it.setSongId.title == song.title
-                it.setSongId.playingTime.withZoneSameInstant(systemDefault()) == song.playingTime
+                it.radioStationSong.id == radioStationSong.id
+                it.radioStationSong.songId == radioStationSong.songId
+                it.radioStationSong.playingTime.withZoneSameInstant(systemDefault()) == radioStationSong.playingTime
 
                 links.first().rel == REL_SELF
                 links.first().href.endsWith(url)

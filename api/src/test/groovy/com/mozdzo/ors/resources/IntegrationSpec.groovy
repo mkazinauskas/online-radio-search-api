@@ -2,6 +2,7 @@ package com.mozdzo.ors.resources
 
 import com.mozdzo.ors.helpers.TestGenre
 import com.mozdzo.ors.helpers.TestRadioStation
+import com.mozdzo.ors.helpers.TestRadioStationSong
 import com.mozdzo.ors.helpers.TestRadioStationStream
 import com.mozdzo.ors.helpers.TestSong
 import com.mozdzo.ors.setup.TestWireMockServer
@@ -29,6 +30,9 @@ class IntegrationSpec extends Specification {
 
     @Autowired
     TestSong testSong
+
+    @Autowired
+    TestRadioStationSong testRadioStationSong
 
     @Autowired
     TestWireMockServer testWiremockServer

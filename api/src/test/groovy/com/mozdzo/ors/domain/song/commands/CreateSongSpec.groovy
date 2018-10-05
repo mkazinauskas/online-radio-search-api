@@ -29,20 +29,14 @@ class CreateSongSpec extends IntegrationSpec {
 
     void 'should create song'() {
         given:
-            RadioStation radioStation = testRadioStation.create()
-        and:
             CreateSong command = new CreateSong(
-                    radioStation.id,
                     RandomStringUtils.randomAlphanumeric(10),
-                    ZonedDateTime.now()
             )
         when:
             CreateSong.Result result = testTarget.handle(command)
         then:
             Song song = songs.findById(result.id).get()
-            song.radioStationId == radioStation.id
             song.title == command.title
-            song.playingTime == command.playingTime
             song.uniqueId.size() == 40
         and:
             Page<Event> events = events.findAllByType(SONG_CREATED, unpaged())

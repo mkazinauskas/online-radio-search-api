@@ -14,7 +14,7 @@ import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.OK
 import static org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils.randomAlphanumeric
 
-class CreateSongControllerSpec extends IntegrationSpec {
+class CreateRadioStationSongControllerSpec extends IntegrationSpec {
 
     void 'admin should create radio station song'() {
         given:

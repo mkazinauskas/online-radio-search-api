@@ -1,11 +1,8 @@
 package com.mozdzo.ors.resources.radio.station.song;
 
 import com.mozdzo.ors.domain.radio.station.song.RadioStationSong;
-import com.mozdzo.ors.domain.radio.station.song.commands.GetRadioStationSong;
+import com.mozdzo.ors.domain.radio.station.song.commands.GetRadioStationSongByid;
 import com.mozdzo.ors.domain.radio.station.song.commands.GetRadioStationSongs;
-import com.mozdzo.ors.domain.song.Song;
-import com.mozdzo.ors.domain.song.commands.GetSong;
-import com.mozdzo.ors.domain.song.commands.GetSongs;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedResources;
@@ -19,11 +16,11 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController
 class RadioStationSongsController {
 
-    private final GetRadioStationSong.Handler songHandler;
+    private final GetRadioStationSongByid.Handler songHandler;
 
     private final GetRadioStationSongs.Handler songsHandler;
 
-    public RadioStationSongsController(GetRadioStationSong.Handler songHandler,
+    public RadioStationSongsController(GetRadioStationSongByid.Handler songHandler,
                                        GetRadioStationSongs.Handler songsHandler) {
         this.songHandler = songHandler;
         this.songsHandler = songsHandler;
@@ -40,10 +37,10 @@ class RadioStationSongsController {
         return ok(RadioStationSongsResource.create(songs, radioStationId, pageable));
     }
 
-    @GetMapping("/radio-stations/{radioStationId}/songs/{songId}")
+    @GetMapping("/radio-stations/{radioStationId}/songs/{radioStationSongId}")
     ResponseEntity<RadioStationSongResource> getSong(@PathVariable("radioStationId") long radioStationId,
-                                                     @PathVariable("songId") long songId) {
-        RadioStationSong song = songHandler.handle(new GetRadioStationSong(radioStationId, songId));
+                                                     @PathVariable("radioStationSongId") long radioStationSongId) {
+        RadioStationSong song = songHandler.handle(new GetRadioStationSongByid(radioStationId, radioStationSongId));
         return ok(RadioStationSongResource.create(radioStationId, song));
     }
 }
