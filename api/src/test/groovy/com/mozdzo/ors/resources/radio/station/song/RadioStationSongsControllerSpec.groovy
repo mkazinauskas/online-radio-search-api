@@ -13,6 +13,29 @@ import static org.springframework.http.HttpStatus.OK
 
 class RadioStationSongsControllerSpec extends IntegrationSpec {
 
+    void 'should not fail to retrieve radio station songs, when none exist'() {
+        given:
+            RadioStation radioStation = testRadioStation.create()
+        and:
+            String url = "/radio-stations/${radioStation.id}/songs"
+        when:
+            ResponseEntity<RadioStationSongsResource> result = restTemplate.exchange(
+                    url + '?size=100&page=0',
+                    GET,
+                    HttpEntityBuilder.builder().build(),
+                    RadioStationSongsResource
+            )
+        then:
+            result.statusCode == OK
+        and:
+            with(result.body as RadioStationSongsResource) {
+                it.content.isEmpty()
+
+                links.first().rel == REL_SELF
+                links.first().href.endsWith(url)
+            }
+    }
+
     void 'anyone should retrieve radio station songs'() {
         given:
             RadioStation radioStation = testRadioStation.create()
