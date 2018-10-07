@@ -5,15 +5,13 @@ import com.mozdzo.ors.domain.radio.station.RadioStation
 import com.mozdzo.ors.domain.radio.station.commands.GetRadioStation
 import com.mozdzo.ors.domain.radio.station.song.RadioStationSong
 import com.mozdzo.ors.domain.radio.station.song.commands.GetRadioStationSongs
-import com.mozdzo.ors.domain.song.Song
-import com.mozdzo.ors.domain.song.commands.GetSong
-import com.mozdzo.ors.domain.song.commands.GetSongs
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream
 import com.mozdzo.ors.domain.radio.station.stream.commands.GetRadioStationStream
+import com.mozdzo.ors.domain.song.Song
+import com.mozdzo.ors.domain.song.commands.GetSong
 import com.mozdzo.ors.resources.IntegrationSpec
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*
@@ -57,7 +55,9 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
         then:
             response.statusCode == NO_CONTENT
         and:
-            Page<RadioStationSong> radioStationSongs = radioStationSongsHandler.handle(new GetRadioStationSongs(radioStation.id, unpaged()))
+            Page<RadioStationSong> radioStationSongs = radioStationSongsHandler.handle(
+                    new GetRadioStationSongs(radioStation.id, unpaged())
+            )
             radioStationSongs.totalElements == 20
 
             List<Song> songs = radioStationSongs.content.collect { getSongHandler.handle(new GetSong(it.id)) }

@@ -54,14 +54,14 @@ class RadioStationSongsControllerSpec extends IntegrationSpec {
             result.statusCode == OK
         and:
             with(result.body as RadioStationSongsResource) {
-                RadioStationSongResource resource = it.content
-                        .find { RadioStationSongResource resource -> resource.radioStationSong.id == radioStationSong.id } as RadioStationSongResource
+                RadioStationSongResource song = it.content
+                        .find { item -> item.radioStationSong.id == radioStationSong.id } as RadioStationSongResource
 
-                resource.radioStationSong.id == radioStationSong.id
-                resource.radioStationSong.playingTime.withZoneSameInstant(systemDefault()) == radioStationSong.playingTime
+                song.radioStationSong.id == radioStationSong.id
+                song.radioStationSong.playingTime.withZoneSameInstant(systemDefault()) == radioStationSong.playingTime
 
-                resource.links.first().rel == REL_SELF
-                resource.links.first().href.endsWith("${url}/${radioStationSong.id}")
+                song.links.first().rel == REL_SELF
+                song.links.first().href.endsWith("${url}/${radioStationSong.id}")
 
                 links.first().rel == REL_SELF
                 links.first().href.endsWith(url)

@@ -4,7 +4,6 @@ import com.mozdzo.ors.domain.radio.station.song.RadioStationSong
 import com.mozdzo.ors.domain.radio.station.song.commands.CreateRadioStationSong
 import com.mozdzo.ors.domain.radio.station.song.commands.GetRadioStationSongByid
 import com.mozdzo.ors.domain.song.commands.CreateSong
-import com.mozdzo.ors.domain.song.commands.GetSong
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -16,9 +15,6 @@ class TestRadioStationSong {
 
     @Autowired
     private CreateSong.Handler createSongHandler
-
-    @Autowired
-    private GetSong.Handler getSongHandler
 
     @Autowired
     private CreateRadioStationSong.Handler createRadioStationSongHandler

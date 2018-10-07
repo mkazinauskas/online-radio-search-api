@@ -12,7 +12,6 @@ import static java.time.ZonedDateTime.now
 import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.OK
-import static org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils.randomAlphanumeric
 
 class CreateRadioStationSongControllerSpec extends IntegrationSpec {
 
