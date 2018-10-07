@@ -30,7 +30,7 @@ class RadioStationSongsResource extends PagedResources<RadioStationSongResource>
     }
 
     private static Collection<RadioStationSongResource> resolve(Map<String, Collection<RadioStationSongResource>> content) {
-        return CollectionUtils.isEmpty(content) ? Collections.emptyList() : content.get("songResourceList");
+        return CollectionUtils.isEmpty(content) ? Collections.emptyList() : content.get("radioStationSongResourceList");
     }
 
     static RadioStationSongsResource create(Page<RadioStationSong> songs, long radioStationId, Pageable pageable) {
@@ -48,7 +48,7 @@ class RadioStationSongsResource extends PagedResources<RadioStationSongResource>
         Link link = linkTo(methodOn(RadioStationSongsController.class)
                 .getSongs(radioStationId, pageable)).withSelfRel();
 
-        return new RadioStationSongsResource(singletonMap("songResourceList", resources),
+        return new RadioStationSongsResource(singletonMap("radioStationSongResourceList", resources),
                 pageMetadata,
                 singletonMap(link.getRel(), link)
         );

@@ -24,7 +24,7 @@ class RadioStationSongsControllerSpec extends IntegrationSpec {
             ResponseEntity<RadioStationSongsResource> result = restTemplate.exchange(
                     url + '?size=100&page=0',
                     GET,
-                    HttpEntityBuilder.quick(),
+                    HttpEntityBuilder.builder().build(),
                     RadioStationSongsResource
             )
         then:
