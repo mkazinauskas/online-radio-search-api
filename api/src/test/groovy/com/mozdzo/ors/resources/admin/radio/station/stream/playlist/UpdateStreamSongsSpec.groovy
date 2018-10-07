@@ -62,7 +62,7 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
 
             List<Song> songs = radioStationSongs.content.collect { getSongHandler.handle(new GetSong(it.id)) }
             songs.size() == 20
-            songs.find { it.title == 'Advert Trigg;er:  Studio Associato CF&C' }
+            songs.find { it.title == 'Advert Trigger:  Studio Associato CF&C' }
             songs.find { it.title == 'Notiziario nazionale - Sigla finale' }
             songs.find { it.title == 'Notiziario nazionale' }
             songs.find { it.title == "Rihanna - If It's Lovin' That You Want" }
