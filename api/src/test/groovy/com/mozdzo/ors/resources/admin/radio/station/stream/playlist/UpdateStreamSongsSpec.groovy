@@ -58,10 +58,12 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
             Page<RadioStationSong> radioStationSongs = radioStationSongsHandler.handle(
                     new GetRadioStationSongs(radioStation.id, unpaged())
             )
+
             radioStationSongs.totalElements == 20
 
-            List<Song> songs = radioStationSongs.content.collect { getSongHandler.handle(new GetSong(it.id)) }
+            List<Song> songs = radioStationSongs.content.collect { getSongHandler.handle(new GetSong(it.songId)) }
             songs.size() == 20
+
             songs.find { it.title == 'Advert Trigger:  Studio Associato CF&C' }
             songs.find { it.title == 'Notiziario nazionale - Sigla finale' }
             songs.find { it.title == 'Notiziario nazionale' }

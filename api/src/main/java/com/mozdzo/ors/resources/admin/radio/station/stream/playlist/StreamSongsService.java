@@ -11,12 +11,17 @@ import com.mozdzo.ors.domain.song.commands.CreateSong;
 import com.mozdzo.ors.domain.song.commands.FindSong;
 import com.mozdzo.ors.domain.song.commands.GetSong;
 import com.mozdzo.ors.services.scrapper.songs.LastPlayedSongsScrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
 class StreamSongsService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(StreamSongsService.class);
+
     private final GetRadioStationStream.Handler radioStationStream;
 
     private final GetRadioStation.Handler radioStation;
@@ -85,7 +90,12 @@ class StreamSongsService {
     }
 
     private Song createSong(String title) {
-        CreateSong.Result creationResult = createSong.handle(new CreateSong(title));
-        return getSongById.handle(new GetSong(creationResult.id));
+        try {
+            CreateSong.Result creationResult = createSong.handle(new CreateSong(title));
+            getSongById.handle(new GetSong(creationResult.id));
+        } catch (Exception exception) {
+            LOGGER.warn("Failed to created song, but recovered and trying to search for existing", exception);
+        }
+        return findSongByTitle.handle(new FindSong(title)).get();
     }
 }
