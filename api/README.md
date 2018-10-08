@@ -30,7 +30,7 @@ Execute commands inside container
 2. Run this file inside your local keycloak installation bin folder
 
 # Todo list:
+* Latest searches
 * Create elastic search repository for full text search
-* Create unique songs
 * Create docker images to run locally 
 * REn some db tables
