@@ -1,9 +1,11 @@
 package com.mozdzo.ors.domain.radio.station.song.commands;
 
 import com.mozdzo.ors.domain.DomainException;
+import com.mozdzo.ors.domain.events.RadioStationSongCreated;
 import com.mozdzo.ors.domain.radio.station.RadioStations;
 import com.mozdzo.ors.domain.radio.station.song.RadioStationSong;
 import com.mozdzo.ors.domain.radio.station.song.RadioStationSongs;
+import com.mozdzo.ors.domain.song.Song;
 import com.mozdzo.ors.domain.song.Songs;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
@@ -25,6 +27,18 @@ public class CreateRadioStationSong {
         this.playedTime = playedTime;
     }
 
+    public long getSongId() {
+        return songId;
+    }
+
+    public long getRadioStationId() {
+        return radioStationId;
+    }
+
+    public ZonedDateTime getPlayedTime() {
+        return playedTime;
+    }
+
     private RadioStationSong toRadioStationSong() {
         return new RadioStationSong(radioStationId, songId, playedTime);
     }
@@ -37,27 +51,31 @@ public class CreateRadioStationSong {
 
         private final ApplicationEventPublisher applicationEventPublisher;
 
-        public Handler(RadioStationSongs radioStationSongs,
-                       Validator validator,
-                       ApplicationEventPublisher applicationEventPublisher) {
+        private final Songs songs;
+
+        public Handler(RadioStationSongs radioStationSongs, Validator validator,
+                       ApplicationEventPublisher applicationEventPublisher, Songs songs) {
             this.radioStationSongs = radioStationSongs;
             this.validator = validator;
             this.applicationEventPublisher = applicationEventPublisher;
+            this.songs = songs;
         }
 
         @Transactional
         public Result handle(CreateRadioStationSong command) {
             validator.validate(command);
             RadioStationSong radioStationSong = radioStationSongs.save(command.toRadioStationSong());
-            //TODO:
-//            applicationEventPublisher.publishEvent(
-//                    new SongCreated(
-//                            radioStationSong,
-//                            new SongCreated.Data(
-//                                    radioStationSong.getUniqueId(),
-//                                    radioStationSong.getTitle()
-//                            ))
-//            );
+
+            Song song = songs.findById(command.songId).get();
+            applicationEventPublisher.publishEvent(
+                    new RadioStationSongCreated(
+                            radioStationSong,
+                            new RadioStationSongCreated.Data(
+                                    radioStationSong.getUniqueId(),
+                                    song.getUniqueId(),
+                                    radioStationSong.getPlayedTime()
+                            ))
+            );
             return new Result(radioStationSong.getId());
         }
     }

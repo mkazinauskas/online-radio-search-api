@@ -36,15 +36,15 @@ public class RadioStationSong {
     private long songId;
 
     @Column(name = "playing_time")
-    private ZonedDateTime playingTime;
+    private ZonedDateTime playedTime;
 
     RadioStationSong() {
     }
 
-    public RadioStationSong(long radioStationId, long songId, ZonedDateTime playingTime) {
+    public RadioStationSong(long radioStationId, long songId, ZonedDateTime playedTime) {
         this.radioStationId = radioStationId;
         this.songId = songId;
-        this.playingTime = playingTime;
+        this.playedTime = playedTime;
     }
 
     public Long getId() {
@@ -79,12 +79,12 @@ public class RadioStationSong {
         this.songId = songId;
     }
 
-    public ZonedDateTime getPlayingTime() {
-        return playingTime;
+    public ZonedDateTime getPlayedTime() {
+        return playedTime;
     }
 
-    public void setPlayingTime(ZonedDateTime playingTime) {
-        this.playingTime = playingTime;
+    public void setPlayedTime(ZonedDateTime playedTime) {
+        this.playedTime = playedTime;
     }
 }
 

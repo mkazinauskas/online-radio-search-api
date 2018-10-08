@@ -24,7 +24,7 @@ public class RadioStationSongResponse {
     }
 
     static RadioStationSongResponse create(RadioStationSong radioStationSong) {
-        return new RadioStationSongResponse(radioStationSong.getId(), radioStationSong.getSongId(), radioStationSong.getPlayingTime());
+        return new RadioStationSongResponse(radioStationSong.getId(), radioStationSong.getSongId(), radioStationSong.getPlayedTime());
     }
 
     public long getId() {

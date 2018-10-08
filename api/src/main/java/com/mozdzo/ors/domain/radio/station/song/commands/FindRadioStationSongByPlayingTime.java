@@ -34,7 +34,7 @@ public class FindRadioStationSongByPlayingTime {
         @Transactional(readOnly = true)
         public Optional<RadioStationSong> handle(FindRadioStationSongByPlayingTime command) {
             validator.validate(command);
-            return radioStationSongs.findByRadioStationIdAndPlayingTime(command.radioStationId, command.playedTime);
+            return radioStationSongs.findByRadioStationIdAndPlayedTime(command.radioStationId, command.playedTime);
         }
     }
 

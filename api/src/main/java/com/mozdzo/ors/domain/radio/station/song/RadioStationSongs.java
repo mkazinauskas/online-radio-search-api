@@ -8,7 +8,7 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 
 public interface RadioStationSongs extends JpaRepository<RadioStationSong, Long> {
-    Optional<RadioStationSong> findByRadioStationIdAndPlayingTime(long radioStationId, ZonedDateTime playedTime);
+    Optional<RadioStationSong> findByRadioStationIdAndPlayedTime(long radioStationId, ZonedDateTime playedTime);
 
     Optional<RadioStationSong> findByRadioStationIdAndId(long radioStationId, long songId);
 
