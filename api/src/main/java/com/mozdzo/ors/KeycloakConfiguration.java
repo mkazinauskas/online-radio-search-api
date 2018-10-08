@@ -17,15 +17,11 @@ import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper
 import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+
 @Configuration
 @EnableWebSecurity
 public class KeycloakConfiguration extends KeycloakWebSecurityConfigurerAdapter {
-    @Bean
-    public GrantedAuthoritiesMapper grantedAuthoritiesMapper() {
-        SimpleAuthorityMapper mapper = new SimpleAuthorityMapper();
-        mapper.setConvertToUpperCase(true);
-        return mapper;
-    }
 
     @Override
     protected KeycloakAuthenticationProvider keycloakAuthenticationProvider() {
@@ -40,18 +36,27 @@ public class KeycloakConfiguration extends KeycloakWebSecurityConfigurerAdapter 
     }
 
     @Override
-    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-        return new NullAuthenticatedSessionStrategy();
-    }
-
-    @Override
     protected void configure(final HttpSecurity http) throws Exception {
         super.configure(http);
-        http
+        http.sessionManagement().sessionCreationPolicy(STATELESS)
+                .and()
+                .csrf().disable()
                 .authorizeRequests()
                 .mvcMatchers("/admin/**").hasRole("ADMIN")
                 .mvcMatchers("/user/**").hasRole("USER")
                 .mvcMatchers("/**").permitAll();
+    }
+
+    @Override
+    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+        return new NullAuthenticatedSessionStrategy();
+    }
+
+    @Bean
+    public GrantedAuthoritiesMapper grantedAuthoritiesMapper() {
+        SimpleAuthorityMapper mapper = new SimpleAuthorityMapper();
+        mapper.setConvertToUpperCase(true);
+        return mapper;
     }
 
     @Bean
@@ -62,7 +67,8 @@ public class KeycloakConfiguration extends KeycloakWebSecurityConfigurerAdapter 
     @Bean
     public FilterRegistrationBean keycloakAuthenticationProcessingFilterRegistrationBean(
             KeycloakAuthenticationProcessingFilter filter) {
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
+        FilterRegistrationBean<KeycloakAuthenticationProcessingFilter> registrationBean =
+                new FilterRegistrationBean<>(filter);
         registrationBean.setEnabled(false);
         return registrationBean;
     }
@@ -70,7 +76,7 @@ public class KeycloakConfiguration extends KeycloakWebSecurityConfigurerAdapter 
     @Bean
     public FilterRegistrationBean keycloakPreAuthActionsFilterRegistrationBean(
             KeycloakPreAuthActionsFilter filter) {
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
+        FilterRegistrationBean<KeycloakPreAuthActionsFilter> registrationBean = new FilterRegistrationBean<>(filter);
         registrationBean.setEnabled(false);
         return registrationBean;
     }

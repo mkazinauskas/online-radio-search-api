@@ -1,5 +1,5 @@
 .idea
-*.yaml
 .gradle
 out
 build
+data

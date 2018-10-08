@@ -4,8 +4,6 @@ import groovy.transform.CompileStatic
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 
-import java.nio.charset.Charset
-
 @CompileStatic
 class HttpEntityBuilder<B> {
 
@@ -17,7 +15,7 @@ class HttpEntityBuilder<B> {
         return new HttpEntityBuilder<B>()
     }
 
-    def <B> HttpEntityBuilder<B> body(B body) {
+    HttpEntityBuilder<B> body(B body) {
         this.body = body
         return this
     }
@@ -27,16 +25,11 @@ class HttpEntityBuilder<B> {
         return this
     }
 
-    HttpEntityBuilder<B> basic(String username, String password) {
-        String auth = "${username}:${password}"
-
-        String encoded = Base64.encoder.encodeToString(auth.getBytes(Charset.forName('US-ASCII')))
-
-        headers.add('Authorization', "Basic ${encoded}")
-        return this
-    }
-
     HttpEntity<B> build() {
         return new HttpEntity(body, headers)
+    }
+
+    static HttpEntity<B> quick() {
+        return builder().build()
     }
 }

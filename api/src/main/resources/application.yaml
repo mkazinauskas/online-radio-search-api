@@ -1,9 +1,22 @@
-server.port: 9002
+server:
+  port: 8080
 
-keycloak.realm: spring-security-example
-keycloak.bearer-only: true
-keycloak.auth-server-url: http://localhost:8080/auth
-keycloak.ssl-required: external
-keycloak.resource: spring-security-demo-app
-keycloak.use-resource-role-mappings: true
-keycloak.principal-attribute: preferred_username
+spring:
+  profiles.active: prod
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties.hibernate.jdbc.lob.non_contextual_creation: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://hostname:port/databasename
+    username: username
+    password: password
+
+keycloak:
+  auth-server-url: http://localhost:8081/auth
+  resource: keycloak-demo-app
+  realm: spring-security-example
+  principal-attribute: preferred_username
+  bearer-only: true
+  use-resource-role-mappings: true

@@ -28,3 +28,9 @@ Execute commands inside container
 # Update realms and users
 1. Edit `docker/keycloak/setup/setup.sh`
 2. Run this file inside your local keycloak installation bin folder
+
+# Todo list:
+* Latest searches
+* Create elastic search repository for full text search
+* Create docker images to run locally 
+* REn some db tables
