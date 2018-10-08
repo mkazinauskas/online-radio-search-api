@@ -12,15 +12,15 @@ public class RadioStationSongResponse {
 
     private final long songId;
 
-    private final ZonedDateTime playingTime;
+    private final ZonedDateTime playedTime;
 
     @JsonCreator
     private RadioStationSongResponse(@JsonProperty("id") long id,
                                      @JsonProperty("songId") long songId,
-                                     @JsonProperty("playingTime") ZonedDateTime playingTime) {
+                                     @JsonProperty("playedTime") ZonedDateTime playedTime) {
         this.id = id;
         this.songId = songId;
-        this.playingTime = playingTime;
+        this.playedTime = playedTime;
     }
 
     static RadioStationSongResponse create(RadioStationSong radioStationSong) {
@@ -35,7 +35,7 @@ public class RadioStationSongResponse {
         return songId;
     }
 
-    public ZonedDateTime getPlayingTime() {
-        return playingTime;
+    public ZonedDateTime getPlayedTime() {
+        return playedTime;
     }
 }
