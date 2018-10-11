@@ -12,6 +12,11 @@ spring:
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
     url: jdbc:tc:postgresql:10://hostname/databasename
 
+elasticsearch:
+  host: localhost
+  port: 9300
+  clustername: online_radio_search
+
 test:
   keycloak:
     port: 8081
@@ -22,6 +27,8 @@ test:
     port: 8885
   elastic.search:
     port: 9200
+    apiPort: 9300
+    clusterName: online_radio_search
 
 keycloak:
   auth-server-url: http://localhost:8081/auth

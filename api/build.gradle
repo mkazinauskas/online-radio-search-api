@@ -40,6 +40,9 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.8'
     implementation 'org.jsoup:jsoup:1.8.3'
 
+//    implementation 'org.elasticsearch.plugin:transport-netty3-client'
+    implementation 'org.elasticsearch.client:transport'
+
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 
     runtime 'org.postgresql:postgresql'

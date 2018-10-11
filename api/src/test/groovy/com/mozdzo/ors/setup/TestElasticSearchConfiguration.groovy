@@ -13,9 +13,9 @@ class TestElasticSearchConfiguration {
     @Min(1L)
     int port
 
-    @NotBlank
-    String username
+    @Min(1L)
+    int apiPort
 
     @NotBlank
-    String password
+    String clusterName
 }
