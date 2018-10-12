@@ -2,9 +2,6 @@ package com.mozdzo.ors.resources.admin.radio.station.create
 
 import com.mozdzo.ors.HttpEntityBuilder
 import com.mozdzo.ors.resources.IntegrationSpec
-import com.mozdzo.ors.search.RadioStationDocument
-import com.mozdzo.ors.search.RadioStationsRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 
 import static com.mozdzo.ors.TestUsers.ADMIN

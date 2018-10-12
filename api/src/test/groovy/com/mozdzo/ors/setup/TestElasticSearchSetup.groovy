@@ -2,7 +2,6 @@ package com.mozdzo.ors.setup
 
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.DisposableBean
-import org.springframework.beans.factory.InitializingBean
 import org.springframework.stereotype.Component
 import org.springframework.test.context.ActiveProfiles
 import org.testcontainers.containers.FixedHostPortGenericContainer
@@ -15,7 +14,7 @@ import static java.time.Duration.ofSeconds
 @ActiveProfiles(value = 'test')
 @Component
 @Slf4j
-class TestElasticSearchSetup implements InitializingBean, DisposableBean {
+class TestElasticSearchSetup implements ParallelInitializationBean, DisposableBean {
     private final TestElasticSearchConfiguration elasticSearchConfig
     private final ElasticSearchContainer container
 
@@ -29,7 +28,7 @@ class TestElasticSearchSetup implements InitializingBean, DisposableBean {
     }
 
     @Override
-    void afterPropertiesSet() throws Exception {
+    void initialize() throws Exception {
         container.start()
     }
 

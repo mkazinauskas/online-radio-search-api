@@ -3,7 +3,6 @@ package com.mozdzo.ors.setup
 import groovy.util.logging.Slf4j
 import org.keycloak.test.TestsHelper
 import org.springframework.beans.factory.DisposableBean
-import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.test.context.ActiveProfiles
@@ -17,7 +16,7 @@ import static java.time.Duration.ofSeconds
 @ActiveProfiles(value = 'test')
 @Component
 @Slf4j
-class TestKeycloakSetup implements InitializingBean, DisposableBean {
+class TestKeycloakSetup implements ParallelInitializationBean, DisposableBean {
     private final TestKeycloakConfiguration keycloakConfig
     private final String realm
     private final String authServerUrl
@@ -35,7 +34,7 @@ class TestKeycloakSetup implements InitializingBean, DisposableBean {
     }
 
     @Override
-    void afterPropertiesSet() throws Exception {
+    void initialize() throws Exception {
         container.start()
 
         TestsHelper.baseUrl = authServerUrl
