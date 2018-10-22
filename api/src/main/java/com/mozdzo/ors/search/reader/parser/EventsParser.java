@@ -2,6 +2,7 @@ package com.mozdzo.ors.search.reader.parser;
 
 import com.mozdzo.ors.domain.events.DomainEvent;
 import com.mozdzo.ors.domain.events.Event;
+import com.mozdzo.ors.search.parsedevents.ParsedEvent;
 import com.mozdzo.ors.search.parsedevents.ParsedEvents;
 import org.springframework.stereotype.Component;
 
@@ -31,8 +32,6 @@ public class EventsParser {
             throw new IllegalArgumentException(format("Cannot find event parser for ", eventClass.getName()));
         }
         eventParser.parse(event);
-
+        parsedEvents.save(new ParsedEvent(event.getId()));
     }
-
-
 }

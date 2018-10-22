@@ -8,27 +8,15 @@ import java.time.ZonedDateTime;
 @Document(indexName = "parsed_events", type = "parsed_event")
 public class ParsedEvent {
     @Id
-    private String uniqueId;
-
     private Long eventId;
 
-    private ZonedDateTime date;
+    private ZonedDateTime date = ZonedDateTime.now();
 
     public ParsedEvent() {
     }
 
-    public ParsedEvent(String uniqueId, Long eventId, ZonedDateTime date) {
-        this.uniqueId = uniqueId;
+    public ParsedEvent(Long eventId) {
         this.eventId = eventId;
-        this.date = date;
-    }
-
-    public String getUniqueId() {
-        return uniqueId;
-    }
-
-    public void setUniqueId(String uniqueId) {
-        this.uniqueId = uniqueId;
     }
 
     public Long getEventId() {
