@@ -1,4 +1,6 @@
-package com.mozdzo.ors.search;
+package com.mozdzo.ors.search.parsedevents;
 
-public class ParsedEvents {
+import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+
+public interface ParsedEvents extends ElasticsearchRepository<ParsedEvent, String> {
 }

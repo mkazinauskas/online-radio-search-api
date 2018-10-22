@@ -5,13 +5,13 @@ import org.springframework.context.ApplicationEvent;
 
 import java.io.IOException;
 
-abstract class DomainEvent extends ApplicationEvent {
+public abstract class DomainEvent extends ApplicationEvent {
 
     DomainEvent(Object source) {
         super(source);
     }
 
-    abstract static class Data {
+    public abstract static class Data {
         public static <T extends Data> T deserialize(String body, Class<T> eventDataClass) {
             try {
                 return EventObjectMapper.mapper.readValue(body, eventDataClass);
