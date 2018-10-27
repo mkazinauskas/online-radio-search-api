@@ -2,6 +2,11 @@ package com.mozdzo.ors.search;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Document(indexName = "online_radio_search", type = "radio_station")
 public class RadioStationDocument {
@@ -10,7 +15,10 @@ public class RadioStationDocument {
 
     private String title;
 
-    public RadioStationDocument() {
+    @Field( type = FieldType.Nested)
+    private List<RadioStationStreamDocument> streams = new ArrayList<>();
+
+    RadioStationDocument() {
     }
 
     public RadioStationDocument(String uniqueId, String title) {
@@ -32,5 +40,13 @@ public class RadioStationDocument {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<RadioStationStreamDocument> getStreams() {
+        return streams;
+    }
+
+    public void setStreams(List<RadioStationStreamDocument> streams) {
+        this.streams = streams;
     }
 }
