@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
+import static java.lang.String.valueOf;
 
 @Component
 public class EventsParser {
@@ -29,9 +30,14 @@ public class EventsParser {
         Class<? extends DomainEvent.Data> eventClass = event.getType().getEventClass();
         EventParser eventParser = eventsParsers.get(eventClass);
         if (eventParser == null) {
-            throw new IllegalArgumentException(format("Cannot find event parser for ", eventClass.getName()));
+            throw new IllegalArgumentException(
+                    format(
+                            "Cannot find event parser for ",
+                            eventClass.getName()
+                    )
+            );
         }
         eventParser.parse(event);
-        parsedEvents.save(new ParsedEvent(event.getId()));
+        parsedEvents.save(new ParsedEvent(valueOf(event.getId())));
     }
 }

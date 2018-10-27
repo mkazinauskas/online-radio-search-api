@@ -34,6 +34,7 @@ public class RadioStationStreamCreated extends DomainEvent {
         }
     }
 
+    @Override
     Data getData() {
         return this.data;
     }
@@ -41,5 +42,10 @@ public class RadioStationStreamCreated extends DomainEvent {
     @Override
     Event.Type type() {
         return RADIO_STATION_STREAM_CREATED;
+    }
+
+    @Override
+    String uniqueId() {
+        return this.data.uniqueId;
     }
 }

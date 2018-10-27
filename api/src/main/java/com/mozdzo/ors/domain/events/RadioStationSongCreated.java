@@ -45,6 +45,7 @@ public class RadioStationSongCreated extends DomainEvent {
         }
     }
 
+    @Override
     Data getData() {
         return this.data;
     }
@@ -52,5 +53,10 @@ public class RadioStationSongCreated extends DomainEvent {
     @Override
     Event.Type type() {
         return RADIO_STATION_SONG_CREATED;
+    }
+
+    @Override
+    String uniqueId() {
+        return this.data.uniqueId;
     }
 }

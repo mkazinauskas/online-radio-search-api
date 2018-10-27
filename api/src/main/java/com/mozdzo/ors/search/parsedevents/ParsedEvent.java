@@ -8,22 +8,22 @@ import java.time.ZonedDateTime;
 @Document(indexName = "parsed_events", type = "parsed_event")
 public class ParsedEvent {
     @Id
-    private Long eventId;
+    private String eventId;
 
     private ZonedDateTime date = ZonedDateTime.now();
 
     public ParsedEvent() {
     }
 
-    public ParsedEvent(Long eventId) {
+    public ParsedEvent(String eventId) {
         this.eventId = eventId;
     }
 
-    public Long getEventId() {
+    public String getEventId() {
         return eventId;
     }
 
-    public void setEventId(Long eventId) {
+    public void setEventId(String eventId) {
         this.eventId = eventId;
     }
 

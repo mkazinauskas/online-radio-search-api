@@ -22,6 +22,9 @@ public class Event {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "entity_unique_id", nullable = false)
+    private String entityUniqueId;
+
     @Column(name = "created", nullable = false)
     private LocalDateTime created = now();
 
@@ -55,13 +58,24 @@ public class Event {
     Event() {
     }
 
+    @Deprecated
     public Event(Type type, String body) {
         this.type = type;
         this.body = body;
     }
 
+    public Event(Type type, String entityUniqueId, String body) {
+        this.type = type;
+        this.entityUniqueId = entityUniqueId;
+        this.body = body;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public String getEntityUniqueId() {
+        return entityUniqueId;
     }
 
     public LocalDateTime getCreated() {

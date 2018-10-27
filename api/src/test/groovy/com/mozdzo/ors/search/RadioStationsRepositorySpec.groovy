@@ -2,6 +2,7 @@ package com.mozdzo.ors.search
 
 import com.mozdzo.ors.resources.IntegrationSpec
 import org.springframework.beans.factory.annotation.Autowired
+import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils
 
 class RadioStationsRepositorySpec extends IntegrationSpec {
     @Autowired
@@ -9,11 +10,13 @@ class RadioStationsRepositorySpec extends IntegrationSpec {
 
     void 'should create radio station document in repository'() {
         when:
-            repository.save(new RadioStationDocument(id: 'asasdasd',
-                    title: 'title',
-                    author: 'author',
-                    releaseDate: '1212312'))
+            RadioStationDocument document = repository.save(
+                    new RadioStationDocument(
+                            RandomStringUtils.randomAlphanumeric(40),
+                            RandomStringUtils.randomAlphanumeric(10)
+                    )
+            )
         then:
-            repository.findById('asasdasd').get().title == 'title'
+            repository.findByUniqueId(document.uniqueId).get().title == document.title
     }
 }

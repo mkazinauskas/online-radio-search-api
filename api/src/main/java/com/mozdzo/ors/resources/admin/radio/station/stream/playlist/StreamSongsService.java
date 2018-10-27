@@ -77,11 +77,16 @@ class StreamSongsService {
                         .forEach(playedSong -> updateRadioStreamInfo(playedSong, radioStationId)));
     }
 
-    private void updateRadioStreamInfo(LastPlayedSongsScrapper.Response.PlayedSong playedSong, long radioStationId) {
-        Optional<RadioStationSong> foundSong = findSong.handle(new FindRadioStationSongByPlayingTime(radioStationId, playedSong.getPlayedTime()));
+    private void updateRadioStreamInfo(LastPlayedSongsScrapper.Response.PlayedSong playedSong,
+                                       long radioStationId) {
+        Optional<RadioStationSong> foundSong = findSong.handle(
+                new FindRadioStationSongByPlayingTime(radioStationId, playedSong.getPlayedTime())
+        );
         if (!foundSong.isPresent()) {
             Song song = findOrCreateSong(playedSong.getName());
-            createRadioStationSong.handle(new CreateRadioStationSong(song.getId(), radioStationId, playedSong.getPlayedTime()));
+            createRadioStationSong.handle(
+                    new CreateRadioStationSong(song.getId(), radioStationId, playedSong.getPlayedTime())
+            );
         }
     }
 

@@ -7,7 +7,11 @@ import org.springframework.data.elasticsearch.annotations.Document;
 public class RadioStationDocument {
     @Id
     private String uniqueId;
+
     private String title;
+
+    public RadioStationDocument() {
+    }
 
     public RadioStationDocument(String uniqueId, String title) {
         this.uniqueId = uniqueId;

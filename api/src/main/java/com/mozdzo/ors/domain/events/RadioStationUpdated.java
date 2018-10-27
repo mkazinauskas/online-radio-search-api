@@ -73,6 +73,7 @@ public class RadioStationUpdated extends DomainEvent {
         }
     }
 
+    @Override
     Data getData() {
         return this.data;
     }
@@ -80,5 +81,10 @@ public class RadioStationUpdated extends DomainEvent {
     @Override
     Event.Type type() {
         return RADIO_STATION_UPDATED;
+    }
+
+    @Override
+    String uniqueId() {
+        return this.data.uniqueId;
     }
 }

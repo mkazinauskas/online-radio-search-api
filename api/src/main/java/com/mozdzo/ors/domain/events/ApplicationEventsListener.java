@@ -18,6 +18,6 @@ class ApplicationEventsListener implements ApplicationListener<DomainEvent> {
     @Override
     @Transactional(propagation = MANDATORY)
     public void onApplicationEvent(DomainEvent domainEvent) {
-        events.save(new Event(domainEvent.type(), domainEvent.serialize()));
+        events.save(new Event(domainEvent.type(), domainEvent.uniqueId(), domainEvent.serialize()));
     }
 }

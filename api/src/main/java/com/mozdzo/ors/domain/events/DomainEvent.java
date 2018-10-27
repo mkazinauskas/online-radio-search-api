@@ -25,6 +25,8 @@ public abstract class DomainEvent extends ApplicationEvent {
 
     abstract Data getData();
 
+    abstract String uniqueId();
+
     String serialize() {
         try {
             return EventObjectMapper.mapper.writeValueAsString(this.getData());
