@@ -32,6 +32,10 @@ public class SongCreated extends DomainEvent {
         public String getTitle() {
             return title;
         }
+
+        public static SongCreated.Data deserialize(String body) {
+            return SongCreated.Data.deserialize(body, SongCreated.Data.class);
+        }
     }
 
     @Override

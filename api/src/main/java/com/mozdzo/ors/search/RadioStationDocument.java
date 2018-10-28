@@ -18,6 +18,9 @@ public class RadioStationDocument {
     @Field( type = FieldType.Nested)
     private List<RadioStationStreamDocument> streams = new ArrayList<>();
 
+    @Field( type = FieldType.Nested)
+    private List<RadioStationSongDocument> songs = new ArrayList<>();
+
     RadioStationDocument() {
     }
 
@@ -48,5 +51,13 @@ public class RadioStationDocument {
 
     public void setStreams(List<RadioStationStreamDocument> streams) {
         this.streams = streams;
+    }
+
+    public List<RadioStationSongDocument> getSongs() {
+        return songs;
+    }
+
+    public void setSongs(List<RadioStationSongDocument> songs) {
+        this.songs = songs;
     }
 }

@@ -4,16 +4,14 @@ import com.mozdzo.ors.domain.events.Event
 import com.mozdzo.ors.domain.events.Events
 import com.mozdzo.ors.domain.radio.station.RadioStation
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream
+import com.mozdzo.ors.domain.song.Song
 import com.mozdzo.ors.resources.IntegrationSpec
-import com.mozdzo.ors.search.RadioStationDocument
-import com.mozdzo.ors.search.RadioStationStreamDocument
-import com.mozdzo.ors.search.RadioStationsRepository
+import com.mozdzo.ors.search.*
 import com.mozdzo.ors.search.reader.parser.EventsParser
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 
-import static com.mozdzo.ors.domain.events.Event.Type.RADIO_STATION_CREATED
-import static com.mozdzo.ors.domain.events.Event.Type.RADIO_STATION_STREAM_CREATED
+import static com.mozdzo.ors.domain.events.Event.Type.*
 import static org.springframework.data.domain.Pageable.unpaged
 
 class EventsParserSpec extends IntegrationSpec {
@@ -25,7 +23,10 @@ class EventsParserSpec extends IntegrationSpec {
     private Events events
 
     @Autowired
-    private RadioStationsRepository repository
+    private RadioStationsRepository radioStationsRepository
+
+    @Autowired
+    private SongsRepository songsRepository
 
     void 'should process radio station'() {
         given:
@@ -33,7 +34,7 @@ class EventsParserSpec extends IntegrationSpec {
         when:
             processRadioStation(station)
         then:
-            Optional<RadioStationDocument> foundStation = repository.findByUniqueId(station.uniqueId)
+            Optional<RadioStationDocument> foundStation = radioStationsRepository.findByUniqueId(station.uniqueId)
             foundStation.get().title == station.title
     }
 
@@ -46,13 +47,23 @@ class EventsParserSpec extends IntegrationSpec {
         when:
             processRadioStationStream(stream)
         then:
-            Optional<RadioStationDocument> foundStation = repository.findByUniqueId(radioStation.uniqueId)
+            Optional<RadioStationDocument> foundStation = radioStationsRepository.findByUniqueId(radioStation.uniqueId)
             List<RadioStationStreamDocument> streams = foundStation.get().streams
             streams.size() == 1
         and:
             RadioStationStreamDocument resultStream = streams.first()
             resultStream.uniqueId == stream.uniqueId
             resultStream.url == stream.url
+    }
+
+    void 'should process song'() {
+        given:
+            Song song = testSong.create()
+        when:
+            processSong(song)
+        then:
+            SongDocument songDocument = songsRepository.findByUniqueId(song.uniqueId).get()
+            songDocument.title == song.title
     }
 
     private void processRadioStation(RadioStation radioStation) {
@@ -70,6 +81,17 @@ class EventsParserSpec extends IntegrationSpec {
         Page<Event> events = events.findAllByTypeAndEntityUniqueId(
                 RADIO_STATION_STREAM_CREATED,
                 radioStationStream.uniqueId,
+                unpaged()
+        )
+        assert events.content.size() == 1
+        Event event = events.content.first()
+        eventsParser.parseEvent(event)
+    }
+
+    private void processSong(Song song) {
+        Page<Event> events = events.findAllByTypeAndEntityUniqueId(
+                SONG_CREATED,
+                song.uniqueId,
                 unpaged()
         )
         assert events.content.size() == 1
