@@ -14,7 +14,7 @@ public class RadioStationSongDocument {
 
     private String title;
 
-    private ZonedDateTime playedTime;
+    private String playedTime;
 
     RadioStationSongDocument() {
     }
@@ -24,7 +24,7 @@ public class RadioStationSongDocument {
         this.uniqueId = uniqueId;
         this.radioStationUniqueId = radioStationUniqueId;
         this.title = title;
-        this.playedTime = playedTime;
+        this.playedTime = playedTime.toString();
     }
 
     public String getUniqueId() {
@@ -51,11 +51,11 @@ public class RadioStationSongDocument {
         this.title = title;
     }
 
-    public ZonedDateTime getPlayedTime() {
+    public String getPlayedTime() {
         return playedTime;
     }
 
-    public void setPlayedTime(ZonedDateTime playedTime) {
+    public void setPlayedTime(String playedTime) {
         this.playedTime = playedTime;
     }
 }
