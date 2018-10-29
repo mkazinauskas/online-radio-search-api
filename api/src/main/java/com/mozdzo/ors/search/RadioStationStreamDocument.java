@@ -39,11 +39,23 @@ public class RadioStationStreamDocument {
         return url;
     }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public Integer getBitRate() {
         return bitRate;
     }
 
+    public void setBitRate(Integer bitRate) {
+        this.bitRate = bitRate;
+    }
+
     public String getType() {
         return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

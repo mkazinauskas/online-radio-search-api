@@ -65,14 +65,18 @@ public class UpdateRadioStationStream {
     public static class Handler {
         private final RadioStationStreams radioStationStreams;
 
+        private final RadioStations radioStations;
+
         private final Validator validator;
 
         private final ApplicationEventPublisher applicationEventPublisher;
 
         public Handler(RadioStationStreams radioStationStreams,
+                       RadioStations radioStations,
                        Validator validator,
                        ApplicationEventPublisher applicationEventPublisher) {
             this.radioStationStreams = radioStationStreams;
+            this.radioStations = radioStations;
             this.validator = validator;
             this.applicationEventPublisher = applicationEventPublisher;
         }
@@ -87,10 +91,13 @@ public class UpdateRadioStationStream {
             stream.setType(command.data.type);
             stream.setUrl(command.data.url);
 
+            String radioStationUniqueId = radioStations.getOne(command.radioStationId).getUniqueId();
+
             applicationEventPublisher.publishEvent(
                     new RadioStationStreamUpdated(stream,
                             new RadioStationStreamUpdated.Data(
                                     stream.getUniqueId(),
+                                    radioStationUniqueId,
                                     command.data.url,
                                     command.data.bitRate,
                                     command.data.type.name()
