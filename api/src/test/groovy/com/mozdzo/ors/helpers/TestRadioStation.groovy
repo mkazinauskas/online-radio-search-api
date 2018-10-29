@@ -18,8 +18,16 @@ class TestRadioStation {
     private GetRadioStation.Handler getRadioStationHandler
 
     RadioStation create() {
-        CreateRadioStation createRadioStation = new CreateRadioStation(randomAlphanumeric(100))
+        CreateRadioStation createRadioStation = new CreateRadioStation(randomWebsite())
         long newStationId = createRadioStationHandler.handle(createRadioStation).id
         return getRadioStationHandler.handle(new GetRadioStation(newStationId))
+    }
+
+    static String randomWebsite() {
+        randomAlphanumeric(100)
+    }
+
+    static String randomTitle() {
+        randomAlphanumeric(40)
     }
 }

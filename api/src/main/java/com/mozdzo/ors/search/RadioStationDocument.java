@@ -6,7 +6,9 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Document(indexName = "online_radio_search", type = "radio_station")
 public class RadioStationDocument {
@@ -15,11 +17,16 @@ public class RadioStationDocument {
 
     private String title;
 
-    @Field( type = FieldType.Nested)
+    private String website;
+
+    @Field(type = FieldType.Nested)
     private List<RadioStationStreamDocument> streams = new ArrayList<>();
 
-    @Field( type = FieldType.Nested)
+    @Field(type = FieldType.Nested)
     private List<RadioStationSongDocument> songs = new ArrayList<>();
+
+    @Field(type = FieldType.Nested)
+    private Set<GenreDocument> genres = new LinkedHashSet<>();
 
     RadioStationDocument() {
     }
@@ -59,5 +66,21 @@ public class RadioStationDocument {
 
     public void setSongs(List<RadioStationSongDocument> songs) {
         this.songs = songs;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public Set<GenreDocument> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(Set<GenreDocument> genres) {
+        this.genres = new LinkedHashSet<>(genres);
     }
 }

@@ -54,6 +54,10 @@ public class GenreCreated extends DomainEvent {
             return title;
         }
 
+        public static GenreCreated.Data deserialize(String body) {
+            return GenreCreated.Data.deserialize(body, GenreCreated.Data.class);
+        }
+
     }
 
     @Override
