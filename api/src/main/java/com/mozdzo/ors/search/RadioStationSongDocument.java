@@ -1,5 +1,6 @@
 package com.mozdzo.ors.search;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
@@ -8,12 +9,16 @@ import java.time.ZonedDateTime;
 @Document(indexName = "online_radio_search", type = "radio_station_song")
 public class RadioStationSongDocument {
     @Id
+    @JsonProperty("uniqueId")
     private String uniqueId;
 
+    @JsonProperty("radioStationUniqueId")
     private String radioStationUniqueId;
 
+    @JsonProperty("title")
     private String title;
 
+    @JsonProperty("playedTime")
     private String playedTime;
 
     RadioStationSongDocument() {

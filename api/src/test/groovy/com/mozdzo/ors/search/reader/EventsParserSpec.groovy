@@ -11,6 +11,7 @@ import com.mozdzo.ors.domain.radio.station.stream.commands.UpdateRadioStationStr
 import com.mozdzo.ors.domain.song.Song
 import com.mozdzo.ors.resources.IntegrationSpec
 import com.mozdzo.ors.search.*
+import com.mozdzo.ors.search.parsedevents.ParsedEvents
 import com.mozdzo.ors.search.reader.parser.EventParser
 import com.mozdzo.ors.search.reader.parser.EventsParser
 import org.springframework.beans.factory.annotation.Autowired
@@ -46,6 +47,9 @@ class EventsParserSpec extends IntegrationSpec {
 
     @Autowired
     private GenresRepository genresRepository
+
+    @Autowired
+    private ParsedEvents parsedEvents
 
     @Unroll
     void 'event type `#eventType` should have parser'() {
@@ -227,5 +231,7 @@ class EventsParserSpec extends IntegrationSpec {
         assert events.content.size() == 1
         Event event = events.content.first()
         eventsParser.parseEvent(event)
+
+        assert parsedEvents.findByEventId(event.id.toString()).get()
     }
 }

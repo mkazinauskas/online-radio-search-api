@@ -1,13 +1,16 @@
 package com.mozdzo.ors.search;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 @Document(indexName = "genres", type = "genre")
 public class GenreDocument {
     @Id
+    @JsonProperty("uniqueId")
     private String uniqueId;
 
+    @JsonProperty("title")
     private String title;
 
     GenreDocument() {

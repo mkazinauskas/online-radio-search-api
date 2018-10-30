@@ -1,19 +1,25 @@
 package com.mozdzo.ors.search;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 @Document(indexName = "online_radio_search", type = "radio_station_stream")
 public class RadioStationStreamDocument {
     @Id
+    @JsonProperty("uniqueId")
     private String uniqueId;
 
+    @JsonProperty("radioStationUniqueId")
     private String radioStationUniqueId;
 
+    @JsonProperty("url")
     private String url;
 
+    @JsonProperty("bitRate")
     private Integer bitRate;
 
+    @JsonProperty("type")
     private String type;
 
     RadioStationStreamDocument() {

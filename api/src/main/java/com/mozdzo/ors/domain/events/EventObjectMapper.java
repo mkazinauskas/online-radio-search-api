@@ -7,7 +7,7 @@ import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS
 
 public class EventObjectMapper {
 
-    static final ObjectMapper mapper = init();
+    static final ObjectMapper MAPPER = init();
 
     private static ObjectMapper init() {
         ObjectMapper objectMapper = new ObjectMapper();

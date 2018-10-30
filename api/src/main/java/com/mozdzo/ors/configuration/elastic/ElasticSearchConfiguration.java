@@ -1,4 +1,4 @@
-package com.mozdzo.ors;
+package com.mozdzo.ors.configuration.elastic;
 
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
@@ -16,7 +16,7 @@ import java.net.InetAddress;
 
 @Configuration
 @EnableElasticsearchRepositories(basePackages = "com.modzo.ors.search")
-public class ElasticSearchConfiguration {
+class ElasticSearchConfiguration {
 
     @Value("${elasticsearch.host}")
     private String elasticSearchHost;
@@ -28,7 +28,7 @@ public class ElasticSearchConfiguration {
     private String elastiSearchClusterName;
 
     @Bean
-    public Client client() throws Exception {
+    Client client() throws Exception {
         Settings elasticsearchSettings = Settings.builder()
                 .put("client.transport.sniff", true)
                 .put("cluster.name", elastiSearchClusterName).build();
@@ -40,8 +40,7 @@ public class ElasticSearchConfiguration {
     }
 
     @Bean
-    public ElasticsearchOperations elasticsearchTemplate() throws Exception {
+    ElasticsearchOperations elasticsearchTemplate() throws Exception {
         return new ElasticsearchTemplate(client());
     }
-
 }

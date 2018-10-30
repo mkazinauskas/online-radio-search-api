@@ -1,5 +1,6 @@
 package com.mozdzo.ors.search.parsedevents;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
@@ -8,8 +9,10 @@ import java.time.ZonedDateTime;
 @Document(indexName = "parsed_events", type = "parsed_event")
 public class ParsedEvent {
     @Id
+    @JsonProperty("eventId")
     private String eventId;
 
+    @JsonProperty("date")
     private ZonedDateTime date = ZonedDateTime.now();
 
     public ParsedEvent() {

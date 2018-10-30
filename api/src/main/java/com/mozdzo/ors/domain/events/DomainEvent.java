@@ -14,7 +14,7 @@ public abstract class DomainEvent extends ApplicationEvent {
     public abstract static class Data {
         public static <T extends Data> T deserialize(String body, Class<T> eventDataClass) {
             try {
-                return EventObjectMapper.mapper.readValue(body, eventDataClass);
+                return EventObjectMapper.MAPPER.readValue(body, eventDataClass);
             } catch (IOException e) {
                 throw new EventDeserializationFailedException(body, eventDataClass);
             }
@@ -29,7 +29,7 @@ public abstract class DomainEvent extends ApplicationEvent {
 
     String serialize() {
         try {
-            return EventObjectMapper.mapper.writeValueAsString(this.getData());
+            return EventObjectMapper.MAPPER.writeValueAsString(this.getData());
         } catch (JsonProcessingException e) {
             throw new EventSerializationFailedException(this.getClass());
         }
