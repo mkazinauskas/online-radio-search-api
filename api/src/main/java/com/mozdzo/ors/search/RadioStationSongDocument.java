@@ -19,7 +19,7 @@ public class RadioStationSongDocument {
     private String title;
 
     @JsonProperty("playedTime")
-    private String playedTime;
+    private ZonedDateTime playedTime;
 
     RadioStationSongDocument() {
     }
@@ -29,7 +29,7 @@ public class RadioStationSongDocument {
         this.uniqueId = uniqueId;
         this.radioStationUniqueId = radioStationUniqueId;
         this.title = title;
-        this.playedTime = playedTime.toString();
+        this.playedTime = playedTime;
     }
 
     public String getUniqueId() {
@@ -56,11 +56,11 @@ public class RadioStationSongDocument {
         this.title = title;
     }
 
-    public String getPlayedTime() {
+    public ZonedDateTime getPlayedTime() {
         return playedTime;
     }
 
-    public void setPlayedTime(String playedTime) {
+    public void setPlayedTime(ZonedDateTime playedTime) {
         this.playedTime = playedTime;
     }
 }
