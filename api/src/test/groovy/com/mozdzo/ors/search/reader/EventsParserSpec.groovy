@@ -14,13 +14,11 @@ import com.mozdzo.ors.search.*
 import com.mozdzo.ors.search.parsedevents.ParsedEvents
 import com.mozdzo.ors.search.reader.parser.EventParser
 import com.mozdzo.ors.search.reader.parser.EventsParser
+import com.mozdzo.ors.search.reader.parser.EventsProcessor
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Page
 import spock.lang.Unroll
 
-import static com.mozdzo.ors.domain.events.Event.Type.*
 import static com.mozdzo.ors.domain.radio.station.stream.RadioStationStream.Type.ACC
-import static org.springframework.data.domain.Pageable.unpaged
 
 class EventsParserSpec extends IntegrationSpec {
 
@@ -51,19 +49,22 @@ class EventsParserSpec extends IntegrationSpec {
     @Autowired
     private ParsedEvents parsedEvents
 
+    @Autowired
+    private EventsProcessor eventsProcessor
+
     @Unroll
     void 'event type `#eventType` should have parser'() {
         expect:
             eventParsers.find { it.eventClass() == eventType.eventClass }
         where:
-            eventType << values()
+            eventType << Event.Type.values()
     }
 
     void 'should process radio station'() {
         given:
             RadioStation station = testRadioStation.create()
         when:
-            processRadioStation(station)
+            eventsProcessor.process()
         then:
             Optional<RadioStationDocument> foundStation = radioStationsRepository.findByUniqueId(station.uniqueId)
             foundStation.get().title == station.title
@@ -73,7 +74,7 @@ class EventsParserSpec extends IntegrationSpec {
         given:
             Genre genre = testGenre.create()
         when:
-            processGenre(genre)
+            eventsProcessor.process()
         then:
             GenreDocument genreDocument = genresRepository.findByUniqueId(genre.uniqueId).get()
             genreDocument.uniqueId == genre.uniqueId
@@ -83,13 +84,11 @@ class EventsParserSpec extends IntegrationSpec {
     void 'should process updated radio station'() {
         given:
             RadioStation station = testRadioStation.create()
-            processRadioStation(station)
         and:
             String newTitle = testRadioStation.randomTitle()
             String newWebsite = testRadioStation.randomWebsite()
         and:
             Genre genre = testGenre.create()
-            processGenre(genre)
         when:
             updateRadioStationHandler.handle(
                     new UpdateRadioStation(station.id,
@@ -100,7 +99,7 @@ class EventsParserSpec extends IntegrationSpec {
                             )
                     )
             )
-            processRadioStationUpdate(station)
+            eventsProcessor.process()
         then:
             RadioStationDocument foundStation = radioStationsRepository
                     .findByUniqueId(station.uniqueId).get()
@@ -117,11 +116,10 @@ class EventsParserSpec extends IntegrationSpec {
     void 'should process radio station stream'() {
         given:
             RadioStation radioStation = testRadioStation.create()
-            processRadioStation(radioStation)
         and:
             RadioStationStream stream = testRadioStationStream.create(radioStation.id)
         when:
-            processRadioStationStream(stream)
+            eventsProcessor.process()
         then:
             Optional<RadioStationDocument> foundStation = radioStationsRepository.findByUniqueId(radioStation.uniqueId)
             List<RadioStationStreamDocument> streams = foundStation.get().streams
@@ -135,10 +133,8 @@ class EventsParserSpec extends IntegrationSpec {
     void 'should update radio station stream'() {
         given:
             RadioStation radioStation = testRadioStation.create()
-            processRadioStation(radioStation)
         and:
             RadioStationStream stream = testRadioStationStream.create(radioStation.id)
-            processRadioStationStream(stream)
         and:
             String newStreamUrl = testRadioStationStream.randomStreamUrl()
         when:
@@ -148,7 +144,7 @@ class EventsParserSpec extends IntegrationSpec {
                                     newStreamUrl, 192, ACC)
                     )
             )
-            processRadioStationStreamUpdate(stream)
+            eventsProcessor.process()
         then:
             Optional<RadioStationDocument> foundStation = radioStationsRepository.findByUniqueId(radioStation.uniqueId)
             List<RadioStationStreamDocument> streams = foundStation.get().streams
@@ -165,7 +161,7 @@ class EventsParserSpec extends IntegrationSpec {
         given:
             Song song = testSong.create()
         when:
-            processSong(song)
+            eventsProcessor.process()
         then:
             SongDocument songDocument = songsRepository.findByUniqueId(song.uniqueId).get()
             songDocument.title == song.title
@@ -174,16 +170,11 @@ class EventsParserSpec extends IntegrationSpec {
     void 'should process radio station song'() {
         given:
             RadioStation radioStation = testRadioStation.create()
-            processRadioStation(radioStation)
-        and:
-            RadioStationStream stream = testRadioStationStream.create(radioStation.id)
-            processRadioStationStream(stream)
         and:
             Song song = testSong.create()
-            processSong(song)
         when:
             RadioStationSong radioStationSong = testRadioStationSong.create(radioStation.id, song.id)
-            processRadioStationSong(radioStationSong)
+            eventsProcessor.process()
         then:
             Optional<RadioStationDocument> foundStation = radioStationsRepository.findByUniqueId(radioStation.uniqueId)
             List<RadioStationSongDocument> songs = foundStation.get().songs
@@ -192,46 +183,5 @@ class EventsParserSpec extends IntegrationSpec {
             RadioStationSongDocument resultSong = songs.first()
             resultSong.uniqueId == radioStationSong.uniqueId
             resultSong.title == song.title
-    }
-
-    private void processRadioStationUpdate(RadioStation station) {
-        processEvent(RADIO_STATION_UPDATED, station.uniqueId)
-    }
-
-    private void processGenre(Genre genre) {
-        processEvent(GENRE_CREATED, genre.uniqueId)
-    }
-
-    private void processRadioStation(RadioStation radioStation) {
-        processEvent(RADIO_STATION_CREATED, radioStation.uniqueId)
-    }
-
-    private void processRadioStationStream(RadioStationStream radioStationStream) {
-        processEvent(RADIO_STATION_STREAM_CREATED, radioStationStream.uniqueId)
-    }
-
-    private void processRadioStationStreamUpdate(RadioStationStream radioStationStream) {
-        processEvent(RADIO_STATION_STREAM_UPDATED, radioStationStream.uniqueId)
-    }
-
-    private void processSong(Song song) {
-        processEvent(SONG_CREATED, song.uniqueId)
-    }
-
-    private void processRadioStationSong(RadioStationSong radioStationSong) {
-        processEvent(RADIO_STATION_SONG_CREATED, radioStationSong.uniqueId)
-    }
-
-    private void processEvent(Event.Type type, String uniqueId) {
-        Page<Event> events = events.findAllByTypeAndEntityUniqueId(
-                type,
-                uniqueId,
-                unpaged()
-        )
-        assert events.content.size() == 1
-        Event event = events.content.first()
-        eventsParser.parseEvent(event)
-
-        assert parsedEvents.findByEventId(event.id.toString()).get()
     }
 }

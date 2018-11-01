@@ -11,15 +11,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
-import static java.lang.String.valueOf;
 
 @Component
-public class EventsParser {
+class EventsParser {
     private final ParsedEvents parsedEvents;
 
     private final Map<Class, EventParser> eventsParsers;
 
-    public EventsParser(ParsedEvents parsedEvents, List<EventParser> eventsParsers) {
+    EventsParser(ParsedEvents parsedEvents, List<EventParser> eventsParsers) {
         this.parsedEvents = parsedEvents;
         this.eventsParsers = eventsParsers
                 .stream()
@@ -38,6 +37,6 @@ public class EventsParser {
             );
         }
         eventParser.parse(event);
-        parsedEvents.save(new ParsedEvent(valueOf(event.getId())));
+        parsedEvents.save(new ParsedEvent(event.getId()));
     }
 }
