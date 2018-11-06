@@ -43,6 +43,6 @@ public class EventsProcessor {
     }
 
     private Optional<Event> nextEvent(ParsedEvent parsedEvent) {
-        return events.findTop1ByIdGreaterThanOrderByIdAsc(parsedEvent.getId());
+        return events.findTop1ByIdGreaterThanOrderByIdAsc(parsedEvent.getEventId());
     }
 }

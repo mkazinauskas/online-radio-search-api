@@ -36,8 +36,7 @@ class RadioStationSongCreatedEventParser implements EventParser {
 
     @Override
     public void parse(Event event) {
-        RadioStationSongCreated.Data data = RadioStationSongCreated.
-                Data.deserialize(event.getBody());
+        RadioStationSongCreated.Data data = RadioStationSongCreated.Data.deserialize(event.getBody());
 
         RadioStationDocument radioStationDocument = findRadioStationHandler.handle(
                 new FindRadioStationByUniqueId(data.getRadioStationUniqueId())

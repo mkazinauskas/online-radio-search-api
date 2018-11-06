@@ -27,7 +27,7 @@ public class FindLastParsedEvent {
                     .withQuery(matchAllQuery());
 
             searchQuery.withSort(
-                    SortBuilders.fieldSort("id")
+                    SortBuilders.fieldSort("eventId")
                             .unmappedType("long")
                             .order(SortOrder.DESC)
             );

@@ -3,17 +3,19 @@ package com.mozdzo.ors.search.parsedevents;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.time.ZonedDateTime;
+
+import static java.lang.String.valueOf;
 
 @Document(indexName = "parsed_events", type = "parsed_event")
 public class ParsedEvent {
     @Id
+    @JsonProperty("id")
+    private String id;
+
     @JsonProperty("eventId")
-    @Field(type = FieldType.Long)
-    private Long id;
+    private Long eventId;
 
     @JsonProperty("date")
     private ZonedDateTime date = ZonedDateTime.now();
@@ -22,15 +24,24 @@ public class ParsedEvent {
     }
 
     public ParsedEvent(Long id) {
-        this.id = id;
+        this.id = valueOf(id);
+        this.eventId = id;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public Long getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
     }
 
     public ZonedDateTime getDate() {

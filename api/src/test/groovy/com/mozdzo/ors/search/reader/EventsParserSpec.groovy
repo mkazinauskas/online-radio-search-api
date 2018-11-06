@@ -1,7 +1,6 @@
 package com.mozdzo.ors.search.reader
 
 import com.mozdzo.ors.domain.events.Event
-import com.mozdzo.ors.domain.events.Events
 import com.mozdzo.ors.domain.radio.station.RadioStation
 import com.mozdzo.ors.domain.radio.station.commands.UpdateRadioStation
 import com.mozdzo.ors.domain.radio.station.genre.Genre
@@ -11,9 +10,7 @@ import com.mozdzo.ors.domain.radio.station.stream.commands.UpdateRadioStationStr
 import com.mozdzo.ors.domain.song.Song
 import com.mozdzo.ors.resources.IntegrationSpec
 import com.mozdzo.ors.search.*
-import com.mozdzo.ors.search.parsedevents.ParsedEvents
 import com.mozdzo.ors.search.reader.parser.EventParser
-import com.mozdzo.ors.search.reader.parser.EventsParser
 import com.mozdzo.ors.search.reader.parser.EventsProcessor
 import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Unroll
@@ -21,12 +18,6 @@ import spock.lang.Unroll
 import static com.mozdzo.ors.domain.radio.station.stream.RadioStationStream.Type.ACC
 
 class EventsParserSpec extends IntegrationSpec {
-
-    @Autowired
-    private EventsParser eventsParser
-
-    @Autowired
-    private Events events
 
     @Autowired
     private RadioStationsRepository radioStationsRepository
@@ -45,9 +36,6 @@ class EventsParserSpec extends IntegrationSpec {
 
     @Autowired
     private GenresRepository genresRepository
-
-    @Autowired
-    private ParsedEvents parsedEvents
 
     @Autowired
     private EventsProcessor eventsProcessor
