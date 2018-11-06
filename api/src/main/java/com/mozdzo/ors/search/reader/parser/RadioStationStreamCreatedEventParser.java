@@ -6,11 +6,8 @@ import com.mozdzo.ors.domain.events.RadioStationStreamCreated;
 import com.mozdzo.ors.search.RadioStationDocument;
 import com.mozdzo.ors.search.RadioStationStreamDocument;
 import com.mozdzo.ors.search.RadioStationsRepository;
-import com.mozdzo.ors.search.ReadModelException;
 import com.mozdzo.ors.search.commands.FindRadioStationByUniqueId;
 import org.springframework.stereotype.Component;
-
-import static java.lang.String.format;
 
 @Component
 class RadioStationStreamCreatedEventParser implements EventParser {
@@ -33,8 +30,7 @@ class RadioStationStreamCreatedEventParser implements EventParser {
 
     @Override
     public void parse(Event event) {
-        RadioStationStreamCreated.Data data = RadioStationStreamCreated.
-                Data.deserialize(event.getBody());
+        RadioStationStreamCreated.Data data = RadioStationStreamCreated.Data.deserialize(event.getBody());
 
         RadioStationDocument radioStationDocument = findRadioStationByUniqueId.handle(
                 new FindRadioStationByUniqueId(data.getRadioStationUniqueId())

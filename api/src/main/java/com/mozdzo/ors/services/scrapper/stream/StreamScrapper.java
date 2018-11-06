@@ -79,10 +79,7 @@ public class StreamScrapper {
     private Map<String, String> tableValues(List<Element> elements) {
         return elements.stream()
                 .filter(element -> getTd(element).size() == 2)
-                .collect(toMap(
-                        element -> getTd(element).get(0).text(),
-                        element -> getTd(element).get(1).text()
-                ));
+                .collect(toMap(element -> getTd(element).get(0).text(), element -> getTd(element).get(1).text()));
     }
 
     private Elements getTd(Element element) {

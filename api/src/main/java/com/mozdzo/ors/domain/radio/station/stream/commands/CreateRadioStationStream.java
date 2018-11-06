@@ -10,8 +10,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CreateRadioStationStream {
@@ -46,7 +44,10 @@ public class CreateRadioStationStream {
 
         private final RadioStations radioStations;
 
-        public Handler(RadioStationStreams radioStationStreams, Validator validator, ApplicationEventPublisher applicationEventPublisher, RadioStations radioStations) {
+        public Handler(RadioStationStreams radioStationStreams,
+                       Validator validator,
+                       ApplicationEventPublisher applicationEventPublisher,
+                       RadioStations radioStations) {
             this.radioStationStreams = radioStationStreams;
             this.validator = validator;
             this.applicationEventPublisher = applicationEventPublisher;

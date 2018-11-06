@@ -31,8 +31,7 @@ class RadioStationStreamUpdatedEventParser implements EventParser {
 
     @Override
     public void parse(Event event) {
-        RadioStationStreamUpdated.Data data = RadioStationStreamUpdated.
-                Data.deserialize(event.getBody());
+        RadioStationStreamUpdated.Data data = RadioStationStreamUpdated.Data.deserialize(event.getBody());
 
         RadioStationDocument radioStationDocument = findRadioStationByUniqueId.handle(
                 new FindRadioStationByUniqueId(data.getRadioStationUniqueId())
