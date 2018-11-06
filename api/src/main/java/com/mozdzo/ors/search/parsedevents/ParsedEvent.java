@@ -20,7 +20,7 @@ public class ParsedEvent {
     @JsonProperty("date")
     private ZonedDateTime date = ZonedDateTime.now();
 
-    public ParsedEvent() {
+    ParsedEvent() {
     }
 
     public ParsedEvent(Long id) {
