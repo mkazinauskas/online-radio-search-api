@@ -2,8 +2,6 @@ package com.mozdzo.ors.searches.domain
 
 import com.mozdzo.ors.domain.DomainException
 import com.mozdzo.ors.resources.IntegrationSpec
-import com.mozdzo.ors.searches.domain.SearchedQueries
-import com.mozdzo.ors.searches.domain.SearchedQuery
 import com.mozdzo.ors.searches.domain.commands.CreateSearchedQuery
 import org.springframework.beans.factory.annotation.Autowired
 import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils
@@ -32,7 +30,7 @@ class CreateSearchedQuerySpec extends IntegrationSpec {
         when:
             SearchedQuery result = handler.handle(new CreateSearchedQuery(query))
         then:
-            SearchedQuery savedQuery = searchedQueries.findById(result.uniqueId).get()
+            SearchedQuery savedQuery = searchedQueries.findById(result.id).get()
             savedQuery.date
             savedQuery.query == query
     }

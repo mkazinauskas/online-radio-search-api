@@ -2,6 +2,7 @@ package com.mozdzo.ors.searches.domain.commands;
 
 import com.mozdzo.ors.searches.domain.SearchedQueries;
 import com.mozdzo.ors.searches.domain.SearchedQuery;
+import org.elasticsearch.index.IndexNotFoundException;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.data.domain.Page;
@@ -37,7 +38,11 @@ public class GetLastSearchQueries {
                             .unmappedType("long")
                             .order(SortOrder.DESC)
             );
-            return searchedQueries.search(searchQuery.build());
+            try {
+                return searchedQueries.search(searchQuery.build());
+            } catch (IndexNotFoundException exception) {
+                return Page.empty();
+            }
         }
     }
 }

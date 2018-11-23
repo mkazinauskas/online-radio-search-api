@@ -19,8 +19,6 @@ class LastSearchesResourceSpec extends IntegrationSpec {
 
     void 'should not fail to retrieve last searches, when none exist'() {
         given:
-            SearchedQuery searchedQuery = testSearchQuery.create()
-        and:
             String url = '/last-searches'
         when:
             ResponseEntity<LastSearchesResource> result = restTemplate.exchange(
@@ -33,7 +31,7 @@ class LastSearchesResourceSpec extends IntegrationSpec {
             result.statusCode == OK
         and:
             with(result.body as LastSearchesResource) {
-                it.content
+                it.content != null
 
                 links.first().rel == REL_SELF
                 links.first().href.endsWith(url)
