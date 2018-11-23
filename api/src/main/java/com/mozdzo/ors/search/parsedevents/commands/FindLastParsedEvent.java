@@ -5,6 +5,7 @@ import com.mozdzo.ors.search.parsedevents.ParsedEvents;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +25,8 @@ public class FindLastParsedEvent {
 
         public Optional<ParsedEvent> handle() {
             NativeSearchQueryBuilder searchQuery = new NativeSearchQueryBuilder()
-                    .withQuery(matchAllQuery());
+                    .withQuery(matchAllQuery())
+                    .withPageable(PageRequest.of(0, 1));
 
             searchQuery.withSort(
                     SortBuilders.fieldSort("eventId")
