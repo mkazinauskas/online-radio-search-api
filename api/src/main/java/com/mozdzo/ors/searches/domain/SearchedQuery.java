@@ -10,8 +10,8 @@ import java.util.UUID;
 @Document(indexName = "searched_queries", type = "searched_query")
 public class SearchedQuery {
     @Id
-    @JsonProperty("uniqueId")
-    private String uniqueId = UUID.randomUUID().toString();
+    @JsonProperty("id")
+    private String id;
 
     @JsonProperty("created")
     private ZonedDateTime date = ZonedDateTime.now();
@@ -26,12 +26,12 @@ public class SearchedQuery {
         this.query = query;
     }
 
-    public String getUniqueId() {
-        return uniqueId;
+    public String getId() {
+        return id;
     }
 
-    public void setUniqueId(String uniqueId) {
-        this.uniqueId = uniqueId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public ZonedDateTime getDate() {
