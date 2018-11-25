@@ -1,6 +1,8 @@
 package com.mozdzo.ors.search
 
 import com.mozdzo.ors.resources.IntegrationSpec
+import com.mozdzo.ors.search.domain.RadioStationDocument
+import com.mozdzo.ors.search.domain.RadioStationsRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils
 
