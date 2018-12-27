@@ -2,6 +2,7 @@ package com.mozdzo.ors.domain.radio.station.song.commands;
 
 import com.mozdzo.ors.domain.DomainException;
 import com.mozdzo.ors.domain.events.RadioStationSongCreated;
+import com.mozdzo.ors.domain.radio.station.RadioStation;
 import com.mozdzo.ors.domain.radio.station.RadioStations;
 import com.mozdzo.ors.domain.radio.station.song.RadioStationSong;
 import com.mozdzo.ors.domain.radio.station.song.RadioStationSongs;
@@ -53,12 +54,18 @@ public class CreateRadioStationSong {
 
         private final Songs songs;
 
-        public Handler(RadioStationSongs radioStationSongs, Validator validator,
-                       ApplicationEventPublisher applicationEventPublisher, Songs songs) {
+        private final RadioStations radioStations;
+
+        public Handler(RadioStationSongs radioStationSongs,
+                       Validator validator,
+                       ApplicationEventPublisher applicationEventPublisher,
+                       Songs songs,
+                       RadioStations radioStations) {
             this.radioStationSongs = radioStationSongs;
             this.validator = validator;
             this.applicationEventPublisher = applicationEventPublisher;
             this.songs = songs;
+            this.radioStations = radioStations;
         }
 
         @Transactional
@@ -66,12 +73,15 @@ public class CreateRadioStationSong {
             validator.validate(command);
             RadioStationSong radioStationSong = radioStationSongs.save(command.toRadioStationSong());
 
+            RadioStation radioStation = radioStations.getOne(radioStationSong.getRadioStationId());
+
             Song song = songs.findById(command.songId).get();
             applicationEventPublisher.publishEvent(
                     new RadioStationSongCreated(
                             radioStationSong,
                             new RadioStationSongCreated.Data(
                                     radioStationSong.getUniqueId(),
+                                    radioStation.getUniqueId(),
                                     song.getUniqueId(),
                                     radioStationSong.getPlayedTime()
                             ))

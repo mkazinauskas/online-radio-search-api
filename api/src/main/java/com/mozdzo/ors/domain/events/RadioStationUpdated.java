@@ -71,8 +71,13 @@ public class RadioStationUpdated extends DomainEvent {
         public Set<Genre> getGenres() {
             return genres;
         }
+
+        public static RadioStationUpdated.Data deserialize(String body) {
+            return RadioStationUpdated.Data.deserialize(body, RadioStationUpdated.Data.class);
+        }
     }
 
+    @Override
     Data getData() {
         return this.data;
     }
@@ -80,5 +85,10 @@ public class RadioStationUpdated extends DomainEvent {
     @Override
     Event.Type type() {
         return RADIO_STATION_UPDATED;
+    }
+
+    @Override
+    String uniqueId() {
+        return this.data.uniqueId;
     }
 }

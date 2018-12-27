@@ -1,0 +1,10 @@
+# ============ Builder image ===================
+FROM openjdk:8-jdk-alpine as builder
+
+WORKDIR /app
+
+COPY . .
+
+RUN ls -a
+
+RUN ./gradlew build clean

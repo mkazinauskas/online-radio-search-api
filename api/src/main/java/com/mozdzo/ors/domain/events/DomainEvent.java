@@ -5,16 +5,16 @@ import org.springframework.context.ApplicationEvent;
 
 import java.io.IOException;
 
-abstract class DomainEvent extends ApplicationEvent {
+public abstract class DomainEvent extends ApplicationEvent {
 
     DomainEvent(Object source) {
         super(source);
     }
 
-    abstract static class Data {
+    public abstract static class Data {
         public static <T extends Data> T deserialize(String body, Class<T> eventDataClass) {
             try {
-                return EventObjectMapper.mapper.readValue(body, eventDataClass);
+                return EventObjectMapper.MAPPER.readValue(body, eventDataClass);
             } catch (IOException e) {
                 throw new EventDeserializationFailedException(body, eventDataClass);
             }
@@ -25,9 +25,11 @@ abstract class DomainEvent extends ApplicationEvent {
 
     abstract Data getData();
 
+    abstract String uniqueId();
+
     String serialize() {
         try {
-            return EventObjectMapper.mapper.writeValueAsString(this.getData());
+            return EventObjectMapper.MAPPER.writeValueAsString(this.getData());
         } catch (JsonProcessingException e) {
             throw new EventSerializationFailedException(this.getClass());
         }

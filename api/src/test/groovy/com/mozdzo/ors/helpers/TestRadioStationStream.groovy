@@ -40,7 +40,7 @@ class TestRadioStationStream {
         return create(radioStation.id)
     }
 
-    private String randomStreamUrl() {
+    String randomStreamUrl() {
         return "http://localhost:${wiremockConfiguration.port}/${randomAlphanumeric(50)}"
     }
 }

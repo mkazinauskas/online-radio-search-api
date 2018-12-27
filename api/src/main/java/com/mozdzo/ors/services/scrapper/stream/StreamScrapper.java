@@ -42,15 +42,17 @@ public class StreamScrapper {
                 .flatMap(Collection::stream)
                 .collect(toList());
         Map<String, String> map = tableValues(trs);
-        return Optional.of(new Response(
-                map.getOrDefault("Listing Status:", ""),
-                Response.Format.findFormat(map.getOrDefault("Stream Status:", "")),
-                bitRate(map.getOrDefault("Stream Status:", "")),
-                listenerPeak(map.getOrDefault("Listener Peak:", "")),
-                map.getOrDefault("Stream Name:", ""),
-                genres(map.getOrDefault("Stream Genre(s):", "")),
-                map.getOrDefault("Stream Website:", "")
-        ));
+        return Optional.of(
+                new Response(
+                        map.getOrDefault("Listing Status:", ""),
+                        Response.Format.findFormat(map.getOrDefault("Stream Status:", "")),
+                        bitRate(map.getOrDefault("Stream Status:", "")),
+                        listenerPeak(map.getOrDefault("Listener Peak:", "")),
+                        map.getOrDefault("Stream Name:", ""),
+                        genres(map.getOrDefault("Stream Genre(s):", "")),
+                        map.getOrDefault("Stream Website:", "")
+                )
+        );
     }
 
     private int listenerPeak(String line) {
@@ -77,10 +79,7 @@ public class StreamScrapper {
     private Map<String, String> tableValues(List<Element> elements) {
         return elements.stream()
                 .filter(element -> getTd(element).size() == 2)
-                .collect(toMap(
-                        element -> getTd(element).get(0).text(),
-                        element -> getTd(element).get(1).text()
-                ));
+                .collect(toMap(element -> getTd(element).get(0).text(), element -> getTd(element).get(1).text()));
     }
 
     private Elements getTd(Element element) {

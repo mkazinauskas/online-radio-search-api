@@ -3,10 +3,7 @@ package com.mozdzo.ors.domain.events;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Set;
-
 import static com.mozdzo.ors.domain.events.Event.Type.GENRE_CREATED;
-import static com.mozdzo.ors.domain.events.Event.Type.RADIO_STATION_UPDATED;
 
 public class GenreCreated extends DomainEvent {
     private final Data data;
@@ -57,8 +54,13 @@ public class GenreCreated extends DomainEvent {
             return title;
         }
 
+        public static GenreCreated.Data deserialize(String body) {
+            return GenreCreated.Data.deserialize(body, GenreCreated.Data.class);
+        }
+
     }
 
+    @Override
     Data getData() {
         return this.data;
     }
@@ -66,5 +68,10 @@ public class GenreCreated extends DomainEvent {
     @Override
     Event.Type type() {
         return GENRE_CREATED;
+    }
+
+    @Override
+    String uniqueId() {
+        return this.data.uniqueId;
     }
 }

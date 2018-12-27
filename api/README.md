@@ -33,4 +33,4 @@ Execute commands inside container
 * Latest searches
 * Create elastic search repository for full text search
 * Create docker images to run locally 
-* REn some db tables
+* Create search api for results

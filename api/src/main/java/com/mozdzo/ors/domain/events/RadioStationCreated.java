@@ -32,8 +32,13 @@ public class RadioStationCreated extends DomainEvent {
         public String getTitle() {
             return title;
         }
+
+        public static RadioStationCreated.Data deserialize(String body) {
+            return RadioStationCreated.Data.deserialize(body, RadioStationCreated.Data.class);
+        }
     }
 
+    @Override
     Data getData() {
         return this.data;
     }
@@ -41,5 +46,10 @@ public class RadioStationCreated extends DomainEvent {
     @Override
     Event.Type type() {
         return RADIO_STATION_CREATED;
+    }
+
+    @Override
+    String uniqueId() {
+        return this.data.uniqueId;
     }
 }

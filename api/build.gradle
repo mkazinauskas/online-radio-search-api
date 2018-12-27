@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.4.RELEASE'
+        springBootVersion = '2.0.6.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -30,28 +30,32 @@ ext {
 }
 
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-security'
-    compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compile 'org.liquibase:liquibase-core'
-    compile 'org.keycloak:keycloak-spring-boot-2-starter'
-    compile 'org.springframework.boot:spring-boot-starter-hateoas'
-    compile 'org.apache.commons:commons-lang3:3.8'
-    compile 'org.jsoup:jsoup:1.8.3'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+    implementation 'org.liquibase:liquibase-core'
+    implementation 'org.keycloak:keycloak-spring-boot-2-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+    implementation 'org.apache.commons:commons-lang3:3.8'
+    implementation 'org.jsoup:jsoup:1.8.3'
+
+//    implementation 'org.elasticsearch.plugin:transport-netty3-client'
+    implementation 'org.elasticsearch.client:transport'
 
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 
     runtime 'org.postgresql:postgresql'
 
-    testCompile 'org.codehaus.groovy:groovy'
-    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
-    testCompile 'org.spockframework:spock-spring:1.1-groovy-2.4'
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'org.springframework.security:spring-security-test'
-    testCompile 'org.testcontainers:testcontainers:1.8.3'
-    testCompile 'org.testcontainers:postgresql:1.8.3'
-    testCompile "org.keycloak:keycloak-test-helper:${keycloakVersion}"
-    testCompile 'com.github.tomakehurst:wiremock:2.18.0'
+    testImplementation 'org.codehaus.groovy:groovy'
+    testImplementation 'org.spockframework:spock-core:1.1-groovy-2.4'
+    testImplementation 'org.spockframework:spock-spring:1.1-groovy-2.4'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.testcontainers:testcontainers:1.8.3'
+    testImplementation 'org.testcontainers:postgresql:1.8.3'
+    testImplementation "org.keycloak:keycloak-test-helper:${keycloakVersion}"
+    testImplementation 'com.github.tomakehurst:wiremock:2.18.0'
 
     compileOnly group: 'org.gmetrics', name: 'GMetrics', version: '0.7'
 }

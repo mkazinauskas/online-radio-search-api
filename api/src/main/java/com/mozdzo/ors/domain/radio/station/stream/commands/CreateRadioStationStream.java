@@ -2,6 +2,7 @@ package com.mozdzo.ors.domain.radio.station.stream.commands;
 
 import com.mozdzo.ors.domain.DomainException;
 import com.mozdzo.ors.domain.events.RadioStationStreamCreated;
+import com.mozdzo.ors.domain.radio.station.RadioStation;
 import com.mozdzo.ors.domain.radio.station.RadioStations;
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStream;
 import com.mozdzo.ors.domain.radio.station.stream.RadioStationStreams;
@@ -41,20 +42,31 @@ public class CreateRadioStationStream {
 
         private final ApplicationEventPublisher applicationEventPublisher;
 
+        private final RadioStations radioStations;
+
         public Handler(RadioStationStreams radioStationStreams,
                        Validator validator,
-                       ApplicationEventPublisher applicationEventPublisher) {
+                       ApplicationEventPublisher applicationEventPublisher,
+                       RadioStations radioStations) {
             this.radioStationStreams = radioStationStreams;
             this.validator = validator;
             this.applicationEventPublisher = applicationEventPublisher;
+            this.radioStations = radioStations;
         }
 
         @Transactional
         public Result handle(CreateRadioStationStream command) {
             validator.validate(command);
             RadioStationStream savedStream = radioStationStreams.save(command.toRadioStationStream());
-            applicationEventPublisher.publishEvent(new RadioStationStreamCreated(savedStream,
-                    new RadioStationStreamCreated.Data(savedStream.getUniqueId(), savedStream.getUrl())));
+
+            RadioStation radioStation = radioStations.findById(savedStream.getRadioStationId()).get();
+
+            applicationEventPublisher.publishEvent(
+                    new RadioStationStreamCreated(savedStream,
+                            new RadioStationStreamCreated.Data(
+                                    savedStream.getUniqueId(),
+                                    radioStation.getUniqueId(),
+                                    savedStream.getUrl())));
             return new Result(savedStream.getId());
         }
     }

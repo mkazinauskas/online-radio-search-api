@@ -69,12 +69,7 @@ public class LastPlayedSongsScrapper {
                 .filter(element -> getTd(element).size() >= 2)
                 .filter(element -> getTd(element).get(0).text().length() == 8)
                 .filter(element -> containsTwoCharacters(getTd(element).get(0).text(), ":"))
-                .collect(
-                        toMap(
-                                element -> getTd(element).get(0).text(),
-                                element -> getTd(element).get(1).text()
-                        )
-                );
+                .collect(toMap(element -> getTd(element).get(0).text(), element -> getTd(element).get(1).text()));
     }
 
     private boolean containsTwoCharacters(String text, String character) {

@@ -266,6 +266,11 @@ databaseChangeLog:
               primaryKey: true
               nullable: false
         - column:
+              name: entity_unique_id
+              type: varchar(40)
+              constraints:
+                  nullable: false
+        - column:
             name: created
             type: timestamp
             constraints:
@@ -285,3 +290,11 @@ databaseChangeLog:
         sequenceName: events_sequence
         incrementBy: 1
         startValue: 1
+    - createIndex:
+        columns:
+            - column:
+                name: entity_unique_id
+                type: varchar(40)
+        indexName: idx_entity_unique_id
+        schemaName: public
+        tableName: events

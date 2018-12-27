@@ -1,4 +1,4 @@
-package com.mozdzo.ors;
+package com.mozdzo.ors.configuration;
 
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
@@ -21,7 +21,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 
 @Configuration
 @EnableWebSecurity
-public class KeycloakConfiguration extends KeycloakWebSecurityConfigurerAdapter {
+class KeycloakConfiguration extends KeycloakWebSecurityConfigurerAdapter {
 
     @Override
     protected KeycloakAuthenticationProvider keycloakAuthenticationProvider() {
