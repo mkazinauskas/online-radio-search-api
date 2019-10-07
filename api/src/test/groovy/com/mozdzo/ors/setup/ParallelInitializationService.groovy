@@ -17,6 +17,8 @@ class ParallelInitializationService {
                 threadPool.submit({ service.initialize() } as Callable)
             }
             futures.each { it.get() }
+        } catch (Exception exception) {
+            throw new RuntimeException(exception)
         } finally {
             threadPool.shutdown()
         }
