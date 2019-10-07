@@ -1,7 +1,14 @@
 version: '3'
 
 services:
-
+  keycloak-db:
+    image: postgres:10
+    environment:
+      POSTGRES_USER: keycloak-admin
+      POSTGRES_PASSWORD: keycloak-password
+      POSTGRES_DB: keycloakdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
   keycloak:
      image: jboss/keycloak:4.2.0.Final
      restart: on-failure
@@ -13,13 +20,13 @@ services:
       - "-Dkeycloak.migration.file=/config/import.json"
       - "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING"
      volumes:
-       - ./config:/config/
+       - ./keycloak/config/:/config/
      environment:
        - KEYCLOAK_USER=admin
        - KEYCLOAK_PASSWORD=password
        - DB_VENDOR=postgres
-       - DB_USER=admin
-       - DB_PASSWORD=password
+       - DB_USER=keycloak-admin
+       - DB_PASSWORD=keycloak-password
        - DB_ADDR=keycloak-db
        - DB_PORT=5432
        - DB_DATABASE=keycloakdb
@@ -27,15 +34,18 @@ services:
        - "8081:8080"
      depends_on:
        - keycloak-db
-
-  keycloak-db:
+  online-radio-search-api-db:
     image: postgres:10
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: keycloakdb
+      POSTGRES_USER: online-radio-search-api-admin
+      POSTGRES_PASSWORD: online-radio-search-api-password
+      POSTGRES_DB: onlineradiosearchdb
     volumes:
       - pgdata:/var/lib/postgresql/data
+  online-radio-search-api:
+     build: ./api/
+     depends_on:
+       - online-radio-search-api-db
 
 volumes:
   pgdata:
