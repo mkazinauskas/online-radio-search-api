@@ -1,5 +1,6 @@
 package com.mozdzo.ors.setup
 
+import groovy.util.logging.Slf4j
 import org.springframework.stereotype.Component
 
 import java.util.concurrent.Callable
@@ -8,6 +9,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
 @Component
+@Slf4j
 class ParallelInitializationService {
 
     ParallelInitializationService(List<ParallelInitializationBean> servicesToInit) {
@@ -18,7 +20,8 @@ class ParallelInitializationService {
             }
             futures.each { it.get() }
         } catch (Exception exception) {
-            throw new RuntimeException(exception)
+            log.error('Failed to start container', exception)
+            throw new IllegalStateException('Failed to load services in parallel')
         } finally {
             threadPool.shutdown()
         }
