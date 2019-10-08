@@ -9,7 +9,8 @@ apply from: "${rootDir}/gradle/checkstyle/checkstyle.gradle"
 
 group = 'com.mozdzo'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
+
+sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
@@ -32,7 +33,6 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.8'
     implementation 'org.jsoup:jsoup:1.8.3'
 
-//    implementation 'org.elasticsearch.plugin:transport-netty3-client'
     implementation 'org.elasticsearch.client:transport'
 
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
