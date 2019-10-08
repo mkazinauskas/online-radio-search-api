@@ -65,7 +65,7 @@ class TestKeycloakSetup implements ParallelInitializationBean, DisposableBean {
         private final GenericContainer container
 
         KeycloakContainer(String username, String password, int port) {
-            this.container = new FixedHostPortGenericContainer('jboss/keycloak:4.2.0.Final')
+            this.container = new FixedHostPortGenericContainer('jboss/keycloak:4.8.3.Final')
                     .withFixedExposedPort(port, KEYCLOAK_INTERNAL_PORT)
                     .withEnv(['KEYCLOAK_USER'    : username,
                               'KEYCLOAK_PASSWORD': password,
