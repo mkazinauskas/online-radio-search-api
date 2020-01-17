@@ -1,4 +1,4 @@
-# online-ra 
+# Online-Radio-Search-API
 
 # Setup
 1. Start container `docker/keycloak` with command `docker-compose up`
