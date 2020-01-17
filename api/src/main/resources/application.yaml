@@ -9,9 +9,14 @@ spring:
     properties.hibernate.jdbc.lob.non_contextual_creation: true
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://hostname:port/databasename
-    username: username
-    password: password
+    url: jdbc:postgresql://localhost:8766/onlineradiosearchdb
+    username: online-radio-search-api-admin
+    password: online-radio-search-api-password
+
+elasticsearch:
+  host: localhost
+  port: 9300
+  clustername: online_radio_search
 
 keycloak:
   auth-server-url: http://localhost:8081/auth

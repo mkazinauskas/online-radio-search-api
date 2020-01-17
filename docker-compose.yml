@@ -2,15 +2,17 @@ version: '3'
 
 services:
   keycloak-db:
-    image: postgres:10
+    image: postgres:12.1
     environment:
       POSTGRES_USER: keycloak-admin
       POSTGRES_PASSWORD: keycloak-password
       POSTGRES_DB: keycloakdb
+    ports:
+       - "8765:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata_keycloak:/var/lib/postgresql/data
   keycloak:
-     image: jboss/keycloak:4.2.0.Final
+     image: jboss/keycloak:7.0.0
      restart: on-failure
      command:
       - "-b"
@@ -32,21 +34,32 @@ services:
        - DB_DATABASE=keycloakdb
      ports:
        - "8081:8080"
+       - "8180:8080"
      depends_on:
        - keycloak-db
   online-radio-search-api-db:
-    image: postgres:10
+    image: postgres:12.1
     environment:
       POSTGRES_USER: online-radio-search-api-admin
       POSTGRES_PASSWORD: online-radio-search-api-password
       POSTGRES_DB: onlineradiosearchdb
+    ports:
+       - "8766:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
-  online-radio-search-api:
-     build: ./api/
-     depends_on:
-       - online-radio-search-api-db
+      - pgdata_onlineradiosearch:/var/lib/postgresql/data
+  online-radio-search-api-elastic-search:
+    image: elasticsearch:6.4.1
+    environment:
+      discovery.type: single-node
+      network.host: _site_
+      network.publish_host: _local_
+      cluster.name: online_radio_search
+    ports:
+       - "9200:9200"
+       - "9300:9300"
 
 volumes:
-  pgdata:
+  pgdata_keycloak:
+    driver: local
+  pgdata_onlineradiosearch:
     driver: local

@@ -1,7 +1,7 @@
-# Online-Radio-Search-API
+# Online Radio Search API
 
 # Setup
-1. Start container `docker/keycloak` with command `docker-compose up`
+1. Start containers `docker-compose up`
 2. Start application `./gradlew bootRun`
 3. Query application with commands
 
