@@ -7,7 +7,7 @@ plugins {
 apply from: "${rootDir}/gradle/codenarc/codenarc.gradle"
 apply from: "${rootDir}/gradle/checkstyle/checkstyle.gradle"
 
-group = 'com.mozdzo'
+group = 'com.modzo'
 version = '0.0.1-SNAPSHOT'
 
 sourceCompatibility = JavaVersion.VERSION_11
