@@ -1,9 +1,7 @@
 package com.modzo.ors.setup
 
 import groovy.util.logging.Slf4j
-import org.keycloak.test.TestsHelper
 import org.springframework.beans.factory.DisposableBean
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.test.context.ActiveProfiles
 import org.testcontainers.containers.FixedHostPortGenericContainer
@@ -17,17 +15,14 @@ import static java.time.Duration.ofSeconds
 @Component
 @Slf4j
 class TestKeycloakSetup implements ParallelInitializationBean, DisposableBean {
-    private final TestKeycloakConfiguration keycloakConfig
-    private final String realm
-    private final String authServerUrl
+
     private final KeycloakContainer container
+    private final KeycloakTestHelper keycloakTestHelper
 
     TestKeycloakSetup(TestKeycloakConfiguration keycloakConfig,
-                      @Value('${keycloak.realm}') String realm,
-                      @Value('${keycloak.auth-server-url}') String authServerUrl) {
-        this.keycloakConfig = keycloakConfig
-        this.realm = realm
-        this.authServerUrl = authServerUrl
+                      KeycloakTestHelper testHelper
+    ) {
+        this.keycloakTestHelper = testHelper
         this.container = new KeycloakContainer(
                 keycloakConfig.username, keycloakConfig.password, keycloakConfig.port
         )
@@ -36,22 +31,12 @@ class TestKeycloakSetup implements ParallelInitializationBean, DisposableBean {
     @Override
     void initialize() throws Exception {
         container.start()
-
-        TestsHelper.baseUrl = authServerUrl
-        TestsHelper.testRealm = realm
-        TestsHelper.keycloakBaseUrl = authServerUrl
-        try {
-            TestsHelper.importTestRealm(keycloakConfig.username, keycloakConfig.password, keycloakConfig.realmJsonPath)
-        } catch (IOException e) {
-            log.error('Failed to import data to ream', e)
-            throw new IllegalStateException('Failed to setup keycloak realm!')
-        }
-        TestsHelper.createDirectGrantClient()
+        keycloakTestHelper.init()
     }
 
     @Override
     void destroy() throws Exception {
-        TestsHelper.deleteRealm(keycloakConfig.username, keycloakConfig.password, realm)
+        keycloakTestHelper.destroy()
         container.stop()
     }
 

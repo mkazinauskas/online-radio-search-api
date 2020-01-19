@@ -5,7 +5,6 @@ import com.modzo.ors.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
 
 import static com.modzo.ors.TestUsers.ADMIN
-import static com.modzo.ors.TokenProvider.token
 import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.OK

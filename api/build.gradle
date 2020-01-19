@@ -17,8 +17,7 @@ repositories {
 }
 
 ext {
-    keycloakVersion = '6.0.1'
-    testContainersVersion = '1.12.2'
+    testContainersVersion = '1.12.4'
     spockVersion = '1.3-groovy-2.5'
 }
 
@@ -46,7 +45,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation "org.testcontainers:testcontainers:${testContainersVersion}"
     testImplementation "org.testcontainers:postgresql:${testContainersVersion}"
-    testImplementation "org.keycloak:keycloak-test-helper:${keycloakVersion}"
+    testImplementation "org.keycloak:keycloak-test-helper:8.0.1"
     testImplementation 'com.github.tomakehurst:wiremock:2.18.0'
 
     compileOnly group: 'org.gmetrics', name: 'GMetrics', version: '0.7'
@@ -54,6 +53,6 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom "org.keycloak.bom:keycloak-adapter-bom:${keycloakVersion}"
+        mavenBom "org.keycloak.bom:keycloak-adapter-bom:6.0.1"
     }
 }

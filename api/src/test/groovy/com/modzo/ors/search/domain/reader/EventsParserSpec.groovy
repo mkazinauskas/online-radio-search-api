@@ -9,14 +9,7 @@ import com.modzo.ors.domain.radio.station.stream.RadioStationStream
 import com.modzo.ors.domain.radio.station.stream.commands.UpdateRadioStationStream
 import com.modzo.ors.domain.song.Song
 import com.modzo.ors.resources.IntegrationSpec
-import com.modzo.ors.search.domain.GenreDocument
-import com.modzo.ors.search.domain.GenresRepository
-import com.modzo.ors.search.domain.RadioStationDocument
-import com.modzo.ors.search.domain.RadioStationSongDocument
-import com.modzo.ors.search.domain.RadioStationStreamDocument
-import com.modzo.ors.search.domain.RadioStationsRepository
-import com.modzo.ors.search.domain.SongDocument
-import com.modzo.ors.search.domain.SongsRepository
+import com.modzo.ors.search.domain.*
 import com.modzo.ors.search.domain.reader.parser.EventParser
 import com.modzo.ors.search.domain.reader.parser.EventsProcessor
 import org.springframework.beans.factory.annotation.Autowired

@@ -1,10 +1,8 @@
 package com.modzo.ors.resources
 
-import com.modzo.ors.helpers.TestGenre
-import com.modzo.ors.helpers.TestRadioStation
-import com.modzo.ors.helpers.TestRadioStationSong
-import com.modzo.ors.helpers.TestRadioStationStream
-import com.modzo.ors.helpers.TestSong
+import com.modzo.ors.TestUsers
+import com.modzo.ors.TokenProvider
+import com.modzo.ors.helpers.*
 import com.modzo.ors.setup.TestWireMockServer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -36,4 +34,11 @@ class IntegrationSpec extends Specification {
 
     @Autowired
     TestWireMockServer testWiremockServer
+
+    @Autowired
+    TokenProvider tokenProvider
+
+    String token(TestUsers.TestUser user) {
+        tokenProvider.token(user.username, user.password)
+    }
 }
