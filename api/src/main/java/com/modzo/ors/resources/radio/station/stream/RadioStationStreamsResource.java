@@ -6,7 +6,7 @@ import com.modzo.ors.domain.radio.station.stream.RadioStationStream;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.PagedModel;
 
 import java.util.Collection;
 import java.util.Map;
@@ -14,10 +14,10 @@ import java.util.Map;
 import static com.modzo.ors.resources.HateoasHelper.parseLinks;
 import static java.util.Collections.singletonMap;
 import static java.util.stream.Collectors.toList;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-class RadioStationStreamsResource extends PagedResources<RadioStationStreamResource> {
+class RadioStationStreamsResource extends PagedModel<RadioStationStreamResource> {
 
     @JsonCreator
     private RadioStationStreamsResource(
@@ -46,7 +46,7 @@ class RadioStationStreamsResource extends PagedResources<RadioStationStreamResou
 
         return new RadioStationStreamsResource(singletonMap("radioStationStreamResourceList", resources),
                 pageMetadata,
-                singletonMap(link.getRel(), link)
+                singletonMap(link.getRel().value(), link)
         );
     }
 }

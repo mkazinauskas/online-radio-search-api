@@ -5,7 +5,7 @@ import com.modzo.ors.domain.radio.station.song.commands.GetRadioStationSongByid;
 import com.modzo.ors.domain.radio.station.song.commands.GetRadioStationSongs;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +27,7 @@ class RadioStationSongsController {
     }
 
     @GetMapping("/radio-stations/{radioStationId}/songs")
-    ResponseEntity<PagedResources<RadioStationSongResource>> getSongs(
+    ResponseEntity<PagedModel<RadioStationSongResource>> getSongs(
             @PathVariable("radioStationId") long radioStationId,
             Pageable pageable
     ) {
