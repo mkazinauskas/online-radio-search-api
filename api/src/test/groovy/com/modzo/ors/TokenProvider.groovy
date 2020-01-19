@@ -29,14 +29,13 @@ class TokenProvider {
         String url = "${authServerUrl}/realms/${realm}/protocol/openid-connect/token"
 
         HttpHeaders headers = new HttpHeaders()
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED)
+        headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>()
         map.add('grant_type', 'password')
         map.add('client_id', 'test-dga')
         map.add('username', username)
         map.add('password', password)
-
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers)
 

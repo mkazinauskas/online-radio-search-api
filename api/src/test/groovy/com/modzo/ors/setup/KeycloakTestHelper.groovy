@@ -26,7 +26,7 @@ class KeycloakTestHelper {
         String adminPassword = keycloakConfig.password
         String adminRealm = FluentTestsHelper.DEFAULT_ADMIN_REALM
         String adminClient = FluentTestsHelper.DEFAULT_ADMIN_CLIENT
-        String testRealm = FluentTestsHelper.DEFAULT_ADMIN_REALM
+        String testRealm = FluentTestsHelper.DEFAULT_TEST_REALM
 
         this.fluentTestsHelper = new FluentTestsHelper(
                 keycloakBaseUrl,
@@ -47,7 +47,7 @@ class KeycloakTestHelper {
             log.error('Failed to import data to ream', e)
             throw new IllegalStateException('Failed to setup keycloak realm!')
         }
-        fluentTestsHelper.createDirectGrantClient()
+        fluentTestsHelper.createDirectGrantClient('test-dga')
     }
 
     void destroy() {
