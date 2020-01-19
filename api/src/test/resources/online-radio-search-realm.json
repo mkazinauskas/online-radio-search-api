@@ -20,7 +20,7 @@
         "admin"
       ],
       "clientRoles": {
-        "keycloak-demo-app": [
+        "online-radio-search-app": [
           "admin"
         ]
       }
@@ -38,7 +38,7 @@
         "user"
       ],
       "clientRoles": {
-        "keycloak-demo-app": [
+        "online-radio-search-app": [
           "user"
         ]
       }
@@ -58,7 +58,7 @@
   },
   "clients": [
     {
-      "clientId": "keycloak-demo-app",
+      "clientId": "online-radio-search-app",
       "enabled": true,
       "baseUrl": "http://localhost:8080",
       "adminUrl": "http://localhost:8080",
