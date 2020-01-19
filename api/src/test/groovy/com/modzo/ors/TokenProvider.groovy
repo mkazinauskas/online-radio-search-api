@@ -33,7 +33,7 @@ class TokenProvider {
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>()
         map.add('grant_type', 'password')
-        map.add('client_id', 'admin-cli')
+        map.add('client_id', 'test-dga')
         map.add('username', username)
         map.add('password', password)
 
