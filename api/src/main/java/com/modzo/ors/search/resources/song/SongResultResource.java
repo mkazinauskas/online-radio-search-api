@@ -5,15 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.modzo.ors.search.domain.SongDocument;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Map;
 
 import static java.util.Collections.singletonMap;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-public class SongResultResource extends ResourceSupport {
+public class SongResultResource extends RepresentationModel {
 
     private final SongResultResponse song;
 
@@ -29,7 +29,7 @@ public class SongResultResource extends ResourceSupport {
         Link link = linkTo(methodOn(SongSearchController.class)
                 .search("", Pageable.unpaged()))
                 .withSelfRel();
-        return new SongResultResource(response, singletonMap(link.getRel(), link));
+        return new SongResultResource(response, singletonMap(link.getRel().value(), link));
     }
 
     public SongResultResponse getSong() {

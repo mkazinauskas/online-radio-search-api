@@ -5,7 +5,7 @@ import com.modzo.ors.domain.radio.station.stream.commands.GetRadioStationStream;
 import com.modzo.ors.domain.radio.station.stream.commands.GetRadioStationStreams;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +27,7 @@ class RadioStationStreamController {
     }
 
     @GetMapping("/radio-stations/{radioStationId}/streams")
-    ResponseEntity<PagedResources<RadioStationStreamResource>> getRadioStationStreams(
+    ResponseEntity<PagedModel<RadioStationStreamResource>> getRadioStationStreams(
             @PathVariable("radioStationId") long radioStationId,
             Pageable pageable
     ) {

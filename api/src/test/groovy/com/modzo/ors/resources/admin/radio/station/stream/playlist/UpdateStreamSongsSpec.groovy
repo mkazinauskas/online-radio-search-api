@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*
 import static com.modzo.ors.TestUsers.ADMIN
-import static com.modzo.ors.TokenProvider.token
 import static org.springframework.data.domain.Pageable.unpaged
 import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.HttpStatus.NO_CONTENT

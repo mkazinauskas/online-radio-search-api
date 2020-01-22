@@ -1,6 +1,5 @@
 package com.modzo.ors.configuration;
 
-import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
@@ -60,11 +59,6 @@ class KeycloakConfiguration extends KeycloakWebSecurityConfigurerAdapter {
     }
 
     @Bean
-    KeycloakConfigResolver keycloakConfigResolver() {
-        return new KeycloakSpringBootConfigResolver();
-    }
-
-    @Bean
     public FilterRegistrationBean keycloakAuthenticationProcessingFilterRegistrationBean(
             KeycloakAuthenticationProcessingFilter filter) {
         FilterRegistrationBean<KeycloakAuthenticationProcessingFilter> registrationBean =
@@ -79,5 +73,14 @@ class KeycloakConfiguration extends KeycloakWebSecurityConfigurerAdapter {
         FilterRegistrationBean<KeycloakPreAuthActionsFilter> registrationBean = new FilterRegistrationBean<>(filter);
         registrationBean.setEnabled(false);
         return registrationBean;
+    }
+
+    @Configuration
+    public static class KeycloakConfigurationForSpringResolver {
+
+        @Bean
+        public KeycloakSpringBootConfigResolver keycloakConfigResolver() {
+            return new KeycloakSpringBootConfigResolver();
+        }
     }
 }

@@ -4,15 +4,15 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.modzo.ors.domain.radio.station.RadioStation;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Map;
 
 import static java.util.Collections.singletonMap;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-public class RadioStationResource extends ResourceSupport {
+public class RadioStationResource extends RepresentationModel {
 
     private final RadioStationResponse radioStation;
 
@@ -27,7 +27,7 @@ public class RadioStationResource extends ResourceSupport {
         RadioStationResponse response = RadioStationResponse.create(radioStation);
         Link link = linkTo(methodOn(RadioStationController.class)
                 .getRadioStation(response.getId())).withSelfRel();
-        return new RadioStationResource(response, singletonMap(link.getRel(), link));
+        return new RadioStationResource(response, singletonMap(link.getRel().value(), link));
     }
 
     public RadioStationResponse getRadioStation() {

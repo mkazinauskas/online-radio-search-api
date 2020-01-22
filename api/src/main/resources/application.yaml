@@ -20,8 +20,8 @@ elasticsearch:
 
 keycloak:
   auth-server-url: http://localhost:8081/auth
-  resource: keycloak-demo-app
-  realm: spring-security-example
+  resource: online-radio-search-app
+  realm: online-radio-search
   principal-attribute: preferred_username
   bearer-only: true
   use-resource-role-mappings: true

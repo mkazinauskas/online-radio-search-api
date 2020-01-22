@@ -21,7 +21,7 @@ class ParallelInitializationService {
             futures.each { it.get() }
         } catch (Exception exception) {
             log.error('Failed to start container', exception)
-            throw new IllegalStateException('Failed to load services in parallel')
+            throw new IllegalStateException('Failed to load services in parallel', exception)
         } finally {
             threadPool.shutdown()
         }

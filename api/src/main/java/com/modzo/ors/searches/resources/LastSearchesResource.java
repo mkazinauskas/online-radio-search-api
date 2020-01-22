@@ -6,7 +6,7 @@ import com.modzo.ors.searches.domain.SearchedQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
@@ -16,10 +16,10 @@ import java.util.Map;
 import static com.modzo.ors.resources.HateoasHelper.parseLinks;
 import static java.util.Collections.singletonMap;
 import static java.util.stream.Collectors.toList;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-class LastSearchesResource extends PagedResources<LastSearchResource> {
+class LastSearchesResource extends PagedModel<LastSearchResource> {
 
     @JsonCreator
     private LastSearchesResource(
@@ -52,9 +52,10 @@ class LastSearchesResource extends PagedResources<LastSearchResource> {
         Link link = linkTo(methodOn(LastSearchesController.class)
                 .getLastSearches(pageable)).withSelfRel();
 
-        return new LastSearchesResource(singletonMap("lastSearchResourceList", resources),
+        return new LastSearchesResource(
+                singletonMap("lastSearchResourceList", resources),
                 pageMetadata,
-                singletonMap(link.getRel(), link)
+                singletonMap(link.getRel().value(), link)
         );
     }
 }

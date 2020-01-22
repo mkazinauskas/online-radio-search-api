@@ -23,7 +23,7 @@ test:
     port: 8081
     username: admin
     password: password
-    realmJsonPath: /keycloak-test-realm.json
+    realmJsonPath: /online-radio-search-realm.json
   wiremock:
     port: 8885
   elastic.search:
@@ -33,8 +33,8 @@ test:
 
 keycloak:
   auth-server-url: http://localhost:8081/auth
-  resource: keycloak-demo-app
-  realm: keycloak-test
+  resource: online-radio-search-app
+  realm: online-radio-search
   principal-attribute: preferred_username
   bearer-only: true
   use-resource-role-mappings: true
