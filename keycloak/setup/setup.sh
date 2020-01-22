@@ -16,29 +16,29 @@ echo "Setting up users"
 
 ./kcadm.sh config credentials --server http://localhost:8080/auth --realm master --user $ADMIN_USER --password $ADMIN_PASSWORD
 
-./kcadm.sh create realms -s realm=spring-security-example -s enabled=true
+./kcadm.sh create realms -s realm=online-radio-search -s enabled=true
 
-CURL_ID=$(./kcadm.sh create clients -r spring-security-example -s clientId=curl -s enabled=true -s publicClient=true -s baseUrl=http://localhost:8080 -s adminUrl=http://localhost:8080 -s directAccessGrantsEnabled=true -i)
+CURL_ID=$(./kcadm.sh create clients -r online-radio-search -s clientId=curl -s enabled=true -s publicClient=true -s baseUrl=http://localhost:8080 -s adminUrl=http://localhost:8080 -s directAccessGrantsEnabled=true -i)
 
-DEMO_APP_ID=$(./kcadm.sh create clients -r spring-security-example -s clientId=keycloak-demo-app -s enabled=true -s baseUrl=http://localhost:8080 -s bearerOnly=true -i)
+DEMO_APP_ID=$(./kcadm.sh create clients -r online-radio-search -s clientId=online-radio-search-app -s enabled=true -s baseUrl=http://localhost:8080 -s bearerOnly=true -i)
 
-./kcadm.sh create clients/$DEMO_APP_ID/roles -r spring-security-example -s name=admin -s 'description=Admin role'
+./kcadm.sh create clients/$DEMO_APP_ID/roles -r online-radio-search -s name=admin -s 'description=Admin role'
 
-./kcadm.sh create clients/$DEMO_APP_ID/roles -r spring-security-example -s name=user -s 'description=User role'
+./kcadm.sh create clients/$DEMO_APP_ID/roles -r online-radio-search -s name=user -s 'description=User role'
 
-./kcadm.sh  get clients/$DEMO_APP_ID/installation/providers/keycloak-oidc-keycloak-json -r spring-security-example
+./kcadm.sh  get clients/$DEMO_APP_ID/installation/providers/keycloak-oidc-keycloak-json -r online-radio-search
 
-JOE_ADMIN_ID=$(./kcadm.sh create users -r spring-security-example -s username=joe_admin -s enabled=true -i)
+JOE_ADMIN_ID=$(./kcadm.sh create users -r online-radio-search -s username=joe_admin -s enabled=true -i)
 
-./kcadm.sh update users/$JOE_ADMIN_ID/reset-password -r spring-security-example -s type=password -s value=admin -s temporary=false -n
+./kcadm.sh update users/$JOE_ADMIN_ID/reset-password -r online-radio-search -s type=password -s value=admin -s temporary=false -n
 
-./kcadm.sh add-roles -r spring-security-example --uusername=joe_admin --cclientid keycloak-demo-app --rolename admin
+./kcadm.sh add-roles -r online-radio-search --uusername=joe_admin --cclientid online-radio-search-app --rolename admin
 
-JIM_USER_ID=$(./kcadm.sh create users -r spring-security-example -s username=jim_user -s enabled=true -i)
+JIM_USER_ID=$(./kcadm.sh create users -r online-radio-search -s username=jim_user -s enabled=true -i)
 
-./kcadm.sh update users/$JIM_USER_ID/reset-password -r spring-security-example -s type=password -s value=admin -s temporary=false -n
+./kcadm.sh update users/$JIM_USER_ID/reset-password -r online-radio-search -s type=password -s value=admin -s temporary=false -n
 
-./kcadm.sh add-roles -r spring-security-example --uusername=jim_user --cclientid keycloak-demo-app --rolename user
+./kcadm.sh add-roles -r online-radio-search --uusername=jim_user --cclientid online-radio-search-app --rolename user
 
 ./jboss-cli.sh --connect command=:shutdown
 
