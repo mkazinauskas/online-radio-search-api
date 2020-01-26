@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import './App.css';
 import { Layout, Menu, Icon } from 'antd';
+import RadioStationsView from './pages/radio-stations/RadioStationsView';
 
 const { Header, Content, Sider, Footer } = Layout;
 
@@ -18,57 +25,61 @@ class App extends Component {
 
   render() {
     return (
-      <Layout>
-        <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-          <div className="logo" />
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-            <Menu.Item key="1">
-              <Icon type="user" />
-              <span>nav 1</span>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Icon type="video-camera" />
-              <span>nav 2</span>
-            </Menu.Item>
-            <Menu.Item key="3">
-              <Icon type="upload" />
-              <span>nav 3</span>
-            </Menu.Item>
-          </Menu>
-        </Sider>
+      <Router>
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }}>
-            <Icon
-              className="trigger"
-              type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-              onClick={this.toggle}
-            />
-            <Menu style={{ float: 'right', lineHeight: '64px' }} theme="light" mode="horizontal">
-              <Menu.Item key="1">
-                <Icon type="user" />
+          <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
+            <div className="logo" />
+            <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+              <Menu.Item key="/radio-stations">
+                <Link to="/radio-stations"><Icon type="database" />Radio Stations</Link>
               </Menu.Item>
               <Menu.Item key="2">
                 <Icon type="video-camera" />
+                <span>nav 2</span>
               </Menu.Item>
               <Menu.Item key="3">
                 <Icon type="upload" />
+                <span>nav 3</span>
               </Menu.Item>
             </Menu>
-          </Header>
-          <Content
-            style={{
-              margin: '24px 16px',
-              padding: 24,
-              background: '#fff',
-              minHeight: 280,
-            }}
-          >
-            Content
-        </Content>
-          <Footer>Test</Footer>
+          </Sider>
+          <Layout>
+            <Header style={{ background: '#fff', padding: 0 }}>
+              <Icon
+                className="trigger"
+                type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                onClick={this.toggle}
+              />
+              <Menu style={{ float: 'right', lineHeight: '64px' }} theme="light" mode="horizontal">
+                <Menu.Item key="1">
+                  <Icon type="user" />
+                  <span>Login</span>
+                </Menu.Item>
+              </Menu>
+            </Header>
+            <Content
+              style={{
+                margin: '24px 16px',
+                padding: 24,
+                background: '#fff',
+                minHeight: 280,
+              }}
+            >
+              <Switch>
+                <Route exact path="/">
+                  <div>
+                    Just home
+                  </div>
+                </Route>
+                <Route exact path="/radio-stations">
+                  <RadioStationsView />
+                </Route>
+              </Switch>
+            </Content>
+            <Footer>Test</Footer>
+          </Layout>
         </Layout>
-
-      </Layout>
+      </Router>
     );
   }
 }
