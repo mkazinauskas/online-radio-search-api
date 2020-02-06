@@ -9,14 +9,14 @@
 
 ## As admin
 ### Get auth key
-`curl -ss --data "grant_type=password&client_id=curl&username=joe_admin&password=admin" http://localhost:8081/auth/realms/spring-security-example/protocol/openid-connect/token`
+`curl -ss --data "grant_type=password&client_id=curl&username=joe_admin&password=admin" http://localhost:8081/auth/realms/online-radio-search/protocol/openid-connect/token`
 
 ### Curl secured endpoint
 `curl -H "Authorization: bearer [your-token]" http://localhost:8080/admin/hello`
 
 ## As user
 ### Get auth key
-`curl -ss --data "grant_type=password&client_id=curl&username=jim_user&password=admin" http://localhost:8081/auth/realms/spring-security-example/protocol/openid-connect/token`
+`curl -ss --data "grant_type=password&client_id=curl&username=jim_user&password=admin" http://localhost:8081/auth/realms/online-radio-search/protocol/openid-connect/token`
 
 ### Curl secured endpoint
 `curl -H "Authorization: bearer [your-token]" http://localhost:8080/user/hello`
