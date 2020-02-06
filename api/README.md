@@ -7,6 +7,8 @@
 
 # Use application
 
+If you want to see keycloak user authentication window visit [http://localhost:8081/auth/realms/online-radio-search/account](http://localhost:8081/auth/realms/online-radio-search/account)
+
 ## As admin
 ### Get auth key
 `curl -ss --data "grant_type=password&client_id=curl&username=joe_admin&password=admin" http://localhost:8081/auth/realms/online-radio-search/protocol/openid-connect/token`
