@@ -8,6 +8,7 @@ import {
 import './App.css';
 import { Layout, Menu, Icon } from 'antd';
 import RadioStationsView from './pages/radio-stations/RadioStationsView';
+import AuthButtonComponent from './auth/AuthButtonComponent';
 
 const { Header, Content, Sider, Footer } = Layout;
 
@@ -51,9 +52,9 @@ class App extends Component {
                 onClick={this.toggle}
               />
               <Menu style={{ float: 'right', lineHeight: '64px' }} theme="light" mode="horizontal">
-                <Menu.Item key="1">
+                <Menu.Item key='1'>
                   <Icon type="user" />
-                  <span>Login</span>
+                  <AuthButtonComponent />
                 </Menu.Item>
               </Menu>
             </Header>
