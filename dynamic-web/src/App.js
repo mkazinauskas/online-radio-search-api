@@ -5,6 +5,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import { createBrowserHistory } from "history";
 import './App.css';
 import { Layout, Menu, Icon } from 'antd';
 import RadioStationsView from './pages/radio-stations/RadioStationsView';
@@ -25,14 +26,15 @@ class App extends Component {
   };
 
   render() {
+    const history = createBrowserHistory();
     return (
       <Router>
         <Layout>
           <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
             <div className="logo" />
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+            <Menu theme="dark" mode="inline" defaultSelectedKeys={[history.location.pathname]}>
               <Menu.Item key="/radio-stations">
-                <Link to="/radio-stations"><Icon type="database" />Radio Stations</Link>
+                <Link to="/radio-stations" ><Icon type="database" /><span>Radio Stations</span></Link>
               </Menu.Item>
               <Menu.Item key="2">
                 <Icon type="video-camera" />
