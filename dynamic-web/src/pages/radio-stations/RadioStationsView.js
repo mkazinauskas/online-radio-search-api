@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
+import RadioStationsTableComponent from './RadioStationsTableComponent';
+import AddRadioStationModalComponent from './AddRadioStationModalComponent';
 
 class RadioStationsView extends Component {
 
     render() {
         return (
-            <span>Radio stations view</span>
+            <div>
+                <div style={{ marginBottom: 10 }}>
+                    <AddRadioStationModalComponent />
+                </div>
+                <RadioStationsTableComponent />
+            </div>
         );
     }
 }
