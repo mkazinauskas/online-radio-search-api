@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import MainLayout from './layouts/MainLayout';
 import 'antd/dist/antd.css';
 import './index.css';
 import { Provider } from 'react-redux';
@@ -11,7 +11,7 @@ const authStore = createStore(authReducers);
 
 ReactDOM.render(
   <Provider store={authStore}>
-    <App />
+    <MainLayout />
   </Provider>,
   document.getElementById('root')
 );
