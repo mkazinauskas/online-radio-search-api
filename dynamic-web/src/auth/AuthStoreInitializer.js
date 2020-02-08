@@ -12,17 +12,19 @@ export const initialize = () => {
         .then(() => {
             authStore.dispatch(refresh(keycloak));
             setInterval(() => {
-                keycloak.updateToken()
-                    .then(
-                        refreshed => {
-                            if (refreshed) {
+                if (keycloak.authenticated) {
+                    keycloak.updateToken()
+                        .then(
+                            refreshed => {
+                                if (refreshed) {
+                                    authStore.dispatch(refresh(keycloak));
+                                }
+                            }, () => {
                                 authStore.dispatch(refresh(keycloak));
                             }
-                        }, () => {
-                            authStore.dispatch(refresh(keycloak));
-                        }
-                    );
-            }, 10000);
+                        );
+                }
+            }, 5000);
         });
 
 
