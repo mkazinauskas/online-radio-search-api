@@ -1,15 +1,20 @@
-import { SIGN_IN, SIGN_OUT } from "./types"
+import { SIGN_IN, SIGN_OUT, LOADED } from "./types"
 
-export const signIn = (keycloak) => {
+export const signIn = () => {
     return {
-        type: SIGN_IN,
-        payload: keycloak
+        type: SIGN_IN
     }
 }
 
-export const signOut = (keycloak) => {
+export const signOut = () => {
     return {
-        type: SIGN_OUT,
+        type: SIGN_OUT
+    }
+}
+
+export const refresh = (keycloak) => {
+    return {
+        type: LOADED,
         payload: keycloak
     }
 }

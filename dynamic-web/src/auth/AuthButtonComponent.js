@@ -6,34 +6,22 @@ import { connect } from 'react-redux';
 class AuthButtonComponent extends Component {
 
     render() {
-        if (this.props.authenticated === undefined) {
+        if (this.props.loading) {
             return (<span>Loading...</span>);
         }
-        if (this.props.authenticated) {
+        if (this.props.keycloak.authenticated) {
             return (
-                <span onClick={this.signOut}>Logout</span>
+                <span onClick={this.props.signOut}>Logout</span>
             );
         }
-        return (<span onClick={this.signIn}>Login</span>);
-    }
-
-    signIn = () => {
-        this.props.keycloak.login();
-    }
-
-    signOut = () => {
-        this.props.keycloak.logout();
+        return (<span onClick={this.props.signIn}>Login</span>);
     }
 }
 
 const mapStateToProps = (state) => {
-    let authenticated = undefined;
-    if(state.auth.keycloak){
-        authenticated =  state.auth.keycloak.authenticated;
-    }
     return {
         keycloak: state.auth.keycloak,
-        authenticated
+        loading: state.auth.loading
     }
 }
 

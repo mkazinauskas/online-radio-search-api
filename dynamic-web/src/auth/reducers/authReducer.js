@@ -1,16 +1,21 @@
 
-import { SIGN_IN, SIGN_OUT } from "../actions/types";
+import { SIGN_IN, SIGN_OUT, LOADED } from "../actions/types";
 
 const INITIAL_STATE = {
-    keycloak: null
+    keycloak: null,
+    loading: true
 }
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case SIGN_IN:
-            return { ...state, keycloak: action.payload }
+            state.keycloak.login();
+            return { ...state, loading: true }
         case SIGN_OUT:
-            return { ...state, keycloak: action.payload }
+            state.keycloak.logout();
+            return { ...state, loading: true }
+        case LOADED:
+            return { ...state, keycloak: action.payload, loading: false }
         default:
             return state;
     }
