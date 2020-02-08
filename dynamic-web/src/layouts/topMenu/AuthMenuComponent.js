@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { signIn, signOut } from '../../auth/actions';
 import { connect } from 'react-redux';
 import { Menu, Icon } from 'antd';
-import { Link } from 'react-router-dom';
 
 class AuthMenuComponent extends Component {
 
@@ -44,9 +43,9 @@ class AuthMenuComponent extends Component {
                 <Menu.Item key='accountInfo'>
                     <Icon type="info-circle" />
                     <span>Account info</span>
-                    <a href={this.props.accountUrl} target='_blank' />
+                    <a href={this.props.accountUrl} target='_blank' rel="noopener noreferrer" >Account info</a>
                 </Menu.Item>
-                <Menu.Divider/>
+                <Menu.Divider />
                 <Menu.Item key='logout' onClick={this.props.signOut}>
                     <Icon type="logout" />
                     <strong>Logout</strong>
