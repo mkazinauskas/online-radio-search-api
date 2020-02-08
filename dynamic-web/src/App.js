@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
-import { createBrowserHistory } from "history";
 import './App.css';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Icon } from 'antd';
 import RadioStationsView from './pages/radio-stations/RadioStationsView';
-import AuthButtonComponent from './auth/AuthButtonComponent';
+import LeftSideMenuComponent from './layouts/LeftSideMenuComponent';
+import MainView from './pages/main/MainView';
+import TopMenuComponent from './layouts/TopMenuComponent';
 
-const { Header, Content, Sider, Footer } = Layout;
+const { Header, Content, Footer } = Layout;
 
 class App extends Component {
 
@@ -26,26 +26,10 @@ class App extends Component {
   };
 
   render() {
-    const history = createBrowserHistory();
     return (
       <Router>
         <Layout>
-          <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-            <div className="logo" />
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={[history.location.pathname]}>
-              <Menu.Item key="/radio-stations">
-                <Link to="/radio-stations" ><Icon type="database" /><span>Radio Stations</span></Link>
-              </Menu.Item>
-              <Menu.Item key="2">
-                <Icon type="video-camera" />
-                <span>nav 2</span>
-              </Menu.Item>
-              <Menu.Item key="3">
-                <Icon type="upload" />
-                <span>nav 3</span>
-              </Menu.Item>
-            </Menu>
-          </Sider>
+          <LeftSideMenuComponent collapsed={this.state.collapsed} />
           <Layout>
             <Header style={{ background: '#fff', padding: 0 }}>
               <Icon
@@ -53,12 +37,8 @@ class App extends Component {
                 type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                 onClick={this.toggle}
               />
-              <Menu style={{ float: 'right', lineHeight: '64px' }} theme="light" mode="horizontal">
-                <Menu.Item key='1'>
-                  <Icon type="user" />
-                  <AuthButtonComponent />
-                </Menu.Item>
-              </Menu>
+
+              <TopMenuComponent />
             </Header>
             <Content
               style={{
@@ -70,9 +50,7 @@ class App extends Component {
             >
               <Switch>
                 <Route exact path="/">
-                  <div>
-                    Just home
-                  </div>
+                  <MainView />
                 </Route>
                 <Route exact path="/radio-stations">
                   <RadioStationsView />
