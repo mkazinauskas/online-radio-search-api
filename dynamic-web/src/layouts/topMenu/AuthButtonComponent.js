@@ -9,7 +9,7 @@ class AuthButtonComponent extends Component {
         if (this.props.loading) {
             return (<span>Loading...</span>);
         }
-        if (this.props.keycloak.authenticated) {
+        if (this.props.authenticated) {
             return (
                 <span onClick={this.props.signOut}>Logout</span>
             );
@@ -20,8 +20,8 @@ class AuthButtonComponent extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        keycloak: state.auth.keycloak,
-        loading: state.auth.loading
+        loading: state.auth.loading,
+        authenticated: state.auth.authenticated
     }
 }
 
