@@ -12,11 +12,11 @@ class LeftSideMenuComponent extends Component {
                 <div className="logo" />
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={[history.location.pathname]}>
                     <Menu.Item key={HOME}>
-                        <Icon type="database" /><span>Main</span>
+                        <Icon type="home" /><span>Main</span>
                         <Link to={HOME} />
                     </Menu.Item>
                     <Menu.Item key={RADIO_STATIONS}>
-                        <Icon type="database" /><span>Radio Stations</span>
+                        <Icon type="unordered-list" /><span>Radio Stations</span>
                         <Link to={RADIO_STATIONS} />
                     </Menu.Item>
                 </Menu>
