@@ -1,5 +1,5 @@
 import { keycloakConfiguration } from "./keycloakConfiguration";
-import { refresh, signOut } from "./actions";
+import { refresh } from "./actions";
 import { createStore } from 'redux';
 import authReducers from './reducers';
 
@@ -13,13 +13,15 @@ export const initialize = () => {
             authStore.dispatch(refresh(keycloak));
             setInterval(() => {
                 keycloak.updateToken()
-                    .then(function (refreshed) {
-                        if (refreshed) {
+                    .then(
+                        refreshed => {
+                            if (refreshed) {
+                                authStore.dispatch(refresh(keycloak));
+                            }
+                        }, () => {
                             authStore.dispatch(refresh(keycloak));
                         }
-                    }, (rejected) => {
-                        authStore.dispatch(refresh(keycloak));
-                    });
+                    );
             }, 10000);
         });
 

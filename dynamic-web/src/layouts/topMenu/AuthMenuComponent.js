@@ -23,20 +23,20 @@ class AuthMenuComponent extends Component {
         );
     }
 
+    renderUnauthorizedUser() {
+        return this.wrapWithMenu(
+            <Menu.Item key={0} onClick={this.props.signIn}>
+                <Icon type="user" />
+                <span>Login/Register</span>
+            </Menu.Item>
+        );
+    }
+
     renderAuthorizedUser() {
         return this.wrapWithMenu(
             <Menu.Item key={0} onClick={this.props.signOut}>
                 <Icon type="user" />
                 <span>Logout</span>
-            </Menu.Item>
-        );
-    }
-
-    renderUnauthorizedUser() {
-        return this.wrapWithMenu(
-            <Menu.Item key={0} onClick={this.props.signIn}>
-                <Icon type="user" />
-                <span>Login</span>
             </Menu.Item>
         );
     }
