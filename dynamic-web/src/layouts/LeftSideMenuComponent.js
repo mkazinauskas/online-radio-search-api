@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
 import { createBrowserHistory } from "history";
-
 import { Link } from "react-router-dom";
-
 import { Layout, Menu, Icon } from 'antd';
 
-const { Sider } = Layout;
-
 class LeftSideMenuComponent extends Component {
-
     render() {
         const history = createBrowserHistory();
         return (
-            <Sider trigger={null} collapsible collapsed={this.props.collapsed}>
+            <Layout.Sider trigger={null} collapsible collapsed={this.props.collapsed}>
                 <div className="logo" />
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={[history.location.pathname]}>
                     <Menu.Item key="/">
@@ -30,7 +25,7 @@ class LeftSideMenuComponent extends Component {
                         <span>nav 3</span>
                     </Menu.Item>
                 </Menu>
-            </Sider>
+            </Layout.Sider>
         )
     }
 }

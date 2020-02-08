@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import './App.css';
 import { Layout, Icon } from 'antd';
-import RadioStationsView from './pages/radio-stations/RadioStationsView';
 import LeftSideMenuComponent from './layouts/LeftSideMenuComponent';
-import MainView from './pages/main/MainView';
 import TopMenuComponent from './layouts/TopMenuComponent';
+import ContentComponent from './layouts/ContentComponent';
 
-const { Header, Content, Footer } = Layout;
+const { Header, Footer } = Layout;
 
 class App extends Component {
 
@@ -37,26 +32,9 @@ class App extends Component {
                 type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                 onClick={this.toggle}
               />
-
               <TopMenuComponent />
             </Header>
-            <Content
-              style={{
-                margin: '24px 16px',
-                padding: 24,
-                background: '#fff',
-                minHeight: 280,
-              }}
-            >
-              <Switch>
-                <Route exact path="/">
-                  <MainView />
-                </Route>
-                <Route exact path="/radio-stations">
-                  <RadioStationsView />
-                </Route>
-              </Switch>
-            </Content>
+            <ContentComponent />
             <Footer>Test</Footer>
           </Layout>
         </Layout>
