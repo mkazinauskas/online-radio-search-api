@@ -1,25 +1,38 @@
 import React, { Component } from 'react';
-import { Modal, Form, Select, Input, Button, Icon } from 'antd';
-
-const { Option } = Select;
+import { Modal, Form, Input, Button, Icon, Alert } from 'antd';
+import Axios from 'axios';
+import { connect } from 'react-redux';
 
 class AddRadioStationModalComponent extends Component {
 
-    state = { visible: false };
+    state = {
+        visible: false,
+        loading: false,
+        submitted: false,
+        successMessage: '',
+        errorMessage: ''
+    };
 
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
-            }
-        });
-    };
+                this.setState({ ...this.state, loading: true, successMessage: '', errorMessage: '' });
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${this.props.token}`
+                    }
+                }
 
-    handleSelectChange = value => {
-        console.log(value);
-        this.props.form.setFieldsValue({
-            note: `Hi, ${value === 'male' ? 'man' : 'lady'}!`,
+                const content = {
+                    ...values
+                }
+
+                Axios.post('/admin/radio-stations', content, config)
+                    .then(() => this.setState({ ...this.state, successMessage: 'Radio station was added', errorMessage: null }))
+                    .catch(() => this.setState({ ...this.state, successMessage: null, errorMessage: 'Failed to add radio station' }))
+                    .finally(this.setState({ ...this.state, loading: false }));
+            }
         });
     };
 
@@ -29,15 +42,7 @@ class AddRadioStationModalComponent extends Component {
         });
     };
 
-    handleOk = e => {
-        console.log(e);
-        this.setState({
-            visible: false,
-        });
-    };
-
     handleCancel = e => {
-        console.log(e);
         this.setState({
             visible: false,
         });
@@ -45,48 +50,58 @@ class AddRadioStationModalComponent extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
+
+        const addStationButton = (
+            <Button type="primary" onClick={this.showModal}>
+                <Icon type="plus-circle" theme="filled" />
+                Add new station
+            </Button>
+        );
+
+        const form = (
+            <Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} onSubmit={this.handleSubmit}>
+                <Form.Item label="Title">
+                    {getFieldDecorator('title', {
+                        rules: [{ required: true, message: 'Please input radio station title!' }],
+                    })(<Input />)}
+                </Form.Item>
+            </Form>
+        );
+
+        const successMessage = this.state.successMessage
+            ? (<Alert message={this.state.successMessage} showIcon type="success" />)
+            : '';
+
+        const errorMessage = this.state.errorMessage
+            ? (<Alert message={this.state.errorMessage} showIcon type="error" />)
+            : '';
         return (
             <span>
-                <Button type="primary" onClick={this.showModal}>
-                    <Icon type="plus-circle" theme="filled" />
-                    Add new station
-                </Button>
+                {addStationButton}
                 <Modal
                     title="Add New Radio Station"
                     visible={this.state.visible}
-                    onOk={this.handleOk}
+                    okText="Add"
+                    okButtonProps={{ disabled: this.state.loading }}
+                    onOk={this.handleSubmit}
                     onCancel={this.handleCancel}
                 >
-                    <Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} onSubmit={this.handleSubmit}>
-                        <Form.Item label="Note">
-                            {getFieldDecorator('note', {
-                                rules: [{ required: true, message: 'Please input your note!' }],
-                            })(<Input />)}
-                        </Form.Item>
-                        <Form.Item label="Gender">
-                            {getFieldDecorator('gender', {
-                                rules: [{ required: true, message: 'Please select your gender!' }],
-                            })(
-                                <Select
-                                    placeholder="Select a option and change input text above"
-                                    onChange={this.handleSelectChange}
-                                >
-                                    <Option value="male">male</Option>
-                                    <Option value="female">female</Option>
-                                </Select>,
-                            )}
-                        </Form.Item>
-                        <Form.Item wrapperCol={{ span: 12, offset: 5 }}>
-                            <Button type="primary" htmlType="submit">
-                                Submit
-          </Button>
-                        </Form.Item>
-                    </Form>
+                    {successMessage}
+                    {errorMessage}
+                    {form}
                 </Modal>
             </span>
         );
     }
 }
 
-export default Form.create({ name: 'coordinated' })(AddRadioStationModalComponent);
+const form = Form.create({ name: 'coordinated' })(AddRadioStationModalComponent)
 
+const mapStateToProps = (state) => {
+    return {
+        authenticated: state.auth.authenticated,
+        token: state.auth.token
+    }
+}
+
+export default connect(mapStateToProps)(form);
