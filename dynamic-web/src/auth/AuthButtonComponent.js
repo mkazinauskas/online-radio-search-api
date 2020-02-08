@@ -5,12 +5,6 @@ import { connect } from 'react-redux';
 
 class AuthButtonComponent extends Component {
 
-    componentDidMount() {
-        this.props.keycloak
-            .init({ promiseType: 'native', onLoad: 'check-sso' })
-            .then(authenticated => authenticated ? this.props.signIn() : this.props.signOut());
-    }
-
     render() {
         if (this.props.authenticated === undefined) {
             return (<span>Loading...</span>);
@@ -33,9 +27,13 @@ class AuthButtonComponent extends Component {
 }
 
 const mapStateToProps = (state) => {
+    let authenticated = undefined;
+    if(state.auth.keycloak){
+        authenticated =  state.auth.keycloak.authenticated;
+    }
     return {
         keycloak: state.auth.keycloak,
-        authenticated: state.auth.keycloak.authenticated
+        authenticated
     }
 }
 

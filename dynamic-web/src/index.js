@@ -4,10 +4,9 @@ import MainLayout from './layouts/MainLayout';
 import 'antd/dist/antd.css';
 import './index.css';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import authReducers from './auth/reducers';
+import { initialize } from './auth/AuthStoreInitializer';
 
-const authStore = createStore(authReducers);
+const authStore = initialize();
 
 ReactDOM.render(
   <Provider store={authStore}>
