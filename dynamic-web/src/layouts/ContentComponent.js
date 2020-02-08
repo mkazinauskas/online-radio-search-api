@@ -10,8 +10,8 @@ import MainView from '../pages/main/MainView';
 export default () => (
     <Layout.Content
         style={{
-            margin: '10px',
-            padding: 24,
+            margin: 10,
+            padding: 10,
             background: '#fff',
             minHeight: 280,
         }}
