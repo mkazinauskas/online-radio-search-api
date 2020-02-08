@@ -5,21 +5,17 @@ import Axios from 'axios';
 
 const columns = [
     {
-        title: 'Name',
-        dataIndex: 'name',
-        sorter: true,
-        render: name => `${name.first} ${name.last}`,
-        width: '20%',
+        title: 'Id',
+        dataIndex: 'radioStation.id',
+        width: '10%',
     },
     {
-        title: 'Gender',
-        dataIndex: 'gender',
-        filters: [{ text: 'Male', value: 'male' }, { text: 'Female', value: 'female' }],
-        width: '20%',
+        title: 'Title',
+        dataIndex: 'radioStation.title',
     },
     {
-        title: 'Email',
-        dataIndex: 'email',
+        title: 'Actions',
+        width: '20%',
     },
 ];
 
@@ -39,7 +35,14 @@ class RadioStationsTableComponent extends Component {
         // }
 
         Axios.get('/radio-stations')
-            .then(console.log)
+            .then((response) => {
+                console.log(response);
+                this.setState({
+                    ...this.state, 
+                    data: response.data._embedded.radioStationResourceList
+                })
+
+            })
             .catch(console.log);
     }
 
@@ -47,7 +50,7 @@ class RadioStationsTableComponent extends Component {
         return (
             <Table
                 columns={columns}
-                rowKey={record => record.login.uuid}
+                rowKey={record => record.radioStation.id}
                 dataSource={this.state.data}
                 pagination={this.state.pagination}
                 loading={this.state.loading}
