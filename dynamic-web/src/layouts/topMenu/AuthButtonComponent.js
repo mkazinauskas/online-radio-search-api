@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { signIn, signOut } from '../auth/actions';
+import { signIn, signOut } from '../../auth/actions';
 import { connect } from 'react-redux';
 
 class AuthButtonComponent extends Component {

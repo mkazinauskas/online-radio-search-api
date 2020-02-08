@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthButtonComponent from '../auth/AuthButtonComponent';
+import AuthButtonComponent from './AuthButtonComponent';
 import { Menu, Icon } from 'antd';
 
 export default () => (

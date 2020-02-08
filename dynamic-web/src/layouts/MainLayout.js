@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router } from "react-router-dom";
 import { Layout, Icon } from 'antd';
 import LeftSideMenuComponent from './LeftSideMenuComponent';
-import TopMenuComponent from './TopMenuComponent';
+import TopMenuComponent from './topMenu/TopMenuComponent';
 import ContentComponent from './ContentComponent';
 import FooterComponent from './FooterComponent';
 import './MainLayout.css';
