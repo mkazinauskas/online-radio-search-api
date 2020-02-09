@@ -4,7 +4,7 @@ import {
     Switch,
     Route
 } from "react-router-dom";
-import RadioStationsView from '../pages/radio-stations/RadioStationsView';
+import RadioStationsView from '../pages/radioStations/RadioStationsView';
 import MainView from '../pages/main/MainView';
 import { HOME, RADIO_STATIONS } from './pathTypes'
 
