@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import RadioStationsTableComponent from './RadioStationsTableComponent';
+import RadioStationsTable from './RadioStationsTable';
 import AddRadioStationButton from './addStation/AddRadioStationButton';
 
 class RadioStationsView extends Component {
@@ -10,7 +10,7 @@ class RadioStationsView extends Component {
                 <div style={{ marginBottom: 10 }}>
                     <AddRadioStationButton />
                 </div>
-                <RadioStationsTableComponent />
+                <RadioStationsTable />
             </div>
         );
     }
