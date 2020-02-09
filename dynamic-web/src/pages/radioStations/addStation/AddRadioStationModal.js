@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input, Button, Icon, Alert } from 'antd';
+import { Modal, Form, Input, Alert } from 'antd';
 import Axios from 'axios';
 import { connect } from 'react-redux';
 
-class AddRadioStationModalComponent extends Component {
+class AddRadioStationModal extends Component {
 
     state = {
-        visible: false,
         loading: false,
-        submitted: false,
-        successMessage: '',
-        errorMessage: ''
+        successMessage: null,
+        errorMessage: null
     };
 
     handleSubmit = e => {
         e.preventDefault();
+        this.setState({ loading: true, successMessage: null, errorMessage: null });
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                this.setState({ ...this.state, loading: true, successMessage: '', errorMessage: '' });
                 const config = {
                     headers: {
                         Authorization: `Bearer ${this.props.token}`
@@ -29,34 +27,14 @@ class AddRadioStationModalComponent extends Component {
                 }
 
                 Axios.post('/admin/radio-stations', content, config)
-                    .then(() => this.setState({ ...this.state, successMessage: 'Radio station was added', errorMessage: null }))
-                    .catch(() => this.setState({ ...this.state, successMessage: null, errorMessage: 'Failed to add radio station' }))
-                    .finally(this.setState({ ...this.state, loading: false }));
+                    .then(() => this.setState({ ...this.state, loading: false, successMessage: 'Radio station was added' }))
+                    .catch(() => this.setState({ ...this.state, loading: false, errorMessage: 'Failed to add radio station' }));
             }
-        });
-    };
-
-    showModal = () => {
-        this.setState({
-            visible: true,
-        });
-    };
-
-    handleCancel = e => {
-        this.setState({
-            visible: false,
         });
     };
 
     render() {
         const { getFieldDecorator } = this.props.form;
-
-        const addStationButton = (
-            <Button type="primary" onClick={this.showModal}>
-                <Icon type="plus-circle" theme="filled" />
-                Add new station
-            </Button>
-        );
 
         const form = (
             <Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} onSubmit={this.handleSubmit}>
@@ -77,17 +55,18 @@ class AddRadioStationModalComponent extends Component {
             : '';
         return (
             <span>
-                {addStationButton}
                 <Modal
                     title="Add New Radio Station"
-                    visible={this.state.visible}
+                    visible={this.props.visible}
                     okText="Add"
                     okButtonProps={{ disabled: this.state.loading }}
                     onOk={this.handleSubmit}
-                    onCancel={this.handleCancel}
+                    onCancel={this.props.onModalClose}
                 >
-                    {successMessage}
-                    {errorMessage}
+                    <div style={{ marginBottom: 10 }}>
+                        {successMessage}
+                        {errorMessage}
+                    </div>
                     {form}
                 </Modal>
             </span>
@@ -95,11 +74,10 @@ class AddRadioStationModalComponent extends Component {
     }
 }
 
-const form = Form.create({ name: 'coordinated' })(AddRadioStationModalComponent)
+const form = Form.create({ name: 'coordinated' })(AddRadioStationModal)
 
 const mapStateToProps = (state) => {
     return {
-        authenticated: state.auth.authenticated,
         token: state.auth.token
     }
 }
