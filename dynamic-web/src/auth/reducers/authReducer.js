@@ -1,5 +1,5 @@
 
-import { SIGN_IN, SIGN_OUT, LOADED } from "../actions/types";
+import { SIGN_IN, SIGN_OUT, LOADED, ERROR } from "../actions/types";
 
 const INITIAL_STATE = {
     keycloak: null,
@@ -34,6 +34,13 @@ export default (state = INITIAL_STATE, action) => {
                 loading: false,
                 authenticated: action.payload.authenticated,
                 token: action.payload.token
+            }
+        case ERROR: 
+            return {
+                keycloak: action.payload,
+                loading: false,
+                error: true,
+                authenticated: false
             }
         default:
             return state;

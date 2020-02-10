@@ -1,4 +1,4 @@
-import { SIGN_IN, SIGN_OUT, LOADED } from "./types"
+import { SIGN_IN, SIGN_OUT, LOADED, ERROR } from "./types"
 
 export const signIn = () => {
     return {
@@ -18,3 +18,11 @@ export const refresh = (keycloak) => {
         payload: keycloak
     }
 }
+
+export const error = (keycloak) => {
+    return {
+        type: ERROR,
+        payload: keycloak
+    }
+}
+

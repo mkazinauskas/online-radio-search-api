@@ -1,5 +1,5 @@
 import { keycloakConfiguration } from "./keycloakConfiguration";
-import { refresh } from "./actions";
+import { refresh, error } from "./actions";
 import { createStore } from 'redux';
 import authReducers from './reducers';
 
@@ -25,6 +25,9 @@ export const initialize = () => {
                         );
                 }
             }, 5000);
+        })
+        .catch(() => {
+            authStore.dispatch(error(keycloak))
         });
 
 
