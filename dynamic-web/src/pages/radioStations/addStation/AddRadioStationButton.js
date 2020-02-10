@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Button, Icon } from 'antd';
 import { connect } from 'react-redux';
 import AddRadioStationModal from './AddRadioStationModal';
+import { ADMIN } from '../../../auth/resourceRoleType';
+import { ONLINE_RADIO_SEARCH_API } from '../../../auth/resourceTypes';
 
 class AddRadioStationButton extends Component {
 
@@ -18,7 +20,7 @@ class AddRadioStationButton extends Component {
     };
 
     render() {
-        if (!this.props.authenticated) {
+        if (!this.props.authenticated || !this.props.hasAdminRole) {
             return null;
         }
         return (
@@ -37,8 +39,11 @@ class AddRadioStationButton extends Component {
 }
 
 const mapStateToProps = (state) => {
+    const hasAdminRole = state.auth.authenticated ? state.auth.keycloak.hasResourceRole(ADMIN, ONLINE_RADIO_SEARCH_API) : false;
+    debugger;
     return {
-        authenticated: state.auth.authenticated
+        authenticated: state.auth.authenticated,
+        hasAdminRole
     }
 }
 
