@@ -30,6 +30,7 @@ class AddRadioStationButton extends Component {
                     Add new station
                 </Button>
                 <AddRadioStationModal
+                    key={new Date().getMilliseconds()}
                     visible={this.state.visible}
                     onModalClose={this.handleModalClose}
                 />

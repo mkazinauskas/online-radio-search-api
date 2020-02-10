@@ -3,13 +3,17 @@ import { Modal, Form, Input, Alert } from 'antd';
 import Axios from 'axios';
 import { connect } from 'react-redux';
 
+const DEFAULT_STATE={
+    loading: false,
+    successMessage: null,
+    errorMessage: null
+}
+
 class AddRadioStationModal extends Component {
 
     state = {
-        loading: false,
-        successMessage: null,
-        errorMessage: null
-    };
+        ...DEFAULT_STATE
+    }
 
     handleSubmit = e => {
         e.preventDefault();
@@ -33,6 +37,11 @@ class AddRadioStationModal extends Component {
             }
         });
     };
+
+    onCancel = () => {
+        this.props.form.resetFields();
+        this.props.onModalClose();
+    }
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -62,7 +71,7 @@ class AddRadioStationModal extends Component {
                     okText="Add"
                     okButtonProps={{ disabled: this.state.loading }}
                     onOk={this.handleSubmit}
-                    onCancel={this.props.onModalClose}
+                    onCancel={this.onCancel}
                 >
                     <div style={{ marginBottom: 10 }}>
                         {successMessage}
