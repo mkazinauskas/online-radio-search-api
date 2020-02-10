@@ -52,6 +52,7 @@
     } ],
     "client" : {
       "curl" : [ ],
+      "online-radio-search-dynamic-web": [],
       "realm-management" : [ {
         "id" : "087976ec-22ee-4f17-ad4c-2bd2de175390",
         "name" : "view-realm",
@@ -527,6 +528,48 @@
     "nodeReRegistrationTimeout" : -1,
     "defaultClientScopes" : [ "role_list", "profile", "email" ],
     "optionalClientScopes" : [ "address", "phone", "offline_access" ]
+  }, {
+    "id": "1ac82c44-1784-4eb4-bdd0-d0cd8613059f",
+    "clientId": "online-radio-search-dynamic-web",
+    "rootUrl": "http://localhost:3000/",
+    "adminUrl": "http://localhost:3000/",
+    "surrogateAuthRequired": false,
+    "enabled": true,
+    "clientAuthenticatorType": "client-secret",
+    "secret": "**********",
+    "redirectUris": [
+      "http://localhost:3000/*"
+    ],
+    "webOrigins": [
+      "http://localhost:3000"
+    ],
+    "notBefore": 0,
+    "bearerOnly": false,
+    "consentRequired": false,
+    "standardFlowEnabled": true,
+    "implicitFlowEnabled": false,
+    "directAccessGrantsEnabled": true,
+    "serviceAccountsEnabled": false,
+    "publicClient": true,
+    "frontchannelLogout": false,
+    "protocol": "openid-connect",
+    "attributes": {},
+    "authenticationFlowBindingOverrides": {},
+    "fullScopeAllowed": true,
+    "nodeReRegistrationTimeout": -1,
+    "defaultClientScopes": [
+      "web-origins",
+      "role_list",
+      "profile",
+      "roles",
+      "email"
+    ],
+    "optionalClientScopes": [
+      "address",
+      "phone",
+      "offline_access",
+      "microprofile-jwt"
+    ]
   } ],
   "clientScopes" : [ {
     "id" : "b27d7252-c111-43e9-9356-3300ff935d8c",
