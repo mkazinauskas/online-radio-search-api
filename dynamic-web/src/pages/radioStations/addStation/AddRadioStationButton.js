@@ -40,7 +40,6 @@ class AddRadioStationButton extends Component {
 
 const mapStateToProps = (state) => {
     const hasAdminRole = state.auth.authenticated ? state.auth.keycloak.hasResourceRole(ADMIN, ONLINE_RADIO_SEARCH_API) : false;
-    debugger;
     return {
         authenticated: state.auth.authenticated,
         hasAdminRole
