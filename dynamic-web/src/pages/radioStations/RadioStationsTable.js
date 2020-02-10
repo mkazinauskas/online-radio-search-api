@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Table } from 'antd';
+import { Result, Button, Table } from 'antd';
 import Axios from 'axios';
-// import { connect } from 'react-redux';
 
 const columns = [
     {
@@ -26,8 +25,9 @@ class RadioStationsTable extends Component {
         pagination: {},
         filter: {
             page: 0,
-            size: 20
+            size: 10
         },
+        error: false,
         loading: true,
     };
 
@@ -35,7 +35,9 @@ class RadioStationsTable extends Component {
         this.loadData();
     }
 
-    loadData() {
+    loadData = () => {
+        this.setState({ ...this.state, loading: true, error: false });
+
         const urlSearchParams = new URLSearchParams();
         urlSearchParams.set('sort', 'id,desc');
         urlSearchParams.set('page', this.state.filter.page);
@@ -43,9 +45,15 @@ class RadioStationsTable extends Component {
 
         Axios.get('/radio-stations?' + urlSearchParams.toString())
             .then((response) => {
+                let data = [];
+
+                if (response.data._embedded && response.data._embedded.radioStationResourceList) {
+                    data = response.data._embedded.radioStationResourceList;
+                }
+
                 this.setState({
                     ...this.state,
-                    data: response.data._embedded.radioStationResourceList,
+                    data,
                     pagination: {
                         total: response.data.page.totalElements,
                         pageSize: response.data.page.size,
@@ -54,7 +62,7 @@ class RadioStationsTable extends Component {
                 })
 
             })
-            .catch(console.log)
+            .catch(() => { this.setState({ ...this.state, error: true }) })
             .then(() => this.setState({ ...this.state, loading: false }));
     }
 
@@ -62,7 +70,6 @@ class RadioStationsTable extends Component {
         this.setState({
             ...this.state,
             data: [],
-            loading: true,
             filter: {
                 page: page.current - 1,
                 size: page.pageSize
@@ -71,6 +78,19 @@ class RadioStationsTable extends Component {
     }
 
     render() {
+        if (this.state.error) {
+            return (
+                <Result
+                    status="error"
+                    title="Failed to load radio stations"
+                    subTitle="Please wait until service will be working again"
+                    extra={[
+                        <Button type="primary" key="console" onClick={this.loadData}>Retry</Button>,
+                    ]}
+                >
+                </Result>
+            );
+        }
         return (
             <Table
                 columns={columns}
@@ -84,13 +104,4 @@ class RadioStationsTable extends Component {
     }
 }
 
-// const mapStateToProps = (state) => {
-//     return {
-//         authenticated: state.auth.authenticated,
-//         token: state.auth.token
-//     }
-// }
-
 export default RadioStationsTable;
-
-// connect(mapStateToProps)(RadioStationsView);;
