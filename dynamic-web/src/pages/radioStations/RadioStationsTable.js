@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Result, Button, Table } from 'antd';
 import Axios from 'axios';
+import DeleteRadioStationButton from './deleteStation/DeleteRadioStationButton';
 
 const columns = [
     {
@@ -11,11 +12,17 @@ const columns = [
     {
         title: 'Title',
         dataIndex: 'radioStation.title',
+        width: '40%',
     },
     {
         title: 'Actions',
-        width: '20%',
-    },
+        key: 'operation',
+        fixed: 'right',
+        render: (text, record) => {
+            const id = record.radioStation.id;
+            return (<DeleteRadioStationButton key={id} id={id} />)
+        },
+    }
 ];
 
 class RadioStationsTable extends Component {
