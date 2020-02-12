@@ -66,7 +66,7 @@ public class DeleteRadioStation {
                             )
                     );
 
-            if (command.id > 0) {
+            if (command.id <= 0) {
                 throw new DomainException("FIELD_ID_SHOULD_BE_POSITIVE", "Field id must be positive");
             }
         }
