@@ -37,6 +37,7 @@ public class Event {
 
     public enum Type {
         RADIO_STATION_CREATED(RadioStationCreated.Data.class),
+        RADIO_STATION_DELETED(RadioStationDeleted.Data.class),
         RADIO_STATION_UPDATED(RadioStationUpdated.Data.class),
         RADIO_STATION_STREAM_CREATED(RadioStationStreamCreated.Data.class),
         RADIO_STATION_STREAM_UPDATED(RadioStationStreamUpdated.Data.class),
