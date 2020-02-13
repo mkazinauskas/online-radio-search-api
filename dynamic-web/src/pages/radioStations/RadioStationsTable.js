@@ -91,6 +91,11 @@ class RadioStationsTable extends Component {
                     data = response.data._embedded.radioStationResourceList;
                 }
 
+                if (!data.length && response.data.page.totalPages > 1) {
+                    //If last item from page deleted, we want to go back to latest existing page
+                    this.redirectToPage(response.data.page.totalPages, response.data.page.size);
+                }
+
                 this.setState({
                     ...this.state,
                     data,
@@ -106,12 +111,16 @@ class RadioStationsTable extends Component {
             .then(() => this.setState({ ...this.state, loading: false }));
     }
 
-    handleTableChange = (page) => {
+    redirectToPage = (page, size) => {
         const urlSearchParams = new URLSearchParams();
-        urlSearchParams.set('page', page.current);
-        urlSearchParams.set('size', page.pageSize);
+        urlSearchParams.set('page', page);
+        urlSearchParams.set('size', size);
 
         this.props.history.push(RADIO_STATIONS + '?' + urlSearchParams.toString());
+    }
+
+    handleTableChange = (page) => {
+        this.redirectToPage(page.current, page.pageSize);
     }
 
     render() {
