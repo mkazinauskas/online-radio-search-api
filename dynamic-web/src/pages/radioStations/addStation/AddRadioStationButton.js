@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import AddRadioStationModal from './AddRadioStationModal';
 import { ADMIN } from '../../../auth/resourceRoleType';
 import { ONLINE_RADIO_SEARCH_API } from '../../../auth/resourceTypes';
+import { getRadioStations } from "../store/actions";
 
 class AddRadioStationButton extends Component {
 
@@ -17,10 +18,11 @@ class AddRadioStationButton extends Component {
 
     handleModalClose = e => {
         this.setState({ visible: false });
+        this.props.getRadioStations();
     };
 
     render() {
-        if (!this.props.authenticated || !this.props.hasAdminRole) {
+        if (!this.props.hasAdminRole) {
             return null;
         }
         return (
@@ -42,9 +44,8 @@ class AddRadioStationButton extends Component {
 const mapStateToProps = (state) => {
     const hasAdminRole = state.auth.authenticated ? state.auth.keycloak.hasResourceRole(ADMIN, ONLINE_RADIO_SEARCH_API) : false;
     return {
-        authenticated: state.auth.authenticated,
         hasAdminRole
     }
 }
 
-export default connect(mapStateToProps)(AddRadioStationButton);
+export default connect(mapStateToProps, { getRadioStations })(AddRadioStationButton);

@@ -1,11 +1,7 @@
 import { keycloakConfiguration } from "./keycloakConfiguration";
 import { refresh, error } from "./actions";
-import { createStore } from 'redux';
-import authReducers from './reducers';
-
-export const initialize = () => {
+export const initialize = (authStore) => {
     const keycloak = keycloakConfiguration;
-    const authStore = createStore(authReducers);
 
     keycloak
         .init({ promiseType: 'native', onLoad: 'check-sso' })

@@ -5,8 +5,12 @@ import 'antd/dist/antd.css';
 import './index.css';
 import { Provider } from 'react-redux';
 import { initialize } from './auth/AuthStoreInitializer';
+import { createStore } from 'redux';
+import reducers from './store/reducers';
 
-const authStore = initialize();
+const store = createStore(reducers);
+
+const authStore = initialize(store);
 
 ReactDOM.render(
   <Provider store={authStore}>
