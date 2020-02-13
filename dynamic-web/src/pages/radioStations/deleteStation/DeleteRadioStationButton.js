@@ -3,7 +3,9 @@ import { Popconfirm, Button } from 'antd';
 import Axios from 'axios';
 import { connect } from 'react-redux';
 import { ADMIN } from '../../../auth/resourceRoleType';
+import { withRouter } from 'react-router-dom'
 import { ONLINE_RADIO_SEARCH_API } from '../../../auth/resourceTypes';
+import { reloadPage } from '../../../utils/historyUtils';
 
 class DeleteRadioStationButton extends Component {
 
@@ -37,8 +39,12 @@ class DeleteRadioStationButton extends Component {
         }
 
         Axios.delete(`/admin/radio-stations/${id}`, config)
-            .then(() => this.setState({ loading: false }));
+            .then(() => {
+                this.setState({ loading: false });
+                reloadPage(this.props.history);
+            });
     };
+
 }
 
 const mapStateToProps = (state) => {
@@ -49,4 +55,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(DeleteRadioStationButton);
+export default connect(mapStateToProps)(withRouter(DeleteRadioStationButton));

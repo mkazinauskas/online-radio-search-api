@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { Result, Button, Table } from 'antd';
 import Axios from 'axios';
 import DeleteRadioStationButton from './deleteStation/DeleteRadioStationButton';
-import {
-    withRouter
-} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { RADIO_STATIONS } from '../../layouts/pathTypes';
 
 const columns = [
