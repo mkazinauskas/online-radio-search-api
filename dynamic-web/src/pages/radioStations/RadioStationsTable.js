@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { Result, Button, Table } from 'antd';
 import Axios from 'axios';
 import DeleteRadioStationButton from './deleteStation/DeleteRadioStationButton';
+import {
+    withRouter
+} from 'react-router-dom'
+import { RADIO_STATIONS } from '../../layouts/pathTypes';
 
 const columns = [
     {
@@ -29,17 +33,48 @@ class RadioStationsTable extends Component {
 
     state = {
         data: [],
-        pagination: {},
+        pagination: {
+            total: null,
+            pageSize: null,
+            current: null
+        },
         filter: {
             page: 0,
-            size: 10
+            size: 10,
         },
         error: false,
         loading: true,
     };
 
     componentDidMount() {
-        this.loadData();
+        this.loadDataWithSearchParams();
+        this.props.history.listen(() => {
+            this.loadDataWithSearchParams();
+        });
+    }
+
+    loadDataWithSearchParams = () => {
+        const params = new URLSearchParams(window.location.search);
+
+        let page = params.get('page');
+        if (!page) {
+            page = 1;
+        }
+
+        let size = params.get('size');
+        if (!size) {
+            size = 10;
+        }
+
+        const filter = {
+            page: page - 1,
+            size,
+        };
+
+        this.setState(
+            { ...this.state, filter },
+            this.loadData
+        );
     }
 
     loadData = () => {
@@ -74,14 +109,11 @@ class RadioStationsTable extends Component {
     }
 
     handleTableChange = (page) => {
-        this.setState({
-            ...this.state,
-            data: [],
-            filter: {
-                page: page.current - 1,
-                size: page.pageSize
-            }
-        }, this.loadData);
+        const urlSearchParams = new URLSearchParams();
+        urlSearchParams.set('page', page.current);
+        urlSearchParams.set('size', page.pageSize);
+
+        this.props.history.push(RADIO_STATIONS + '?' + urlSearchParams.toString());
     }
 
     render() {
@@ -111,4 +143,4 @@ class RadioStationsTable extends Component {
     }
 }
 
-export default RadioStationsTable;
+export default withRouter(RadioStationsTable);
