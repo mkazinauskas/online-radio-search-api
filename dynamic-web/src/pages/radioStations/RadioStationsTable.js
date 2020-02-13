@@ -52,7 +52,7 @@ class RadioStationsTable extends Component {
     }
 
     loadDataWithSearchParams = () => {
-        const params = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams(this.props.history.location.search);
 
         let page = params.get('page');
         if (!page) {
