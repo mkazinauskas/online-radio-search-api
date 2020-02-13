@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import AddRadioStationModal from './AddRadioStationModal';
 import { ADMIN } from '../../../auth/resourceRoleType';
 import { ONLINE_RADIO_SEARCH_API } from '../../../auth/resourceTypes';
-import { getRadioStations } from "../store/actions";
+import { withRouter } from 'react-router-dom'
+import { reloadPage } from '../../../utils/historyUtils';
 
 class AddRadioStationButton extends Component {
 
@@ -18,7 +19,7 @@ class AddRadioStationButton extends Component {
 
     handleModalClose = e => {
         this.setState({ visible: false });
-        this.props.getRadioStations();
+        reloadPage(this.props.history);
     };
 
     render() {
@@ -48,4 +49,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { getRadioStations })(AddRadioStationButton);
+export default connect(mapStateToProps)(withRouter(AddRadioStationButton));
