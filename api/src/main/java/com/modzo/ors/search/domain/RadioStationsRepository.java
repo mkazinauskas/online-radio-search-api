@@ -8,4 +8,6 @@ public interface RadioStationsRepository extends ElasticsearchRepository<RadioSt
 
     Optional<RadioStationDocument> findByUniqueId(String uniqueId);
 
+    void deleteByUniqueId(String uniqueId);
+
 }
