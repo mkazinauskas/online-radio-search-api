@@ -8,4 +8,6 @@ public interface SongsRepository extends ElasticsearchRepository<SongDocument, S
 
     Optional<SongDocument> findByUniqueId(String uniqueId);
 
+    void deleteByUniqueId(String uniqueId);
+
 }

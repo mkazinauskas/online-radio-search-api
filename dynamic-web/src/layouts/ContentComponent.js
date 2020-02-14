@@ -6,7 +6,8 @@ import {
 } from "react-router-dom";
 import RadioStationsView from '../pages/radioStations/RadioStationsView';
 import MainView from '../pages/main/MainView';
-import { HOME, RADIO_STATIONS } from './pathTypes'
+import { HOME, RADIO_STATIONS, SONGS } from './pathTypes'
+import SongsView from '../pages/songs/SongsView';
 
 export default () => (
     <Layout.Content
@@ -21,8 +22,11 @@ export default () => (
             <Route exact path={HOME}>
                 <MainView />
             </Route>
-            <Route exact path={RADIO_STATIONS}>
+            <Route path={RADIO_STATIONS}>
                 <RadioStationsView />
+            </Route>
+            <Route path={SONGS}>
+                <SongsView />
             </Route>
         </Switch>
     </Layout.Content >

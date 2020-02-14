@@ -43,6 +43,7 @@ public class Event {
         RADIO_STATION_STREAM_UPDATED(RadioStationStreamUpdated.Data.class),
         GENRE_CREATED(GenreCreated.Data.class),
         SONG_CREATED(SongCreated.Data.class),
+        SONG_DELETED(SongDeleted.Data.class),
         RADIO_STATION_SONG_CREATED(RadioStationSongCreated.Data.class);
 
         private final Class<? extends DomainEvent.Data> eventClass;
