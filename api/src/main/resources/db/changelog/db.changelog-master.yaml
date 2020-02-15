@@ -92,6 +92,10 @@ databaseChangeLog:
         onUpdate: RESTRICT
         referencedColumnNames: id
         referencedTableName: radio_stations
+    - addUniqueConstraint:
+        tableName: radio_station_streams
+        columnNames: radio_station_id, url
+        constraintName: unique_radio_station_stream_url_index
 - changeSet:
     id: 3
     author: modestukasai

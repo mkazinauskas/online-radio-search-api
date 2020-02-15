@@ -1,5 +1,6 @@
 package com.modzo.ors.domain.radio.station.stream.commands
 
+import com.modzo.ors.domain.DomainException
 import com.modzo.ors.domain.events.Event
 import com.modzo.ors.domain.events.Events
 import com.modzo.ors.domain.events.RadioStationStreamCreated
@@ -41,5 +42,25 @@ class CreateRadioStationStreamSpec extends IntegrationSpec {
                     .collect { deserialize(it.body, it.type.eventClass) }
                     .find { RadioStationStreamCreated.Data data -> data.uniqueId == savedStream.uniqueId }
             foundEvent.url == command.url
+    }
+
+    void 'should not allow to create duplicate radio station stream'() {
+        given:
+            RadioStation radioStation = testRadioStation.create()
+        and:
+            CreateRadioStationStream command = new CreateRadioStationStream(
+                    radioStation.id, 'http://random.url/duplicate'
+            )
+        when:
+            testTarget.handle(command)
+        then:
+            noExceptionThrown()
+        when:
+            testTarget.handle(command)
+        then:
+            DomainException exception = thrown(DomainException)
+            exception.id == 'FIELD_URL_IS_DUPLICATE_FOR_RADIO_STATION'
+            exception.message == 'Field url = `http://random.url/duplicate` is duplicate ' +
+                    "for radio station with id = `${radioStation.id}`"
     }
 }
