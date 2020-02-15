@@ -10,6 +10,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CreateRadioStationStream {
@@ -76,8 +78,11 @@ public class CreateRadioStationStream {
 
         private final RadioStations radioStations;
 
-        public Validator(RadioStations radioStations) {
+        private final RadioStationStreams radioStationStreams;
+
+        public Validator(RadioStations radioStations, RadioStationStreams radioStationStreams) {
             this.radioStations = radioStations;
+            this.radioStationStreams = radioStationStreams;
         }
 
         void validate(CreateRadioStationStream command) {
@@ -91,6 +96,22 @@ public class CreateRadioStationStream {
             }
             if (isBlank(command.url)) {
                 throw new DomainException("FIELD_URL_NOT_BLANK", "Field url cannot be blank");
+            }
+
+            Optional<RadioStationStream> existing = radioStationStreams.findByRadioStationIdAndUrl(
+                    command.radioStationId,
+                    command.url
+            );
+
+            if (existing.isPresent()) {
+                throw new DomainException(
+                        "FIELD_URL_IS_DUPLICATE_FOR_RADIO_STATION",
+                        String.format(
+                                "Field url = `%s` is duplicate for radio station with id = `%s`",
+                                command.url,
+                                command.radioStationId
+                        )
+                );
             }
         }
     }

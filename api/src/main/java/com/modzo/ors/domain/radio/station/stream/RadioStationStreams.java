@@ -10,5 +10,7 @@ public interface RadioStationStreams extends CrudRepository<RadioStationStream, 
 
     Optional<RadioStationStream> findByRadioStationIdAndId(long radioStationId, long streamId);
 
+    Optional<RadioStationStream> findByRadioStationIdAndUrl(long radioStationId, String url);
+
     Page<RadioStationStream> findAllByRadioStationId(long radioStationId, Pageable pageable);
 }
