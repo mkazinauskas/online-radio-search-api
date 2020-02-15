@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import { Result, Button, Table } from 'antd';
+import { Button, Result, Table } from 'antd';
 import Axios from 'axios';
-import DeleteRadioStationButton from './deleteStation/DeleteRadioStationButton';
-import { withRouter } from 'react-router-dom'
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { RADIO_STATIONS } from '../../layouts/pathTypes';
+import DeleteRadioStationButton from './deleteStation/DeleteRadioStationButton';
+import ShowRadioStationStreamsButton from './streams/ShowRadioStationStreamsButton';
 
 const columns = [
     {
@@ -22,7 +23,12 @@ const columns = [
         fixed: 'right',
         render: (text, record) => {
             const id = record.radioStation.id;
-            return (<DeleteRadioStationButton key={id} id={id} />)
+            return (
+                <span>
+                    <ShowRadioStationStreamsButton key={`streams-${id}`} id={id} />
+                    <DeleteRadioStationButton key={`delete-${id}`} id={id} />
+                </span>
+            )
         },
     }
 ];
@@ -46,9 +52,13 @@ class RadioStationsTable extends Component {
 
     componentDidMount() {
         this.loadDataWithSearchParams();
-        this.props.history.listen(() => {
+        this.unregisterHistoryListener = this.props.history.listen(() => {
             this.loadDataWithSearchParams();
         });
+    }
+
+    componentWillUnmount(){
+        this.unregisterHistoryListener();
     }
 
     loadDataWithSearchParams = () => {

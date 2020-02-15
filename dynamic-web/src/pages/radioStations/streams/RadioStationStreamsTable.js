@@ -2,18 +2,18 @@ import { Button, Result, Table } from 'antd';
 import Axios from 'axios';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { SONGS } from '../../layouts/pathTypes';
-import DeleteSongButton from './deleteSong/DeleteSongButton';
+import { RADIO_STATIONS } from '../../../layouts/pathTypes';
+import DeleteRadioStationStreamButton from './delete/DeleteRadioStationStreamButton';
 
 const columns = [
     {
         title: 'Id',
-        dataIndex: 'song.id',
+        dataIndex: 'radioStationStream.id',
         width: '10%',
     },
     {
-        title: 'Title',
-        dataIndex: 'song.title',
+        title: 'Url',
+        dataIndex: 'radioStationStream.url',
         width: '40%',
     },
     {
@@ -21,13 +21,13 @@ const columns = [
         key: 'operation',
         fixed: 'right',
         render: (text, record) => {
-            const id = record.song.id;
-            return (<DeleteSongButton key={id} id={id} />)
+            const id = record.radioStationStream.id;
+            return (<DeleteRadioStationStreamButton key={id} id={id} />)
         },
     }
 ];
 
-class SongsTable extends Component {
+class RadioStationStreamsTable extends Component {
 
     state = {
         data: [],
@@ -87,12 +87,13 @@ class SongsTable extends Component {
         urlSearchParams.set('page', this.state.filter.page);
         urlSearchParams.set('size', this.state.filter.size);
 
-        Axios.get('/songs?' + urlSearchParams.toString())
+        const radioStationId = this.props.match.params.radioStationId;
+    
+        Axios.get(`/radio-stations/${radioStationId}/streams?${urlSearchParams.toString()}`)
             .then((response) => {
                 let data = [];
-
-                if (response.data._embedded && response.data._embedded.songResourceList) {
-                    data = response.data._embedded.songResourceList;
+                if (response.data._embedded && response.data._embedded.radioStationStreamResourceList) {
+                    data = response.data._embedded.radioStationStreamResourceList;
                 }
 
                 if (!data.length && response.data.page.totalPages > 1) {
@@ -120,7 +121,7 @@ class SongsTable extends Component {
         urlSearchParams.set('page', page);
         urlSearchParams.set('size', size);
 
-        this.props.history.push(SONGS + '?' + urlSearchParams.toString());
+        this.props.history.push(RADIO_STATIONS + '?' + urlSearchParams.toString());
     }
 
     handleTableChange = (page) => {
@@ -132,7 +133,7 @@ class SongsTable extends Component {
             return (
                 <Result
                     status="error"
-                    title="Failed to load songs"
+                    title="Failed to load radio stations"
                     subTitle="Please wait until service will be working again"
                     extra={[
                         <Button type="primary" key="console" onClick={this.loadData}>Retry</Button>,
@@ -144,7 +145,7 @@ class SongsTable extends Component {
         return (
             <Table
                 columns={columns}
-                rowKey={record => record.song.id}
+                rowKey={record => record.radioStationStream.id}
                 dataSource={this.state.data}
                 pagination={this.state.pagination}
                 loading={this.state.loading}
@@ -154,4 +155,4 @@ class SongsTable extends Component {
     }
 }
 
-export default withRouter(SongsTable);
+export default withRouter(RadioStationStreamsTable);
