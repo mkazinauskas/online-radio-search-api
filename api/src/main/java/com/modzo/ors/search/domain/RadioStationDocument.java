@@ -90,4 +90,8 @@ public class RadioStationDocument {
     public void setGenres(Set<GenreDocument> genres) {
         this.genres = new LinkedHashSet<>(genres);
     }
+
+    public void removeStream(String streamId) {
+        this.streams.removeIf(stream -> stream.getUniqueId().equals(streamId));
+    }
 }
