@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { RADIO_STATIONS } from '../../../layouts/pathTypes';
 import DeleteRadioStationStreamButton from './delete/DeleteRadioStationStreamButton';
 import RadioStationStreamLatestInfoButton from './latestInfo/RadioStationStreamLatestInfoButton';
+import UpdateRadioStationStreamSongsButton from './songs/UpdateRadioStationStreamSongsButton';
 
 const columns = [
     {
@@ -38,6 +39,11 @@ const columns = [
         render: (text, record) => {
             return (
                 <span>
+                    <UpdateRadioStationStreamSongsButton
+                        key={`fetch-${record.id}`}
+                        radioStationId={record.radioStationId}
+                        id={record.id}
+                    />
                     <RadioStationStreamLatestInfoButton
                         key={`fetch-${record.id}`}
                         radioStationId={record.radioStationId}
