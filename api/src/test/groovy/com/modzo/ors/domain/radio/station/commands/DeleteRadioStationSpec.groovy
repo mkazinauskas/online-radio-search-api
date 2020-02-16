@@ -26,7 +26,7 @@ class DeleteRadioStationSpec extends IntegrationSpec {
 
     void 'should delete radio station'() {
         given:
-            RadioStation testRadioStation = testRadioStation.create();
+            RadioStation testRadioStation = testRadioStation.create()
         expect:
             radioStations.findById(testRadioStation.id).isPresent()
         when:
