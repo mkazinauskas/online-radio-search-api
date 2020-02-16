@@ -29,7 +29,7 @@ class CreateRadioStationStreamSpec extends IntegrationSpec {
             RadioStation radioStation = testRadioStation.create()
         and:
             CreateRadioStationStream command = new CreateRadioStationStream(
-                    radioStation.id, 'http://random.url'
+                    radioStation.id, '  http://random.url'
             )
         when:
             CreateRadioStationStream.Result result = testTarget.handle(command)
