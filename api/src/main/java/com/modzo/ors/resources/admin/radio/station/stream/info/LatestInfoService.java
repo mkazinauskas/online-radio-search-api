@@ -54,8 +54,6 @@ public class LatestInfoService {
         this.findGenre = findGenre;
     }
 
-    //stream.song.info.url.endings=/played.html,/played.html?sid=1,/played.html?sid=2
-//http://144.217.49.251/index.html?sid=1
     void update(long radioStationId, long streamId) {
         RadioStationStream stream = radioStationStream.handle(
                 new GetRadioStationStream(radioStationId, streamId)

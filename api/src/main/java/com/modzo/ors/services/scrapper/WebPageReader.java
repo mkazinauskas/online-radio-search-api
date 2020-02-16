@@ -16,9 +16,9 @@ import java.util.Set;
 @Component
 public class WebPageReader {
 
-    private final static Logger log = LoggerFactory.getLogger(WebPageReader.class);
+    private static final Logger log = LoggerFactory.getLogger(WebPageReader.class);
 
-    private final static Set<MediaType> ALLOWED_MEDIA_TYPES = Set.of(
+    private static final Set<MediaType> ALLOWED_MEDIA_TYPES = Set.of(
             MediaType.TEXT_PLAIN,
             MediaType.TEXT_XML,
             MediaType.TEXT_HTML,
