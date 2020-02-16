@@ -17,9 +17,23 @@ const columns = [
         width: '40%',
     },
     {
+        title: 'Preview',
+        key: 'preview',
+        dataIndex: 'url',
+        render: (text, record) => {
+            return (
+                <audio controls>
+                    <source src={record.url} type="audio/ogg" />
+                    <source src={record.url} type="audio/mpeg" />
+                    <source src={record.url} type="audio/wav" />
+                    Your browser does not support the audio element.
+                </audio>
+            );
+        }
+    },
+    {
         title: 'Actions',
         key: 'operation',
-        fixed: 'right',
         render: (text, record) => {
             return (
                 <DeleteRadioStationStreamButton

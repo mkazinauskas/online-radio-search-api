@@ -3,8 +3,9 @@ import { Modal, Form, Input, Alert } from 'antd';
 import Axios from 'axios';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { isWebUri } from 'valid-url';
 
-const DEFAULT_STATE={
+const DEFAULT_STATE = {
     loading: false,
     successMessage: null,
     errorMessage: null
@@ -18,9 +19,9 @@ class AddRadioStationStreamModal extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        this.setState({ loading: true, successMessage: null, errorMessage: null });
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                this.setState({ loading: true, successMessage: null, errorMessage: null });
                 const config = {
                     headers: {
                         Authorization: `Bearer ${this.props.token}`
@@ -53,7 +54,30 @@ class AddRadioStationStreamModal extends Component {
             <Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} onSubmit={this.handleSubmit}>
                 <Form.Item label="URL">
                     {getFieldDecorator('url', {
-                        rules: [{ required: true, message: 'Please input radio station stream title!' }],
+                        rules: [
+                            { required: true, message: 'Please input radio station stream title!' },
+                            {
+                                validator: (rule, value, callback) => {
+                                    if (value === value.trim()) {
+                                        callback();
+                                    } else {
+                                        callback(false);
+                                    }
+                                },
+                                message: 'Value cannot have empty spaces around',
+                            },
+                            {
+                                validator: (rule, value, callback) => {
+                                    if (isWebUri(value)) {
+                                        callback();
+                                    } else {
+                                        callback(false);
+                                    }
+                                },
+                                message: 'Radio station stream url is invalid',
+                            }
+
+                        ],
                     })(<Input />)}
                 </Form.Item>
             </Form>
