@@ -19,6 +19,8 @@ public class WebPageReader {
     private final static Logger log = LoggerFactory.getLogger(WebPageReader.class);
 
     private final static Set<MediaType> ALLOWED_MEDIA_TYPES = Set.of(
+            MediaType.TEXT_PLAIN,
+            MediaType.TEXT_XML,
             MediaType.TEXT_HTML,
             MediaType.APPLICATION_XML,
             MediaType.APPLICATION_XHTML_XML
@@ -42,7 +44,7 @@ public class WebPageReader {
                 log.info("Content type of url = `{}` was null", url);
                 return Optional.empty();
             }
-            if (ALLOWED_MEDIA_TYPES.contains(contentType)) {
+            if (ALLOWED_MEDIA_TYPES.stream().anyMatch(contentType::isCompatibleWith)) {
                 log.info("Successfully finished reading url = `{}`", url);
                 ResponseEntity<String> forEntity = restTemplate.getForEntity(url, String.class);
                 return Optional.ofNullable(forEntity.getBody());
