@@ -9,14 +9,19 @@ public class RadioStationResponse {
 
     private final String title;
 
+    private final String website;
+
     @JsonCreator
-    private RadioStationResponse(@JsonProperty("id") long id, @JsonProperty("title") String title) {
+    private RadioStationResponse(@JsonProperty("id") long id,
+                                 @JsonProperty("title") String title,
+                                 @JsonProperty("website") String website) {
         this.id = id;
         this.title = title;
+        this.website = website;
     }
 
     static RadioStationResponse create(RadioStation radioStation) {
-        return new RadioStationResponse(radioStation.getId(), radioStation.getTitle());
+        return new RadioStationResponse(radioStation.getId(), radioStation.getTitle(), radioStation.getWebsite());
     }
 
     public long getId() {
@@ -25,5 +30,9 @@ public class RadioStationResponse {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getWebsite() {
+        return website;
     }
 }

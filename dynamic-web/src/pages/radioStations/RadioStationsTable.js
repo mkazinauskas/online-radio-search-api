@@ -15,7 +15,10 @@ const columns = [
     {
         title: 'Title',
         dataIndex: 'radioStation.title',
-        width: '40%',
+    },
+    {
+        title: 'Website',
+        dataIndex: 'radioStation.website',
     },
     {
         title: 'Actions',
