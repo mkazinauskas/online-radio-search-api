@@ -38,7 +38,7 @@ class DeleteRadioStationStreamButton extends Component {
             }
         }
 
-        Axios.delete(`/admin/radio-stations/${id}`, config)
+        Axios.delete(`/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.id}`, config)
             .then(() => {
                 this.setState({ loading: false });
                 reloadPage(this.props.history);
