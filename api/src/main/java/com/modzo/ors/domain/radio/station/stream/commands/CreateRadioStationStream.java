@@ -6,6 +6,7 @@ import com.modzo.ors.domain.radio.station.RadioStation;
 import com.modzo.ors.domain.radio.station.RadioStations;
 import com.modzo.ors.domain.radio.station.stream.RadioStationStream;
 import com.modzo.ors.domain.radio.station.stream.RadioStationStreams;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +22,7 @@ public class CreateRadioStationStream {
 
     public CreateRadioStationStream(long radioStationId, String url) {
         this.radioStationId = radioStationId;
-        this.url = url;
+        this.url = StringUtils.trim(url);
     }
 
     public long getRadioStationId() {
