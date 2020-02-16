@@ -8,12 +8,12 @@ import DeleteRadioStationStreamButton from './delete/DeleteRadioStationStreamBut
 const columns = [
     {
         title: 'Id',
-        dataIndex: 'radioStationStream.id',
+        dataIndex: 'id',
         width: '10%',
     },
     {
         title: 'Url',
-        dataIndex: 'radioStationStream.url',
+        dataIndex: 'url',
         width: '40%',
     },
     {
@@ -21,8 +21,13 @@ const columns = [
         key: 'operation',
         fixed: 'right',
         render: (text, record) => {
-            const id = record.radioStationStream.id;
-            return (<DeleteRadioStationStreamButton key={id} id={id} />)
+            return (
+                <DeleteRadioStationStreamButton
+                    key={record.id}
+                    radioStationId={record.radioStationId}
+                    id={record.id}
+                />
+            )
         },
     }
 ];
@@ -51,7 +56,7 @@ class RadioStationStreamsTable extends Component {
         });
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.unregisterHistoryListener();
     }
 
@@ -88,12 +93,14 @@ class RadioStationStreamsTable extends Component {
         urlSearchParams.set('size', this.state.filter.size);
 
         const radioStationId = this.props.match.params.radioStationId;
-    
+
         Axios.get(`/radio-stations/${radioStationId}/streams?${urlSearchParams.toString()}`)
             .then((response) => {
                 let data = [];
                 if (response.data._embedded && response.data._embedded.radioStationStreamResourceList) {
-                    data = response.data._embedded.radioStationStreamResourceList;
+                    data = response.data._embedded.radioStationStreamResourceList.map(element => {
+                        return { ...element.radioStationStream, radioStationId }
+                    });
                 }
 
                 if (!data.length && response.data.page.totalPages > 1) {
@@ -145,7 +152,7 @@ class RadioStationStreamsTable extends Component {
         return (
             <Table
                 columns={columns}
-                rowKey={record => record.radioStationStream.id}
+                rowKey={record => record.id}
                 dataSource={this.state.data}
                 pagination={this.state.pagination}
                 loading={this.state.loading}
