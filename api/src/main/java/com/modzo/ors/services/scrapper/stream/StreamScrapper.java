@@ -41,16 +41,16 @@ public class StreamScrapper {
                 .map(element -> element.getElementsByTag("tr"))
                 .flatMap(Collection::stream)
                 .collect(toList());
-        Map<String, String> map = tableValues(trs);
+        Map<String, String> requiredTrs = tableValues(trs);
         return Optional.of(
                 new Response(
-                        map.getOrDefault("Listing Status:", ""),
-                        Response.Format.findFormat(map.getOrDefault("Stream Status:", "")),
-                        bitRate(map.getOrDefault("Stream Status:", "")),
-                        listenerPeak(map.getOrDefault("Listener Peak:", "")),
-                        map.getOrDefault("Stream Name:", ""),
-                        genres(map.getOrDefault("Stream Genre(s):", "")),
-                        map.getOrDefault("Stream Website:", "")
+                        requiredTrs.getOrDefault("Listing Status:", ""),
+                        Response.Format.findFormat(requiredTrs.getOrDefault("Stream Status:", "")),
+                        bitRate(requiredTrs.getOrDefault("Stream Status:", "")),
+                        listenerPeak(requiredTrs.getOrDefault("Listener Peak:", "")),
+                        requiredTrs.getOrDefault("Stream Name:", ""),
+                        genres(requiredTrs.getOrDefault("Stream Genre(s):", "")),
+                        requiredTrs.getOrDefault("Stream Website:", "")
                 )
         );
     }
