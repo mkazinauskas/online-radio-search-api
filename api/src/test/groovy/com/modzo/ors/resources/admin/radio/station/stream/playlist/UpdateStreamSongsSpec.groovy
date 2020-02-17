@@ -72,8 +72,6 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
     }
 
     private void serverResponseHeaderExist(String url) {
-        String page = getClass().getResource('/services/scrappers/played/played-source.html').text
-
         testWiremockServer.server().stubFor(
                 head(urlEqualTo('/' + url.split('/').last()))
                         .willReturn(aResponse()
