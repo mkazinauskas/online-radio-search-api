@@ -7,10 +7,8 @@ import com.modzo.ors.domain.radio.station.stream.RadioStationStream
 import com.modzo.ors.domain.radio.station.stream.commands.GetRadioStationStream
 import com.modzo.ors.resources.IntegrationSpec
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*
 import static com.modzo.ors.TestUsers.ADMIN
 import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.HttpStatus.NO_CONTENT
@@ -29,7 +27,7 @@ class StreamLatestInfoControllerSpec extends IntegrationSpec {
         and:
             RadioStationStream stream = testRadioStationStream.create(radioStation.id)
         and:
-            serverResponseHeaderExist(stream.url)
+            wireMockTestHelper.okHeaderResponse(stream.url)
             serverResponseExist(stream.url)
         when:
             ResponseEntity<String> response = restTemplate.exchange(
@@ -57,23 +55,8 @@ class StreamLatestInfoControllerSpec extends IntegrationSpec {
             updateRadioStation.genres*.title.containsAll(['Pop', 'Rock', '80s', '70s', 'Top 40'])
     }
 
-    private void serverResponseHeaderExist(String url) {
-        testWiremockServer.server().stubFor(
-                head(urlEqualTo('/' + url.split('/').last()))
-                        .willReturn(aResponse()
-                                .withStatus(200)
-                                .withHeader(HttpHeaders.CONTENT_TYPE, 'text/html;utf-8'))
-        )
-    }
-
     private void serverResponseExist(String url) {
-        String page = getClass().getResource('/services/scrappers/stream/sample-source.html').text
-
-        testWiremockServer.server().stubFor(
-                get(urlEqualTo('/' + url.split('/').last()))
-                        .willReturn(aResponse()
-                                .withStatus(200)
-                                .withBody(page))
-        )
+        String content = getClass().getResource('/services/scrappers/stream/sample-source.html').text
+        wireMockTestHelper.okGetResponse(url, content)
     }
 }

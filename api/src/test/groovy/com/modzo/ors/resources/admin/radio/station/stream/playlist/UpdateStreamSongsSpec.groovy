@@ -12,10 +12,8 @@ import com.modzo.ors.domain.song.commands.GetSong
 import com.modzo.ors.resources.IntegrationSpec
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
-import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*
 import static com.modzo.ors.TestUsers.ADMIN
 import static org.springframework.data.domain.Pageable.unpaged
 import static org.springframework.http.HttpMethod.POST
@@ -41,7 +39,7 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
         and:
             RadioStationStream stream = testRadioStationStream.create(radioStation.id)
         and:
-            serverResponseHeaderExist(stream.url)
+            wireMockTestHelper.okHeaderResponse(stream.url)
             serverResponseExist(stream.url)
         when:
             ResponseEntity<String> response = restTemplate.exchange(
@@ -71,23 +69,8 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
             songs.find { it.title == "Rihanna - If It's Lovin' That You Want" }
     }
 
-    private void serverResponseHeaderExist(String url) {
-        testWiremockServer.server().stubFor(
-                head(urlEqualTo('/' + url.split('/').last()))
-                        .willReturn(aResponse()
-                                .withStatus(200)
-                                .withHeader(HttpHeaders.CONTENT_TYPE, 'text/html;utf-8'))
-        )
-    }
-
     private void serverResponseExist(String url) {
-        String page = getClass().getResource('/services/scrappers/played/played-source.html').text
-
-        testWiremockServer.server().stubFor(
-                get(urlEqualTo('/' + url.split('/').last()))
-                        .willReturn(aResponse()
-                                .withStatus(200)
-                                .withBody(page))
-        )
+        String body = getClass().getResource('/services/scrappers/played/played-source.html').text
+        wireMockTestHelper.okGetResponse(url, body)
     }
 }
