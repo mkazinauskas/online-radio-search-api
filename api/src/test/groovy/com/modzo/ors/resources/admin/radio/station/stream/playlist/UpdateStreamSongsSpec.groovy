@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.http.ResponseEntity
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*
 import static com.modzo.ors.TestUsers.ADMIN
 import static org.springframework.data.domain.Pageable.unpaged
 import static org.springframework.http.HttpMethod.POST
@@ -40,6 +39,7 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
         and:
             RadioStationStream stream = testRadioStationStream.create(radioStation.id)
         and:
+            wireMockTestHelper.okHeaderResponse(stream.url)
             serverResponseExist(stream.url)
         when:
             ResponseEntity<String> response = restTemplate.exchange(
@@ -70,13 +70,7 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
     }
 
     private void serverResponseExist(String url) {
-        String page = getClass().getResource('/services/scrappers/played/played-source.html').text
-
-        testWiremockServer.server().stubFor(
-                get(urlEqualTo('/' + url.split('/').last()))
-                        .willReturn(aResponse()
-                        .withStatus(200)
-                        .withBody(page))
-        )
+        String body = getClass().getResource('/services/scrappers/played/played-source.html').text
+        wireMockTestHelper.okGetResponse(url, body)
     }
 }

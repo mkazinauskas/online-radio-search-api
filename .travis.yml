@@ -1,8 +1,7 @@
-matric:
+matrix:
   include:
     - language: java
       jdk: openjdk11
-      sudo: required
       services:
         - docker
       os: linux

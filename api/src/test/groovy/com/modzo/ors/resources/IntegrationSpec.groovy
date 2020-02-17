@@ -3,7 +3,6 @@ package com.modzo.ors.resources
 import com.modzo.ors.TestUsers
 import com.modzo.ors.TokenProvider
 import com.modzo.ors.helpers.*
-import com.modzo.ors.setup.TestWireMockServer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -33,7 +32,7 @@ class IntegrationSpec extends Specification {
     TestRadioStationSong testRadioStationSong
 
     @Autowired
-    TestWireMockServer testWiremockServer
+    WireMockTestHelper wireMockTestHelper
 
     @Autowired
     TokenProvider tokenProvider

@@ -24,6 +24,7 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Component
 public class LatestInfoService {
+
     private final GetRadioStationStream.Handler radioStationStream;
 
     private final GetRadioStation.Handler radioStation;

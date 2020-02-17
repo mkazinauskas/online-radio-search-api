@@ -27,7 +27,7 @@ class AddRadioStationStreamButton extends Component {
             return null;
         }
         return (
-            <div>
+            <span>
                 <Button type="primary" onClick={this.showModal}>
                     <Icon type="plus-circle" theme="filled" />
                     Add New Stream
@@ -37,7 +37,7 @@ class AddRadioStationStreamButton extends Component {
                     visible={this.state.visible}
                     onModalClose={this.handleModalClose}
                 />
-            </div>
+            </span>
         );
     }
 }
