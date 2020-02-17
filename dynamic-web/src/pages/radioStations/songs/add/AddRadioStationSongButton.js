@@ -30,7 +30,7 @@ class AddRadioStationSongButton extends Component {
             <span>
                 <Button type="primary" onClick={this.showModal}>
                     <Icon type="plus-circle" theme="filled" />
-                    Add New Song
+                    Add New Radio Station Song
                 </Button>
                 <AddRadioStationStreamModal
                     key={new Date().getMilliseconds()}

@@ -19,10 +19,11 @@ const columns = [
         dataIndex: 'playedTime',
         render(text, record) {
             const date = new Date(record.playedTime)
+            const offset = new Date().getTimezoneOffset();
             return (
-                <div>
-                    {date.toLocaleString("en-US", {timeZone: "America/New_York"})}
-                </div>
+                <span>
+                    {date.toLocaleString("en-US", {timeZoneOffset: offset})}
+                </span>
             )
         }
     },

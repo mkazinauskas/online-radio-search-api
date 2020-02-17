@@ -40,12 +40,12 @@ const columns = [
             return (
                 <span>
                     <UpdateRadioStationStreamSongsButton
-                        key={`fetch-${record.id}`}
+                        key={`fetch-songs-${record.id}`}
                         radioStationId={record.radioStationId}
                         id={record.id}
                     />
                     <RadioStationStreamLatestInfoButton
-                        key={`fetch-${record.id}`}
+                        key={`fetch-info-${record.id}`}
                         radioStationId={record.radioStationId}
                         id={record.id}
                     />

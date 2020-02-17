@@ -6,7 +6,6 @@ import RadioStationSongsTable from './RadioStationSongsTable';
 class RadioStationSongsView extends Component {
 
     render() {
-        console.log(this.props);
         return (
             <div>
                 <RadioStationSongsHeader />

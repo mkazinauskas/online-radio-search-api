@@ -27,7 +27,6 @@ export default (state = INITIAL_STATE, action) => {
                 token: null
             }
         case LOADED:
-            console.log(action.payload);
             return {
                 ...state,
                 keycloak: action.payload,
