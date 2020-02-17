@@ -82,25 +82,31 @@ class StreamSongsService {
         Optional<RadioStationSong> foundSong = findSong.handle(
                 new FindRadioStationSongByPlayingTime(radioStationId, playedSong.getPlayedTime())
         );
-        if (!foundSong.isPresent()) {
-            Song song = findOrCreateSong(playedSong.getName());
-            createRadioStationSong.handle(
-                    new CreateRadioStationSong(song.getId(), radioStationId, playedSong.getPlayedTime())
-            );
+        if (foundSong.isEmpty()) {
+            Optional<Song> song = findOrCreateSong(playedSong.getName());
+            song.ifPresent(existingSong -> {
+                createRadioStationSong.handle(
+                        new CreateRadioStationSong(existingSong.getId(), radioStationId, playedSong.getPlayedTime())
+                );
+            });
         }
     }
 
-    private Song findOrCreateSong(String title) {
-        return findSongByTitle.handle(new FindSong(title)).orElseGet(() -> createSong(title));
+    private Optional<Song> findOrCreateSong(String title) {
+        Optional<Song> foundSong = findSongByTitle.handle(new FindSong(title));
+        if(foundSong.isEmpty()){
+            return createSong(title);
+        }
+        return foundSong;
     }
 
-    private Song createSong(String title) {
+    private Optional<Song> createSong(String title) {
         try {
             CreateSong.Result creationResult = createSong.handle(new CreateSong(title));
             getSongById.handle(new GetSong(creationResult.id));
         } catch (Exception exception) {
             LOGGER.warn("Failed to created song, but recovered and trying to search for existing", exception);
         }
-        return findSongByTitle.handle(new FindSong(title)).get();
+        return findSongByTitle.handle(new FindSong(title));
     }
 }

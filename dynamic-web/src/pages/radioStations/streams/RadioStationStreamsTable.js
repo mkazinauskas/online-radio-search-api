@@ -2,7 +2,7 @@ import { Button, Result, Table } from 'antd';
 import Axios from 'axios';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { RADIO_STATIONS } from '../../../layouts/pathTypes';
+import { createURLRadioStationStreams } from '../../../layouts/pathTypes';
 import DeleteRadioStationStreamButton from './delete/DeleteRadioStationStreamButton';
 import RadioStationStreamLatestInfoButton from './latestInfo/RadioStationStreamLatestInfoButton';
 import UpdateRadioStationStreamSongsButton from './songs/UpdateRadioStationStreamSongsButton';
@@ -156,7 +156,8 @@ class RadioStationStreamsTable extends Component {
         urlSearchParams.set('page', page);
         urlSearchParams.set('size', size);
 
-        this.props.history.push(RADIO_STATIONS + '?' + urlSearchParams.toString());
+        const radioStationId = this.props.match.params.radioStationId;
+        this.props.history.push(createURLRadioStationStreams(radioStationId) + '?' + urlSearchParams.toString());
     }
 
     handleTableChange = (page) => {

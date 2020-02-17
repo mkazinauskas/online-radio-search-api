@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import { Popconfirm, Button } from 'antd';
+import { Button, Popconfirm } from 'antd';
 import Axios from 'axios';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { ADMIN } from '../../../../auth/resourceRoleType';
-import { withRouter } from 'react-router-dom'
 import { ONLINE_RADIO_SEARCH_API } from '../../../../auth/resourceTypes';
 import { reloadPage } from '../../../../utils/historyUtils';
 
-class UpdateRadioStationStreamSongsButton extends Component {
+class DeleteRadioStationSongButton extends Component {
 
     state = {
-        loading: false
+        loading: true
     }
-
+ 
     render() {
 
         if (!this.props.hasAdminRole) {
@@ -20,11 +20,11 @@ class UpdateRadioStationStreamSongsButton extends Component {
         }
         return (
             <Popconfirm
-                title="Sure to fetch info?"
+                title="Sure to delete?"
                 onConfirm={() => this.handleDelete(this.props.id)}
                 disabled={this.state.loading}
             >
-                <Button type="link" disabled={this.state.loading}>Update songs</Button>
+                <Button type="link" disabled={this.state.loading}>Delete</Button>
             </Popconfirm>
         );
     }
@@ -38,7 +38,7 @@ class UpdateRadioStationStreamSongsButton extends Component {
             }
         }
 
-        Axios.post(`/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.id}/songs`, null, config)
+        Axios.delete(`/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.id}`, config)
             .then(() => {
                 this.setState({ loading: false });
                 reloadPage(this.props.history);
@@ -55,4 +55,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(withRouter(UpdateRadioStationStreamSongsButton));
+export default connect(mapStateToProps)(withRouter(DeleteRadioStationSongButton));

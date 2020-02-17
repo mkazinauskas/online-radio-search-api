@@ -1,6 +1,5 @@
-package com.modzo.ors.resources.admin.song.delte;
+package com.modzo.ors.resources.admin.song.delete;
 
-import com.modzo.ors.domain.radio.station.commands.DeleteRadioStation;
 import com.modzo.ors.domain.radio.station.song.commands.DeleteSong;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,7 +16,7 @@ class DeleteSongController {
     }
 
     @DeleteMapping("/admin/songs/{id}")
-    ResponseEntity delteSong(@PathVariable("id") long id) {
+    ResponseEntity deleteSong(@PathVariable("id") long id) {
         deleteSong.handle(new DeleteSong(id));
         return ResponseEntity.ok().build();
     }

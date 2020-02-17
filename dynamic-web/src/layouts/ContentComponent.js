@@ -7,8 +7,9 @@ import {
 import RadioStationsView from '../pages/radioStations/RadioStationsView';
 import RadioStationStreamsView from '../pages/radioStations/streams/RadioStationStreamsView';
 import MainView from '../pages/main/MainView';
-import { HOME, RADIO_STATIONS, SONGS, RADIO_STATION_STREAMS } from './pathTypes'
+import { HOME, RADIO_STATIONS, SONGS, RADIO_STATION_STREAMS, RADIO_STATION_SONGS } from './pathTypes'
 import SongsView from '../pages/songs/SongsView';
+import RadioStationSongsView from '../pages/radioStations/songs/RadioStationSongsView';
 
 export default () => (
     <Layout.Content
@@ -28,6 +29,9 @@ export default () => (
             </Route>
             <Route exact path={RADIO_STATION_STREAMS}>
                 <RadioStationStreamsView />
+            </Route>
+            <Route exact path={RADIO_STATION_SONGS}>
+                <RadioStationSongsView />
             </Route>
             <Route exact path={SONGS}>
                 <SongsView />
