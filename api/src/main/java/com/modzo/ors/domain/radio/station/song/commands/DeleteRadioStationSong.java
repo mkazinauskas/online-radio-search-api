@@ -79,19 +79,19 @@ public class DeleteRadioStationSong {
 
         private final RadioStations radioStations;
 
-        private final Songs songs;
+        private final RadioStationSongs radioStationSongs;
 
-        public Validator(RadioStations radioStations, Songs songs) {
+        public Validator(RadioStations radioStations, RadioStationSongs radioStationSongs) {
             this.radioStations = radioStations;
-            this.songs = songs;
+            this.radioStationSongs = radioStationSongs;
         }
 
         void validate(DeleteRadioStationSong command) {
             if (radioStations.findById(command.radioStationId).isEmpty()) {
                 throw new DomainException("FIELD_RADIO_STATION_ID_INCORRECT", "Radio station by id was not found");
             }
-            if (songs.findById(command.songId).isEmpty()) {
-                throw new DomainException("FIELD_SONG_ID_INCORRECT", "Song by id was not found");
+            if (radioStationSongs.findById(command.songId).isEmpty()) {
+                throw new DomainException("FIELD_SONG_ID_INCORRECT", "Radio station song by id was not found");
             }
         }
     }
