@@ -34,7 +34,7 @@ const columns = [
             return (
                 <span>
                     <DeleteRadioStationSongButton
-                        key={`delete-${record.id}`}
+                        key={`delete-song-${record.id}`}
                         radioStationId={record.radioStationId}
                         id={record.id}
                     />

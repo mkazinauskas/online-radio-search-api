@@ -10,7 +10,7 @@ import { reloadPage } from '../../../../utils/historyUtils';
 class DeleteRadioStationSongButton extends Component {
 
     state = {
-        loading: true
+        loading: false
     }
  
     render() {
@@ -38,7 +38,7 @@ class DeleteRadioStationSongButton extends Component {
             }
         }
 
-        Axios.delete(`/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.id}`, config)
+        Axios.delete(`/admin/radio-stations/${this.props.radioStationId}/songs/${this.props.id}`, config)
             .then(() => {
                 this.setState({ loading: false });
                 reloadPage(this.props.history);
