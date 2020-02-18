@@ -14,7 +14,7 @@ import static com.modzo.ors.domain.events.Event.Type.RADIO_STATION_STREAM_DELETE
 import static com.modzo.ors.domain.events.RadioStationStreamDeleted.Data
 import static org.springframework.data.domain.Pageable.unpaged
 
-class DeleteRadioStationSongSpec extends IntegrationSpec {
+class DeleteRadioStationStreamSpec extends IntegrationSpec {
 
     @Autowired
     private DeleteRadioStationStream.Handler testTarget

@@ -1,4 +1,4 @@
-package com.modzo.ors.resources.admin.radio.station.song;
+package com.modzo.ors.resources.admin.radio.station.song.create;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;

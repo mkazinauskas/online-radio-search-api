@@ -1,9 +1,11 @@
-package com.modzo.ors.resources.admin.radio.station.song
+package com.modzo.ors.resources.admin.radio.station.song.create
 
 import com.modzo.ors.HttpEntityBuilder
+import com.modzo.ors.TestUsers
 import com.modzo.ors.domain.radio.station.RadioStation
 import com.modzo.ors.domain.song.Song
 import com.modzo.ors.resources.IntegrationSpec
+import com.modzo.ors.resources.admin.radio.station.song.create.CreateRadioStationSongRequest
 import org.springframework.http.ResponseEntity
 
 import static com.modzo.ors.TestUsers.ADMIN
@@ -29,7 +31,7 @@ class CreateRadioStationSongControllerSpec extends IntegrationSpec {
                     "/admin/radio-stations/${radioStation.id}/songs",
                     POST,
                     HttpEntityBuilder.builder()
-                            .bearer(token(ADMIN))
+                            .bearer(token(TestUsers.ADMIN))
                             .body(request)
                             .build(),
                     String
