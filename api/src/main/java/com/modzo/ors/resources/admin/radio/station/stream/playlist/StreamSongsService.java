@@ -94,7 +94,7 @@ class StreamSongsService {
 
     private Optional<Song> findOrCreateSong(String title) {
         Optional<Song> foundSong = findSongByTitle.handle(new FindSong(title));
-        if(foundSong.isEmpty()){
+        if (foundSong.isEmpty()) {
             return createSong(title);
         }
         return foundSong;
