@@ -34,8 +34,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-hateoas'
     implementation 'org.apache.commons:commons-lang3:3.8'
     implementation 'org.jsoup:jsoup:1.8.3'
-
-//    implementation 'org.elasticsearch.client:transport'
+    implementation 'com.rainerhahnekamp:sneakythrow:1.2.0'
 
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 

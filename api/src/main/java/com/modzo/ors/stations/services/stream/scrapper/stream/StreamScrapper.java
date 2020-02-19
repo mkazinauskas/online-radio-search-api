@@ -15,8 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static java.lang.Integer.valueOf;
-import static java.util.Optional.empty;
+import static java.lang.Integer.parseInt;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang3.math.NumberUtils.isCreatable;
@@ -26,16 +25,28 @@ public class StreamScrapper {
 
     private final WebPageReader siteReader;
 
-    public StreamScrapper(WebPageReader siteReader) {
+    private final StreamInfoUrlGenerator generator;
+
+    public StreamScrapper(WebPageReader siteReader,
+                          StreamInfoUrlGenerator generator) {
         this.siteReader = siteReader;
+        this.generator = generator;
     }
 
     public Optional<Response> scrap(Request request) {
-        Optional<String> site = siteReader.read(request.getUrl());
-        if (!site.isPresent()) {
-            return empty();
-        }
-        Document document = Jsoup.parse(site.get());
+        return generator.generateUrls(request.url)
+                .stream()
+                .map(this.siteReader::read)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(this::extract)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findFirst();
+    }
+
+    private Optional<Response> extract(String pageBody) {
+        Document document = Jsoup.parse(pageBody);
         List<Element> tables = new ArrayList<>(document.getElementsByTag("table"));
         List<Element> trs = tables.stream()
                 .map(element -> element.getElementsByTag("tr"))
@@ -58,7 +69,7 @@ public class StreamScrapper {
     private int listenerPeak(String line) {
         String cleanLine = line.trim();
         if (isCreatable(cleanLine)) {
-            return valueOf(cleanLine);
+            return parseInt(cleanLine);
         }
         return 0;
     }
@@ -87,14 +98,11 @@ public class StreamScrapper {
     }
 
     public static class Request {
+
         private final String url;
 
         public Request(String url) {
             this.url = url;
-        }
-
-        public String getUrl() {
-            return url;
         }
     }
 

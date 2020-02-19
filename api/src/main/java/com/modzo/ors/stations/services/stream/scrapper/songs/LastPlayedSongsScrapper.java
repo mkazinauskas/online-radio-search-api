@@ -34,7 +34,7 @@ public class LastPlayedSongsScrapper {
 
     public Optional<LastPlayedSongsScrapper.Response> scrap(LastPlayedSongsScrapper.Request request) {
         Optional<String> site = siteReader.read(request.getUrl());
-        if (!site.isPresent()) {
+        if (site.isEmpty()) {
             return empty();
         }
         Document document = Jsoup.parse(site.get());

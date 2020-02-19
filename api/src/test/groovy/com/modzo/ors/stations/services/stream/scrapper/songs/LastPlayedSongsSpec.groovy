@@ -1,6 +1,8 @@
 package com.modzo.ors.stations.services.stream.scrapper.songs
 
 import com.modzo.ors.stations.services.stream.scrapper.WebPageReader
+import com.modzo.ors.stations.services.stream.scrapper.stream.StreamInfoUrlGenerator
+import spock.lang.Shared
 import spock.lang.Specification
 
 import java.time.LocalDate
@@ -9,6 +11,9 @@ import java.time.ZonedDateTime
 import static java.time.ZoneId.systemDefault
 
 class LastPlayedSongsSpec extends Specification {
+
+    @Shared
+    StreamInfoUrlGenerator generator = new StreamInfoUrlGenerator(['/info.html', '/info.html?si=1'])
 
     void 'should scrap stream last played songs'() {
         given:
