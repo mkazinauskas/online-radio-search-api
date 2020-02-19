@@ -155,7 +155,7 @@ public class StreamScrapper {
         }
 
         public enum Format {
-            MP3, AAC, UNKNOWN;
+            MP3, AAC, MPEG, UNKNOWN;
 
             public static Format findFormat(String line) {
                 String uppercaseLine = line.toUpperCase();

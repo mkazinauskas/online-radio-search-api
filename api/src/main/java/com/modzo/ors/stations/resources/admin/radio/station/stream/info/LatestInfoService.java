@@ -10,6 +10,7 @@ import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateRadioStationStream;
 import com.modzo.ors.stations.services.stream.scrapper.stream.StreamScrapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -102,6 +103,7 @@ public class LatestInfoService {
 
     private Set<Genre> genres(List<String> genres) {
         return genres.stream()
+                .filter(StringUtils::isNotBlank)
                 .map(this::findOrCreateGenre)
                 .collect(toSet());
     }
@@ -133,6 +135,8 @@ public class LatestInfoService {
         switch (format) {
             case AAC:
                 return RadioStationStream.Type.ACC;
+            case MPEG:
+                return RadioStationStream.Type.MPEG;
             case MP3:
                 return RadioStationStream.Type.MP3;
             case UNKNOWN:
