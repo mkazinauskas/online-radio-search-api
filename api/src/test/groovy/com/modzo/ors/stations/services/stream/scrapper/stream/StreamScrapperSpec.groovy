@@ -1,9 +1,9 @@
-package com.modzo.ors.services.scrapper.stream
+package com.modzo.ors.stations.services.stream.scrapper.stream
 
-import com.modzo.ors.services.scrapper.WebPageReader
+import com.modzo.ors.stations.services.stream.scrapper.WebPageReader
 import spock.lang.Specification
 
-import static com.modzo.ors.services.scrapper.stream.StreamScrapper.Response.Format.MP3
+import static com.modzo.ors.stations.services.stream.scrapper.stream.StreamScrapper.Response.Format.MP3
 
 class StreamScrapperSpec extends Specification {
 

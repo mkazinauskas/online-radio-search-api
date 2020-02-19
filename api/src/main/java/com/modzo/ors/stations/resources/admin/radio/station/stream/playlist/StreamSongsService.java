@@ -10,7 +10,7 @@ import com.modzo.ors.stations.domain.song.Song;
 import com.modzo.ors.stations.domain.song.commands.CreateSong;
 import com.modzo.ors.stations.domain.song.commands.FindSong;
 import com.modzo.ors.stations.domain.song.commands.GetSong;
-import com.modzo.ors.services.scrapper.songs.LastPlayedSongsScrapper;
+import com.modzo.ors.stations.services.stream.scrapper.songs.LastPlayedSongsScrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

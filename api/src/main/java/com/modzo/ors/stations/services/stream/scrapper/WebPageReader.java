@@ -1,4 +1,4 @@
-package com.modzo.ors.services.scrapper;
+package com.modzo.ors.stations.services.stream.scrapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

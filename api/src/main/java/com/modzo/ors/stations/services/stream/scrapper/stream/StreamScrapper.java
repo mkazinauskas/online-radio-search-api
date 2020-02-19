@@ -1,6 +1,6 @@
-package com.modzo.ors.services.scrapper.stream;
+package com.modzo.ors.stations.services.stream.scrapper.stream;
 
-import com.modzo.ors.services.scrapper.WebPageReader;
+import com.modzo.ors.stations.services.stream.scrapper.WebPageReader;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

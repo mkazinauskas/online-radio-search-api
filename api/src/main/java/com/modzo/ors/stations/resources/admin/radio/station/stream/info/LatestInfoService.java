@@ -9,7 +9,7 @@ import com.modzo.ors.stations.domain.radio.station.genre.commands.FindGenre;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateRadioStationStream;
-import com.modzo.ors.services.scrapper.stream.StreamScrapper;
+import com.modzo.ors.stations.services.stream.scrapper.stream.StreamScrapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
