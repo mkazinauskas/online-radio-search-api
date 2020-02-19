@@ -1,9 +1,9 @@
 package com.modzo.ors.stations.services.stream.scrapper.songs
 
 import com.modzo.ors.stations.services.stream.scrapper.WebPageReader
-import com.modzo.ors.stations.services.stream.scrapper.stream.StreamInfoUrlGenerator
 import spock.lang.Shared
 import spock.lang.Specification
+import spock.lang.Unroll
 
 import java.time.LocalDate
 import java.time.ZonedDateTime
@@ -13,15 +13,18 @@ import static java.time.ZoneId.systemDefault
 class LastPlayedSongsSpec extends Specification {
 
     @Shared
-    StreamInfoUrlGenerator generator = new StreamInfoUrlGenerator(['/info.html', '/info.html?si=1'])
+    StreamPlayedSongsUrlGenerator generator = new StreamPlayedSongsUrlGenerator(
+            ['/played.html', '/played.html?sid=1', '/played.html?sid=2']
+    )
 
-    void 'should scrap stream last played songs'() {
+    @Unroll
+    void 'should use `#streamLastPlayedUrl` to scrap stream played songs from `#streamUrl`'() {
         given:
-            String url = 'someUrl'
+            LastPlayedSongsScrapper scrapper = prepareScrapper(streamLastPlayedUrl)
         and:
-            LastPlayedSongsScrapper scrapper = prepareScrapper(url)
+            LastPlayedSongsScrapper.Request request = new LastPlayedSongsScrapper.Request(streamUrl)
         when:
-            LastPlayedSongsScrapper.Response scraped = scrapper.scrap(new LastPlayedSongsScrapper.Request(url)).get()
+            LastPlayedSongsScrapper.Response scraped = scrapper.scrap(request).get()
         then:
             scraped.songs.size() == 20
             scraped.songs[0].playedTime.withZoneSameInstant(systemDefault()) == todayAtTime(15, 55, 02)
@@ -35,17 +38,28 @@ class LastPlayedSongsSpec extends Specification {
 
             scraped.songs[19].playedTime.withZoneSameInstant(systemDefault()) == todayAtTime(15, 15, 53)
             scraped.songs[19].name == 'Notiziario nazionale'
+        where:
+            streamUrl                       | streamLastPlayedUrl
+            'http://192.168.169.34:92100'   | 'http://192.168.169.34:92100'
+            'http://192.168.169.34:92100'   | 'http://192.168.169.34:92100/played.html'
+            'http://192.168.169.34:92100/;' | 'http://192.168.169.34:92100/;'
+            'http://192.168.169.34:92100/;' | 'http://192.168.169.34:92100/played.html'
+            'http://test.com/test/'         | 'http://test.com/test/played.html?sid=1'
+            'http://test.com/test'          | 'http://test.com/test/played.html?sid=1'
+            'http://test.com/test'          | 'http://test.com/played.html?sid=2'
     }
 
-    ZonedDateTime todayAtTime(int hour, int minute, int second) {
+    private static ZonedDateTime todayAtTime(int hour, int minute, int second) {
         return LocalDate.now().atTime(hour, minute, second).atZone(systemDefault())
     }
 
-    LastPlayedSongsScrapper prepareScrapper(String url) {
+    private LastPlayedSongsScrapper prepareScrapper(String url) {
         String page = getClass().getResource('/services/scrappers/played/played-source.html').text
 
-        return new LastPlayedSongsScrapper(Stub(WebPageReader) {
+        WebPageReader stub = Stub(WebPageReader) {
             read(url) >> Optional.of(page)
-        })
+        }
+
+        return new LastPlayedSongsScrapper(stub, generator)
     }
 }

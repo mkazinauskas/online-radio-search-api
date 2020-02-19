@@ -28,16 +28,28 @@ public class LastPlayedSongsScrapper {
 
     private final WebPageReader siteReader;
 
-    public LastPlayedSongsScrapper(WebPageReader siteReader) {
+    private final StreamPlayedSongsUrlGenerator generator;
+
+    public LastPlayedSongsScrapper(WebPageReader siteReader,
+                                   StreamPlayedSongsUrlGenerator generator) {
         this.siteReader = siteReader;
+        this.generator = generator;
     }
 
     public Optional<LastPlayedSongsScrapper.Response> scrap(LastPlayedSongsScrapper.Request request) {
-        Optional<String> site = siteReader.read(request.getUrl());
-        if (site.isEmpty()) {
-            return empty();
-        }
-        Document document = Jsoup.parse(site.get());
+        return generator.generateUrls(request.url)
+                .stream()
+                .map(this.siteReader::read)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(this::extract)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findFirst();
+    }
+
+    private Optional<LastPlayedSongsScrapper.Response> extract(String pageBody) {
+        Document document = Jsoup.parse(pageBody);
         List<Element> tables = new ArrayList<>(document.getElementsByTag("table"));
         List<Element> trs = tables.stream()
                 .map(element -> element.getElementsByTag("tr"))
@@ -79,7 +91,6 @@ public class LastPlayedSongsScrapper {
     private Elements getTd(Element element) {
         return element.getElementsByTag("td");
     }
-
 
     public static class Request {
         private final String url;

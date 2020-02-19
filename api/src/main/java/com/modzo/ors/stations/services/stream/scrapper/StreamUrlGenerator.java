@@ -25,8 +25,9 @@ public class StreamUrlGenerator {
     }
 
     private List<String> urlsWithAppendedEndings(String url) {
+        String urlWithoutSlash = url.replaceFirst("/*$", "");
         return endings.stream()
-                .map(ending -> url + ending)
+                .map(ending -> urlWithoutSlash + ending)
                 .collect(Collectors.toList());
     }
 

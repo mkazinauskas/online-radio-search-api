@@ -10,7 +10,7 @@ import java.util.List;
 class StreamPlayedSongsUrlGenerator extends StreamUrlGenerator {
 
     public StreamPlayedSongsUrlGenerator(
-            @Value("${radio.station.stream.scrapper.played.songs.url.endings}") List<String> endings) {
+            @Value("${application.radio.station.stream.scrapper.played.songs.url.endings}") List<String> endings) {
         super(endings);
     }
 

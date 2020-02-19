@@ -27,14 +27,17 @@ class StreamScrapperSpec extends Specification {
             scraped.genres == ['Pop', 'Rock', '80s', '70s', 'Top 40']
             scraped.website == 'www.radioduepuntozero.it'
         where:
-            streamUrl                     | streamInfoUrl
-            'http://192.168.169.34:92100' | 'http://192.168.169.34:92100'
-            'http://192.168.169.34:92100' | 'http://192.168.169.34:92100/info.html'
-            'http://test.com/test'        | 'http://test.com/test/info.html?si=1'
-            'http://test.com/test'        | 'http://test.com/info.html?si=1'
+            streamUrl                       | streamInfoUrl
+            'http://192.168.169.34:92100'   | 'http://192.168.169.34:92100'
+            'http://192.168.169.34:92100/;' | 'http://192.168.169.34:92100/;'
+            'http://192.168.169.34:92100'   | 'http://192.168.169.34:92100/info.html'
+            'http://192.168.169.34:92100/;' | 'http://192.168.169.34:92100/info.html'
+            'http://test.com/test/'         | 'http://test.com/test/info.html?si=1'
+            'http://test.com/test'          | 'http://test.com/test/info.html?si=1'
+            'http://test.com/test'          | 'http://test.com/info.html?si=1'
     }
 
-    StreamScrapper prepareScrapper(String url) {
+    private StreamScrapper prepareScrapper(String url) {
         String page = getClass().getResource('/services/scrappers/stream/sample-source.html').text
 
         WebPageReader webPageReaderStub = Stub(WebPageReader) {
