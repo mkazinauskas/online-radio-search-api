@@ -1,7 +1,6 @@
-package com.modzo.ors.searches
+package com.modzo.ors.last.searches
 
-import com.modzo.ors.searches.domain.SearchedQuery
-import com.modzo.ors.searches.domain.commands.CreateSearchedQuery
+import com.modzo.ors.last.searches.domain.commands.CreateSearchedQuery
 import org.springframework.stereotype.Component
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
@@ -15,7 +14,7 @@ class TestSearchQuery {
         this.handler = handler
     }
 
-    SearchedQuery create() {
+    com.modzo.ors.last.searches.domain.SearchedQuery create() {
         return handler.handle(new CreateSearchedQuery(randomQuery()))
     }
 

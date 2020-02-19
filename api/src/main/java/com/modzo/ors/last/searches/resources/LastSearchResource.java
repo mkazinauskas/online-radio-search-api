@@ -1,8 +1,8 @@
-package com.modzo.ors.searches.resources;
+package com.modzo.ors.last.searches.resources;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.modzo.ors.searches.domain.SearchedQuery;
+import com.modzo.ors.last.searches.domain.SearchedQuery;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.RepresentationModel;
 

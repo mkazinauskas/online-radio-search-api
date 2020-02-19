@@ -1,4 +1,4 @@
-package com.modzo.ors.searches.domain;
+package com.modzo.ors.last.searches.domain;
 
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 

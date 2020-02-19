@@ -1,8 +1,8 @@
-package com.modzo.ors.searches.domain
+package com.modzo.ors.last.searches.domain
 
 import com.modzo.ors.domain.DomainException
 import com.modzo.ors.resources.IntegrationSpec
-import com.modzo.ors.searches.domain.commands.CreateSearchedQuery
+import com.modzo.ors.last.searches.domain.commands.CreateSearchedQuery
 import org.springframework.beans.factory.annotation.Autowired
 import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils
 

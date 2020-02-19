@@ -1,7 +1,7 @@
-package com.modzo.ors.searches.resources;
+package com.modzo.ors.last.searches.resources;
 
-import com.modzo.ors.searches.domain.SearchedQuery;
-import com.modzo.ors.searches.domain.commands.GetLastSearchQueries;
+import com.modzo.ors.last.searches.domain.SearchedQuery;
+import com.modzo.ors.last.searches.domain.commands.GetLastSearchQueries;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedModel;
