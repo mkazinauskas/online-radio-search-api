@@ -1,7 +1,7 @@
 package com.modzo.ors.search.domain.reader.parser;
 
-import com.modzo.ors.domain.events.Event;
-import com.modzo.ors.domain.events.Events;
+import com.modzo.ors.stations.domain.events.Event;
+import com.modzo.ors.stations.domain.events.Events;
 import com.modzo.ors.search.domain.parsedevents.ParsedEvent;
 import com.modzo.ors.search.domain.parsedevents.ParsedEvents;
 import com.modzo.ors.search.domain.parsedevents.commands.FindLastParsedEvent;

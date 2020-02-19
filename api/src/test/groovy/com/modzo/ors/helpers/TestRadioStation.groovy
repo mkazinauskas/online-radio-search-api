@@ -1,8 +1,8 @@
 package com.modzo.ors.helpers
 
-import com.modzo.ors.domain.radio.station.RadioStation
-import com.modzo.ors.domain.radio.station.commands.CreateRadioStation
-import com.modzo.ors.domain.radio.station.commands.GetRadioStation
+import com.modzo.ors.stations.domain.radio.station.RadioStation
+import com.modzo.ors.stations.domain.radio.station.commands.CreateRadioStation
+import com.modzo.ors.stations.domain.radio.station.commands.GetRadioStation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 

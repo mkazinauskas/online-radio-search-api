@@ -1,9 +1,9 @@
 package com.modzo.ors.helpers
 
-import com.modzo.ors.domain.radio.station.song.RadioStationSong
-import com.modzo.ors.domain.radio.station.song.commands.CreateRadioStationSong
-import com.modzo.ors.domain.radio.station.song.commands.GetRadioStationSongByid
-import com.modzo.ors.domain.song.commands.CreateSong
+import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong
+import com.modzo.ors.stations.domain.radio.station.song.commands.CreateRadioStationSong
+import com.modzo.ors.stations.domain.radio.station.song.commands.GetRadioStationSongByid
+import com.modzo.ors.stations.domain.song.commands.CreateSong
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 

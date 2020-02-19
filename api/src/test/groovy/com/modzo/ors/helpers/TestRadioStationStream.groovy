@@ -1,9 +1,9 @@
 package com.modzo.ors.helpers
 
-import com.modzo.ors.domain.radio.station.RadioStation
-import com.modzo.ors.domain.radio.station.stream.RadioStationStream
-import com.modzo.ors.domain.radio.station.stream.commands.CreateRadioStationStream
-import com.modzo.ors.domain.radio.station.stream.commands.GetRadioStationStream
+import com.modzo.ors.stations.domain.radio.station.RadioStation
+import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
+import com.modzo.ors.stations.domain.radio.station.stream.commands.CreateRadioStationStream
+import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStream
 import com.modzo.ors.setup.WiremockConfiguration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component

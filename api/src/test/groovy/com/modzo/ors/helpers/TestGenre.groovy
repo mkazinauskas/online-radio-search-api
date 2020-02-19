@@ -1,8 +1,8 @@
 package com.modzo.ors.helpers
 
-import com.modzo.ors.domain.radio.station.genre.Genre
-import com.modzo.ors.domain.radio.station.genre.commands.CreateGenre
-import com.modzo.ors.domain.radio.station.genre.commands.GetGenre
+import com.modzo.ors.stations.domain.radio.station.genre.Genre
+import com.modzo.ors.stations.domain.radio.station.genre.commands.CreateGenre
+import com.modzo.ors.stations.domain.radio.station.genre.commands.GetGenre
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 

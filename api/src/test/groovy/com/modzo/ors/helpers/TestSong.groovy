@@ -1,8 +1,8 @@
 package com.modzo.ors.helpers
 
-import com.modzo.ors.domain.song.Song
-import com.modzo.ors.domain.song.commands.CreateSong
-import com.modzo.ors.domain.song.commands.GetSong
+import com.modzo.ors.stations.domain.song.Song
+import com.modzo.ors.stations.domain.song.commands.CreateSong
+import com.modzo.ors.stations.domain.song.commands.GetSong
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 

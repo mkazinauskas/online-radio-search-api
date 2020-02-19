@@ -1,7 +1,7 @@
 package com.modzo.ors.search.domain.reader.parser;
 
-import com.modzo.ors.domain.events.DomainEvent;
-import com.modzo.ors.domain.events.Event;
+import com.modzo.ors.stations.domain.events.DomainEvent;
+import com.modzo.ors.stations.domain.events.Event;
 
 public interface EventParser {
 
