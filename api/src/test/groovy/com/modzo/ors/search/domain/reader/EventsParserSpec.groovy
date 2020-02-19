@@ -1,21 +1,21 @@
 package com.modzo.ors.search.domain.reader
 
-import com.modzo.ors.domain.events.Event
-import com.modzo.ors.domain.radio.station.RadioStation
-import com.modzo.ors.domain.radio.station.commands.UpdateRadioStation
-import com.modzo.ors.domain.radio.station.genre.Genre
-import com.modzo.ors.domain.radio.station.song.RadioStationSong
-import com.modzo.ors.domain.radio.station.stream.RadioStationStream
-import com.modzo.ors.domain.radio.station.stream.commands.UpdateRadioStationStream
-import com.modzo.ors.domain.song.Song
-import com.modzo.ors.resources.IntegrationSpec
+import com.modzo.ors.stations.domain.events.Event
+import com.modzo.ors.stations.domain.radio.station.RadioStation
+import com.modzo.ors.stations.domain.radio.station.commands.UpdateRadioStation
+import com.modzo.ors.stations.domain.radio.station.genre.Genre
+import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong
+import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
+import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateRadioStationStream
+import com.modzo.ors.stations.domain.song.Song
+import com.modzo.ors.stations.resources.IntegrationSpec
 import com.modzo.ors.search.domain.*
 import com.modzo.ors.search.domain.reader.parser.EventParser
 import com.modzo.ors.search.domain.reader.parser.EventsProcessor
 import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Unroll
 
-import static com.modzo.ors.domain.radio.station.stream.RadioStationStream.Type.ACC
+import static com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream.Type.ACC
 
 class EventsParserSpec extends IntegrationSpec {
 

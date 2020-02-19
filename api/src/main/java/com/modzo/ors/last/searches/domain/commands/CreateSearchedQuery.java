@@ -1,6 +1,6 @@
 package com.modzo.ors.last.searches.domain.commands;
 
-import com.modzo.ors.domain.DomainException;
+import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.last.searches.domain.SearchedQueries;
 import com.modzo.ors.last.searches.domain.SearchedQuery;
 import org.jsoup.helper.StringUtil;

@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-import static com.modzo.ors.resources.HateoasHelper.parseLinks;
+import static com.modzo.ors.stations.resources.HateoasHelper.parseLinks;
 import static java.util.Collections.singletonMap;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;

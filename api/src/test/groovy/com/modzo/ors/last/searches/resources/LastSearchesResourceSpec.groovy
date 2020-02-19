@@ -1,7 +1,7 @@
 package com.modzo.ors.last.searches.resources
 
 import com.modzo.ors.HttpEntityBuilder
-import com.modzo.ors.resources.IntegrationSpec
+import com.modzo.ors.stations.resources.IntegrationSpec
 import com.modzo.ors.last.searches.TestSearchQuery
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity

@@ -1,6 +1,6 @@
 package com.modzo.ors.search
 
-import com.modzo.ors.resources.IntegrationSpec
+import com.modzo.ors.stations.resources.IntegrationSpec
 import com.modzo.ors.search.domain.RadioStationDocument
 import com.modzo.ors.search.domain.RadioStationsRepository
 import org.springframework.beans.factory.annotation.Autowired
