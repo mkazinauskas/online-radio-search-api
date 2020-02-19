@@ -3,7 +3,11 @@ package com.modzo.ors.stations.services.stream.scrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -65,8 +69,8 @@ public class WebPageReader {
 
     private static HttpEntity<String> headers() {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 " +
-                "(KHTML, like Gecko) Chrome/80.0.3987.116 Safari/537.36");
+        headers.add("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                + "(KHTML, like Gecko) Chrome/80.0.3987.116 Safari/537.36");
         return new HttpEntity<>(headers);
     }
 }
