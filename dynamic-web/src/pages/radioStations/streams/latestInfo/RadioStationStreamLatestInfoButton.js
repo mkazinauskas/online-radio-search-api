@@ -22,6 +22,7 @@ class RadioStationStreamLatestInfoButton extends Component {
             <Popconfirm
                 title="Sure to fetch info?"
                 onConfirm={() => this.handleDelete(this.props.id)}
+                disabled={this.state.loading}
             >
                 <Button type="link" disabled={this.state.loading}>Fetch latest info</Button>
             </Popconfirm>

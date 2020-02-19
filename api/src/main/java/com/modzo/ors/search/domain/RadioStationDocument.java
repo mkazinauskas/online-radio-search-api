@@ -94,4 +94,8 @@ public class RadioStationDocument {
     public void removeStream(String streamId) {
         this.streams.removeIf(stream -> stream.getUniqueId().equals(streamId));
     }
+
+    public void removeSong(String songUniqueId) {
+        this.songs.removeIf(song -> song.getUniqueId().equals(songUniqueId));
+    }
 }

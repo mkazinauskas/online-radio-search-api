@@ -1,10 +1,7 @@
-package com.modzo.ors.domain.radio.station.song.commands;
+package com.modzo.ors.domain.song.commands;
 
 import com.modzo.ors.domain.DomainException;
-import com.modzo.ors.domain.events.RadioStationDeleted;
 import com.modzo.ors.domain.events.SongDeleted;
-import com.modzo.ors.domain.radio.station.RadioStation;
-import com.modzo.ors.domain.radio.station.RadioStations;
 import com.modzo.ors.domain.song.Song;
 import com.modzo.ors.domain.song.Songs;
 import org.springframework.context.ApplicationEventPublisher;

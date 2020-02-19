@@ -45,7 +45,8 @@ public class Event {
         GENRE_CREATED(GenreCreated.Data.class),
         SONG_CREATED(SongCreated.Data.class),
         SONG_DELETED(SongDeleted.Data.class),
-        RADIO_STATION_SONG_CREATED(RadioStationSongCreated.Data.class);
+        RADIO_STATION_SONG_CREATED(RadioStationSongCreated.Data.class),
+        RADIO_STATION_SONG_DELETED(RadioStationSongDeleted.Data.class);
 
         private final Class<? extends DomainEvent.Data> eventClass;
 

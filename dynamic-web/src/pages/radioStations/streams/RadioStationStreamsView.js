@@ -6,7 +6,6 @@ import RadioStationStreamsTable from './RadioStationStreamsTable';
 class RadioStationStreamsView extends Component {
 
     render() {
-        console.log(this.props);
         return (
             <div>
                 <RadioStationStreamsHeader />

@@ -1,4 +1,4 @@
-package com.modzo.ors.resources.admin.radio.station.song;
+package com.modzo.ors.resources.admin.radio.station.song.create;
 
 import com.modzo.ors.domain.radio.station.song.commands.CreateRadioStationSong;
 import org.springframework.http.ResponseEntity;

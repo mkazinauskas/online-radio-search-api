@@ -2,47 +2,49 @@ import { Button, Result, Table } from 'antd';
 import Axios from 'axios';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { RADIO_STATIONS } from '../../layouts/pathTypes';
-import DeleteRadioStationButton from './deleteStation/DeleteRadioStationButton';
-import ShowRadioStationSongsButton from './songs/ShowRadioStationSongsButton';
-import ShowRadioStationStreamsButton from './streams/ShowRadioStationStreamsButton';
+import { createURLRadioStationSongs } from '../../../layouts/pathTypes';
+import DeleteRadioStationSongButton from './delete/DeleteRadioStationSongButton';
 
 const columns = [
     {
         title: 'Id',
-        dataIndex: 'radioStation.id',
-        width: '10%',
+        dataIndex: 'id',
     },
     {
-        title: 'Title',
-        dataIndex: 'radioStation.title',
+        title: 'Song Id',
+        dataIndex: 'songId',
     },
     {
-        title: 'Website',
-        dataIndex: 'radioStation.website',
+        title: 'Played Time',
+        dataIndex: 'playedTime',
+        render(text, record) {
+            const date = new Date(record.playedTime)
+            const offset = new Date().getTimezoneOffset();
+            return (
+                <span>
+                    {date.toLocaleString("en-US", {timeZoneOffset: offset})}
+                </span>
+            )
+        }
     },
     {
         title: 'Actions',
         key: 'operation',
-        fixed: 'right',
         render: (text, record) => {
-            const id = record.radioStation.id;
             return (
                 <span>
-                    <span style={{ padding: 15 }}>
-                        <ShowRadioStationSongsButton key={`streams-${id}`} id={id} style={{ padding: 10 }} />
-                    </span>
-                    <span style={{ padding: 15 }}>
-                        <ShowRadioStationStreamsButton key={`streams-${id}`} id={id} />
-                    </span>
-                    <DeleteRadioStationButton key={`delete-${id}`} id={id} />
+                    <DeleteRadioStationSongButton
+                        key={`delete-song-${record.id}`}
+                        radioStationId={record.radioStationId}
+                        id={record.id}
+                    />
                 </span>
             )
         },
     }
 ];
 
-class RadioStationsTable extends Component {
+class RadioStationStreamsTable extends Component {
 
     state = {
         data: [],
@@ -102,12 +104,15 @@ class RadioStationsTable extends Component {
         urlSearchParams.set('page', this.state.filter.page);
         urlSearchParams.set('size', this.state.filter.size);
 
-        Axios.get('/radio-stations?' + urlSearchParams.toString())
+        const radioStationId = this.props.match.params.radioStationId;
+
+        Axios.get(`/radio-stations/${radioStationId}/songs?${urlSearchParams.toString()}`)
             .then((response) => {
                 let data = [];
-
-                if (response.data._embedded && response.data._embedded.radioStationResourceList) {
-                    data = response.data._embedded.radioStationResourceList;
+                if (response.data._embedded && response.data._embedded.radioStationSongResourceList) {
+                    data = response.data._embedded.radioStationSongResourceList.map(element => {
+                        return { ...element.radioStationSong, radioStationId }
+                    });
                 }
 
                 if (!data.length && response.data.page.totalPages > 1) {
@@ -135,7 +140,8 @@ class RadioStationsTable extends Component {
         urlSearchParams.set('page', page);
         urlSearchParams.set('size', size);
 
-        this.props.history.push(RADIO_STATIONS + '?' + urlSearchParams.toString());
+        const radioStationId = this.props.match.params.radioStationId;
+        this.props.history.push(createURLRadioStationSongs(radioStationId) + '?' + urlSearchParams.toString());
     }
 
     handleTableChange = (page) => {
@@ -159,7 +165,7 @@ class RadioStationsTable extends Component {
         return (
             <Table
                 columns={columns}
-                rowKey={record => record.radioStation.id}
+                rowKey={record => record.id}
                 dataSource={this.state.data}
                 pagination={this.state.pagination}
                 loading={this.state.loading}
@@ -169,4 +175,4 @@ class RadioStationsTable extends Component {
     }
 }
 
-export default withRouter(RadioStationsTable);
+export default withRouter(RadioStationStreamsTable);
