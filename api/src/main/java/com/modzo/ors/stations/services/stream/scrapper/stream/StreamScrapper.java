@@ -45,8 +45,8 @@ public class StreamScrapper {
                 .findFirst();
     }
 
-    private Optional<Response> extract(String pageBody) {
-        Document document = Jsoup.parse(pageBody);
+    private Optional<Response> extract(WebPageReader.Response page) {
+        Document document = Jsoup.parse(page.getBody().get());
         List<Element> tables = new ArrayList<>(document.getElementsByTag("table"));
         List<Element> trs = tables.stream()
                 .map(element -> element.getElementsByTag("tr"))

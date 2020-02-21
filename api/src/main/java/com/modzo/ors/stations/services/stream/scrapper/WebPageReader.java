@@ -1,25 +1,29 @@
 package com.modzo.ors.stations.services.stream.scrapper;
 
+import com.nimbusds.oauth2.sdk.util.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.Duration;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class WebPageReader {
 
     private static final Logger log = LoggerFactory.getLogger(WebPageReader.class);
-
-    private static final HttpEntity<String> DEFAULT_REQUEST_HEADERS = headers();
 
     private static final Set<MediaType> ALLOWED_MEDIA_TYPES = Set.of(
             MediaType.TEXT_PLAIN,
@@ -29,33 +33,7 @@ public class WebPageReader {
             MediaType.APPLICATION_XHTML_XML
     );
 
-    private final RestTemplate restTemplate;
-
-    WebPageReader(RestTemplateBuilder builder) {
-        this.restTemplate = builder
-                .setConnectTimeout(Duration.ofSeconds(10))
-                .setReadTimeout(Duration.ofSeconds(10))
-                .build();
-    }
-
-    public Optional<String> read(String url) {
-        log.info("Reading url = `{}`", url);
-        if (!isExpectedPage(url)) {
-            return Optional.empty();
-        }
-
-        try {
-            ResponseEntity<String> forEntity = restTemplate
-                    .exchange(url, HttpMethod.GET, DEFAULT_REQUEST_HEADERS, String.class);
-
-            return Optional.ofNullable(forEntity.getBody());
-        } catch (Exception exception) {
-            log.error(String.format("Failed to read url = `%s`", url), exception);
-            return Optional.empty();
-        }
-    }
-
-    private boolean isExpectedPage(String url) {
+    public Optional<Response> read(String url) {
         HttpURLConnection connection = null;
         try {
             URL parsedUrl = new URL(url);
@@ -66,18 +44,20 @@ public class WebPageReader {
 
             if (!isSuccessfulConnection(connection)) {
                 log.error(String.format("Failed to establish connection to url = `%s`", url));
-                return false;
+                return Optional.empty();
             }
 
-            if (!contentTypeIsAllowed(connection)) {
+            Map<String, List<String>> headerFields = connection.getHeaderFields();
+            if (!contentTypeIsAllowed(headerFields)) {
                 log.error(String.format("Url = `%s` is not acceptable content type", url));
-                return false;
+                return Optional.of(new Response(headerFields));
             }
 
-            return true;
+            String body = new String(((InputStream) connection.getContent()).readAllBytes(), StandardCharsets.UTF_8);
+            return Optional.of(new Response(headerFields, body));
         } catch (Exception exception) {
             log.error(String.format("Failed to establish connection to url = `%s`", url), exception);
-            return true;
+            return Optional.empty();
         } finally {
             if (connection != null) {
                 connection.disconnect();
@@ -85,10 +65,13 @@ public class WebPageReader {
         }
     }
 
-    private boolean contentTypeIsAllowed(HttpURLConnection connection) {
-        String contentType = connection.getHeaderField(HttpHeaders.CONTENT_TYPE);
-        MediaType mediaType = MediaType.valueOf(contentType);
-        return ALLOWED_MEDIA_TYPES.stream().anyMatch(mediaType::isCompatibleWith);
+    private boolean contentTypeIsAllowed(Map<String, List<String>> headers) {
+        return Optional.ofNullable(headers.get(HttpHeaders.CONTENT_TYPE))
+                .filter(CollectionUtils::isNotEmpty)
+                .map(list -> list.get(0))
+                .map(MediaType::valueOf)
+                .filter(type -> ALLOWED_MEDIA_TYPES.stream().anyMatch(type::isCompatibleWith))
+                .isPresent();
     }
 
     private boolean isSuccessfulConnection(HttpURLConnection connection) {
@@ -105,10 +88,36 @@ public class WebPageReader {
         }
     }
 
-    private static HttpEntity<String> headers() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-                + "(KHTML, like Gecko) Chrome/80.0.3987.116 Safari/537.36");
-        return new HttpEntity<>(headers);
+    public static class Response {
+
+        private final Map<String, List<String>> headers;
+
+        private final String body;
+
+        public Response(Map<String, List<String>> headers, String body) {
+            this.headers = headers;
+            this.body = body;
+        }
+
+        public Response(Map<String, List<String>> headers) {
+            this.headers = headers;
+            this.body = null;
+        }
+
+        public Map<String, List<String>> getHeaders() {
+            return headers;
+        }
+
+        public Map<String, String> getHeadersAsSingleValueMap() {
+            return this.headers.entrySet().stream()
+                    .filter(item -> StringUtils.isNotEmpty(item.getKey()))
+                    .filter(item -> CollectionUtils.isNotEmpty(item.getValue()))
+                    .map(item -> Map.entry(item.getKey(), item.getValue().get(0)))
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        }
+
+        public Optional<String> getBody() {
+            return Optional.ofNullable(body);
+        }
     }
 }

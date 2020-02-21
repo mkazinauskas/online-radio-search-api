@@ -48,8 +48,8 @@ public class LastPlayedSongsScrapper {
                 .findFirst();
     }
 
-    private Optional<LastPlayedSongsScrapper.Response> extract(String pageBody) {
-        Document document = Jsoup.parse(pageBody);
+    private Optional<LastPlayedSongsScrapper.Response> extract(WebPageReader.Response page) {
+        Document document = Jsoup.parse(page.getBody().get());
         List<Element> tables = new ArrayList<>(document.getElementsByTag("table"));
         List<Element> trs = tables.stream()
                 .map(element -> element.getElementsByTag("tr"))
