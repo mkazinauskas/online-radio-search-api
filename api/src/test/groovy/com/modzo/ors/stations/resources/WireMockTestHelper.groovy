@@ -43,7 +43,7 @@ class WireMockTestHelper {
                                 .withBody(body))
         )
 
-        return testWiremockServer.server().url(resourcePath);
+        return testWiremockServer.server().url(resourcePath)
     }
 
     private static String getPath(String inputUrl) {

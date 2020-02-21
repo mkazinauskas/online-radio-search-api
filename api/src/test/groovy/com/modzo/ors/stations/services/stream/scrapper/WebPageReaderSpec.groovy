@@ -56,8 +56,6 @@ class WebPageReaderSpec extends IntegrationSpec {
             ]
     }
 
-
-
     private String mockUrl(Map<String, String> headers, String body = null) {
         String path = '/' + RandomStringUtils.randomAlphanumeric(10)
         return wireMockTestHelper.okGetResponse(path, headers, body)

@@ -42,14 +42,17 @@ public class LastPlayedSongsScrapper {
                 .map(this.siteReader::read)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
+                .map(WebPageReader.Response::getBody)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .map(this::extract)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .findFirst();
     }
 
-    private Optional<LastPlayedSongsScrapper.Response> extract(WebPageReader.Response page) {
-        Document document = Jsoup.parse(page.getBody().get());
+    private Optional<LastPlayedSongsScrapper.Response> extract(String body) {
+        Document document = Jsoup.parse(body);
         List<Element> tables = new ArrayList<>(document.getElementsByTag("table"));
         List<Element> trs = tables.stream()
                 .map(element -> element.getElementsByTag("tr"))
