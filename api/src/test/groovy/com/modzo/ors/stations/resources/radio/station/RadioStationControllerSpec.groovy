@@ -28,14 +28,12 @@ class RadioStationControllerSpec extends IntegrationSpec {
             result.statusCode == OK
         and:
             with(result.body) {
-                it.content.first().with {
-
-                    radioStation.with {
-                        id > 0
-                        uniqueId
-                        title.size() > 0
-                    }
-
+                it.content.first().radioStation.with {
+                    id > 0
+                    uniqueId
+                    title.size() > 0
+                }
+                it.links.first().with {
                     rel == REL_SELF
                     href.endsWith(url)
                 }
@@ -59,9 +57,11 @@ class RadioStationControllerSpec extends IntegrationSpec {
             result.statusCode == OK
         and:
             with(result.body) {
-                it.radioStation.id == radioStation.id
-                it.radioStation.uniqueId == radioStation.uniqueId
-                it.radioStation.title == radioStation.title
+                it.radioStation.with {
+                    id == radioStation.id
+                    uniqueId == radioStation.uniqueId
+                    title == radioStation.title
+                }
 
                 it.links.first().rel == REL_SELF
                 it.links.first().href.endsWith(url)
