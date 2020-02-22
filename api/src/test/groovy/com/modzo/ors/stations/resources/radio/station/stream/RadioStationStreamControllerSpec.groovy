@@ -34,7 +34,10 @@ class RadioStationStreamControllerSpec extends IntegrationSpec {
                 RadioStationStreamResource resource = it.content.first() as RadioStationStreamResource
 
                 resource.radioStationStream.id == radioStationStream.id
+                resource.radioStationStream.uniqueId == radioStationStream.uniqueId
                 resource.radioStationStream.url == radioStationStream.url
+                resource.radioStationStream.bitRate == radioStationStream.bitRate
+                resource.radioStationStream.type == radioStationStream.type.name()
 
                 resource.links.first().rel == REL_SELF
                 resource.links.first().href.endsWith("${url}/${radioStationStream.id}")
@@ -62,8 +65,11 @@ class RadioStationStreamControllerSpec extends IntegrationSpec {
             result.statusCode == OK
         and:
             with(result.body as RadioStationStreamResource) {
-                it.radioStationStream.id == stream.id
-                it.radioStationStream.url == stream.url
+                it.radioStationStream.id == radioStationStream.id
+                it.radioStationStream.uniqueId == radioStationStream.uniqueId
+                it.radioStationStream.url == radioStationStream.url
+                it.radioStationStream.bitRate == radioStationStream.bitRate
+                it.radioStationStream.type == radioStationStream.type.name()
 
                 links.first().rel == REL_SELF
                 links.first().href.endsWith(url)

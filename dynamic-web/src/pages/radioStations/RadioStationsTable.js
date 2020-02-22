@@ -14,6 +14,11 @@ const columns = [
         width: '10%',
     },
     {
+        title: 'Unique Id',
+        dataIndex: 'radioStation.uniqueId',
+        width: '10%',
+    },
+    {
         title: 'Title',
         dataIndex: 'radioStation.title',
     },

@@ -11,12 +11,22 @@ const columns = [
     {
         title: 'Id',
         dataIndex: 'id',
-        width: '10%',
+    },
+    {
+        title: 'Unique Id',
+        dataIndex: 'uniqueId'
     },
     {
         title: 'Url',
         dataIndex: 'url',
-        width: '40%',
+    },
+    {
+        title: 'Bit Rate',
+        dataIndex: 'bitRate'
+    },
+    {
+        title: 'Type',
+        dataIndex: 'type'
     },
     {
         title: 'Preview',
