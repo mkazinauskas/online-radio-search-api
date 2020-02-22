@@ -6,8 +6,16 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 import static com.modzo.ors.stations.services.stream.scrapper.stream.StreamScrapper.Response.Format.MP3
+import static com.modzo.ors.stations.services.stream.scrapper.stream.StreamScrapper.Response.Format.MPEG
 
 class StreamScrapperSpec extends Specification {
+
+    @Shared
+    List<StreamInfoScrappingStrategy> strategies = [
+            new DefaultStreamScrappingStrategy(),
+            new IcyStreamScrappingStrategy(),
+            new HeaderStreamScrappingStrategy()
+    ]
 
     @Shared
     StreamInfoUrlGenerator generator = new StreamInfoUrlGenerator(['/info.html', '/info.html?si=1'])
@@ -37,12 +45,37 @@ class StreamScrapperSpec extends Specification {
             'http://test.com/test'          | 'http://test.com/info.html?si=1'
     }
 
+    void 'should scrap icy pages'() {
+        given:
+            String url = 'http://192.168.169.34:92100';
+            StreamScrapper scrapper = prepareIcyScrapper(url)
+        when:
+            StreamScrapper.Response scraped = scrapper.scrap(new StreamScrapper.Request(url)).get()
+        then:
+            scraped.listingStatus == 'Server is currently up and private.'
+            scraped.format == MPEG
+            scraped.bitrate == 64
+            scraped.listenerPeak == 41
+            scraped.streamName == 'Radio 3 - Belgrade - www.radio3.rs'
+            scraped.genres == ['AC Hot']
+            scraped.website == 'http://www.radio3.rs'
+    }
+
     private StreamScrapper prepareScrapper(String url) {
         String page = getClass().getResource('/services/scrappers/stream/sample-source.html').text
 
         WebPageReader webPageReaderStub = Stub(WebPageReader) {
             read(url) >> Optional.of(new WebPageReader.Response(null, page))
         }
-        return new StreamScrapper(webPageReaderStub, generator)
+        return new StreamScrapper(webPageReaderStub, generator, strategies)
+    }
+
+    private StreamScrapper prepareIcyScrapper(String url) {
+        String page = getClass().getResource('/services/scrappers/stream/sample-source-icy.html').text
+
+        WebPageReader webPageReaderStub = Stub(WebPageReader) {
+            read(url) >> Optional.of(new WebPageReader.Response(null, page))
+        }
+        return new StreamScrapper(webPageReaderStub, generator, strategies)
     }
 }

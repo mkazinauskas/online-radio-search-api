@@ -1,24 +1,14 @@
 package com.modzo.ors.stations.services.stream.scrapper.stream;
 
 import com.modzo.ors.stations.services.stream.scrapper.WebPageReader;
-import org.apache.commons.lang3.math.NumberUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
-
-import static java.lang.Integer.parseInt;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
-import static org.apache.commons.lang3.math.NumberUtils.isCreatable;
+import java.util.function.Function;
 
 @Component
 public class StreamScrapper {
@@ -27,10 +17,14 @@ public class StreamScrapper {
 
     private final StreamInfoUrlGenerator generator;
 
+    private final List<StreamInfoScrappingStrategy> streamInfoScrappingStrategies;
+
     public StreamScrapper(WebPageReader siteReader,
-                          StreamInfoUrlGenerator generator) {
+                          StreamInfoUrlGenerator generator,
+                          List<StreamInfoScrappingStrategy> streamInfoScrappingStrategies) {
         this.siteReader = siteReader;
         this.generator = generator;
+        this.streamInfoScrappingStrategies = streamInfoScrappingStrategies;
     }
 
     public Optional<Response> scrap(Request request) {
@@ -39,65 +33,17 @@ public class StreamScrapper {
                 .map(this.siteReader::read)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .map(WebPageReader.Response::getBody)
+                .map(getResponseHavingHighestPropertyCount()
+                ).findFirst()
+                .orElse(Optional.empty());
+    }
+
+    private Function<WebPageReader.Response, Optional<Response>> getResponseHavingHighestPropertyCount() {
+        return response -> streamInfoScrappingStrategies.stream()
+                .map(strategy -> strategy.extract(response))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .map(this::extract)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .findFirst();
-    }
-
-    private Optional<Response> extract(String body) {
-        Document document = Jsoup.parse(body);
-        List<Element> tables = new ArrayList<>(document.getElementsByTag("table"));
-        List<Element> trs = tables.stream()
-                .map(element -> element.getElementsByTag("tr"))
-                .flatMap(Collection::stream)
-                .collect(toList());
-        Map<String, String> requiredTrs = tableValues(trs);
-        return Optional.of(
-                new Response(
-                        requiredTrs.getOrDefault("Listing Status:", ""),
-                        Response.Format.findFormat(requiredTrs.getOrDefault("Stream Status:", "")),
-                        bitRate(requiredTrs.getOrDefault("Stream Status:", "")),
-                        listenerPeak(requiredTrs.getOrDefault("Listener Peak:", "")),
-                        requiredTrs.getOrDefault("Stream Name:", ""),
-                        genres(requiredTrs.getOrDefault("Stream Genre(s):", "")),
-                        requiredTrs.getOrDefault("Stream Website:", "")
-                )
-        );
-    }
-
-    private int listenerPeak(String line) {
-        String cleanLine = line.trim();
-        if (isCreatable(cleanLine)) {
-            return parseInt(cleanLine);
-        }
-        return 0;
-    }
-
-    private List<String> genres(String genresLine) {
-        return Stream.of(genresLine.split(" , "))
-                .map(String::trim)
-                .collect(toList());
-    }
-
-    private int bitRate(String line) {
-        return Stream.of(line.split(" "))
-                .filter(NumberUtils::isCreatable)
-                .map(Integer::valueOf)
-                .findFirst().orElse(0);
-    }
-
-    private Map<String, String> tableValues(List<Element> elements) {
-        return elements.stream()
-                .filter(element -> getTd(element).size() == 2)
-                .collect(toMap(element -> getTd(element).get(0).text(), element -> getTd(element).get(1).text()));
-    }
-
-    private Elements getTd(Element element) {
-        return element.getElementsByTag("td");
+                .max(Comparator.comparing(Response::filledPropertyCount));
     }
 
     public static class Request {
@@ -169,6 +115,39 @@ public class StreamScrapper {
                 }
                 return UNKNOWN;
             }
+        }
+
+        public int filledPropertyCount() {
+            int propertyCount = 0;
+            if (StringUtils.isNotBlank(listingStatus)) {
+                propertyCount++;
+            }
+
+            if (Objects.nonNull(format)) {
+                propertyCount++;
+            }
+
+            if (bitrate > 0) {
+                propertyCount++;
+            }
+
+            if (listenerPeak > 0) {
+                propertyCount++;
+            }
+
+            if (StringUtils.isNotBlank(streamName)) {
+                propertyCount++;
+            }
+
+            if (genres.size() > 0) {
+                propertyCount++;
+            }
+
+            if (StringUtils.isNotBlank(website)) {
+                propertyCount++;
+            }
+
+            return propertyCount;
         }
     }
 }
