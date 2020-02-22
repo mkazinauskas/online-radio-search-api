@@ -14,11 +14,12 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Component
 public class WebPageReader {
@@ -34,6 +35,7 @@ public class WebPageReader {
     );
 
     public Optional<Response> read(String url) {
+        log.info(String.format("Loading url = `%s`", url));
         HttpURLConnection connection = null;
         try {
             URL parsedUrl = new URL(url);
@@ -48,8 +50,21 @@ public class WebPageReader {
             }
 
             Map<String, List<String>> headerFields = connection.getHeaderFields();
-            if (!contentTypeIsAllowed(headerFields)) {
-                log.error(String.format("Url = `%s` is not acceptable content type", url));
+            Optional<String> contentType = Stream.of(
+                    headerFields.get(HttpHeaders.CONTENT_TYPE.toLowerCase()),
+                    headerFields.get(HttpHeaders.CONTENT_TYPE)
+            )
+                    .filter(Objects::nonNull)
+                    .map(list -> list.get(0))
+                    .findFirst();
+
+            boolean contentTypeAllowed = contentType.map(MediaType::valueOf)
+                    .filter(type -> ALLOWED_MEDIA_TYPES.stream().anyMatch(type::isCompatibleWith))
+                    .isPresent();
+            if (!contentTypeAllowed) {
+                log.error(
+                        String.format("Url = `%s` is not acceptable content type = `%s`", url, contentType.orElse(EMPTY))
+                );
                 return Optional.of(new Response(headerFields));
             }
 
@@ -63,15 +78,6 @@ public class WebPageReader {
                 connection.disconnect();
             }
         }
-    }
-
-    private boolean contentTypeIsAllowed(Map<String, List<String>> headers) {
-        return Optional.ofNullable(headers.get(HttpHeaders.CONTENT_TYPE))
-                .filter(CollectionUtils::isNotEmpty)
-                .map(list -> list.get(0))
-                .map(MediaType::valueOf)
-                .filter(type -> ALLOWED_MEDIA_TYPES.stream().anyMatch(type::isCompatibleWith))
-                .isPresent();
     }
 
     private boolean isSuccessfulConnection(HttpURLConnection connection) {
@@ -117,7 +123,7 @@ public class WebPageReader {
         }
 
         public Optional<String> getBody() {
-            return Optional.ofNullable(body);
+            return ofNullable(body);
         }
     }
 }
