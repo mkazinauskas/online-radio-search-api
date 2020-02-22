@@ -36,17 +36,15 @@ class IcyStreamScrappingStrategy implements StreamInfoScrappingStrategy {
                 .flatMap(Collection::stream)
                 .collect(toList());
         Map<String, String> requiredTrs = tableValues(trs);
-        return Optional.of(
-                new StreamScrapper.Response(
-                        requiredTrs.getOrDefault("Server Status:", ""),
-                        StreamScrapper.Response.Format.findFormat(requiredTrs.getOrDefault("Content Type:", "")),
-                        bitRate(requiredTrs.getOrDefault("Stream Status:", "")),
-                        listenerPeak(requiredTrs.getOrDefault("Listener Peak:", "")),
-                        requiredTrs.getOrDefault("Stream Title:", ""),
-                        genres(requiredTrs.getOrDefault("Stream Genre:", "")),
-                        requiredTrs.getOrDefault("Stream URL:", "")
-                )
-        );
+        return new StreamScrapper.ResponseBuilder()
+                .setListingStatus(requiredTrs.getOrDefault("Server Status:", ""))
+                .setFormat(StreamScrapper.Response.Format.findFormat(requiredTrs.getOrDefault("Content Type:", "")))
+                .setBitrate(bitRate(requiredTrs.getOrDefault("Stream Status:", "")))
+                .setListenerPeak(listenerPeak(requiredTrs.getOrDefault("Listener Peak:", "")))
+                .setStreamName(requiredTrs.getOrDefault("Stream Title:", ""))
+                .setGenres(genres(requiredTrs.getOrDefault("Stream Genre:", "")))
+                .setWebsite(requiredTrs.getOrDefault("Stream URL:", ""))
+                .buildAsOptional();
     }
 
     private int listenerPeak(String line) {

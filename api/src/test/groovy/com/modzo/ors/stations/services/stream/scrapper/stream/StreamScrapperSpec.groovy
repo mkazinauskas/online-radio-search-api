@@ -61,6 +61,22 @@ class StreamScrapperSpec extends Specification {
             scraped.website == 'http://www.radio3.rs'
     }
 
+    void 'should scrap header information from stream'() {
+        given:
+            String url = 'http://192.168.169.34:92100';
+            StreamScrapper scrapper = prepareHeaderScrapper(url)
+        when:
+            StreamScrapper.Response scraped = scrapper.scrap(new StreamScrapper.Request(url)).get()
+        then:
+            scraped.listingStatus == ''
+            scraped.format == MPEG
+            scraped.bitrate == 128
+            scraped.listenerPeak == 0
+            scraped.streamName == 'Venice Classic Radio Italia'
+            scraped.genres == ['Classical']
+            scraped.website == 'http://www.veniceclassicradio.eu'
+    }
+
     private StreamScrapper prepareScrapper(String url) {
         String page = getClass().getResource('/services/scrappers/stream/sample-source.html').text
 
@@ -75,6 +91,24 @@ class StreamScrapperSpec extends Specification {
 
         WebPageReader webPageReaderStub = Stub(WebPageReader) {
             read(url) >> Optional.of(new WebPageReader.Response(null, page))
+        }
+        return new StreamScrapper(webPageReaderStub, generator, strategies)
+    }
+
+    private StreamScrapper prepareHeaderScrapper(String url) {
+        Map<String, List<String>> headers = [
+                'content-type': ['audio/mpeg'],
+                'icy-br'      : ['128'],
+                'icy-genre'   : ['Classical'],
+                'icy-name'    : ['Venice Classic Radio Italia'],
+                'icy-notice1' : ['<BR>This stream requires <a href="http://www.winamp.com">Winamp</a><BR>'],
+                'icy-notice2' : ['SHOUTcast DNAS/posix(linux x64) v2.5.5.733<BR>'],
+                'icy-pub'     : ['1'],
+                'icy-sr'      : ['44100'],
+                'icy-url'     : ['http://www.veniceclassicradio.eu']
+        ]
+        WebPageReader webPageReaderStub = Stub(WebPageReader) {
+            read(url) >> Optional.of(new WebPageReader.Response(headers, null))
         }
         return new StreamScrapper(webPageReaderStub, generator, strategies)
     }

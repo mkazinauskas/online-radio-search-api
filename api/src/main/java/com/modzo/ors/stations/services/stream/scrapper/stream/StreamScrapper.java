@@ -63,9 +63,16 @@ public class StreamScrapper {
         private final String streamName;
         private final List<String> genres;
         private final String website;
+        private final int filledPropertyCount;
 
-        Response(String listingStatus, Format format, int bitrate,
-                 int listenerPeak, String streamName, List<String> genres, String website) {
+        private Response(String listingStatus,
+                         Format format,
+                         int bitrate,
+                         int listenerPeak,
+                         String streamName,
+                         List<String> genres,
+                         String website,
+                         int filledPropertyCount) {
             this.listingStatus = listingStatus;
             this.format = format;
             this.bitrate = bitrate;
@@ -73,6 +80,7 @@ public class StreamScrapper {
             this.streamName = streamName;
             this.genres = genres;
             this.website = website;
+            this.filledPropertyCount = filledPropertyCount;
         }
 
         public String getListingStatus() {
@@ -118,6 +126,72 @@ public class StreamScrapper {
         }
 
         public int filledPropertyCount() {
+            return filledPropertyCount;
+        }
+    }
+
+    public static class ResponseBuilder {
+        private String listingStatus;
+        private StreamScrapper.Response.Format format;
+        private int bitrate;
+        private int listenerPeak;
+        private String streamName;
+        private List<String> genres;
+        private String website;
+
+        public ResponseBuilder setListingStatus(String listingStatus) {
+            this.listingStatus = listingStatus;
+            return this;
+        }
+
+        public ResponseBuilder setFormat(StreamScrapper.Response.Format format) {
+            this.format = format;
+            return this;
+        }
+
+        public ResponseBuilder setBitrate(int bitrate) {
+            this.bitrate = bitrate;
+            return this;
+        }
+
+        public ResponseBuilder setListenerPeak(int listenerPeak) {
+            this.listenerPeak = listenerPeak;
+            return this;
+        }
+
+        public ResponseBuilder setStreamName(String streamName) {
+            this.streamName = streamName;
+            return this;
+        }
+
+        public ResponseBuilder setGenres(List<String> genres) {
+            this.genres = genres;
+            return this;
+        }
+
+        public ResponseBuilder setWebsite(String website) {
+            this.website = website;
+            return this;
+        }
+
+        public StreamScrapper.Response build() {
+            return new StreamScrapper.Response(
+                    listingStatus,
+                    format,
+                    bitrate,
+                    listenerPeak,
+                    streamName,
+                    genres,
+                    website,
+                    filledPropertyCount()
+            );
+        }
+
+        public Optional<StreamScrapper.Response> buildAsOptional() {
+            return Optional.of(build());
+        }
+
+        private int filledPropertyCount() {
             int propertyCount = 0;
             if (StringUtils.isNotBlank(listingStatus)) {
                 propertyCount++;

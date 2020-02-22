@@ -114,12 +114,12 @@ public class WebPageReader {
             this.body = null;
         }
 
-        public Map<String, List<String>> getHeaders() {
-            return headers;
-        }
-
-        public Map<String, String> getHeadersAsSingleValueMap() {
-            return this.headers.entrySet().stream()
+        public Map<String, String> getHeaders() {
+            if (Objects.isNull(this.headers)) {
+                return Map.of();
+            }
+            return this.headers.entrySet()
+                    .stream()
                     .filter(item -> StringUtils.isNotEmpty(item.getKey()))
                     .filter(item -> CollectionUtils.isNotEmpty(item.getValue()))
                     .map(item -> Map.entry(item.getKey(), item.getValue().get(0)))

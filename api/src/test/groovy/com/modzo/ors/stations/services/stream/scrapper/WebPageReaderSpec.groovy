@@ -22,7 +22,7 @@ class WebPageReaderSpec extends IntegrationSpec {
         when:
             WebPageReader.Response result = testTarget.read(requestUrl).get()
         then:
-            Map<String, String> resultedHeaders = result.getHeadersAsSingleValueMap()
+            Map<String, String> resultedHeaders = result.getHeaders()
             resultedHeaders
             resultedHeaders.get(CONTENT_TYPE) == contentType
         and:
@@ -44,7 +44,7 @@ class WebPageReaderSpec extends IntegrationSpec {
         when:
             WebPageReader.Response result = testTarget.read(requestUrl).get()
         then:
-            Map<String, String> resultedHeaders = result.getHeadersAsSingleValueMap()
+            Map<String, String> resultedHeaders = result.getHeaders()
             resultedHeaders
             resultedHeaders.get(CONTENT_TYPE) == contentType
         and:

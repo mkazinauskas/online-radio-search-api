@@ -36,17 +36,15 @@ class DefaultStreamScrappingStrategy implements StreamInfoScrappingStrategy {
                 .flatMap(Collection::stream)
                 .collect(toList());
         Map<String, String> requiredTrs = tableValues(trs);
-        return Optional.of(
-                new StreamScrapper.Response(
-                        requiredTrs.getOrDefault("Listing Status:", ""),
-                        StreamScrapper.Response.Format.findFormat(requiredTrs.getOrDefault("Stream Status:", "")),
-                        bitRate(requiredTrs.getOrDefault("Stream Status:", "")),
-                        listenerPeak(requiredTrs.getOrDefault("Listener Peak:", "")),
-                        requiredTrs.getOrDefault("Stream Name:", ""),
-                        genres(requiredTrs.getOrDefault("Stream Genre(s):", "")),
-                        requiredTrs.getOrDefault("Stream Website:", "")
-                )
-        );
+        return new StreamScrapper.ResponseBuilder()
+                .setListingStatus(requiredTrs.getOrDefault("Listing Status:", ""))
+                .setFormat(StreamScrapper.Response.Format.findFormat(requiredTrs.getOrDefault("Stream Status:", "")))
+                .setBitrate(bitRate(requiredTrs.getOrDefault("Stream Status:", "")))
+                .setListenerPeak(listenerPeak(requiredTrs.getOrDefault("Listener Peak:", "")))
+                .setStreamName(requiredTrs.getOrDefault("Stream Name:", ""))
+                .setGenres(genres(requiredTrs.getOrDefault("Stream Genre(s):", "")))
+                .setWebsite(requiredTrs.getOrDefault("Stream Website:", ""))
+                .buildAsOptional();
     }
 
     private int listenerPeak(String line) {
