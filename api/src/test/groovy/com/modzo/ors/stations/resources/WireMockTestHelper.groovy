@@ -42,6 +42,17 @@ class WireMockTestHelper {
         return testWiremockServer.server().url(resourcePath)
     }
 
+    String notFoundResponse(String url) {
+        String resourcePath = getPath(url)
+
+        testWiremockServer.server().stubFor(
+                get(urlEqualTo(resourcePath))
+                        .willReturn(aResponse().withStatus(404))
+        )
+
+        return testWiremockServer.server().url(resourcePath)
+    }
+
     private static String getPath(String inputUrl) {
         try {
             return new URL(inputUrl).path
