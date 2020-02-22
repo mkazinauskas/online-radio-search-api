@@ -1,8 +1,12 @@
 plugins {
 	id 'org.springframework.boot' version '2.2.4.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-	id 'java'
+	id 'groovy'
 }
+
+apply from: "${rootDir}/gradle/codenarc/codenarc.gradle"
+apply from: "${rootDir}/gradle/checkstyle/checkstyle.gradle"
+apply from: "${rootDir}/gradle/jacoco/jacoco.gradle"
 
 group = 'com.modzo.ors.web'
 version = '0.0.1-SNAPSHOT'

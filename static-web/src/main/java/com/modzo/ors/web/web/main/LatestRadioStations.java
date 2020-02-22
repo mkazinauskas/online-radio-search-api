@@ -23,7 +23,10 @@ class LatestRadioStations {
     }
 
     List<Data> retrieve() {
-        ResponseEntity<String> entity = restTemplate.getForEntity(properties.getApiUrl() + "/radio-stations?sort=id,desc", String.class);
+        ResponseEntity<String> entity = restTemplate.getForEntity(
+                properties.getApiUrl() + "/radio-stations?sort=id,desc",
+                String.class
+        );
         return List.of();
     }
 

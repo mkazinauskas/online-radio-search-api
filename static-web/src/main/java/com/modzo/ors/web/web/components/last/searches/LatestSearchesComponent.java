@@ -7,7 +7,7 @@ import java.util.List;
 @Component
 public class LatestSearchesComponent {
 
-   public List<LatestSearchesData> retrieve() {
+    public List<LatestSearchesData> retrieve() {
         return List.of(new LatestSearchesData("testt"));
     }
 }
