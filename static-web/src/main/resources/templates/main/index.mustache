@@ -2,24 +2,25 @@
 
 {{>/components/navbar}}
 
-{{>/components/main-start}}
-
-<h1 class="title">Latest radio stations</h1>
-<div>
-    {{#latestRadioStations}}
-    <a href="/radio-stations/{{id}}">
-        <div class="box" style="margin-bottom: 10px">
-            <article class="media">
-                <div class="media-content">
-                    <div class="content">
-                        <strong>{{title}}</strong> - {{website}}
-                    </div>
+<section class="section">
+    <div class="container">
+        <h1 class="title">Latest radio stations</h1>
+        <div>
+            {{#latestRadioStations}}
+            <a href="/radio-stations/{{id}}">
+                <div class="box" style="margin-bottom: 10px">
+                    <article class="media">
+                        <div class="media-content">
+                            <div class="content">
+                                <strong>{{title}}</strong> - {{website}}
+                            </div>
+                        </div>
+                    </article>
                 </div>
-            </article>
+            </a>
+            {{/latestRadioStations}}
         </div>
-    </a>
-    {{/latestRadioStations}}
-</div>
-{{>/components/main-end}}
+    </div>
+</section>
 
 {{>/components/footer}}
