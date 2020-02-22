@@ -1,38 +1,27 @@
-package com.modzo.ors.web.web.main;
+package com.modzo.ors.web.web.radio.stations;
 
-import com.modzo.ors.web.web.ApplicationProperties;
 import com.modzo.ors.web.web.api.RadioStationResponse;
 import com.modzo.ors.web.web.api.RadioStationsClient;
-import com.modzo.ors.web.web.api.RestPageImpl;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
-class LatestRadioStations {
-
-    private final ApplicationProperties properties;
-
+class RadioStationService {
     private final RadioStationsClient client;
 
-    LatestRadioStations(ApplicationProperties properties,
-                        RadioStationsClient client) {
-        this.properties = properties;
+    public RadioStationService(RadioStationsClient client) {
         this.client = client;
     }
 
-    List<Data> retrieve() {
-        RestPageImpl<RadioStationResponse> stations = client.getStations();
-        return stations.getContent()
-                .stream()
-                .map(response -> new Data(
-                        response.getId(),
-                        response.getUniqueId(),
-                        response.getTitle(),
-                        response.getWebsite()
-                ))
-                .collect(Collectors.toList());
+    Data retrieve(Long id) {
+        RadioStationResponse station = client.getStation(id);
+        return new Data(
+                station.getId(),
+                station.getUniqueId(),
+                station.getTitle(),
+                station.getWebsite()
+        );
     }
 
     public static class Data {
