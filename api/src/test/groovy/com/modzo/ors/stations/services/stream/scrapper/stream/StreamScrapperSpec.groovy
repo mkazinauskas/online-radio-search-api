@@ -41,7 +41,7 @@ class StreamScrapperSpec extends Specification {
         String page = getClass().getResource('/services/scrappers/stream/sample-source.html').text
 
         WebPageReader webPageReaderStub = Stub(WebPageReader) {
-            read(url) >> Optional.of(page)
+            read(url) >> Optional.of(new WebPageReader.Response(null, page))
         }
         return new StreamScrapper(webPageReaderStub, generator)
     }

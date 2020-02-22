@@ -57,7 +57,7 @@ class LastPlayedSongsSpec extends Specification {
         String page = getClass().getResource('/services/scrappers/played/played-source.html').text
 
         WebPageReader stub = Stub(WebPageReader) {
-            read(url) >> Optional.of(page)
+            read(url) >> Optional.of(new WebPageReader.Response(null, page))
         }
 
         return new LastPlayedSongsScrapper(stub, generator)
