@@ -16,12 +16,10 @@
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
             <a href="/" class="navbar-item">Home </a>
+                {{> /components/search }}
+        </div>
 
-            <span class="navbar-item">
-                <input class="input" type="text" placeholder="Search for station"/>
-                <button class="button is-primary">Search</button>
-            </span>
-
+        <div class="navbar-end">
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link">
                     More
@@ -43,9 +41,6 @@
                     </a>
                 </div>
             </div>
-        </div>
-
-        <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
                     <a class="button is-light">

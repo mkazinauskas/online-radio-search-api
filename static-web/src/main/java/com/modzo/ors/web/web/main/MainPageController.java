@@ -14,14 +14,19 @@ public class MainPageController {
 
     private final CommonComponents commonComponents;
 
-    public MainPageController(CommonComponents commonComponents) {
+    private final LatestRadioStations latestRadioStations;
+
+    public MainPageController(CommonComponents commonComponents,
+                              LatestRadioStations latestRadioStations) {
         this.commonComponents = commonComponents;
+        this.latestRadioStations = latestRadioStations;
     }
 
     @GetMapping("/")
     public ModelAndView getMainPage() {
         Map<String, Object> items = new HashMap<>(commonComponents.load());
         items.put(ComponentType.PAGE_TITLE.getType(), "Online Radio Search. Millions of free online radio stations");
+        items.put("latestRadioStations", latestRadioStations.retrieve());
         return new ModelAndView("/main/index", items);
     }
 }
