@@ -14,7 +14,7 @@ class StreamScrapperSpec extends Specification {
     List<StreamInfoScrappingStrategy> strategies = [
             new DefaultStreamScrappingStrategy(),
             new IcyStreamScrappingStrategy(),
-            new HeaderStreamScrappingStrategy()
+            new IcyHeaderStreamScrappingStrategy()
     ]
 
     @Shared

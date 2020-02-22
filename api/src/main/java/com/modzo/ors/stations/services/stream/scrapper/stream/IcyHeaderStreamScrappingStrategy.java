@@ -11,15 +11,24 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.contains;
 
 @Component
-class HeaderStreamScrappingStrategy implements StreamInfoScrappingStrategy {
+class IcyHeaderStreamScrappingStrategy implements StreamInfoScrappingStrategy {
     @Override
     public Optional<StreamScrapper.Response> extract(WebPageReader.Response data) {
         Set<Map.Entry<String, String>> headers = data.getHeaders().entrySet()
                 .stream()
                 .map(e -> Map.entry(e.getKey().toLowerCase(), e.getValue()))
                 .collect(Collectors.toSet());
+
+        boolean noIcyHeaders = headers.stream()
+                .map(Map.Entry::getKey)
+                .noneMatch(key -> contains(key, "icy"));
+
+        if (noIcyHeaders) {
+            return Optional.empty();
+        }
 
         StreamScrapper.Response.Format format = StreamScrapper.Response.Format.findFormat(
                 find(headers, "content-type").orElse(EMPTY)
