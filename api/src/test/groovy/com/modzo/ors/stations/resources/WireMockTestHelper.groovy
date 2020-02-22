@@ -6,13 +6,11 @@ import com.modzo.ors.setup.TestWireMockServer
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Component
 import org.springframework.util.CollectionUtils
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse
 import static com.github.tomakehurst.wiremock.client.WireMock.get
-import static com.github.tomakehurst.wiremock.client.WireMock.head
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
 
 @Component
@@ -22,17 +20,6 @@ class WireMockTestHelper {
 
     @Autowired
     TestWireMockServer testWiremockServer
-
-    void okHeaderResponse(String url) {
-        String resourcePath = getPath(url)
-
-        testWiremockServer.server().stubFor(
-                head(urlEqualTo(resourcePath))
-                        .willReturn(aResponse()
-                                .withStatus(200)
-                                .withHeader(HttpHeaders.CONTENT_TYPE, 'text/html;utf-8'))
-        )
-    }
 
     String okGetResponse(String url, Map<String, String> headers, String body) {
         String resourcePath = getPath(url)

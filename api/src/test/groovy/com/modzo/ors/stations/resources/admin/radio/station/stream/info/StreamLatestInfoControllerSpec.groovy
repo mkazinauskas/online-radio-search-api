@@ -28,7 +28,6 @@ class StreamLatestInfoControllerSpec extends IntegrationSpec {
         and:
             RadioStationStream stream = testRadioStationStream.create(radioStation.id)
         and:
-            wireMockTestHelper.okHeaderResponse(stream.url)
             serverResponseExist(stream.url)
         when:
             ResponseEntity<String> response = restTemplate.exchange(
