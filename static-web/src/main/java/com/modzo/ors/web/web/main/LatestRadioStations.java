@@ -1,35 +1,38 @@
 package com.modzo.ors.web.web.main;
 
 import com.modzo.ors.web.web.ApplicationProperties;
-import org.springframework.http.ResponseEntity;
+import com.modzo.ors.web.web.api.RadioStationResponse;
+import com.modzo.ors.web.web.api.RestPageImpl;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 class LatestRadioStations {
 
     private final ApplicationProperties properties;
 
-    private final RestTemplate restTemplate;
-
+    private final RadioStationsClient client;
 
     LatestRadioStations(ApplicationProperties properties,
-                        RestTemplate restTemplate
-    ) {
+                        RadioStationsClient client) {
         this.properties = properties;
-        this.restTemplate = restTemplate;
+        this.client = client;
     }
 
     List<Data> retrieve() {
-        ResponseEntity<String> entity = restTemplate.getForEntity(
-                properties.getApiUrl() + "/radio-stations?sort=id,desc",
-                String.class
-        );
-        return List.of();
+        RestPageImpl<RadioStationResponse> stations = client.getStations();
+        return stations.getContent()
+                .stream()
+                .map(response -> new Data(
+                        response.getId(),
+                        response.getUniqueId(),
+                        response.getTitle(),
+                        response.getWebsite()
+                ))
+                .collect(Collectors.toList());
     }
-
 
     public static class Data {
 
@@ -39,10 +42,13 @@ class LatestRadioStations {
 
         private final String title;
 
-        public Data(long id, String uniqueId, String title) {
+        private final String website;
+
+        public Data(long id, String uniqueId, String title, String website) {
             this.id = id;
             this.uniqueId = uniqueId;
             this.title = title;
+            this.website = website;
         }
 
         public long getId() {
@@ -55,6 +61,10 @@ class LatestRadioStations {
 
         public String getTitle() {
             return title;
+        }
+
+        public String getWebsite() {
+            return website;
         }
     }
 }

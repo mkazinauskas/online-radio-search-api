@@ -4,13 +4,24 @@
 
 {{>/components/main-start}}
 
-<h1 class="title">
-    Hello
-</h1>
-<p class="subtitle">
-    My first website with <strong>Bulma</strong>!
-</p>
-
+<h1 class="title">Latest radio stations</h1>
+<div>
+    {{#latestRadioStations}}
+    <a href="/radio-stations/{{id}}">
+        <div class="box" style="margin-bottom: 5px">
+            <article class="media">
+                <div class="media-content">
+                    <div class="content">
+                        <p>
+                            <strong>{{title}}</strong> - {{website}}
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </a>
+    {{/latestRadioStations}}
+</div>
 {{>/components/main-end}}
 
 {{>/components/footer}}
