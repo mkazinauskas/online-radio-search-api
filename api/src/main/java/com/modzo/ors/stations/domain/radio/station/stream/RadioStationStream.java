@@ -90,6 +90,6 @@ public class RadioStationStream {
     }
 
     public enum Type {
-        MP3, ACC, UNKNOWN
+        MP3, ACC, MPEG, UNKNOWN
     }
 }

@@ -6,6 +6,7 @@ import com.modzo.ors.stations.domain.radio.station.commands.GetRadioStation
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
 import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStream
 import com.modzo.ors.stations.resources.IntegrationSpec
+import org.eclipse.jetty.http.HttpHeader
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 
@@ -27,7 +28,6 @@ class StreamLatestInfoControllerSpec extends IntegrationSpec {
         and:
             RadioStationStream stream = testRadioStationStream.create(radioStation.id)
         and:
-            wireMockTestHelper.okHeaderResponse(stream.url)
             serverResponseExist(stream.url)
         when:
             ResponseEntity<String> response = restTemplate.exchange(
@@ -57,6 +57,7 @@ class StreamLatestInfoControllerSpec extends IntegrationSpec {
 
     private void serverResponseExist(String url) {
         String content = getClass().getResource('/services/scrappers/stream/sample-source.html').text
-        wireMockTestHelper.okGetResponse(url, content)
+        Map<String, String> headers = [(HttpHeader.CONTENT_TYPE): 'text/html']
+        wireMockTestHelper.okGetResponse(url, headers, content)
     }
 }

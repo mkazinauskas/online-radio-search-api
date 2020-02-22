@@ -1,24 +1,14 @@
 package com.modzo.ors.stations.services.stream.scrapper.stream;
 
 import com.modzo.ors.stations.services.stream.scrapper.WebPageReader;
-import org.apache.commons.lang3.math.NumberUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
-
-import static java.lang.Integer.parseInt;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
-import static org.apache.commons.lang3.math.NumberUtils.isCreatable;
+import java.util.function.Function;
 
 @Component
 public class StreamScrapper {
@@ -27,10 +17,14 @@ public class StreamScrapper {
 
     private final StreamInfoUrlGenerator generator;
 
+    private final List<StreamInfoScrappingStrategy> streamInfoScrappingStrategies;
+
     public StreamScrapper(WebPageReader siteReader,
-                          StreamInfoUrlGenerator generator) {
+                          StreamInfoUrlGenerator generator,
+                          List<StreamInfoScrappingStrategy> streamInfoScrappingStrategies) {
         this.siteReader = siteReader;
         this.generator = generator;
+        this.streamInfoScrappingStrategies = streamInfoScrappingStrategies;
     }
 
     public Optional<Response> scrap(Request request) {
@@ -39,62 +33,17 @@ public class StreamScrapper {
                 .map(this.siteReader::read)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .map(this::extract)
+                .map(getResponseHavingHighestPropertyCount()
+                ).findFirst()
+                .orElse(Optional.empty());
+    }
+
+    private Function<WebPageReader.Response, Optional<Response>> getResponseHavingHighestPropertyCount() {
+        return response -> streamInfoScrappingStrategies.stream()
+                .map(strategy -> strategy.extract(response))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .findFirst();
-    }
-
-    private Optional<Response> extract(String pageBody) {
-        Document document = Jsoup.parse(pageBody);
-        List<Element> tables = new ArrayList<>(document.getElementsByTag("table"));
-        List<Element> trs = tables.stream()
-                .map(element -> element.getElementsByTag("tr"))
-                .flatMap(Collection::stream)
-                .collect(toList());
-        Map<String, String> requiredTrs = tableValues(trs);
-        return Optional.of(
-                new Response(
-                        requiredTrs.getOrDefault("Listing Status:", ""),
-                        Response.Format.findFormat(requiredTrs.getOrDefault("Stream Status:", "")),
-                        bitRate(requiredTrs.getOrDefault("Stream Status:", "")),
-                        listenerPeak(requiredTrs.getOrDefault("Listener Peak:", "")),
-                        requiredTrs.getOrDefault("Stream Name:", ""),
-                        genres(requiredTrs.getOrDefault("Stream Genre(s):", "")),
-                        requiredTrs.getOrDefault("Stream Website:", "")
-                )
-        );
-    }
-
-    private int listenerPeak(String line) {
-        String cleanLine = line.trim();
-        if (isCreatable(cleanLine)) {
-            return parseInt(cleanLine);
-        }
-        return 0;
-    }
-
-    private List<String> genres(String genresLine) {
-        return Stream.of(genresLine.split(" , "))
-                .map(String::trim)
-                .collect(toList());
-    }
-
-    private int bitRate(String line) {
-        return Stream.of(line.split(" "))
-                .filter(NumberUtils::isCreatable)
-                .map(Integer::valueOf)
-                .findFirst().orElse(0);
-    }
-
-    private Map<String, String> tableValues(List<Element> elements) {
-        return elements.stream()
-                .filter(element -> getTd(element).size() == 2)
-                .collect(toMap(element -> getTd(element).get(0).text(), element -> getTd(element).get(1).text()));
-    }
-
-    private Elements getTd(Element element) {
-        return element.getElementsByTag("td");
+                .max(Comparator.comparing(Response::filledPropertyCount));
     }
 
     public static class Request {
@@ -114,9 +63,16 @@ public class StreamScrapper {
         private final String streamName;
         private final List<String> genres;
         private final String website;
+        private final int filledPropertyCount;
 
-        Response(String listingStatus, Format format, int bitrate,
-                 int listenerPeak, String streamName, List<String> genres, String website) {
+        private Response(String listingStatus,
+                         Format format,
+                         int bitrate,
+                         int listenerPeak,
+                         String streamName,
+                         List<String> genres,
+                         String website,
+                         int filledPropertyCount) {
             this.listingStatus = listingStatus;
             this.format = format;
             this.bitrate = bitrate;
@@ -124,6 +80,7 @@ public class StreamScrapper {
             this.streamName = streamName;
             this.genres = genres;
             this.website = website;
+            this.filledPropertyCount = filledPropertyCount;
         }
 
         public String getListingStatus() {
@@ -155,7 +112,7 @@ public class StreamScrapper {
         }
 
         public enum Format {
-            MP3, AAC, UNKNOWN;
+            MP3, AAC, MPEG, UNKNOWN;
 
             public static Format findFormat(String line) {
                 String uppercaseLine = line.toUpperCase();
@@ -166,6 +123,105 @@ public class StreamScrapper {
                 }
                 return UNKNOWN;
             }
+        }
+
+        public int filledPropertyCount() {
+            return filledPropertyCount;
+        }
+    }
+
+    public static class ResponseBuilder {
+        private String listingStatus;
+        private StreamScrapper.Response.Format format;
+        private int bitrate;
+        private int listenerPeak;
+        private String streamName;
+        private List<String> genres;
+        private String website;
+
+        public ResponseBuilder setListingStatus(String listingStatus) {
+            this.listingStatus = listingStatus;
+            return this;
+        }
+
+        public ResponseBuilder setFormat(StreamScrapper.Response.Format format) {
+            this.format = format;
+            return this;
+        }
+
+        public ResponseBuilder setBitrate(int bitrate) {
+            this.bitrate = bitrate;
+            return this;
+        }
+
+        public ResponseBuilder setListenerPeak(int listenerPeak) {
+            this.listenerPeak = listenerPeak;
+            return this;
+        }
+
+        public ResponseBuilder setStreamName(String streamName) {
+            this.streamName = streamName;
+            return this;
+        }
+
+        public ResponseBuilder setGenres(List<String> genres) {
+            this.genres = genres;
+            return this;
+        }
+
+        public ResponseBuilder setWebsite(String website) {
+            this.website = website;
+            return this;
+        }
+
+        public StreamScrapper.Response build() {
+            return new StreamScrapper.Response(
+                    listingStatus,
+                    format,
+                    bitrate,
+                    listenerPeak,
+                    streamName,
+                    genres,
+                    website,
+                    filledPropertyCount()
+            );
+        }
+
+        public Optional<StreamScrapper.Response> buildAsOptional() {
+            return Optional.of(build());
+        }
+
+        private int filledPropertyCount() {
+            int propertyCount = 0;
+            if (StringUtils.isNotBlank(listingStatus)) {
+                propertyCount++;
+            }
+
+            if (Objects.nonNull(format)) {
+                propertyCount++;
+            }
+
+            if (bitrate > 0) {
+                propertyCount++;
+            }
+
+            if (listenerPeak > 0) {
+                propertyCount++;
+            }
+
+            if (StringUtils.isNotBlank(streamName)) {
+                propertyCount++;
+            }
+
+            if (genres.size() > 0) {
+                propertyCount++;
+            }
+
+            if (StringUtils.isNotBlank(website)) {
+                propertyCount++;
+            }
+
+            return propertyCount;
         }
     }
 }

@@ -1,48 +1,54 @@
 package com.modzo.ors.stations.resources
 
+import com.github.tomakehurst.wiremock.http.HttpHeader as WiremockHttpHeader
+import com.github.tomakehurst.wiremock.http.HttpHeaders as WiremockHttpHeaders
 import com.modzo.ors.setup.TestWireMockServer
+import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Component
+import org.springframework.util.CollectionUtils
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse
+import static com.github.tomakehurst.wiremock.client.WireMock.get
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
 
 @Component
+@Slf4j
+@CompileStatic
 class WireMockTestHelper {
 
     @Autowired
     TestWireMockServer testWiremockServer
 
-    void okHeaderResponse(String url) {
+    String okGetResponse(String url, Map<String, String> headers, String body) {
         String resourcePath = getPath(url)
-        checkCorrectMockedAddress(testWiremockServer.server().url(resourcePath), url)
 
-        testWiremockServer.server().stubFor(
-                head(urlEqualTo(resourcePath))
-                        .willReturn(aResponse()
-                                .withStatus(200)
-                                .withHeader(HttpHeaders.CONTENT_TYPE, 'text/html;utf-8'))
-        )
-    }
+        WiremockHttpHeaders wiremockHeaders = new WiremockHttpHeaders()
 
-    void okGetResponse(String url, String body) {
-        String resourcePath = getPath(url)
-        checkCorrectMockedAddress(testWiremockServer.server().url(resourcePath), url)
+        if (!CollectionUtils.isEmpty(headers)) {
+            List<WiremockHttpHeader> converted = headers.collect { k, v -> new WiremockHttpHeader(k, v) }
+            wiremockHeaders = new WiremockHttpHeaders(converted)
+        }
 
         testWiremockServer.server().stubFor(
                 get(urlEqualTo(resourcePath))
                         .willReturn(aResponse()
                                 .withStatus(200)
+                                .withHeaders(wiremockHeaders)
                                 .withBody(body))
         )
+
+        return testWiremockServer.server().url(resourcePath)
     }
 
     private static String getPath(String inputUrl) {
-        URL url = new URL(inputUrl)
-        return url.getPath()
+        try {
+            return new URL(inputUrl).path
+        } catch (MalformedURLException ignored) {
+            log.info("${inputUrl} is malformed, using it as path")
+            return inputUrl
+        }
     }
 
-    private static void checkCorrectMockedAddress(String mockServerPath, String expectedUrl) {
-        assert mockServerPath == expectedUrl
-    }
 }
