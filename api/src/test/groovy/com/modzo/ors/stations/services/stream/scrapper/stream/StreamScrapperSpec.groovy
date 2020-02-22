@@ -27,13 +27,15 @@ class StreamScrapperSpec extends Specification {
         when:
             StreamScrapper.Response scraped = scrapper.scrap(new StreamScrapper.Request(streamUrl)).get()
         then:
-            scraped.listingStatus == 'Stream is currently up and public'
-            scraped.format == MP3
-            scraped.bitrate == 192
-            scraped.listenerPeak == 411
-            scraped.streamName == 'Radio 2.0 - Valli di Bergamo'
-            scraped.genres == ['Pop', 'Rock', '80s', '70s', 'Top 40']
-            scraped.website == 'www.radioduepuntozero.it'
+            scraped.with {
+                listingStatus == 'Stream is currently up and public'
+                format == MP3
+                bitrate == 192
+                listenerPeak == 411
+                streamName == 'Radio 2.0 - Valli di Bergamo'
+                genres == ['Pop', 'Rock', '80s', '70s', 'Top 40']
+                website == 'www.radioduepuntozero.it'
+            }
         where:
             streamUrl                       | streamInfoUrl
             'http://192.168.169.34:92100'   | 'http://192.168.169.34:92100'
@@ -52,13 +54,15 @@ class StreamScrapperSpec extends Specification {
         when:
             StreamScrapper.Response scraped = scrapper.scrap(new StreamScrapper.Request(url)).get()
         then:
-            scraped.listingStatus == 'Server is currently up and private.'
-            scraped.format == MPEG
-            scraped.bitrate == 64
-            scraped.listenerPeak == 41
-            scraped.streamName == 'Radio 3 - Belgrade - www.radio3.rs'
-            scraped.genres == ['AC Hot']
-            scraped.website == 'http://www.radio3.rs'
+            scraped.with {
+                listingStatus == 'Server is currently up and private.'
+                format == MPEG
+                bitrate == 64
+                listenerPeak == 41
+                streamName == 'Radio 3 - Belgrade - www.radio3.rs'
+                genres == ['AC Hot']
+                website == 'http://www.radio3.rs'
+            }
     }
 
     void 'should scrap header information from stream'() {
@@ -68,13 +72,15 @@ class StreamScrapperSpec extends Specification {
         when:
             StreamScrapper.Response scraped = scrapper.scrap(new StreamScrapper.Request(url)).get()
         then:
-            scraped.listingStatus == ''
-            scraped.format == MPEG
-            scraped.bitrate == 128
-            scraped.listenerPeak == 0
-            scraped.streamName == 'Venice Classic Radio Italia'
-            scraped.genres == ['Classical']
-            scraped.website == 'http://www.veniceclassicradio.eu'
+            scraped.with {
+                listingStatus == ''
+                format == MPEG
+                bitrate == 128
+                listenerPeak == 0
+                streamName == 'Venice Classic Radio Italia'
+                genres == ['Classical']
+                website == 'http://www.veniceclassicradio.eu'
+            }
     }
 
     private StreamScrapper prepareScrapper(String url) {

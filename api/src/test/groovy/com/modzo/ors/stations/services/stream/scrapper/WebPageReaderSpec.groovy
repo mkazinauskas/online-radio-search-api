@@ -22,11 +22,11 @@ class WebPageReaderSpec extends IntegrationSpec {
         when:
             WebPageReader.Response result = testTarget.read(requestUrl).get()
         then:
-            Map<String, String> resultedHeaders = result.getHeaders()
+            Map<String, String> resultedHeaders = result.headers
             resultedHeaders
             resultedHeaders.get(CONTENT_TYPE) == contentType
         and:
-            result.getBody().get() == body
+            result.body.get() == body
         where:
             contentType << [
                     MediaType.TEXT_HTML_VALUE,
@@ -48,7 +48,7 @@ class WebPageReaderSpec extends IntegrationSpec {
             resultedHeaders
             resultedHeaders.get(CONTENT_TYPE) == contentType
         and:
-            result.getBody().isEmpty()
+            result.body.isEmpty()
         where:
             contentType << [
                     'audio/mpeg',
