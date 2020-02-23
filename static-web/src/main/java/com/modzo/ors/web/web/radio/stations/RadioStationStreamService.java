@@ -10,24 +10,25 @@ import java.util.stream.Collectors;
 
 @Component
 class RadioStationStreamService {
-    private final RadioStationStreamsClient client;
-
-    public RadioStationStreamService(RadioStationStreamsClient client) {
-        this.client = client;
-    }
+//    private final RadioStationStreamsClient client;
+//
+//    public RadioStationStreamService(RadioStationStreamsClient client) {
+//        this.client = client;
+//    }
 
     List<Data> retrieve(Long id) {
-        RestPageImpl<RadioStationStreamResponse> streams = client.getRadioStationStreams(id);
-        return streams.getContent()
-                .stream()
-                .map(response -> new Data(
-                        response.getId(),
-                        response.getUniqueId(),
-                        response.getUrl(),
-                        response.getBitRate(),
-                        response.getType()
-                ))
-                .collect(Collectors.toList());
+//        RestPageImpl<RadioStationStreamResponse> streams = client.getRadioStationStreams(id);
+//        return streams.getContent()
+//                .stream()
+//                .map(response -> new Data(
+//                        response.getId(),
+//                        response.getUniqueId(),
+//                        response.getUrl(),
+//                        response.getBitRate(),
+//                        response.getType()
+//                ))
+//                .collect(Collectors.toList());
+        return null;
     }
 
     public static class Data {

@@ -1,9 +1,9 @@
 package com.modzo.ors.web.web.main;
 
 import com.modzo.ors.web.web.ApplicationProperties;
-import com.modzo.ors.web.web.api.radio.stations.RadioStationResponse;
+import com.modzo.ors.web.web.api.radio.stations.RadioStationResource;
 import com.modzo.ors.web.web.api.radio.stations.RadioStationsClient;
-import com.modzo.ors.web.web.api.RestPageImpl;
+import com.modzo.ors.web.web.api.radio.stations.RadioStationsResource;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,9 +23,10 @@ class LatestRadioStations {
     }
 
     List<Data> retrieve() {
-        RestPageImpl<RadioStationResponse> stations = client.getStations();
+        RadioStationsResource stations = client.getStations();
         return stations.getContent()
                 .stream()
+                .map(RadioStationResource::getRadioStation)
                 .map(response -> new Data(
                         response.getId(),
                         response.getUniqueId(),

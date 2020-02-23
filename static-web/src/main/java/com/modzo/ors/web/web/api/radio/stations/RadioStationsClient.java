@@ -1,16 +1,45 @@
 package com.modzo.ors.web.web.api.radio.stations;
 
-import com.modzo.ors.web.web.api.RestPageImpl;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import com.modzo.ors.web.web.ApplicationProperties;
+import com.modzo.ors.web.web.api.HttpEntityBuilder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
-@FeignClient(name = "radioStationsClient", url = "${application.apiUrl}")
-public interface RadioStationsClient {
+import static org.springframework.http.HttpMethod.GET;
 
-    @GetMapping("/radio-stations")
-    RestPageImpl<RadioStationResponse> getStations();
+@Component
+public class RadioStationsClient {
 
-    @GetMapping("/radio-stations/{id}")
-    RadioStationResponse getStation(@PathVariable("id") long id);
+    private final ApplicationProperties properties;
+
+    private final RestTemplate restTemplate;
+
+    public RadioStationsClient(ApplicationProperties properties, RestTemplate restTemplate) {
+        this.properties = properties;
+        this.restTemplate = restTemplate;
+    }
+
+    public RadioStationsResource getStations() {
+        String body = restTemplate.exchange(
+                properties.getApiUrl() + "/radio-stations" + "?size=100",
+                GET,
+                null,
+                String.class
+        ).getBody();
+        return restTemplate.exchange(
+                properties.getApiUrl() + "/radio-stations" + "?size=100",
+                GET,
+                null,
+                RadioStationsResource.class
+        ).getBody();
+    }
+
+    public RadioStationResource getStation(long id) {
+        return restTemplate.exchange(
+                properties.getApiUrl() + "/radio-stations/" + id,
+                GET,
+                HttpEntityBuilder.builder().build(),
+                RadioStationResource.class
+        ).getBody();
+    }
 }

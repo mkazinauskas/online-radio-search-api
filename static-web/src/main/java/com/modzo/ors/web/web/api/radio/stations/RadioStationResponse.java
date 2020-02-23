@@ -15,9 +15,9 @@ public class RadioStationResponse {
 
     @JsonCreator
     public RadioStationResponse(@JsonProperty("id") long id,
-                                @JsonProperty("uniqueId") String uniqueId,
-                                @JsonProperty("title") String title,
-                                @JsonProperty("website") String website) {
+                                 @JsonProperty("uniqueId") String uniqueId,
+                                 @JsonProperty("title") String title,
+                                 @JsonProperty("website") String website) {
         this.id = id;
         this.uniqueId = uniqueId;
         this.title = title;

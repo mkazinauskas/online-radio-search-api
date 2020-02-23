@@ -1,5 +1,6 @@
 package com.modzo.ors.web.web.radio.stations;
 
+import com.modzo.ors.web.web.api.radio.stations.RadioStationResource;
 import com.modzo.ors.web.web.api.radio.stations.RadioStationResponse;
 import com.modzo.ors.web.web.api.radio.stations.RadioStationsClient;
 import org.springframework.stereotype.Component;
@@ -13,12 +14,13 @@ class RadioStationService {
     }
 
     Data retrieve(Long id) {
-        RadioStationResponse station = client.getStation(id);
+        RadioStationResource station = client.getStation(id);
+        RadioStationResponse radioStation = station.getRadioStation();
         return new Data(
-                station.getId(),
-                station.getUniqueId(),
-                station.getTitle(),
-                station.getWebsite()
+                radioStation.getId(),
+                radioStation.getUniqueId(),
+                radioStation.getTitle(),
+                radioStation.getWebsite()
         );
     }
 
