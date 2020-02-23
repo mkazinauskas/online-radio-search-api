@@ -1,7 +1,6 @@
 package com.modzo.ors.search.resources.song
 
 import com.modzo.ors.HttpEntityBuilder
-import com.modzo.ors.search.resources.song.SongResultsResource
 import com.modzo.ors.stations.domain.song.Song
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
