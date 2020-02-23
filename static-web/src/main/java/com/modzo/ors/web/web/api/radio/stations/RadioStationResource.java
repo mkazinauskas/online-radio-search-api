@@ -1,12 +1,14 @@
 package com.modzo.ors.web.web.api.radio.stations;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Map;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RadioStationResource extends RepresentationModel {
 
     private final RadioStationResponse radioStation;
