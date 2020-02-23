@@ -1,8 +1,8 @@
 package com.modzo.ors.web.web.main;
 
 import com.modzo.ors.web.web.ApplicationProperties;
-import com.modzo.ors.web.web.api.RadioStationResponse;
-import com.modzo.ors.web.web.api.RadioStationsClient;
+import com.modzo.ors.web.web.api.radio.stations.RadioStationResponse;
+import com.modzo.ors.web.web.api.radio.stations.RadioStationsClient;
 import com.modzo.ors.web.web.api.RestPageImpl;
 import org.springframework.stereotype.Component;
 

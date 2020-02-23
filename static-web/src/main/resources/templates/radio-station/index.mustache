@@ -1,13 +1,50 @@
 {{>/components/header}}
 
 {{>/components/navbar}}
+<section class="hero is-info">
+    <div class="hero-body">
+        <div class="container">
+            {{#radioStation}}
+            <h1 class="title">{{title}}</h1>
+            <h2 class="subtitle"><a href="{{ website }}" target="_blank">{{website}}</a></h2>
+            {{/radioStation}}
+        </div>
+    </div>
+</section>
 
 <section class="section">
     <div class="container">
-        {{#radioStation}}
-        <h1 class="title">{{title}}</h1>
-        {{/radioStation}}
         <h2 class="title">Streams</h2>
+        {{#radioStationStreams}}
+        <div class="table-container">
+            <table class="table is-fullwidth">
+                <thead class="is-hidden-mobile">
+                <tr>
+                    <th>Player</th>
+                    <th>URL</th>
+                    <th>Bit Rate</th>
+                    <th>Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <audio controls>
+                            <source src="{{ url }}" type="audio/ogg">
+                            <source src="{{ url }}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </td>
+                    <td class="is-hidden-mobile">
+                        <a href="{{url}}" title="Link to {{url}}" target="_blank">{{url}}</a>
+                    </td>
+                    <td class="is-hidden-mobile">{{bitRate}}</td>
+                    <td class="is-hidden-mobile">{{type}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        {{/radioStationStreams}}
     </div>
 </section>
 

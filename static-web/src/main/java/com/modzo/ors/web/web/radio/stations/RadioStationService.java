@@ -1,10 +1,8 @@
 package com.modzo.ors.web.web.radio.stations;
 
-import com.modzo.ors.web.web.api.RadioStationResponse;
-import com.modzo.ors.web.web.api.RadioStationsClient;
+import com.modzo.ors.web.web.api.radio.stations.RadioStationResponse;
+import com.modzo.ors.web.web.api.radio.stations.RadioStationsClient;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 class RadioStationService {

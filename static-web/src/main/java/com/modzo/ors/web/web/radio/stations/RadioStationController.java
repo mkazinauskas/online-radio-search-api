@@ -17,9 +17,14 @@ public class RadioStationController {
 
     private final RadioStationService radioStationService;
 
-    public RadioStationController(CommonComponents commonComponents, RadioStationService radioStationService) {
+    private final RadioStationStreamService stationStreamService;
+
+    public RadioStationController(CommonComponents commonComponents,
+                                  RadioStationService radioStationService,
+                                  RadioStationStreamService stationStreamService) {
         this.commonComponents = commonComponents;
         this.radioStationService = radioStationService;
+        this.stationStreamService = stationStreamService;
     }
 
     @GetMapping("/radio-stations/{id}")
@@ -27,6 +32,7 @@ public class RadioStationController {
         Map<String, Object> items = new HashMap<>(commonComponents.load());
         items.put(ComponentType.PAGE_TITLE.getType(), "Online Radio Search. Millions of free online radio stations");
         items.put("radioStation", radioStationService.retrieve(id));
+        items.put("radioStationStreams", stationStreamService.retrieve(id));
         return new ModelAndView("/radio-station/index", items);
     }
 }

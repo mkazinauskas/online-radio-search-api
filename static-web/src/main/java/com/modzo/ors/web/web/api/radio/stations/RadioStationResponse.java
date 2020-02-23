@@ -1,4 +1,4 @@
-package com.modzo.ors.web.web.api;
+package com.modzo.ors.web.web.api.radio.stations;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
