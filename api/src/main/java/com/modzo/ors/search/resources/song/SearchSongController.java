@@ -12,21 +12,21 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
-class SongSearchController {
+class SearchSongController {
 
     private final SearchSongsByTitle.Handler searchHandler;
 
-    public SongSearchController(SearchSongsByTitle.Handler searchHandler) {
+    public SearchSongController(SearchSongsByTitle.Handler searchHandler) {
         this.searchHandler = searchHandler;
     }
 
-    @GetMapping("/songs/search")
-    ResponseEntity<SongsResultResource> search(@RequestParam("title") String title,
+    @GetMapping("/search/song")
+    ResponseEntity<SongResultsResource> search(@RequestParam("title") String title,
                                                Pageable pageable) {
         Page<SongDocument> foundSongs = searchHandler.handle(
                 new SearchSongsByTitle(title, pageable)
         );
-        return ok(SongsResultResource.create(foundSongs, pageable));
+        return ok(SongResultsResource.create(foundSongs, pageable));
     }
 
 }

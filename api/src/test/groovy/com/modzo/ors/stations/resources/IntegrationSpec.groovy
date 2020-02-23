@@ -3,6 +3,7 @@ package com.modzo.ors.stations.resources
 import com.modzo.ors.TestUsers
 import com.modzo.ors.TokenProvider
 import com.modzo.ors.helpers.*
+import com.modzo.ors.search.domain.reader.parser.EventsProcessor
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -36,6 +37,9 @@ class IntegrationSpec extends Specification {
 
     @Autowired
     TokenProvider tokenProvider
+
+    @Autowired
+    EventsProcessor eventsProcessor
 
     String token(TestUsers.TestUser user) {
         tokenProvider.token(user.username, user.password)

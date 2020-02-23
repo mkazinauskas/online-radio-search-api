@@ -26,7 +26,7 @@ public class SongResultResource extends RepresentationModel {
 
     static SongResultResource create(SongDocument song) {
         SongResultResponse response = SongResultResponse.create(song);
-        Link link = linkTo(methodOn(SongSearchController.class)
+        Link link = linkTo(methodOn(SearchSongController.class)
                 .search("", Pageable.unpaged()))
                 .withSelfRel();
         return new SongResultResource(response, singletonMap(link.getRel().value(), link));

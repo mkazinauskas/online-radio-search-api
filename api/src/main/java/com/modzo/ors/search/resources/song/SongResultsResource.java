@@ -17,17 +17,17 @@ import static java.util.stream.Collectors.toList;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-class SongsResultResource extends PagedModel<SongResultResource> {
+class SongResultsResource extends PagedModel<SongResultResource> {
 
     @JsonCreator
-    private SongsResultResource(
+    private SongResultsResource(
             @JsonProperty("_embedded") Map<String, Collection<SongResultResource>> content,
             @JsonProperty("page") PageMetadata metadata,
             @JsonProperty("_links") Map<String, Link> links) {
         super(content.get("songResourceList"), metadata, parseLinks(links));
     }
 
-    static SongsResultResource create(Page<SongDocument> songs, Pageable pageable) {
+    static SongResultsResource create(Page<SongDocument> songs, Pageable pageable) {
         PageMetadata pageMetadata = new PageMetadata(
                 songs.getSize(),
                 songs.getNumber(),
@@ -39,10 +39,10 @@ class SongsResultResource extends PagedModel<SongResultResource> {
                 .map(SongResultResource::create)
                 .collect(toList());
 
-        Link link = linkTo(methodOn(SongSearchController.class)
+        Link link = linkTo(methodOn(SearchSongController.class)
                 .search("", pageable)).withSelfRel();
 
-        return new SongsResultResource(singletonMap("songResourceList", resources),
+        return new SongResultsResource(singletonMap("songResourceList", resources),
                 pageMetadata,
                 singletonMap(link.getRel().value(), link)
         );
