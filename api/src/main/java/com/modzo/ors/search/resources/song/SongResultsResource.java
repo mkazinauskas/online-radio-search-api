@@ -24,7 +24,7 @@ class SongResultsResource extends PagedModel<SongResultResource> {
             @JsonProperty("_embedded") Map<String, Collection<SongResultResource>> content,
             @JsonProperty("page") PageMetadata metadata,
             @JsonProperty("_links") Map<String, Link> links) {
-        super(content.get("songResourceList"), metadata, parseLinks(links));
+        super(content.get("songResultResourceList"), metadata, parseLinks(links));
     }
 
     static SongResultsResource create(Page<SongDocument> songs, Pageable pageable) {
@@ -42,7 +42,7 @@ class SongResultsResource extends PagedModel<SongResultResource> {
         Link link = linkTo(methodOn(SearchSongController.class)
                 .search("", pageable)).withSelfRel();
 
-        return new SongResultsResource(singletonMap("songResourceList", resources),
+        return new SongResultsResource(singletonMap("songResultResourceList", resources),
                 pageMetadata,
                 singletonMap(link.getRel().value(), link)
         );
