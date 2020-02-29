@@ -1,8 +1,8 @@
 package com.modzo.ors.web.web.radio.stations;
 
-import com.modzo.ors.web.web.api.radio.stations.RadioStationResource;
 import com.modzo.ors.web.web.api.radio.stations.RadioStationResponse;
 import com.modzo.ors.web.web.api.radio.stations.RadioStationsClient;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,8 +14,8 @@ class RadioStationService {
     }
 
     Data retrieve(Long id) {
-        RadioStationResource station = client.getStation(id);
-        RadioStationResponse radioStation = station.getRadioStation();
+        EntityModel<RadioStationResponse> station = client.getRadioStation(id);
+        RadioStationResponse radioStation = station.getContent();
         return new Data(
                 radioStation.getId(),
                 radioStation.getUniqueId(),

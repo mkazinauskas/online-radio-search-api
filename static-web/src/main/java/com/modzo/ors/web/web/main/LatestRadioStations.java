@@ -1,9 +1,10 @@
 package com.modzo.ors.web.web.main;
 
 import com.modzo.ors.web.web.ApplicationProperties;
-import com.modzo.ors.web.web.api.radio.stations.RadioStationResource;
+import com.modzo.ors.web.web.api.radio.stations.RadioStationResponse;
 import com.modzo.ors.web.web.api.radio.stations.RadioStationsClient;
-import com.modzo.ors.web.web.api.radio.stations.RadioStationsResource;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,10 +24,10 @@ class LatestRadioStations {
     }
 
     List<Data> retrieve() {
-        RadioStationsResource stations = client.getStations();
+        PagedModel<EntityModel<RadioStationResponse>> stations = client.getRadioStations();
         return stations.getContent()
                 .stream()
-                .map(RadioStationResource::getRadioStation)
+                .map(EntityModel::getContent)
                 .map(response -> new Data(
                         response.getId(),
                         response.getUniqueId(),
