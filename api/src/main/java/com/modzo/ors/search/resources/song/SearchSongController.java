@@ -20,7 +20,7 @@ class SearchSongController {
         this.searchHandler = searchHandler;
     }
 
-    @GetMapping("/search/song")
+    @GetMapping(value = "/search/song", params = {"title"})
     ResponseEntity<SearchSongResultsModel> search(@RequestParam("title") String title, Pageable pageable) {
         Page<SongDocument> foundSongs = searchHandler.handle(
                 new SearchSongsByTitle(title, pageable)

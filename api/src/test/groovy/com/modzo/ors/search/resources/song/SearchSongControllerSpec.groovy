@@ -11,7 +11,7 @@ import static org.springframework.hateoas.IanaLinkRelations.SELF
 
 class SearchSongControllerSpec extends IntegrationSpec {
 
-    void 'should find song'() {
+    void 'should find song by title'() {
         given:
             Song song = testSong.create()
         and:
@@ -34,7 +34,7 @@ class SearchSongControllerSpec extends IntegrationSpec {
                     it.uniqueId == song.uniqueId
                     it.title == song.title
                 }
-                it.links.first().with {
+                with(it.links.first()) {
                     rel == SELF
                     href.endsWith(url + '?title=')
                 }
