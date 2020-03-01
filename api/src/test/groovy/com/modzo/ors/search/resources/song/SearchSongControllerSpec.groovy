@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity
 
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpStatus.OK
+import static org.springframework.hateoas.IanaLinkRelations.SELF
 
 class SearchSongControllerSpec extends IntegrationSpec {
 
@@ -18,23 +19,23 @@ class SearchSongControllerSpec extends IntegrationSpec {
         and:
             String url = '/search/song'
         when:
-            ResponseEntity<SongResultsResource> result = restTemplate.exchange(
+            ResponseEntity<SearchSongResultsModel> result = restTemplate.exchange(
                     url + "?title=${song.title}",
                     GET,
                     HttpEntityBuilder.builder()
                             .build(),
-                    SongResultsResource
+                    SearchSongResultsModel
             )
         then:
             result.statusCode == OK
         and:
             with(result.body) {
-                it.content.first().song.with {
-                    uniqueId == song.uniqueId
-                    title == song.title
+                with(it.content.first()) {
+                    it.uniqueId == song.uniqueId
+                    it.title == song.title
                 }
                 it.links.first().with {
-                    rel == REL_SELF
+                    rel == SELF
                     href.endsWith(url + '?title=')
                 }
             }

@@ -21,12 +21,10 @@ class SearchSongController {
     }
 
     @GetMapping("/search/song")
-    ResponseEntity<SongResultsResource> search(@RequestParam("title") String title,
-                                               Pageable pageable) {
+    ResponseEntity<SearchSongResultsModel> search(@RequestParam("title") String title, Pageable pageable) {
         Page<SongDocument> foundSongs = searchHandler.handle(
                 new SearchSongsByTitle(title, pageable)
         );
-        return ok(SongResultsResource.create(foundSongs, pageable));
+        return ok(SearchSongResultsModel.create(foundSongs, pageable));
     }
-
 }
