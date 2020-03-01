@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 
-public class RadioStationResponse {
+class RadioStationResponse {
 
     private final long id;
 

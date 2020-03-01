@@ -5,7 +5,7 @@ import com.modzo.ors.stations.domain.radio.station.RadioStation
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
 
-import static org.springframework.hateoas.Link.REL_SELF
+import static org.springframework.hateoas.IanaLinkRelations.SELF
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpStatus.OK
 
@@ -17,24 +17,30 @@ class RadioStationControllerSpec extends IntegrationSpec {
         and:
             String url = '/radio-stations'
         when:
-            ResponseEntity<RadioStationsResource> result = restTemplate.exchange(
+            ResponseEntity<RadioStationsModel> result = restTemplate.exchange(
                     url + '?size=100&page=0',
                     GET,
                     HttpEntityBuilder.builder()
                             .build(),
-                    RadioStationsResource
+                    RadioStationsModel
             )
         then:
             result.statusCode == OK
         and:
             with(result.body) {
-                it.content.first().radioStation.with {
-                    id > 0
-                    uniqueId
-                    title.size() > 0
+                with(it.content.first()) {
+                    with(it.content) {
+                        it.id
+                        it.uniqueId
+                        it.title.size() > 0
+                    }
+                    with(it.links.first()) {
+                        rel == SELF
+                        href.contains(url)
+                    }
                 }
                 it.links.first().with {
-                    rel == REL_SELF
+                    rel == SELF
                     href.endsWith(url)
                 }
             }
@@ -46,25 +52,27 @@ class RadioStationControllerSpec extends IntegrationSpec {
         and:
             String url = "/radio-stations/${radioStation.id}"
         when:
-            ResponseEntity<RadioStationResource> result = restTemplate.exchange(
+            ResponseEntity<RadioStationModel> result = restTemplate.exchange(
                     url,
                     GET,
                     HttpEntityBuilder.builder()
                             .build(),
-                    RadioStationResource
+                    RadioStationModel
             )
         then:
             result.statusCode == OK
         and:
             with(result.body) {
-                it.radioStation.with {
-                    id == radioStation.id
-                    uniqueId == radioStation.uniqueId
-                    title == radioStation.title
+                it.content.with {
+                    it.id == radioStation.id
+                    it.uniqueId == radioStation.uniqueId
+                    it.title == radioStation.title
                 }
 
-                it.links.first().rel == REL_SELF
-                it.links.first().href.endsWith(url)
+                with(it.links.first()) {
+                    it.rel == SELF
+                    it.href.endsWith(url)
+                }
             }
     }
 }
