@@ -12,7 +12,7 @@ public class RadioStationStreamResponse {
 
     private final String url;
 
-    private final int bitRate;
+    private final Integer bitRate;
 
     private final String type;
 
@@ -21,7 +21,7 @@ public class RadioStationStreamResponse {
                                        @JsonProperty("uniqueId") String uniqueId,
                                        @JsonProperty("url") String url,
                                        @JsonProperty("bitRate") Integer bitRate,
-                                       @JsonProperty("type")  String type) {
+                                       @JsonProperty("type") String type) {
         this.id = id;
         this.uniqueId = uniqueId;
         this.url = url;
@@ -35,7 +35,9 @@ public class RadioStationStreamResponse {
                 radioStationStream.getUniqueId(),
                 radioStationStream.getUrl(),
                 radioStationStream.getBitRate(),
-                radioStationStream.getType().name()
+                radioStationStream.getType()
+                        .map(RadioStationStream.Type::name)
+                        .orElse(null)
         );
     }
 
@@ -51,7 +53,7 @@ public class RadioStationStreamResponse {
         return url;
     }
 
-    public int getBitRate() {
+    public Integer getBitRate() {
         return bitRate;
     }
 

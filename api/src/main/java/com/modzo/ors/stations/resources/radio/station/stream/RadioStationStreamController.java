@@ -5,7 +5,6 @@ import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStati
 import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStreams;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,23 +26,23 @@ class RadioStationStreamController {
     }
 
     @GetMapping("/radio-stations/{radioStationId}/streams")
-    ResponseEntity<PagedModel<RadioStationStreamResource>> getRadioStationStreams(
+    ResponseEntity<RadioStationStreamsModel> getRadioStationStreams(
             @PathVariable("radioStationId") long radioStationId,
             Pageable pageable
     ) {
         Page<RadioStationStream> foundStreams = radioStationStreamsHandler.handle(
                 new GetRadioStationStreams(radioStationId, pageable)
         );
-        return ok(RadioStationStreamsResource.create(foundStreams, radioStationId, pageable));
+        return ok(RadioStationStreamsModel.create(foundStreams, radioStationId, pageable));
     }
 
     @GetMapping("/radio-stations/{radioStationId}/streams/{streamId}")
-    ResponseEntity<RadioStationStreamResource> getRadioStationStream(
+    ResponseEntity<RadioStationStreamModel> getRadioStationStream(
             @PathVariable("radioStationId") long radioStationId,
             @PathVariable("streamId") long streamId) {
         RadioStationStream foundStream = radioStationStreamHandler.handle(
                 new GetRadioStationStream(radioStationId, streamId)
         );
-        return ok(RadioStationStreamResource.create(radioStationId, foundStream));
+        return ok(RadioStationStreamModel.create(radioStationId, foundStream));
     }
 }
