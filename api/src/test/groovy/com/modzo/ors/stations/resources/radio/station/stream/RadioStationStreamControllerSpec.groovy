@@ -38,7 +38,7 @@ class RadioStationStreamControllerSpec extends IntegrationSpec {
                     it.uniqueId == radioStationStream.uniqueId
                     it.url == radioStationStream.url
                     it.bitRate == radioStationStream.bitRate
-                    it.type == radioStationStream.type.map({ it.name() }).orElse(null)
+                    it.type == radioStationStream.type.map { it.name() }.orElse(null)
                 }
 
                 resource.links.first().rel == SELF
@@ -72,7 +72,7 @@ class RadioStationStreamControllerSpec extends IntegrationSpec {
                 it.uniqueId == stream.uniqueId
                 it.url == stream.url
                 it.bitRate == stream.bitRate
-                it.type == stream.type.map({ it.name() }).orElse(null)
+                it.type == stream.type.map { it.name() }.orElse(null)
             }
         and:
             with(resource.links.first()) {
