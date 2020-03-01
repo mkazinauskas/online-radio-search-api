@@ -11,7 +11,7 @@ public class RadioStationStreamResponse {
 
     private final String url;
 
-    private final int bitRate;
+    private final Integer bitRate;
 
     private final String type;
 
@@ -40,7 +40,7 @@ public class RadioStationStreamResponse {
         return url;
     }
 
-    public int getBitRate() {
+    public Integer getBitRate() {
         return bitRate;
     }
 
