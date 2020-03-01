@@ -25,6 +25,6 @@ class SearchSongController {
         Page<SongDocument> foundSongs = searchHandler.handle(
                 new SearchSongsByTitle(title, pageable)
         );
-        return ok(SearchSongResultsModel.create(foundSongs, pageable));
+        return ok(SearchSongResultsModel.create(foundSongs, pageable, title));
     }
 }

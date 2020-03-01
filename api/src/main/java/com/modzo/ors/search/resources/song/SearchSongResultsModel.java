@@ -21,7 +21,7 @@ public class SearchSongResultsModel extends PagedModel<SearchSongResultResponse>
         super(content, metadata, links);
     }
 
-    static SearchSongResultsModel create(Page<SongDocument> songs, Pageable pageable) {
+    static SearchSongResultsModel create(Page<SongDocument> songs, Pageable pageable, String query) {
         PageMetadata pageMetadata = new PageMetadata(
                 songs.getSize(),
                 songs.getNumber(),
@@ -34,7 +34,7 @@ public class SearchSongResultsModel extends PagedModel<SearchSongResultResponse>
                 .collect(toList());
 
         Link link = linkTo(methodOn(SearchSongController.class)
-                .search("", pageable)).withSelfRel();
+                .search(query, pageable)).withSelfRel();
 
         return new SearchSongResultsModel(
                 resources,
