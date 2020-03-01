@@ -6,7 +6,7 @@ import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong;
 
 import java.time.ZonedDateTime;
 
-public class RadioStationSongResponse {
+class RadioStationSongResponse {
 
     private final long id;
 

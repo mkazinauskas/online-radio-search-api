@@ -5,7 +5,7 @@ import com.modzo.ors.stations.domain.song.Song
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
 
-import static org.springframework.hateoas.Link.REL_SELF
+import static org.springframework.hateoas.IanaLinkRelations.SELF
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpStatus.OK
 
@@ -32,10 +32,10 @@ class SongControllerSpec extends IntegrationSpec {
 
                 resource.song.title == song.title
 
-                resource.links.first().rel == REL_SELF
+                resource.links.first().rel == SELF
                 resource.links.first().href.endsWith("${url}/${song.id}")
 
-                links.first().rel == REL_SELF
+                links.first().rel == SELF
                 links.first().href.endsWith(url)
             }
     }
@@ -59,7 +59,7 @@ class SongControllerSpec extends IntegrationSpec {
                 it.song.id == song.id
                 it.song.title == song.title
 
-                links.first().rel == REL_SELF
+                links.first().rel == SELF
                 links.first().href.endsWith(url)
             }
     }

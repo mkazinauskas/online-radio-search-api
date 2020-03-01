@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import java.util.Optional;
+
 import static javax.persistence.GenerationType.SEQUENCE;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
@@ -81,8 +83,8 @@ public class RadioStationStream {
         this.bitRate = bitRate;
     }
 
-    public Type getType() {
-        return type;
+    public Optional<Type> getType() {
+        return Optional.ofNullable(type);
     }
 
     public void setType(Type type) {
