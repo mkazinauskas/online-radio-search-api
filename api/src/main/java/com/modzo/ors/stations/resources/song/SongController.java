@@ -25,14 +25,14 @@ class SongController {
     }
 
     @GetMapping("/songs")
-    ResponseEntity<SongsResource> getSongs(Pageable pageable) {
+    ResponseEntity<SongsModel> getSongs(Pageable pageable) {
         Page<Song> foundSongs = getSongsHandler.handle(new GetSongs(pageable));
-        return ok(SongsResource.create(foundSongs, pageable));
+        return ok(SongsModel.create(foundSongs, pageable));
     }
 
     @GetMapping("/songs/{id}")
-    ResponseEntity<SongResource> getSong(@PathVariable("id") long id) {
+    ResponseEntity<SongModel> getSong(@PathVariable("id") long id) {
         Song foundSong = getSongHandler.handle(new GetSong(id));
-        return ok(SongResource.create(foundSong));
+        return ok(SongModel.create(foundSong));
     }
 }
