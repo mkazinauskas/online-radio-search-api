@@ -1,16 +1,16 @@
 package com.modzo.ors.stations.domain.radio.station.commands
 
-import com.modzo.ors.stations.domain.events.Event
-import com.modzo.ors.stations.domain.events.Events
+import com.modzo.ors.events.domain.Event
+import com.modzo.ors.events.domain.Events
 import com.modzo.ors.stations.domain.radio.station.RadioStation
 import com.modzo.ors.stations.domain.radio.station.RadioStations
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 
-import static com.modzo.ors.stations.domain.events.DomainEvent.Data.deserialize
-import static com.modzo.ors.stations.domain.events.Event.Type.RADIO_STATION_DELETED
-import static com.modzo.ors.stations.domain.events.RadioStationDeleted.Data
+import static com.modzo.ors.events.domain.DomainEvent.Data.deserialize
+import static com.modzo.ors.events.domain.Event.Type.RADIO_STATION_DELETED
+import static com.modzo.ors.events.domain.RadioStationDeleted.Data
 import static org.springframework.data.domain.Pageable.unpaged
 
 class DeleteRadioStationSpec extends IntegrationSpec {

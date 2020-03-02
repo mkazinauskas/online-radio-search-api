@@ -1,7 +1,7 @@
 package com.modzo.ors.stations.domain.radio.station.stream.commands;
 
 import com.modzo.ors.stations.domain.DomainException;
-import com.modzo.ors.stations.domain.events.RadioStationStreamDeleted;
+import com.modzo.ors.events.domain.RadioStationStreamDeleted;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams;
 import org.springframework.context.ApplicationEventPublisher;

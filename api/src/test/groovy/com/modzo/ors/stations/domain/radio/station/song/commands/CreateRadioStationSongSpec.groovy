@@ -1,8 +1,8 @@
 package com.modzo.ors.stations.domain.radio.station.song.commands
 
-import com.modzo.ors.stations.domain.events.Event
-import com.modzo.ors.stations.domain.events.Events
-import com.modzo.ors.stations.domain.events.RadioStationSongCreated
+import com.modzo.ors.events.domain.Event
+import com.modzo.ors.events.domain.Events
+import com.modzo.ors.events.domain.RadioStationSongCreated
 import com.modzo.ors.stations.domain.radio.station.RadioStation
 import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong
 import com.modzo.ors.stations.domain.radio.station.song.RadioStationSongs
@@ -13,8 +13,8 @@ import org.springframework.data.domain.Page
 
 import java.time.ZonedDateTime
 
-import static com.modzo.ors.stations.domain.events.DomainEvent.Data.deserialize
-import static com.modzo.ors.stations.domain.events.Event.Type.RADIO_STATION_SONG_CREATED
+import static com.modzo.ors.events.domain.DomainEvent.Data.deserialize
+import static com.modzo.ors.events.domain.Event.Type.RADIO_STATION_SONG_CREATED
 import static java.time.ZoneId.systemDefault
 import static org.springframework.data.domain.Pageable.unpaged
 

@@ -1,7 +1,7 @@
 package com.modzo.ors.stations.domain.radio.station.stream.commands;
 
 import com.modzo.ors.stations.domain.DomainException;
-import com.modzo.ors.stations.domain.events.RadioStationStreamUpdated;
+import com.modzo.ors.events.domain.RadioStationStreamUpdated;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams;

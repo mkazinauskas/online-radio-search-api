@@ -1,7 +1,7 @@
 package com.modzo.ors.stations.domain.radio.station.genre.commands;
 
 import com.modzo.ors.stations.domain.DomainException;
-import com.modzo.ors.stations.domain.events.GenreCreated;
+import com.modzo.ors.events.domain.GenreCreated;
 import com.modzo.ors.stations.domain.radio.station.genre.Genre;
 import com.modzo.ors.stations.domain.radio.station.genre.Genres;
 import org.springframework.context.ApplicationEventPublisher;
