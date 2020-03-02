@@ -1,6 +1,6 @@
 package com.modzo.ors.web.web.components;
 
-import com.modzo.ors.web.web.components.last.searches.LatestSearchesComponent;
+import com.modzo.ors.web.web.components.latest.searches.LatestSearchesComponent;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

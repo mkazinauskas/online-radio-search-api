@@ -1,6 +1,8 @@
 <h1>Latest searches</h1>
 <p>
     {{ #latestSearches }}
-    <a href="/search/by-song/{{data}}">{{data}}</a>
+    {{ #queries }}
+    <a href="/search/by-song/{{.}}">{{.}}</a>
+    {{ /queries }}
     {{ /latestSearches }}
 </p>
