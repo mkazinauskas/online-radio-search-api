@@ -1,14 +1,11 @@
 package com.modzo.ors.web.web.search.song;
 
-import com.modzo.ors.web.web.api.radio.stations.RadioStationResponse;
 import com.modzo.ors.web.web.api.search.song.SearchSongClient;
 import com.modzo.ors.web.web.api.search.song.SearchSongResultResponse;
 import com.modzo.ors.web.web.utils.SeoText;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
