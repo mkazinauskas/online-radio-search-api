@@ -1,5 +1,6 @@
 package com.modzo.ors.search.resources.song;
 
+import com.modzo.ors.last.searches.domain.commands.CreateSearchedQuery;
 import com.modzo.ors.search.domain.SongDocument;
 import com.modzo.ors.search.domain.commands.SearchSongsByTitle;
 import org.springframework.data.domain.Page;
@@ -16,8 +17,12 @@ class SearchSongController {
 
     private final SearchSongsByTitle.Handler searchHandler;
 
-    public SearchSongController(SearchSongsByTitle.Handler searchHandler) {
+    private final CreateSearchedQuery.Handler lastSearchedQueryHandler;
+
+    public SearchSongController(SearchSongsByTitle.Handler searchHandler,
+                                CreateSearchedQuery.Handler lastSearchedQueryHandler) {
         this.searchHandler = searchHandler;
+        this.lastSearchedQueryHandler = lastSearchedQueryHandler;
     }
 
     @GetMapping(value = "/search/song", params = {"title"})
@@ -25,6 +30,7 @@ class SearchSongController {
         Page<SongDocument> foundSongs = searchHandler.handle(
                 new SearchSongsByTitle(title, pageable)
         );
+        lastSearchedQueryHandler.handle(new CreateSearchedQuery(title));
         return ok(SearchSongResultsModel.create(foundSongs, pageable, title));
     }
 }

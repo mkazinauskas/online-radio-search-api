@@ -27,7 +27,7 @@ public class LastSearchResponse {
         return new LastSearchResponse(
                 searchedQuery.getId(),
                 searchedQuery.getQuery(),
-                searchedQuery.getDate()
+                searchedQuery.getCreated()
         );
     }
 

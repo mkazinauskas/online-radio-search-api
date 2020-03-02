@@ -31,7 +31,7 @@ class CreateSearchedQuerySpec extends IntegrationSpec {
             SearchedQuery result = handler.handle(new CreateSearchedQuery(query))
         then:
             SearchedQuery savedQuery = searchedQueries.findById(result.id).get()
-            savedQuery.date
+            savedQuery.created
             savedQuery.query == query
     }
 }

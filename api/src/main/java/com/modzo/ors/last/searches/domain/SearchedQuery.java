@@ -13,7 +13,7 @@ public class SearchedQuery {
     private String id;
 
     @JsonProperty("created")
-    private ZonedDateTime date = ZonedDateTime.now();
+    private ZonedDateTime created = ZonedDateTime.now();
 
     @JsonProperty("query")
     private String query;
@@ -33,12 +33,12 @@ public class SearchedQuery {
         this.id = id;
     }
 
-    public ZonedDateTime getDate() {
-        return date;
+    public ZonedDateTime getCreated() {
+        return created;
     }
 
-    public void setDate(ZonedDateTime date) {
-        this.date = date;
+    public void setCreated(ZonedDateTime created) {
+        this.created = created;
     }
 
     public String getQuery() {
