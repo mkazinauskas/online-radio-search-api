@@ -135,9 +135,9 @@ class RadioStationStreamsTable extends Component {
         Axios.get(`/radio-stations/${radioStationId}/streams?${urlSearchParams.toString()}`)
             .then((response) => {
                 let data = [];
-                if (response.data._embedded && response.data._embedded.radioStationStreamResourceList) {
-                    data = response.data._embedded.radioStationStreamResourceList.map(element => {
-                        return { ...element.radioStationStream, radioStationId }
+                if (response.data._embedded && response.data._embedded.radioStationStreamResponseList) {
+                    data = response.data._embedded.radioStationStreamResponseList.map(element => {
+                        return { ...element, radioStationId }
                     });
                 }
 
