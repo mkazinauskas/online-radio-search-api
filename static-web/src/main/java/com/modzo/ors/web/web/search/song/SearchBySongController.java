@@ -36,7 +36,8 @@ public class SearchBySongController {
     public ModelAndView searchBySong(@PathVariable("query") String query) {
         Map<String, Object> items = new HashMap<>(commonComponents.load());
         items.put(ComponentType.PAGE_TITLE.getType(), "Online Radio Search. Millions of free online radio stations");
-        items.put("query", query);
+        items.put("seoQuery", SeoText.from(query));
+        items.put("query", SeoText.revert(query));
         items.put("foundSongs", searchBySongService.retrieve(query));
         items.put("submenu-search-by-song", true);
         return new ModelAndView("/search/by-song/index", items);

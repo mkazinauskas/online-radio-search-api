@@ -1,18 +1,18 @@
 <div class="buttons">
     {{#submenu-search-by-song}}
-        <a class="button" disabled>Search by song</a>
+        <a class="button" disabled>Search by song "{{query}}"</a>
     {{/submenu-search-by-song}}
     {{^submenu-search-by-song}}
-        <a href="/search/by-song/{{query}}"
-           class="button is-success">Search by song
+        <a href="/search/by-song/{{seoQuery}}"
+           class="button is-success">Search by song "{{query}}"
         </a>
     {{/submenu-search-by-song}}
     {{#submenu-search-by-radio-station}}
-        <a class="button" disabled>Search by radio station</a>
+        <a class="button" disabled>Search by radio station "{{query}}"</a>
     {{/submenu-search-by-radio-station}}
     {{^submenu-search-by-radio-station}}
-        <a href="/search/by-radio-station/{{query}}"
-           class="button is-success">Search by radio station
+        <a href="/search/by-radio-station/{{seoQuery}}"
+           class="button is-success">Search by radio station "{{query}}"
         </a>
     {{/submenu-search-by-radio-station}}
 </div>

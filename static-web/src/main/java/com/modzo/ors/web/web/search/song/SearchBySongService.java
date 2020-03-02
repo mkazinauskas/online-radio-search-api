@@ -3,6 +3,7 @@ package com.modzo.ors.web.web.search.song;
 import com.modzo.ors.web.web.api.radio.stations.RadioStationResponse;
 import com.modzo.ors.web.web.api.search.song.SearchSongClient;
 import com.modzo.ors.web.web.api.search.song.SearchSongResultResponse;
+import com.modzo.ors.web.web.utils.SeoText;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,8 @@ class SearchBySongService {
         this.searchSongClient = searchSongClient;
     }
 
-    Data retrieve(String title) {
+    Data retrieve(String seoTitle) {
+        var title = SeoText.revert(seoTitle);
         PagedModel<SearchSongResultResponse> foundSongs = this.searchSongClient.searchSongsByTitle(title);
         Collection<SearchSongResultResponse> content = foundSongs.getContent();
         List<Data.Song> convertedSongs = content.stream()
@@ -35,8 +37,6 @@ class SearchBySongService {
     static class Data {
 
         private final List<Song> songs;
-
-
 
         public Data(List<Song> songs) {
             this.songs = songs;
