@@ -1,11 +1,8 @@
 package com.modzo.ors.web.web.search.radio.station;
 
 import com.modzo.ors.web.web.api.search.radio.station.SearchRadioStationClient;
-import com.modzo.ors.web.web.api.search.radio.station.SearchRadioStationResultResponse;
-import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,9 +16,9 @@ class SearchByRadioStationService {
     }
 
     Data retrieve(String title) {
-        PagedModel<SearchRadioStationResultResponse> foundSongs = this.searchRadioStationClient.searchRadioStationByTitle(title);
-        Collection<SearchRadioStationResultResponse> content = foundSongs.getContent();
-        List<Data.RadioStation> convertedSongs = content.stream()
+        var foundSongs = searchRadioStationClient.searchRadioStationByTitle(title);
+        var content = foundSongs.getContent();
+        var convertedSongs = content.stream()
                 .map(song -> new Data.RadioStation(song.getUniqueId(), song.getTitle()))
                 .collect(Collectors.toList());
 

@@ -38,7 +38,7 @@ public class SearchByRadioStationController {
         Map<String, Object> items = new HashMap<>(commonComponents.load());
         items.put(ComponentType.PAGE_TITLE.getType(), "Radio stations \"" + query + "\"| Online Radio Search");
         items.put("query", query);
-//        items.put("foundRadioStations", searchByRadioStationService.retrieve(query));
+        //items.put("foundRadioStations", searchByRadioStationService.retrieve(query));
         items.put("submenu-search-by-radio-station", true);
         return new ModelAndView("/search/by-radio-station/index", items);
     }
