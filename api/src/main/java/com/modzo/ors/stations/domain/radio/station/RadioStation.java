@@ -1,6 +1,7 @@
 package com.modzo.ors.stations.domain.radio.station;
 
 import com.modzo.ors.stations.domain.radio.station.genre.Genre;
+import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,13 +10,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static javax.persistence.CascadeType.REFRESH;
 import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.SEQUENCE;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
@@ -44,6 +49,10 @@ public class RadioStation {
             inverseJoinColumns = {@JoinColumn(name = "genre_id")}
     )
     private Set<Genre> genres = new HashSet<>();
+
+    @OneToMany(cascade = REFRESH, fetch = LAZY)
+    @JoinColumn(name = "radio_station_id")
+    private List<RadioStationSong> songs = new ArrayList<>();
 
     RadioStation() {
     }
@@ -78,5 +87,13 @@ public class RadioStation {
 
     public Set<Genre> getGenres() {
         return genres;
+    }
+
+    public List<RadioStationSong> getSongs() {
+        return songs;
+    }
+
+    public void setSongs(List<RadioStationSong> songs) {
+        this.songs = songs;
     }
 }
