@@ -25,6 +25,12 @@ class SongCreatedEventParser implements EventParser {
     public void parse(Event event) {
         SongCreated.Data data = SongCreated.Data.deserialize(event.getBody());
 
-        songsRepository.save(new SongDocument(data.getUniqueId(), data.getTitle()));
+        songsRepository.save(
+                new SongDocument(
+                        data.getId(),
+                        data.getUniqueId(),
+                        data.getTitle()
+                )
+        );
     }
 }

@@ -24,6 +24,6 @@ class RadioStationCreatedEventParser implements EventParser {
     @Override
     public void parse(Event event) {
         RadioStationCreated.Data data = RadioStationCreated.Data.deserialize(event.getBody());
-        radioStationsRepository.save(new RadioStationDocument(data.getUniqueId(), data.getTitle()));
+        radioStationsRepository.save(new RadioStationDocument(data.getId(), data.getUniqueId(), data.getTitle()));
     }
 }

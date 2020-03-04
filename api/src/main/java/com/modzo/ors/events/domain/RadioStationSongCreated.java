@@ -16,35 +16,60 @@ public class RadioStationSongCreated extends DomainEvent {
     }
 
     public static class Data extends DomainEvent.Data {
+
+        private final long id;
+
         private final String uniqueId;
 
-        private final String radioStationUniqueId;
+        private final long songId;
 
         private final String songUniqueId;
+
+        private final long radioStationId;
+
+        private final String radioStationUniqueId;
 
         private final ZonedDateTime playedTime;
 
         @JsonCreator
-        public Data(@JsonProperty("uniqueId") String uniqueId,
-                    @JsonProperty("radioStationUniqueId") String radioStationUniqueId,
+        public Data(@JsonProperty("id") long id,
+                    @JsonProperty("uniqueId") String uniqueId,
+                    @JsonProperty("songId") long songId,
                     @JsonProperty("songUniqueId") String songUniqueId,
+                    @JsonProperty("radioStationId") long radioStationId,
+                    @JsonProperty("radioStationUniqueId") String radioStationUniqueId,
                     @JsonProperty("playedTime") ZonedDateTime playedTime) {
+            this.id = id;
             this.uniqueId = uniqueId;
-            this.radioStationUniqueId = radioStationUniqueId;
+            this.songId = songId;
             this.songUniqueId = songUniqueId;
+            this.radioStationId = radioStationId;
+            this.radioStationUniqueId = radioStationUniqueId;
             this.playedTime = playedTime;
+        }
+
+        public long getId() {
+            return id;
         }
 
         public String getUniqueId() {
             return uniqueId;
         }
 
-        public String getRadioStationUniqueId() {
-            return radioStationUniqueId;
+        public long getSongId() {
+            return songId;
         }
 
         public String getSongUniqueId() {
             return songUniqueId;
+        }
+
+        public long getRadioStationId() {
+            return radioStationId;
+        }
+
+        public String getRadioStationUniqueId() {
+            return radioStationUniqueId;
         }
 
         public ZonedDateTime getPlayedTime() {

@@ -14,36 +14,23 @@ public class GenreCreated extends DomainEvent {
     }
 
     public static class Data extends DomainEvent.Data {
+        private final long id;
+
         private final String uniqueId;
 
         private final String title;
 
         @JsonCreator
-        public Data(@JsonProperty("uniqueId") String uniqueId,
+        public Data(@JsonProperty("id") long id,
+                    @JsonProperty("uniqueId") String uniqueId,
                     @JsonProperty("title") String title) {
+            this.id = id;
             this.uniqueId = uniqueId;
             this.title = title;
         }
 
-        public static class Genre {
-            private final String uniqueId;
-
-            private final String title;
-
-            @JsonCreator
-            public Genre(@JsonProperty("uniqueId") String uniqueId,
-                         @JsonProperty("title") String title) {
-                this.uniqueId = uniqueId;
-                this.title = title;
-            }
-
-            public String getUniqueId() {
-                return uniqueId;
-            }
-
-            public String getTitle() {
-                return title;
-            }
+        public long getId() {
+            return id;
         }
 
         public String getUniqueId() {

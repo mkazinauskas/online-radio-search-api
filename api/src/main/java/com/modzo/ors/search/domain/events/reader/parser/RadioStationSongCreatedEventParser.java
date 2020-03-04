@@ -48,7 +48,11 @@ class RadioStationSongCreatedEventParser implements EventParser {
 
         radioStationDocument.getSongs().add(
                 new RadioStationSongDocument(
+                        data.getId(),
                         data.getUniqueId(),
+                        data.getSongId(),
+                        data.getSongUniqueId(),
+                        data.getRadioStationId(),
                         data.getRadioStationUniqueId(),
                         songDocument.getTitle(),
                         data.getPlayedTime()

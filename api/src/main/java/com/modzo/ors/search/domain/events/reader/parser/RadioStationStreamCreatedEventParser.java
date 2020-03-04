@@ -38,7 +38,9 @@ class RadioStationStreamCreatedEventParser implements EventParser {
 
         radioStationDocument.getStreams().add(
                 new RadioStationStreamDocument(
+                        data.getId(),
                         data.getUniqueId(),
+                        data.getRadioStationId(),
                         data.getRadioStationUniqueId(),
                         data.getUrl()
                 )

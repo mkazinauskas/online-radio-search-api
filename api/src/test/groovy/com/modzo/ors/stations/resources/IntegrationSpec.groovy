@@ -7,6 +7,7 @@ import com.modzo.ors.helpers.TestRadioStation
 import com.modzo.ors.helpers.TestRadioStationSong
 import com.modzo.ors.helpers.TestRadioStationStream
 import com.modzo.ors.helpers.TestSong
+import com.modzo.ors.search.TestSongDocument
 import com.modzo.ors.search.domain.events.reader.parser.EventsProcessor
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -35,6 +36,9 @@ class IntegrationSpec extends Specification {
 
     @Autowired
     TestRadioStationSong testRadioStationSong
+
+    @Autowired
+    TestSongDocument testSongDocument
 
     @Autowired
     WireMockTestHelper wireMockTestHelper

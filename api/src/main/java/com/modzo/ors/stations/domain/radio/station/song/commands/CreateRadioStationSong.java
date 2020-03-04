@@ -1,7 +1,7 @@
 package com.modzo.ors.stations.domain.radio.station.song.commands;
 
-import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.events.domain.RadioStationSongCreated;
+import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong;
@@ -80,9 +80,12 @@ public class CreateRadioStationSong {
                     new RadioStationSongCreated(
                             radioStationSong,
                             new RadioStationSongCreated.Data(
+                                    radioStationSong.getId(),
                                     radioStationSong.getUniqueId(),
-                                    radioStation.getUniqueId(),
+                                    song.getId(),
                                     song.getUniqueId(),
+                                    radioStation.getId(),
+                                    radioStation.getUniqueId(),
                                     radioStationSong.getPlayedTime()
                             ))
             );

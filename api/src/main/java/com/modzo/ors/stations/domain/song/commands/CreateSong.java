@@ -48,6 +48,7 @@ public class CreateSong {
                     new SongCreated(
                             song,
                             new SongCreated.Data(
+                                    song.getId(),
                                     song.getUniqueId(),
                                     song.getTitle()
                             ))
