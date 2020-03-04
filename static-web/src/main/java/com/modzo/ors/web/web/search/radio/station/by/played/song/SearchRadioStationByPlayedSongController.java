@@ -15,11 +15,11 @@ public class SearchRadioStationByPlayedSongController {
 
     private final CommonComponents commonComponents;
 
-    private final SearchBySongService searchBySongService;
+    private final SearchRadioStationBySongService searchRadioStationBySongService;
 
-    public SearchRadioStationByPlayedSongController(CommonComponents commonComponents, SearchBySongService searchBySongService) {
+    public SearchRadioStationByPlayedSongController(CommonComponents commonComponents, SearchRadioStationBySongService searchRadioStationBySongService) {
         this.commonComponents = commonComponents;
-        this.searchBySongService = searchBySongService;
+        this.searchRadioStationBySongService = searchRadioStationBySongService;
     }
 
     @GetMapping("/radio-station/by-played-song/{songId}")

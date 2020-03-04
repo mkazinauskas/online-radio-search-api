@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-class SearchBySongService {
+class SearchRadioStationBySongService {
 
     private final SearchSongClient searchSongClient;
 
-    SearchBySongService(SearchSongClient searchSongClient) {
+    SearchRadioStationBySongService(SearchSongClient searchSongClient) {
         this.searchSongClient = searchSongClient;
     }
 
