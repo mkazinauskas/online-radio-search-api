@@ -19,7 +19,7 @@ class SearchByRadioStationService {
         var foundSongs = searchRadioStationClient.searchRadioStationByTitle(title);
         var content = foundSongs.getContent();
         var convertedSongs = content.stream()
-                .map(song -> new Data.RadioStation(song.getUniqueId(), song.getTitle()))
+                .map(song -> new Data.RadioStation(song.getId(), song.getTitle()))
                 .collect(Collectors.toList());
 
         return new Data(convertedSongs);
@@ -36,17 +36,17 @@ class SearchByRadioStationService {
 
         static class RadioStation {
 
-            private final String uniqueId;
+            private final long id;
 
             private final String title;
 
-            public RadioStation(String uniqueId, String title) {
-                this.uniqueId = uniqueId;
+            public RadioStation(long id, String title) {
+                this.id = id;
                 this.title = title;
             }
 
-            public String getUniqueId() {
-                return uniqueId;
+            public long getId() {
+                return id;
             }
 
             public String getTitle() {

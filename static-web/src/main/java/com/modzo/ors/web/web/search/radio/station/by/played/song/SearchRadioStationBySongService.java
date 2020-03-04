@@ -24,7 +24,7 @@ class SearchRadioStationBySongService {
         PagedModel<SearchSongResultResponse> foundSongs = this.searchSongClient.searchSongsByTitle(title);
         Collection<SearchSongResultResponse> content = foundSongs.getContent();
         List<Data.Song> convertedSongs = content.stream()
-                .map(song -> new Data.Song(song.getUniqueId(), song.getTitle()))
+                .map(song -> new Data.Song(song.getId(), song.getUniqueId(), song.getTitle()))
                 .collect(Collectors.toList());
 
         return new Data(convertedSongs);
@@ -41,13 +41,20 @@ class SearchRadioStationBySongService {
 
         static class Song {
 
+            private final long id;
+
             private final String uniqueId;
 
             private final String title;
 
-            public Song(String uniqueId, String title) {
+            public Song(long id, String uniqueId, String title) {
+                this.id = id;
                 this.uniqueId = uniqueId;
                 this.title = title;
+            }
+
+            public long getId() {
+                return id;
             }
 
             public String getUniqueId() {

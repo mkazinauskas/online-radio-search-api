@@ -5,15 +5,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SearchSongResultResponse {
 
+    private final long id;
+
     private final String uniqueId;
 
     private final String title;
 
     @JsonCreator
-    private SearchSongResultResponse(@JsonProperty("uniqueId") String uniqueId,
+    private SearchSongResultResponse(@JsonProperty("id") long id,
+                                     @JsonProperty("uniqueId") String uniqueId,
                                      @JsonProperty("title") String title) {
+        this.id = id;
         this.uniqueId = uniqueId;
         this.title = title;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getUniqueId() {
