@@ -6,19 +6,31 @@ import com.modzo.ors.search.domain.SongDocument;
 
 public class SearchSongResultResponse {
 
+    private final long id;
+
     private final String uniqueId;
 
     private final String title;
 
     @JsonCreator
-    private SearchSongResultResponse(@JsonProperty("uniqueId") String uniqueId,
+    private SearchSongResultResponse(@JsonProperty("id") long id,
+                                     @JsonProperty("uniqueId") String uniqueId,
                                      @JsonProperty("title") String title) {
+        this.id = id;
         this.uniqueId = uniqueId;
         this.title = title;
     }
 
     static SearchSongResultResponse create(SongDocument song) {
-        return new SearchSongResultResponse(song.getUniqueId(), song.getTitle());
+        return new SearchSongResultResponse(
+                song.getId(),
+                song.getUniqueId(),
+                song.getTitle()
+        );
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getUniqueId() {

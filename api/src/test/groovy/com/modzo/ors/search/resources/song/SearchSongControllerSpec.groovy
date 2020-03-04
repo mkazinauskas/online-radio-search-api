@@ -31,6 +31,7 @@ class SearchSongControllerSpec extends IntegrationSpec {
         and:
             with(result.body) {
                 with(it.content.first()) {
+                    it.id == song.id
                     it.uniqueId == song.uniqueId
                     it.title == song.title
                 }
