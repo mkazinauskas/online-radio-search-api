@@ -8,7 +8,11 @@ public class SeoText {
         if (Objects.isNull(text)) {
             return null;
         }
-        return text.replaceAll(" ?- ?", "-") // remove spaces around hyphens
+        return text
+                .toLowerCase()
+                .replaceAll("-", " ")
+                .trim()
+                .replaceAll(" ?- ?", "-") // remove spaces around hyphens
                 .replaceAll("[ ']", "-") // turn spaces and quotes into hyphens
                 .replaceAll("[^0-9a-zA-Z-]", "");
     }

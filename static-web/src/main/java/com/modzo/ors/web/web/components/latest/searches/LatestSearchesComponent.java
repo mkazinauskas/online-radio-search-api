@@ -21,10 +21,10 @@ public class LatestSearchesComponent {
 
     public List<LatestSearchesData> retrieve() {
         PagedModel<EntityModel<LastSearchResponse>> latestSearches = latestSearchesClient.getLatestSearches();
-        List<String> searches = latestSearches.getContent().stream()
+        List<LatestSearchesData.Query> searches = latestSearches.getContent().stream()
                 .map(EntityModel::getContent)
                 .filter(Objects::nonNull)
-                .map(LastSearchResponse::getQuery)
+                .map(search -> new LatestSearchesData.Query(search.getQuery()))
                 .collect(Collectors.toList());
         return List.of(new LatestSearchesData(searches));
     }
