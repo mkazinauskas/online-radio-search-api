@@ -4,13 +4,12 @@
 
 <section class="section">
     <div class="container">
-        {{>/search/menu}}
         <h1 class="title">
-            Search by song title "{{query}}"
+            Radio stations played song "{{song.title}}"
         </h1>
-        {{#foundSongs}}
-            {{#songs}}
-                <a href="/radio-stations/by-played-song/{{id}}">
+        {{#radioStations}}
+            {{#stations}}
+                <a href="/radio-stations/{{id}}">
                     <div class="box" style="margin-bottom: 10px">
                         <article class="media">
                             <div class="media-content">
@@ -21,9 +20,8 @@
                         </article>
                     </div>
                 </a>
-
-            {{/songs}}
-        {{/foundSongs}}
+            {{/stations}}
+        {{/radioStations}}
     </div>
 </section>
 

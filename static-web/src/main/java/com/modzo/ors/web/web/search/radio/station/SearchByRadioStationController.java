@@ -39,7 +39,7 @@ public class SearchByRadioStationController {
         items.put(ComponentType.PAGE_TITLE.getType(), "Radio stations \"" + query + "\"| Online Radio Search");
         items.put("seoQuery", SeoText.from(query));
         items.put("query", SeoText.revert(query));
-        //items.put("foundRadioStations", searchByRadioStationService.retrieve(query));
+        items.put("foundRadioStations", searchByRadioStationService.retrieve(query));
         items.put("submenu-search-by-radio-station", true);
         return new ModelAndView("/search/by-radio-station/index", items);
     }
