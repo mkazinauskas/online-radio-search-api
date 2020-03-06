@@ -9,7 +9,7 @@
             Found songs by title "{{query}}"
         </h1>
         {{#foundSongs}}
-            {{#songs}}
+            {{#content}}
                 <a href="/radio-stations/by-played-song/{{seoTitle}}/{{id}}">
                     <div class="box" style="margin-bottom: 10px">
                         <article class="media">
@@ -21,8 +21,25 @@
                         </article>
                     </div>
                 </a>
+            {{/content}}
 
-            {{/songs}}
+            <nav class="pagination is-rounded" role="navigation" aria-label="pagination" style="padding-top: 20px">
+                {{#metadata.hasPrevious}}
+                    <a href="/search/by-song/{{seoQuery}}?page={{metadata.previousPage}}"
+                    class="pagination-previous">Previous</a>
+                {{/metadata.hasPrevious}}
+                {{^metadata.hasPrevious}}
+                    <a class="pagination-previous" disabled>Previous</a>
+                {{/metadata.hasPrevious}}
+
+                {{#metadata.hasNext}}
+                    <a href="/search/by-song/{{seoQuery}}?page={{metadata.nextPage}}"
+                    class="pagination-next">Next page</a>
+                {{/metadata.hasNext}}
+                {{^metadata.hasNext}}
+                    <a class="pagination-next" disabled>Next page</a>
+                {{/metadata.hasNext}}
+            </nav>
         {{/foundSongs}}
     </div>
 </section>

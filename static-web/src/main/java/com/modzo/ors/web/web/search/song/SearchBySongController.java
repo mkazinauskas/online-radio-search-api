@@ -3,6 +3,7 @@ package com.modzo.ors.web.web.search.song;
 import com.modzo.ors.web.web.components.CommonComponents;
 import com.modzo.ors.web.web.components.ComponentType;
 import com.modzo.ors.web.web.utils.SeoText;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,12 +34,13 @@ public class SearchBySongController {
     }
 
     @GetMapping("/search/by-song/{query}")
-    public ModelAndView searchBySong(@PathVariable("query") String query) {
+    public ModelAndView searchBySong(@PathVariable("query") String query,
+                                     Pageable pageable) {
         Map<String, Object> items = new HashMap<>(commonComponents.load());
         items.put(ComponentType.PAGE_TITLE.getType(), "Online Radio Search. Millions of free online radio stations");
         items.put("seoQuery", SeoText.from(query));
         items.put("query", SeoText.revert(query));
-        items.put("foundSongs", searchBySongService.retrieve(query));
+        items.put("foundSongs", searchBySongService.retrieve(query, pageable));
         items.put("submenu-search-by-song", true);
         return new ModelAndView("/search/by-song/index", items);
     }

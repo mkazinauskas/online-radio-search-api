@@ -11,12 +11,15 @@ public class RadioStationModel {
 
     private final String title;
 
+    private final String seoTitle;
+
     private final String website;
 
     public RadioStationModel(long id, String uniqueId, String title, String website) {
         this.id = id;
         this.uniqueId = uniqueId;
         this.title = title;
+        this.seoTitle = SeoText.from(title);
         this.website = website;
     }
 
@@ -24,6 +27,7 @@ public class RadioStationModel {
         this.id = response.getId();
         this.uniqueId = response.getUniqueId();
         this.title = response.getTitle();
+        this.seoTitle = SeoText.from(response.getTitle());
         this.website = response.getWebsite();
     }
 
@@ -40,7 +44,7 @@ public class RadioStationModel {
     }
 
     public String getSeoTitle() {
-        return SeoText.from(title);
+        return seoTitle;
     }
 
     public String getWebsite() {
