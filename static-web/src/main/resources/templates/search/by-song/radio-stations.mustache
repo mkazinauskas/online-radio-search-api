@@ -9,7 +9,7 @@
         </h1>
         {{#radioStations}}
             {{#stations}}
-                <a href="/radio-stations/{{id}}">
+                <a href="/radio-stations/{{seoTitle}}/{{id}}">
                     <div class="box" style="margin-bottom: 10px">
                         <article class="media">
                             <div class="media-content">
@@ -24,13 +24,19 @@
 
             <nav class="pagination is-rounded" role="navigation" aria-label="pagination" style="padding-top: 20px">
                 {{#metadata.hasPrevious}}
-                    <a href="/radio-stations/by-played-song/{{song.id}}?page={{metadata.previousPage}}"
-                    class="pagination-previous is-pulled-left">Previous</a>
+                    <a href="/radio-stations/by-played-song/{{song.seoTitle}}/{{song.id}}?page={{metadata.previousPage}}"
+                    class="pagination-previous">Previous</a>
+                {{/metadata.hasPrevious}}
+                {{^metadata.hasPrevious}}
+                    <a class="pagination-previous" disabled>Previous</a>
                 {{/metadata.hasPrevious}}
 
                 {{#metadata.hasNext}}
-                    <a href="/radio-stations/by-played-song/{{song.id}}?page={{metadata.nextPage}}"
-                    class="pagination-next is-pulled-right">Next page</a>
+                    <a href="/radio-stations/by-played-song/{{song.seoTitle}}/{{song.id}}?page={{metadata.nextPage}}"
+                    class="pagination-next">Next page</a>
+                {{/metadata.hasNext}}
+                {{^metadata.hasNext}}
+                    <a class="pagination-next" disabled>Next page</a>
                 {{/metadata.hasNext}}
             </nav>
         {{/radioStations}}

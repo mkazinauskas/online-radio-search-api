@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "radioStationsClient", url = "${application.apiUrl}")
 public interface RadioStationsClient {
 
-    @GetMapping("/radio-stations?size=100")
-    PagedModel<EntityModel<RadioStationResponse>> getRadioStations();
-
-    @GetMapping("/radio-stations/{id}?size=100")
-    EntityModel<RadioStationResponse> getRadioStation(@PathVariable("id") long id);
+    @GetMapping("/radio-stations?size=10")
+    PagedModel<EntityModel<RadioStationResponse>> getRadioStations(@RequestParam("page") long page);
 
     @GetMapping("/radio-stations?size=1")
     PagedModel<EntityModel<RadioStationResponse>> getRadioStationByPlayedSongId(
             @RequestParam("songId") long songId,
             @RequestParam("page") long page
     );
+
+    @GetMapping("/radio-stations/{id}")
+    EntityModel<RadioStationResponse> getRadioStation(@PathVariable("id") long id);
 }

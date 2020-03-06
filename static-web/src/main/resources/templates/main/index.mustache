@@ -7,17 +7,38 @@
         <h1 class="title">Latest radio stations</h1>
         <div>
             {{#latestRadioStations}}
-            <a href="/radio-stations/{{id}}">
-                <div class="box" style="margin-bottom: 10px">
-                    <article class="media">
-                        <div class="media-content">
-                            <div class="content">
-                                <strong>{{title}}</strong>{{#website}} - {{.}}{{/website}}
-                            </div>
+                {{#content}}
+                    <a href="/radio-stations/{{id}}">
+                        <div class="box" style="margin-bottom: 10px">
+                            <article class="media">
+                                <div class="media-content">
+                                    <div class="content">
+                                        <strong>{{title}}</strong>{{#website}} - {{.}}{{/website}}
+                                    </div>
+                                </div>
+                            </article>
                         </div>
-                    </article>
-                </div>
-            </a>
+                    </a>
+                {{/content}}
+                <nav class="pagination is-rounded" role="navigation" aria-label="pagination" style="padding-top: 20px">
+                    {{#metadata.hasPrevious}}
+                        <a href="/?page={{metadata.previousPage}}
+                        "
+                        class="pagination-previous">Previous</a>
+                    {{/metadata.hasPrevious}}
+                    {{^metadata.hasPrevious}}
+                        <a class="pagination-previous" disabled>Previous</a>
+                    {{/metadata.hasPrevious}}
+
+                    {{#metadata.hasNext}}
+                        <a href="/?page={{metadata.nextPage}}
+                        "
+                        class="pagination-next">Next page</a>
+                    {{/metadata.hasNext}}
+                    {{^metadata.hasNext}}
+                        <a class="pagination-next" disabled>Next page</a>
+                    {{/metadata.hasNext}}
+                </nav>
             {{/latestRadioStations}}
         </div>
     </div>

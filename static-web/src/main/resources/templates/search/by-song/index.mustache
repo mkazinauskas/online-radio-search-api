@@ -6,11 +6,11 @@
     <div class="container">
         {{>/search/menu}}
         <h1 class="title">
-            Search by song title "{{query}}"
+            Found songs by title "{{query}}"
         </h1>
         {{#foundSongs}}
             {{#songs}}
-                <a href="/radio-stations/by-played-song/{{id}}">
+                <a href="/radio-stations/by-played-song/{{seoTitle}}/{{id}}">
                     <div class="box" style="margin-bottom: 10px">
                         <article class="media">
                             <div class="media-content">

@@ -47,10 +47,13 @@ class SearchBySongService {
 
             private final String title;
 
+            private final String seoTitle;
+
             public Song(long id, String uniqueId, String title) {
                 this.id = id;
                 this.uniqueId = uniqueId;
                 this.title = title;
+                this.seoTitle = SeoText.from(title);
             }
 
             public long getId() {
@@ -63,6 +66,10 @@ class SearchBySongService {
 
             public String getTitle() {
                 return title;
+            }
+
+            public String getSeoTitle() {
+                return seoTitle;
             }
         }
 

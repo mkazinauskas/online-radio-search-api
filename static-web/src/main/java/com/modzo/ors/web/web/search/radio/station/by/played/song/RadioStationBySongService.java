@@ -3,6 +3,7 @@ package com.modzo.ors.web.web.search.radio.station.by.played.song;
 import com.modzo.ors.web.web.api.radio.stations.RadioStationResponse;
 import com.modzo.ors.web.web.api.radio.stations.RadioStationsClient;
 import com.modzo.ors.web.web.components.common.EnhancedPageMetadata;
+import com.modzo.ors.web.web.utils.SeoText;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
@@ -76,6 +77,10 @@ class RadioStationBySongService {
 
             public String getTitle() {
                 return title;
+            }
+
+            public String seoTitle() {
+                return SeoText.from(title);
             }
 
             public String getWebsite() {

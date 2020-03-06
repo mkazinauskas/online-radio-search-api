@@ -11,6 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.springframework.util.StringUtils.pathEquals;
+
 @Controller
 public class RadioStationsByPlayedSongController {
 
@@ -28,11 +30,19 @@ public class RadioStationsByPlayedSongController {
         this.songService = songService;
     }
 
-    @GetMapping("/radio-stations/by-played-song/{songId}")
-    public ModelAndView searchBySong(@PathVariable("songId") long songId,
-                                     Pageable pageable) {
-        RadioStationBySongService.Data radioStations = radioStationBySongService.retrieveStationBy(songId, pageable);
+    @GetMapping("/radio-stations/by-played-song/{songTitle}/{songId}")
+    public ModelAndView searchBySong(
+            @PathVariable("songTitle") String songTitle,
+            @PathVariable("songId") long songId,
+            Pageable pageable) {
         SongService.Data song = songService.retrieveSong(songId);
+
+        if (!pathEquals(song.getSeoTitle(), songTitle)) {
+            throw new IllegalArgumentException("Song not found...");
+        }
+
+        RadioStationBySongService.Data radioStations = radioStationBySongService.retrieveStationBy(songId, pageable);
+
 
         Map<String, Object> items = new HashMap<>(commonComponents.load());
         items.put(ComponentType.PAGE_TITLE.getType(), "Online Radio Search. Millions of free online radio stations");
