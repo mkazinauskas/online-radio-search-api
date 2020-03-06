@@ -21,6 +21,18 @@
                     </div>
                 </a>
             {{/stations}}
+
+            <nav class="pagination is-rounded" role="navigation" aria-label="pagination" style="padding-top: 20px">
+                {{#metadata.hasPrevious}}
+                    <a href="/radio-stations/by-played-song/{{song.id}}?page={{metadata.previousPage}}"
+                    class="pagination-previous is-pulled-left">Previous</a>
+                {{/metadata.hasPrevious}}
+
+                {{#metadata.hasNext}}
+                    <a href="/radio-stations/by-played-song/{{song.id}}?page={{metadata.nextPage}}"
+                    class="pagination-next is-pulled-right">Next page</a>
+                {{/metadata.hasNext}}
+            </nav>
         {{/radioStations}}
     </div>
 </section>

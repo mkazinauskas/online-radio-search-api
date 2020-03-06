@@ -2,6 +2,7 @@ package com.modzo.ors.web.web.search.radio.station.by.played.song;
 
 import com.modzo.ors.web.web.api.radio.stations.RadioStationResponse;
 import com.modzo.ors.web.web.api.radio.stations.RadioStationsClient;
+import com.modzo.ors.web.web.components.common.EnhancedPageMetadata;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
@@ -39,12 +40,12 @@ class RadioStationBySongService {
 
         private final List<RadioStation> stations;
 
-        private final PagedModel.PageMetadata metadata;
+        private final EnhancedPageMetadata metadata;
 
         public Data(List<RadioStation> stations,
                     PagedModel.PageMetadata metadata) {
             this.stations = stations;
-            this.metadata = metadata;
+            this.metadata = new EnhancedPageMetadata(metadata);
         }
 
         static class RadioStation {
@@ -86,7 +87,7 @@ class RadioStationBySongService {
             return stations;
         }
 
-        public PagedModel.PageMetadata getMetadata() {
+        public EnhancedPageMetadata getMetadata() {
             return metadata;
         }
     }

@@ -3,6 +3,8 @@ package com.modzo.ors.web.web.api.radio.stations.streams;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 public class RadioStationStreamResponse {
 
     private final long id;
@@ -41,10 +43,14 @@ public class RadioStationStreamResponse {
     }
 
     public Integer getBitRate() {
-        return bitRate;
+        return Objects.isNull(bitRate)
+                ? 0
+                : bitRate;
     }
 
     public String getType() {
-        return type;
+        return Objects.isNull(type)
+                ? ""
+                : type;
     }
 }

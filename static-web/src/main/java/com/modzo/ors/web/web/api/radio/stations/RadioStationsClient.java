@@ -16,7 +16,7 @@ public interface RadioStationsClient {
     @GetMapping("/radio-stations/{id}?size=100")
     EntityModel<RadioStationResponse> getRadioStation(@PathVariable("id") long id);
 
-    @GetMapping("/radio-stations?size=10")
+    @GetMapping("/radio-stations?size=1")
     PagedModel<EntityModel<RadioStationResponse>> getRadioStationByPlayedSongId(
             @RequestParam("songId") long songId,
             @RequestParam("page") long page
