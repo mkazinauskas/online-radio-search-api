@@ -40,7 +40,7 @@ class RadioStationStreamService {
 
         private final String url;
 
-        private final int bitRate;
+        private final Integer bitRate;
 
         private final String type;
 
