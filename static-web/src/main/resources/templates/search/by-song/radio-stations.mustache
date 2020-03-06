@@ -8,7 +8,7 @@
             Radio stations played song "{{song.title}}"
         </h1>
         {{#radioStations}}
-            {{#stations}}
+            {{#content}}
                 <a href="/radio-stations/{{seoTitle}}/{{id}}">
                     <div class="box" style="margin-bottom: 10px">
                         <article class="media">
@@ -20,11 +20,12 @@
                         </article>
                     </div>
                 </a>
-            {{/stations}}
+            {{/content}}
 
             <nav class="pagination is-rounded" role="navigation" aria-label="pagination" style="padding-top: 20px">
                 {{#metadata.hasPrevious}}
-                    <a href="/radio-stations/by-played-song/{{song.seoTitle}}/{{song.id}}?page={{metadata.previousPage}}"
+                    <a href="/radio-stations/by-played-song/{{song.seoTitle}}/{{song.id}}?page={{metadata.previousPage}}
+                    "
                     class="pagination-previous">Previous</a>
                 {{/metadata.hasPrevious}}
                 {{^metadata.hasPrevious}}

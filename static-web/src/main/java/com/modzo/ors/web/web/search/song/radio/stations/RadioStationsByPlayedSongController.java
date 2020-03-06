@@ -1,7 +1,9 @@
-package com.modzo.ors.web.web.search.radio.station.by.played.song;
+package com.modzo.ors.web.web.search.song.radio.stations;
 
 import com.modzo.ors.web.web.components.CommonComponents;
 import com.modzo.ors.web.web.components.ComponentType;
+import com.modzo.ors.web.web.components.common.Paged;
+import com.modzo.ors.web.web.components.common.model.RadioStationModel;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,13 +37,13 @@ public class RadioStationsByPlayedSongController {
             @PathVariable("songTitle") String songTitle,
             @PathVariable("songId") long songId,
             Pageable pageable) {
-        SongService.Data song = songService.retrieveSong(songId);
+        var song = songService.retrieveSong(songId);
 
         if (!pathEquals(song.getSeoTitle(), songTitle)) {
             throw new IllegalArgumentException("Song not found...");
         }
 
-        RadioStationBySongService.Data radioStations = radioStationBySongService.retrieveStationBy(songId, pageable);
+        Paged<RadioStationModel> radioStations = radioStationBySongService.retrieveStationBy(songId, pageable);
 
 
         Map<String, Object> items = new HashMap<>(commonComponents.load());
