@@ -13,6 +13,8 @@ public interface RadioStationStreamsClient {
     PagedModel<EntityModel<RadioStationStreamResponse>> getRadioStationStreams(@PathVariable("id") long id);
 
     @GetMapping("/radio-stations/{radioStationId}/streams/{streamId}")
-    EntityModel<RadioStationStreamResponse> getRadioStationStream(@PathVariable("radioStationId") long radioStationId,
-                                                                  @PathVariable("streamId") long streamId);
+    EntityModel<RadioStationStreamResponse> getRadioStationStream(
+            @PathVariable("radioStationId") long radioStationId,
+            @PathVariable("streamId") long streamId
+    );
 }
