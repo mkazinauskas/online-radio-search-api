@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "searchRadioStationClient", url = "${application.apiUrl}")
 public interface SearchRadioStationClient {
 
-    @GetMapping("/search/radio-station?size=1")
+    @GetMapping("/search/radio-station?size=${application.searchRadioStationClient.size:1}")
     PagedModel<SearchRadioStationResultResponse> searchRadioStationByTitle(
             @RequestParam("title") String title,
             @RequestParam("page") int page

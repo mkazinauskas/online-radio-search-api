@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @FeignClient(name = "latestSearchesClient", url = "${application.apiUrl}")
 public interface LatestSearchesClient {
 
-    @GetMapping("/last-searches?size=100")
+    @GetMapping("/last-searches?size=${application.latestSearchesClient.size:1}")
     PagedModel<EntityModel<LastSearchResponse>> getLatestSearches();
 }

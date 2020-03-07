@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "radioStreamsClient", url = "${application.apiUrl}")
 public interface RadioStationStreamsClient {
 
-    @GetMapping("/radio-stations/{id}/streams")
+    @GetMapping("/radio-stations/{id}/streams?size=${application.radioStreamsClient.size:1}")
     PagedModel<EntityModel<RadioStationStreamResponse>> getRadioStationStreams(@PathVariable("id") long id);
 
     @GetMapping("/radio-stations/{radioStationId}/streams/{streamId}")
