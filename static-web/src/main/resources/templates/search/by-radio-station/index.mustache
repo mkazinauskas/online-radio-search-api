@@ -2,12 +2,17 @@
 
 {{>/components/navbar}}
 
+<section class="hero is-info">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">Radio stations by title "{{query}}"</h1>
+        </div>
+    </div>
+</section>
+
 <section class="section">
     <div class="container">
         {{>/search/menu}}
-        <h1 class="title">
-            Radio stations by title "{{query}}"
-        </h1>
         {{#radioStations}}
             {{#content}}
                 <a href="/radio-stations/{{seoTitle}}/{{id}}">
@@ -22,6 +27,10 @@
                     </div>
                 </a>
             {{/content}}
+            {{^content}}
+                <p>No radio stations found with title "{{query}}"</p>
+            {{/content}}
+
             <nav class="pagination is-rounded" role="navigation" aria-label="pagination" style="padding-top: 20px">
                 {{#metadata.hasPrevious}}
                     <a href="/search/by-radio-station/{{seoQuery}}?page={{metadata.previousPage}}

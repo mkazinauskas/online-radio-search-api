@@ -2,11 +2,16 @@
 
 {{>/components/navbar}}
 
+<section class="hero is-info">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">Radio stations played song "{{song.title}}"</h1>
+        </div>
+    </div>
+</section>
+
 <section class="section">
     <div class="container">
-        <h1 class="title">
-            Radio stations played song "{{song.title}}"
-        </h1>
         {{#radioStations}}
             {{#content}}
                 <a href="/radio-stations/{{seoTitle}}/{{id}}">
@@ -20,6 +25,9 @@
                         </article>
                     </div>
                 </a>
+            {{/content}}
+            {{^content}}
+                <p>No radio stations found with played song "{{song.title}}"</p>
             {{/content}}
 
             <nav class="pagination is-rounded" role="navigation" aria-label="pagination" style="padding-top: 20px">
