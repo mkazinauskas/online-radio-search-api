@@ -1,6 +1,7 @@
 package com.modzo.ors.web.web.components.common;
 
 import org.springframework.hateoas.PagedModel;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 
@@ -26,5 +27,9 @@ public class Paged<T> {
 
     public EnhancedPageMetadata getMetadata() {
         return metadata;
+    }
+
+    public boolean hasContent() {
+        return !CollectionUtils.isEmpty(this.content);
     }
 }

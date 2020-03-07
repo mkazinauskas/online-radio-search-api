@@ -3,6 +3,7 @@ package com.modzo.ors.web.web.radio.stations;
 import com.modzo.ors.web.web.components.CommonComponents;
 import com.modzo.ors.web.web.components.ComponentType;
 import com.modzo.ors.web.web.components.common.model.RadioStationModel;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,18 +22,23 @@ public class RadioStationController {
 
     private final RadioStationStreamService stationStreamService;
 
+    private final RadioStationSongsService radioStationSongsService;
+
     public RadioStationController(CommonComponents commonComponents,
                                   RadioStationService radioStationService,
-                                  RadioStationStreamService stationStreamService) {
+                                  RadioStationStreamService stationStreamService,
+                                  RadioStationSongsService radioStationSongsService) {
         this.commonComponents = commonComponents;
         this.radioStationService = radioStationService;
         this.stationStreamService = stationStreamService;
+        this.radioStationSongsService = radioStationSongsService;
     }
 
     @GetMapping("/radio-stations/{radioStationSeoTitle}/{id}")
     public ModelAndView radioStation(
             @PathVariable("radioStationSeoTitle") String radioStationSeoTitle,
-            @PathVariable("id") Long id) {
+            @PathVariable("id") Long id,
+            Pageable pageable) {
         RadioStationModel radioStation = radioStationService.retrieve(id);
 
         if (!StringUtils.pathEquals(radioStationSeoTitle, radioStation.getSeoTitle())) {
@@ -43,6 +49,7 @@ public class RadioStationController {
         items.put(ComponentType.PAGE_TITLE.getType(), "Online Radio Search. Millions of free online radio stations");
         items.put("radioStation", radioStation);
         items.put("radioStationStreams", stationStreamService.retrieve(id));
+        items.put("radioStationSongs", radioStationSongsService.retrieve(id, pageable));
         return new ModelAndView("/radio-station/index", items);
     }
 }

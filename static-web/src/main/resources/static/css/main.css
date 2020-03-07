@@ -1,3 +1,7 @@
 .navbar span.navbar-item button {
     margin-left: 5px;
 }
+
+#radio-station-songs-table td.custom-title{
+    word-break: break-all;
+}
