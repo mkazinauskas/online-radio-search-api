@@ -28,26 +28,28 @@
                 </a>
             {{/content}}
             {{^content}}
-                <p>No results found for song with title "{{query}}"</p>
+                <p class="has-text-centered">No results found for song with title "{{query}}"</p>
             {{/content}}
 
-            <nav class="pagination is-rounded" role="navigation" aria-label="pagination" style="padding-top: 20px">
-                {{#metadata.hasPrevious}}
-                    <a href="/search/by-song/{{seoQuery}}?page={{metadata.previousPage}}"
-                    class="pagination-previous">Previous</a>
-                {{/metadata.hasPrevious}}
-                {{^metadata.hasPrevious}}
-                    <a class="pagination-previous" disabled>Previous</a>
-                {{/metadata.hasPrevious}}
+            {{#metadata.navigationPossible}}
+                <nav class="pagination is-rounded" role="navigation" aria-label="pagination" style="padding-top: 20px">
+                    {{#metadata.hasPrevious}}
+                        <a href="/search/by-song/{{seoQuery}}?page={{metadata.previousPage}}"
+                        class="pagination-previous">Previous</a>
+                    {{/metadata.hasPrevious}}
+                    {{^metadata.hasPrevious}}
+                        <a class="pagination-previous" disabled>Previous</a>
+                    {{/metadata.hasPrevious}}
 
-                {{#metadata.hasNext}}
-                    <a href="/search/by-song/{{seoQuery}}?page={{metadata.nextPage}}"
-                    class="pagination-next">Next page</a>
-                {{/metadata.hasNext}}
-                {{^metadata.hasNext}}
-                    <a class="pagination-next" disabled>Next page</a>
-                {{/metadata.hasNext}}
-            </nav>
+                    {{#metadata.hasNext}}
+                        <a href="/search/by-song/{{seoQuery}}?page={{metadata.nextPage}}"
+                        class="pagination-next">Next page</a>
+                    {{/metadata.hasNext}}
+                    {{^metadata.hasNext}}
+                        <a class="pagination-next" disabled>Next page</a>
+                    {{/metadata.hasNext}}
+                </nav>
+            {{/metadata.navigationPossible}}
         {{/foundSongs}}
     </div>
 </section>

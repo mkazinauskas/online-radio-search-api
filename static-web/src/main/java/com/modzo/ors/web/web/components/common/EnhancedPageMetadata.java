@@ -26,6 +26,10 @@ public class EnhancedPageMetadata extends PagedModel.PageMetadata {
         }
     }
 
+    public boolean navigationPossible(){
+        return hasPrevious() || hasNext();
+    }
+
     public boolean hasPrevious() {
         return this.getNumber() > 0;
     }
