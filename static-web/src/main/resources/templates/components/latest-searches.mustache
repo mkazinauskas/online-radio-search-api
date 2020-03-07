@@ -1,8 +1,10 @@
-<h1>Latest searches</h1>
-<p>
-    {{ #latestSearches }}
-    {{ #queries }}
-    <a href="/search/by-song/{{seoQuery}}">{{query}}</a>
-    {{ /queries }}
-    {{ /latestSearches }}
-</p>
+<div class="content has-text-centered">
+    <h1>Latest searches</h1>
+    <p>
+        {{ #latestSearches }}
+        {{ #queries }}
+        <a href="/search/by-song/{{seoQuery}}">{{query}}</a>
+        {{ /queries }}
+        {{ /latestSearches }}
+    </p>
+</div>
