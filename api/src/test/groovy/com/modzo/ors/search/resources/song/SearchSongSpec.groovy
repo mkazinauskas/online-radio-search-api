@@ -9,7 +9,7 @@ import static org.springframework.hateoas.IanaLinkRelations.SELF
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpStatus.OK
 
-class SearchSongControllerSpec extends IntegrationSpec {
+class SearchSongSpec extends IntegrationSpec {
 
     void 'should find song by title'() {
         given:
