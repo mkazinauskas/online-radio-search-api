@@ -12,14 +12,18 @@ class RadioStationSongResponse {
 
     private final long songId;
 
+    private final String title;
+
     private final ZonedDateTime playedTime;
 
     @JsonCreator
     private RadioStationSongResponse(@JsonProperty("id") long id,
                                      @JsonProperty("songId") long songId,
+                                     @JsonProperty("title") String title,
                                      @JsonProperty("playedTime") ZonedDateTime playedTime) {
         this.id = id;
         this.songId = songId;
+        this.title = title;
         this.playedTime = playedTime;
     }
 
@@ -27,6 +31,7 @@ class RadioStationSongResponse {
         return new RadioStationSongResponse(
                 radioStationSong.getId(),
                 radioStationSong.getSongId(),
+                radioStationSong.getSong().getTitle(),
                 radioStationSong.getPlayedTime()
         );
     }
@@ -37,6 +42,10 @@ class RadioStationSongResponse {
 
     public long getSongId() {
         return songId;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public ZonedDateTime getPlayedTime() {
