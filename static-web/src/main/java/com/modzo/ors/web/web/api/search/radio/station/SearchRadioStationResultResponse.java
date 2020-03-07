@@ -11,13 +11,17 @@ public class SearchRadioStationResultResponse {
 
     private final String title;
 
+    private final String website;
+
     @JsonCreator
     private SearchRadioStationResultResponse(@JsonProperty("id") long id,
                                              @JsonProperty("uniqueId") String uniqueId,
-                                             @JsonProperty("title") String title) {
+                                             @JsonProperty("title") String title,
+                                             @JsonProperty("website") String website) {
         this.id = id;
         this.uniqueId = uniqueId;
         this.title = title;
+        this.website = website;
     }
 
     public long getId() {
@@ -30,5 +34,9 @@ public class SearchRadioStationResultResponse {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getWebsite() {
+        return website;
     }
 }

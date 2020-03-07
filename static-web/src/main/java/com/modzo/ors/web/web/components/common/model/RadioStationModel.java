@@ -1,6 +1,7 @@
 package com.modzo.ors.web.web.components.common.model;
 
 import com.modzo.ors.web.web.api.radio.stations.RadioStationResponse;
+import com.modzo.ors.web.web.api.search.radio.station.SearchRadioStationResultResponse;
 import com.modzo.ors.web.web.utils.SeoText;
 
 public class RadioStationModel {
@@ -24,6 +25,14 @@ public class RadioStationModel {
     }
 
     public RadioStationModel(RadioStationResponse response) {
+        this.id = response.getId();
+        this.uniqueId = response.getUniqueId();
+        this.title = response.getTitle();
+        this.seoTitle = SeoText.from(response.getTitle());
+        this.website = response.getWebsite();
+    }
+
+    public RadioStationModel(SearchRadioStationResultResponse response) {
         this.id = response.getId();
         this.uniqueId = response.getUniqueId();
         this.title = response.getTitle();
