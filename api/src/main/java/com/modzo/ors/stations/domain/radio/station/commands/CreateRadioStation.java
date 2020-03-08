@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CreateRadioStation {
+
     private final String title;
 
     public CreateRadioStation(String title) {

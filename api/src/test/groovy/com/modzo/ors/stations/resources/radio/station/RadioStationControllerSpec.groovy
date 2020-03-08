@@ -2,6 +2,7 @@ package com.modzo.ors.stations.resources.radio.station
 
 import com.modzo.ors.HttpEntityBuilder
 import com.modzo.ors.stations.domain.radio.station.RadioStation
+import com.modzo.ors.stations.domain.radio.station.genre.Genre
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
 
@@ -48,7 +49,8 @@ class RadioStationControllerSpec extends IntegrationSpec {
 
     void 'anyone should retrieve radio station'() {
         given:
-            RadioStation radioStation = testRadioStation.create()
+            Genre genre = testGenre.create()
+            RadioStation radioStation = testRadioStation.create(genre)
         and:
             String url = "/radio-stations/${radioStation.id}"
         when:
@@ -67,6 +69,12 @@ class RadioStationControllerSpec extends IntegrationSpec {
                     it.id == radioStation.id
                     it.uniqueId == radioStation.uniqueId
                     it.title == radioStation.title
+                    it.genres.size() == 1
+                    with(it.genres.first()) {
+                        it.id == genre.id
+                        it.uniqueId == genre.uniqueId
+                        it.title == genre.title
+                    }
                 }
 
                 with(it.links.first()) {
