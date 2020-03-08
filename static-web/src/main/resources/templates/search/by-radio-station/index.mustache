@@ -20,7 +20,13 @@
                         <article class="media">
                             <div class="media-content">
                                 <div class="content">
-                                    <strong>{{title}}</strong>{{#website}} - {{.}}{{/website}}
+                                    <strong>{{title}}</strong>
+                                    {{#hasGenres}}
+                                        <i> -
+                                            {{#genres}}{{title}} {{/genres}}
+                                        </i>
+                                    {{/hasGenres}}
+                                    {{#website}} - {{.}}{{/website}}
                                 </div>
                             </div>
                         </article>

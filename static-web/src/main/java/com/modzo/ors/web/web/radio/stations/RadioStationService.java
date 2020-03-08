@@ -22,7 +22,8 @@ class RadioStationService {
                 radioStation.getId(),
                 radioStation.getUniqueId(),
                 radioStation.getTitle(),
-                radioStation.getWebsite()
+                radioStation.getWebsite(),
+                null
         );
     }
 }

@@ -6,7 +6,11 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 @Document(indexName = "genres", type = "genre")
 public class GenreDocument {
+
     @Id
+    @JsonProperty("id")
+    private long id;
+
     @JsonProperty("uniqueId")
     private String uniqueId;
 
@@ -16,9 +20,18 @@ public class GenreDocument {
     GenreDocument() {
     }
 
-    public GenreDocument(String uniqueId, String title) {
+    public GenreDocument(long id, String uniqueId, String title) {
+        this.id = id;
         this.uniqueId = uniqueId;
         this.title = title;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getUniqueId() {

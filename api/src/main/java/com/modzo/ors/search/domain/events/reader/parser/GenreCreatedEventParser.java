@@ -25,7 +25,7 @@ class GenreCreatedEventParser implements EventParser {
     public void parse(Event event) {
         GenreCreated.Data data = GenreCreated.Data.deserialize(event.getBody());
 
-        GenreDocument genreDocument = new GenreDocument(data.getUniqueId(), data.getTitle());
+        GenreDocument genreDocument = new GenreDocument(data.getId(), data.getUniqueId(), data.getTitle());
 
         genresRepository.save(genreDocument);
     }
