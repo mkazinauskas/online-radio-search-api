@@ -10,3 +10,7 @@
 #radio-station-songs-table td.custom-title {
     word-break: break-all;
 }
+
+.privacy-text h3{
+    margin-top: 1em;
+}
