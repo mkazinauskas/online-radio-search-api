@@ -11,6 +11,10 @@
     word-break: break-all;
 }
 
-.privacy-text h3{
+.privacy-text h3, .privacy-text h4 {
     margin-top: 1em;
+}
+
+.privacy-text p {
+    margin-top: 0.5em;
 }

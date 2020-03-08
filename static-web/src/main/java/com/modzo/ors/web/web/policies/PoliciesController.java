@@ -24,25 +24,4 @@ public class PoliciesController {
         items.put(ComponentType.PAGE_TITLE.getType(), "Privacy Policy | Online Radio Search");
         return new ModelAndView("/policies/privacy", items);
     }
-
-    @GetMapping("/policies/eula")
-    public ModelAndView getEula() {
-        Map<String, Object> items = new HashMap<>(commonComponents.load());
-        items.put(ComponentType.PAGE_TITLE.getType(), "End User License Agreement and Terms of Service | Online Radio Search");
-        return new ModelAndView("/policies/eula", items);
-    }
-
-    @GetMapping("/policies/cookie")
-    public ModelAndView getCookiePolicy() {
-        Map<String, Object> items = new HashMap<>(commonComponents.load());
-        items.put(ComponentType.PAGE_TITLE.getType(), "Cookie Policy | Online Radio Search");
-        return new ModelAndView("/policies/cookie", items);
-    }
-
-    @GetMapping("/policies/privacy-shield")
-    public ModelAndView getPrivacyShield() {
-        Map<String, Object> items = new HashMap<>(commonComponents.load());
-        items.put(ComponentType.PAGE_TITLE.getType(), "Privacy Shield | Online Radio Search");
-        return new ModelAndView("/policies/privacy-shield", items);
-    }
 }
