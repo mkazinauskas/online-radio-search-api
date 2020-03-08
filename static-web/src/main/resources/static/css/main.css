@@ -2,6 +2,11 @@
     margin-left: 5px;
 }
 
+#navbar-search form {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 #radio-station-songs-table td.custom-title {
     word-break: break-all;
 }
