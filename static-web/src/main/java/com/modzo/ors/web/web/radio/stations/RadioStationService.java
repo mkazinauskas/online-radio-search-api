@@ -18,12 +18,6 @@ class RadioStationService {
     RadioStationModel retrieve(Long id) {
         EntityModel<RadioStationResponse> station = client.getRadioStation(id);
         RadioStationResponse radioStation = station.getContent();
-        return new RadioStationModel(
-                radioStation.getId(),
-                radioStation.getUniqueId(),
-                radioStation.getTitle(),
-                radioStation.getWebsite(),
-                null
-        );
+        return new RadioStationModel(radioStation);
     }
 }

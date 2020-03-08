@@ -1,5 +1,6 @@
 package com.modzo.ors.web.web.components.common.model;
 
+import com.modzo.ors.web.web.api.radio.stations.RadioStationResponse;
 import com.modzo.ors.web.web.api.search.radio.station.SearchRadioStationResultResponse;
 
 public class GenreModel {
@@ -21,6 +22,13 @@ public class GenreModel {
         this.uniqueId = genreResponse.getUniqueId();
         this.title = genreResponse.getTitle();
     }
+
+    public GenreModel(RadioStationResponse.GenreResponse genreResponse) {
+        this.id = genreResponse.getId();
+        this.uniqueId = genreResponse.getUniqueId();
+        this.title = genreResponse.getTitle();
+    }
+
 
     public long getId() {
         return id;

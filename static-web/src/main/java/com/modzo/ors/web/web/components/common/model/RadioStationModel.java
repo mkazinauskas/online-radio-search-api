@@ -37,7 +37,9 @@ public class RadioStationModel {
         this.title = response.getTitle();
         this.seoTitle = SeoText.from(response.getTitle());
         this.website = response.getWebsite();
-        this.genres = List.of();
+        this.genres = response.getGenres().stream()
+                .map(GenreModel::new)
+                .collect(Collectors.toList());
     }
 
     public RadioStationModel(SearchRadioStationResultResponse response) {

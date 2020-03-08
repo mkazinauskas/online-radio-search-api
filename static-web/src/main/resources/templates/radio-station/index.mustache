@@ -5,8 +5,15 @@
     <div class="hero-body">
         <div class="container">
             {{#radioStation}}
-                <h1 class="title">{{title}}</h1>
+                <h1 class="title">{{title}}
+                    {{#hasGenres}}
+                        <i> -
+                            {{#genres}}{{title}} {{/genres}}
+                        </i>
+                    {{/hasGenres}}
+                </h1>
                 {{#website}} <h2 class="subtitle"><a href="{{.}}" target="_blank">{{.}}</a></h2>{{/website}}
+
             {{/radioStation}}
         </div>
     </div>
