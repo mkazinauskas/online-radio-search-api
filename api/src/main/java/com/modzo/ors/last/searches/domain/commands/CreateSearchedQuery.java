@@ -1,8 +1,8 @@
 package com.modzo.ors.last.searches.domain.commands;
 
-import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.last.searches.domain.SearchedQueries;
 import com.modzo.ors.last.searches.domain.SearchedQuery;
+import com.modzo.ors.stations.domain.DomainException;
 import org.jsoup.helper.StringUtil;
 import org.springframework.stereotype.Component;
 
@@ -10,8 +10,11 @@ public class CreateSearchedQuery {
 
     private final String query;
 
-    public CreateSearchedQuery(String query) {
+    private final SearchedQuery.Type type;
+
+    public CreateSearchedQuery(String query, SearchedQuery.Type type) {
         this.query = query;
+        this.type = type;
     }
 
     @Component
@@ -28,7 +31,7 @@ public class CreateSearchedQuery {
 
         public SearchedQuery handle(CreateSearchedQuery command) {
             validator.validate(command);
-            return searchedQueries.save(new SearchedQuery(command.query));
+            return searchedQueries.save(new SearchedQuery(command.query, command.type));
         }
     }
 

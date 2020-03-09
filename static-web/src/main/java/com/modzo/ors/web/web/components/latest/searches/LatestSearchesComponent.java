@@ -24,7 +24,7 @@ public class LatestSearchesComponent {
         List<LatestSearchesData.Query> searches = latestSearches.getContent().stream()
                 .map(EntityModel::getContent)
                 .filter(Objects::nonNull)
-                .map(search -> new LatestSearchesData.Query(search.getQuery()))
+                .map(search -> new LatestSearchesData.Query(search.getQuery(), search.getType()))
                 .collect(Collectors.toList());
         return List.of(new LatestSearchesData(searches));
     }

@@ -12,10 +12,13 @@ public class LatestSearchesData {
 
         private final String query;
 
+        private final String type;
+
         private final String seoQuery;
 
-        public Query(String query) {
+        public Query(String query, String type) {
             this.query = query;
+            this.type = type;
             this.seoQuery = SeoText.from(query);
         }
 
@@ -23,8 +26,24 @@ public class LatestSearchesData {
             return query;
         }
 
+        public String getType() {
+            return type;
+        }
+
         public String getSeoQuery() {
             return seoQuery;
+        }
+
+        public boolean isGenreType() {
+            return type.equalsIgnoreCase("genre");
+        }
+
+        public boolean isRadioStationType() {
+            return type.equalsIgnoreCase("radiostation");
+        }
+
+        public boolean isSongType() {
+            return type.equalsIgnoreCase("song");
         }
     }
 

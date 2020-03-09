@@ -16,7 +16,7 @@ class TestSearchQuery {
     }
 
     SearchedQuery create() {
-        return handler.handle(new CreateSearchedQuery(randomQuery()))
+        return handler.handle(new CreateSearchedQuery(randomQuery(), type))
     }
 
     static String randomQuery() {

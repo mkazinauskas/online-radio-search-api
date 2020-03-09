@@ -3,7 +3,15 @@
     <p>
         {{ #latestSearches }}
         {{ #queries }}
-        <a href="/search/by-song/{{seoQuery}}">{{query}}</a>
+        {{#songType}}
+            <a href="/search/by-song/{{seoQuery}}">{{query}}</a>
+        {{/songType}}
+        {{#genreType}}
+            <a href="/search/by-genre/{{seoQuery}}">{{query}}</a>
+        {{/genreType}}
+        {{#radioStationType}}
+            <a href="/search/by-radio-station/{{seoQuery}}">{{query}}</a>
+        {{/radioStationType}}
         {{ /queries }}
         {{ /latestSearches }}
     </p>

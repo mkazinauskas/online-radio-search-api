@@ -17,7 +17,7 @@ class CreateSearchedQuerySpec extends IntegrationSpec {
 
     void 'searched query should not be accepted if blank'() {
         when:
-            handler.handle(new CreateSearchedQuery(EMPTY))
+            handler.handle(new CreateSearchedQuery(EMPTY, type))
         then:
             DomainException exception = thrown(DomainException)
             exception.id == 'SEARCH_QUERY_NOT_BLANK'
@@ -28,7 +28,7 @@ class CreateSearchedQuerySpec extends IntegrationSpec {
         given:
             String query = RandomStringUtils.randomAlphanumeric(40)
         when:
-            SearchedQuery result = handler.handle(new CreateSearchedQuery(query))
+            SearchedQuery result = handler.handle(new CreateSearchedQuery(query, type))
         then:
             SearchedQuery savedQuery = searchedQueries.findById(result.id).get()
             savedQuery.created

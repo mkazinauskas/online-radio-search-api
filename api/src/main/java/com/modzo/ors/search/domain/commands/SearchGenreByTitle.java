@@ -1,5 +1,7 @@
 package com.modzo.ors.search.domain.commands;
 
+import com.modzo.ors.last.searches.domain.SearchedQuery;
+import com.modzo.ors.last.searches.domain.commands.CreateSearchedQuery;
 import com.modzo.ors.search.domain.GenreDocument;
 import com.modzo.ors.search.domain.GenresRepository;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -29,8 +31,12 @@ public class SearchGenreByTitle {
 
         private final GenresRepository genresRepository;
 
-        public Handler(GenresRepository genresRepository) {
+        private final CreateSearchedQuery.Handler lastSearchedQueryHandler;
+
+        public Handler(GenresRepository genresRepository,
+                       CreateSearchedQuery.Handler lastSearchedQueryHandler) {
             this.genresRepository = genresRepository;
+            this.lastSearchedQueryHandler = lastSearchedQueryHandler;
         }
 
         public Page<GenreDocument> handle(SearchGenreByTitle command) {
@@ -39,7 +45,14 @@ public class SearchGenreByTitle {
                     .withPageable(command.pageable)
                     .withSort(sortByRelevance());
 
-            return genresRepository.search(searchQuery.build());
+            var result = genresRepository.search(searchQuery.build());
+
+            if (result.getNumberOfElements() > 0) {
+                lastSearchedQueryHandler.handle(
+                        new CreateSearchedQuery(command.title, SearchedQuery.Type.GENRE)
+                );
+            }
+            return result;
         }
 
         private BoolQueryBuilder searchInTitle(SearchGenreByTitle command) {

@@ -8,6 +8,11 @@ import java.time.ZonedDateTime;
 
 @Document(indexName = "searched_queries", type = "searched_query")
 public class SearchedQuery {
+
+    public enum Type {
+        SONG, RADIO_STATION, GENRE;
+    }
+
     @Id
     @JsonProperty("id")
     private String id;
@@ -18,11 +23,15 @@ public class SearchedQuery {
     @JsonProperty("query")
     private String query;
 
+    @JsonProperty("type")
+    private Type type;
+
     SearchedQuery() {
     }
 
-    public SearchedQuery(String query) {
+    public SearchedQuery(String query, Type type) {
         this.query = query;
+        this.type = type;
     }
 
     public String getId() {
@@ -47,5 +56,13 @@ public class SearchedQuery {
 
     public void setQuery(String query) {
         this.query = query;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }

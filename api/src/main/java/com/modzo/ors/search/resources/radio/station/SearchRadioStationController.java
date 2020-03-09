@@ -1,6 +1,5 @@
 package com.modzo.ors.search.resources.radio.station;
 
-import com.modzo.ors.last.searches.domain.commands.CreateSearchedQuery;
 import com.modzo.ors.search.domain.RadioStationDocument;
 import com.modzo.ors.search.domain.commands.SearchRadioStationByTitle;
 import org.springframework.data.domain.Page;
@@ -17,12 +16,8 @@ class SearchRadioStationController {
 
     private final SearchRadioStationByTitle.Handler searchHandler;
 
-    private final CreateSearchedQuery.Handler lastSearchedQueryHandler;
-
-    public SearchRadioStationController(SearchRadioStationByTitle.Handler searchHandler,
-                                        CreateSearchedQuery.Handler lastSearchedQueryHandler) {
+    public SearchRadioStationController(SearchRadioStationByTitle.Handler searchHandler) {
         this.searchHandler = searchHandler;
-        this.lastSearchedQueryHandler = lastSearchedQueryHandler;
     }
 
     @GetMapping(value = "/search/radio-station", params = {"title"})
@@ -30,7 +25,6 @@ class SearchRadioStationController {
         Page<RadioStationDocument> foundStations = searchHandler.handle(
                 new SearchRadioStationByTitle(title, pageable)
         );
-        lastSearchedQueryHandler.handle(new CreateSearchedQuery(title));
         return ok(SearchRadioStationResultsModel.create(foundStations, pageable, title));
     }
 }
