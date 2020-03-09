@@ -19,6 +19,12 @@ public interface RadioStationsClient {
             @RequestParam("page") long page
     );
 
+    @GetMapping("/radio-stations?size=${application.radioStationsClient.size:1}")
+    PagedModel<EntityModel<RadioStationResponse>> getRadioStationByGenreId(
+            @RequestParam("genreId") long genreId,
+            @RequestParam("page") long page
+    );
+
     @GetMapping("/radio-stations/{id}")
     EntityModel<RadioStationResponse> getRadioStation(@PathVariable("id") long id);
 }

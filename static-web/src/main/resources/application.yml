@@ -12,3 +12,4 @@ application:
   radioStationsClient.size: 10
   searchRadioStationClient.size: 10
   searchSongClient.size: 10
+  searchGenreClient.size: 10

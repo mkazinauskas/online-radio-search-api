@@ -16,7 +16,7 @@ class DeleteRadioStationController {
     }
 
     @DeleteMapping("/admin/radio-stations/{id}")
-    ResponseEntity deleteRadioStation(@PathVariable("id") long id) {
+    ResponseEntity<String> deleteRadioStation(@PathVariable("id") long id) {
         deleteRadioStation.handle(new DeleteRadioStation(id));
         return ResponseEntity.ok().build();
     }

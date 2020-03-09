@@ -2,6 +2,7 @@ package com.modzo.ors.stations.resources.radio.station;
 
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.commands.GetRadioStation;
+import com.modzo.ors.stations.domain.radio.station.commands.GetRadioStationByGenreId;
 import com.modzo.ors.stations.domain.radio.station.commands.GetRadioStationBySongId;
 import com.modzo.ors.stations.domain.radio.station.commands.GetRadioStations;
 import org.springframework.data.domain.Page;
@@ -25,12 +26,16 @@ class RadioStationController {
 
     private final GetRadioStationBySongId.Handler radioStationBySongIdHandler;
 
+    private final GetRadioStationByGenreId.Handler radioStationByGenreIdHandler;
+
     public RadioStationController(GetRadioStation.Handler radioStationHandler,
                                   GetRadioStations.Handler radioStationsHandler,
-                                  GetRadioStationBySongId.Handler radioStationBySongIdHandler) {
+                                  GetRadioStationBySongId.Handler radioStationBySongIdHandler,
+                                  GetRadioStationByGenreId.Handler radioStationByGenreIdHandler) {
         this.radioStationHandler = radioStationHandler;
         this.radioStationsHandler = radioStationsHandler;
         this.radioStationBySongIdHandler = radioStationBySongIdHandler;
+        this.radioStationByGenreIdHandler = radioStationByGenreIdHandler;
     }
 
     @GetMapping("/radio-stations")
@@ -52,6 +57,17 @@ class RadioStationController {
     ) {
         Page<RadioStation> foundRadioStation = radioStationBySongIdHandler.handle(
                 new GetRadioStationBySongId(songId, pageable)
+        );
+        return ok(create(foundRadioStation, pageable));
+    }
+
+    @GetMapping(value = "/radio-stations", params = {"genreId"})
+    ResponseEntity<RadioStationsModel> getRadioStationByGenreId(
+            @RequestParam("genreId") long genreId,
+            Pageable pageable
+    ) {
+        Page<RadioStation> foundRadioStation = radioStationByGenreIdHandler.handle(
+                new GetRadioStationByGenreId(genreId, pageable)
         );
         return ok(create(foundRadioStation, pageable));
     }

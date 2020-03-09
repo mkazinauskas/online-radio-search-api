@@ -5,38 +5,36 @@
 <section class="hero is-info">
     <div class="hero-body">
         <div class="container">
-            <h1 class="title">Latest Radio Stations</h1>
+            <h1 class="title">Found geres by title "{{query}}"</h1>
         </div>
     </div>
 </section>
 
 <section class="section">
     <div class="container">
-        {{#latestRadioStations}}
+        {{>/search/menu}}
+        {{#foundGenres}}
             {{#content}}
-                <a href="/radio-stations/{{seoTitle}}/{{id}}">
+                <a href="/radio-stations/by-genre/{{seoTitle}}/{{id}}">
                     <div class="box" style="margin-bottom: 10px">
                         <article class="media">
                             <div class="media-content">
                                 <div class="content">
-                                    <strong>{{title}}</strong>{{#website}} - {{.}}{{/website}}
-                                    {{#hasGenres}}
-                                        <i> -
-                                            {{#genres}}{{title}} {{/genres}}
-                                        </i>
-                                    {{/hasGenres}}
+                                    <strong>{{title}}</strong>
                                 </div>
                             </div>
                         </article>
                     </div>
                 </a>
             {{/content}}
+            {{^content}}
+                <p class="has-text-centered">No results found for genre with title "{{query}}"</p>
+            {{/content}}
 
             {{#metadata.navigationPossible}}
                 <nav class="pagination is-rounded" role="navigation" aria-label="pagination" style="padding-top: 20px">
                     {{#metadata.hasPrevious}}
-                        <a href="/?page={{metadata.previousPage}}
-                        "
+                        <a href="/search/by-genre/{{seoQuery}}?page={{metadata.previousPage}}"
                         class="pagination-previous">Previous</a>
                     {{/metadata.hasPrevious}}
                     {{^metadata.hasPrevious}}
@@ -44,8 +42,7 @@
                     {{/metadata.hasPrevious}}
 
                     {{#metadata.hasNext}}
-                        <a href="/?page={{metadata.nextPage}}
-                        "
+                        <a href="/search/by-genre/{{seoQuery}}?page={{metadata.nextPage}}"
                         class="pagination-next">Next page</a>
                     {{/metadata.hasNext}}
                     {{^metadata.hasNext}}
@@ -53,7 +50,7 @@
                     {{/metadata.hasNext}}
                 </nav>
             {{/metadata.navigationPossible}}
-        {{/latestRadioStations}}
+        {{/foundGenres}}
     </div>
 </section>
 

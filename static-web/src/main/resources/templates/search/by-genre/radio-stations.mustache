@@ -5,14 +5,14 @@
 <section class="hero is-info">
     <div class="hero-body">
         <div class="container">
-            <h1 class="title">Latest Radio Stations</h1>
+            <h1 class="title">Radio stations by genre "{{genre.title}}"</h1>
         </div>
     </div>
 </section>
 
 <section class="section">
     <div class="container">
-        {{#latestRadioStations}}
+        {{#radioStations}}
             {{#content}}
                 <a href="/radio-stations/{{seoTitle}}/{{id}}">
                     <div class="box" style="margin-bottom: 10px">
@@ -31,11 +31,14 @@
                     </div>
                 </a>
             {{/content}}
+            {{^content}}
+                <p class="has-text-centered">No radio stations found with genre "{{genre.title}}"</p>
+            {{/content}}
 
             {{#metadata.navigationPossible}}
                 <nav class="pagination is-rounded" role="navigation" aria-label="pagination" style="padding-top: 20px">
                     {{#metadata.hasPrevious}}
-                        <a href="/?page={{metadata.previousPage}}
+                        <a href="/radio-stations/by-genre/{{song.seoTitle}}/{{song.id}}?page={{metadata.previousPage}}
                         "
                         class="pagination-previous">Previous</a>
                     {{/metadata.hasPrevious}}
@@ -44,7 +47,7 @@
                     {{/metadata.hasPrevious}}
 
                     {{#metadata.hasNext}}
-                        <a href="/?page={{metadata.nextPage}}
+                        <a href="/radio-stations/by-genre/{{song.seoTitle}}/{{song.id}}?page={{metadata.nextPage}}
                         "
                         class="pagination-next">Next page</a>
                     {{/metadata.hasNext}}
@@ -53,7 +56,7 @@
                     {{/metadata.hasNext}}
                 </nav>
             {{/metadata.navigationPossible}}
-        {{/latestRadioStations}}
+        {{/radioStations}}
     </div>
 </section>
 
