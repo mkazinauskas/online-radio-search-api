@@ -13,17 +13,17 @@ public class LastSearchResponse {
 
     private final String type;
 
-    private final ZonedDateTime date;
+    private final ZonedDateTime created;
 
     @JsonCreator
     private LastSearchResponse(@JsonProperty("id") String id,
                                @JsonProperty("query") String query,
                                @JsonProperty("type") String type,
-                               @JsonProperty("date") ZonedDateTime date) {
+                               @JsonProperty("created") ZonedDateTime created) {
         this.id = id;
         this.query = query;
         this.type = type;
-        this.date = date;
+        this.created = created;
     }
 
     public String getId() {
@@ -38,7 +38,7 @@ public class LastSearchResponse {
         return type;
     }
 
-    public ZonedDateTime getDate() {
-        return date;
+    public ZonedDateTime getCreated() {
+        return created;
     }
 }

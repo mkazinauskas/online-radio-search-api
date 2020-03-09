@@ -6,6 +6,8 @@ import com.modzo.ors.stations.domain.DomainException;
 import org.jsoup.helper.StringUtil;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 public class CreateSearchedQuery {
 
     private final String query;
@@ -19,6 +21,7 @@ public class CreateSearchedQuery {
 
     @Component
     public static class Handler {
+
         private final SearchedQueries searchedQueries;
 
         private final Validator validator;
@@ -31,6 +34,9 @@ public class CreateSearchedQuery {
 
         public SearchedQuery handle(CreateSearchedQuery command) {
             validator.validate(command);
+            List<SearchedQuery> oldSearchesToDelete = searchedQueries.findAllByQueryAndType(command.query, command.type);
+            searchedQueries.deleteAll(oldSearchesToDelete);
+
             return searchedQueries.save(new SearchedQuery(command.query, command.type));
         }
     }
