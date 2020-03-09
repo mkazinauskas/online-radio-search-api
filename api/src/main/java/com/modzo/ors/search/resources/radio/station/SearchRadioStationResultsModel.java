@@ -39,7 +39,7 @@ public class SearchRadioStationResultsModel extends PagedModel<SearchRadioStatio
                 .map(SearchRadioStationResultResponse::create)
                 .collect(toList());
 
-        Link link = linkTo(methodOn(SearchRadioStation.class)
+        Link link = linkTo(methodOn(SearchRadioStationController.class)
                 .search(query, pageable)).withSelfRel();
 
         return new SearchRadioStationResultsModel(

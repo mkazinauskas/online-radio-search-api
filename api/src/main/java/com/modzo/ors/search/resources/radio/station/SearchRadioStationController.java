@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
-class SearchRadioStation {
+class SearchRadioStationController {
 
     private final SearchRadioStationByTitle.Handler searchHandler;
 
     private final CreateSearchedQuery.Handler lastSearchedQueryHandler;
 
-    public SearchRadioStation(SearchRadioStationByTitle.Handler searchHandler,
-                              CreateSearchedQuery.Handler lastSearchedQueryHandler) {
+    public SearchRadioStationController(SearchRadioStationByTitle.Handler searchHandler,
+                                        CreateSearchedQuery.Handler lastSearchedQueryHandler) {
         this.searchHandler = searchHandler;
         this.lastSearchedQueryHandler = lastSearchedQueryHandler;
     }
