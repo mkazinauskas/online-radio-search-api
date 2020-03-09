@@ -11,6 +11,7 @@ import java.util.Optional;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class FindGenre {
+
     private final String title;
 
     public FindGenre(String title) {

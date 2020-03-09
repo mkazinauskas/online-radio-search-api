@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 public class GetGenre {
+
     private final long id;
 
     public GetGenre(long id) {
