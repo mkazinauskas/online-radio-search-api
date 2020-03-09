@@ -57,9 +57,13 @@ services:
     ports:
        - "9200:9200"
        - "9300:9300"
+    volumes:
+      - "elastic_search_onlineradiosearch:/usr/share/elasticsearch/data"
 
 volumes:
   pgdata_keycloak:
     driver: local
   pgdata_onlineradiosearch:
+    driver: local
+  elastic_search_onlineradiosearch:
     driver: local
