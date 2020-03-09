@@ -10,7 +10,17 @@ import java.time.ZonedDateTime;
 public class SearchedQuery {
 
     public enum Type {
-        SONG, RADIO_STATION, GENRE;
+        SONG("song"), RADIO_STATION("radiostation"), GENRE("genre");
+
+        private final String title;
+
+        Type(String title) {
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return title;
+        }
     }
 
     @Id

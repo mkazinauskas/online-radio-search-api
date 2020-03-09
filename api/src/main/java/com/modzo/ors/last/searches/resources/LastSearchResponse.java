@@ -31,7 +31,7 @@ public class LastSearchResponse {
         return new LastSearchResponse(
                 searchedQuery.getId(),
                 searchedQuery.getQuery(),
-                searchedQuery.getType().name(),
+                searchedQuery.getType().getTitle(),
                 searchedQuery.getCreated()
         );
     }
