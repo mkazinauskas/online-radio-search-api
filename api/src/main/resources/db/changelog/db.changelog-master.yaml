@@ -20,6 +20,11 @@ databaseChangeLog:
               nullable: false
               unique: true
         - column:
+            name: created
+            type: timestamp with time zone
+            constraints:
+              nullable: false
+        - column:
             name: title
             type: varchar(100)
             constraints:
@@ -55,6 +60,11 @@ databaseChangeLog:
             constraints:
               nullable: false
               unique: true
+        - column:
+            name: created
+            type: timestamp with time zone
+            constraints:
+              nullable: false
         - column:
             name: radio_station_id
             type: bigint
@@ -117,6 +127,11 @@ databaseChangeLog:
               nullable: false
               unique: true
         - column:
+            name: created
+            type: timestamp with time zone
+            constraints:
+              nullable: false
+        - column:
             name: title
             type: varchar(300)
             constraints:
@@ -147,6 +162,11 @@ databaseChangeLog:
             constraints:
               nullable: false
               unique: true
+        - column:
+            name: created
+            type: timestamp with time zone
+            constraints:
+              nullable: false
         - column:
             name: radio_station_id
             type: bigint
@@ -207,6 +227,11 @@ databaseChangeLog:
             constraints:
               nullable: false
               unique: true
+        - column:
+            name: created
+            type: timestamp with time zone
+            constraints:
+              nullable: false
         - column:
             name: title
             type: varchar(100)

@@ -33,6 +33,9 @@ public class RadioStationSong {
     @Column(name = "unique_id", length = 40, unique = true, nullable = false)
     private String uniqueId = randomAlphanumeric(40);
 
+    @Column(name = "created", nullable = false)
+    private ZonedDateTime created = ZonedDateTime.now();
+
     @Column(name = "radio_station_id")
     private long radioStationId;
 
@@ -69,6 +72,10 @@ public class RadioStationSong {
 
     public void setUniqueId(String uniqueId) {
         this.uniqueId = uniqueId;
+    }
+
+    public ZonedDateTime getCreated() {
+        return created;
     }
 
     public long getRadioStationId() {

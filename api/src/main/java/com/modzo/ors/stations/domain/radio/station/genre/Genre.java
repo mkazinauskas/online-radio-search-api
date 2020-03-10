@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import java.time.ZonedDateTime;
+
 import static javax.persistence.GenerationType.SEQUENCE;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
@@ -22,6 +24,8 @@ public class Genre {
     @Column(name = "unique_id", length = 20, unique = true, nullable = false)
     private String uniqueId = randomAlphanumeric(20);
 
+    @Column(name = "created", nullable = false)
+    private ZonedDateTime created = ZonedDateTime.now();
 
     @Column(name = "title", length = 100, unique = true, nullable = false)
     private String title;
@@ -39,6 +43,14 @@ public class Genre {
 
     public String getUniqueId() {
         return uniqueId;
+    }
+
+    public ZonedDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(ZonedDateTime created) {
+        this.created = created;
     }
 
     public String getTitle() {

@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -35,6 +36,9 @@ public class RadioStation {
 
     @Column(name = "unique_id", length = 20, unique = true, nullable = false)
     private String uniqueId = randomAlphanumeric(20);
+
+    @Column(name = "created", nullable = false)
+    private ZonedDateTime created = ZonedDateTime.now();
 
     @Column(name = "title", length = 100, unique = true, nullable = false)
     private String title;
@@ -67,6 +71,10 @@ public class RadioStation {
 
     public String getUniqueId() {
         return uniqueId;
+    }
+
+    public ZonedDateTime getCreated() {
+        return created;
     }
 
     public String getTitle() {

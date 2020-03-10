@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -29,6 +30,9 @@ public class RadioStationStream {
 
     @Column(name = "unique_id", length = 20, unique = true, nullable = false)
     private String uniqueId = randomAlphanumeric(20);
+
+    @Column(name = "created", nullable = false)
+    private ZonedDateTime created = ZonedDateTime.now();
 
     @Column(name = "radio_station_id")
     private long radioStationId;
@@ -57,6 +61,10 @@ public class RadioStationStream {
 
     public String getUniqueId() {
         return uniqueId;
+    }
+
+    public ZonedDateTime getCreated() {
+        return created;
     }
 
     public long getRadioStationId() {
