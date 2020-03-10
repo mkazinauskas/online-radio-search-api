@@ -46,7 +46,17 @@ public class RadioStationController {
         }
 
         Map<String, Object> items = new HashMap<>(commonComponents.load());
-        items.put(ComponentType.PAGE_TITLE.getType(), "Online Radio Search. Millions of free online radio stations");
+        items.put(ComponentType.PAGE_TITLE.getType(), radioStation.getTitle() + " online radio station and played " +
+                "songs, free music | OnlineRadioSearch.com"
+        );
+        items.put(ComponentType.DESCRIPTION.getType(), radioStation.getTitle() + " listen to free online radio " +
+                "station. Play popular mp3 music for free."
+        );
+        items.put(ComponentType.KEYWORDS.getType(),
+                radioStation.getSeoTitle().replaceAll("-", ", ") + ", shoutcast, web radio, " +
+                        "mp3, aac, wmv, streaming, dnas, shoutcast radio, music, m3u, pls"
+        );
+
         items.put("radioStation", radioStation);
         items.put("radioStationStreams", stationStreamService.retrieve(id));
         items.put("radioStationSongs", radioStationSongsService.retrieve(id, pageable));
