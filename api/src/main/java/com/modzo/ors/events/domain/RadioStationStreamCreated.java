@@ -3,6 +3,8 @@ package com.modzo.ors.events.domain;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.ZonedDateTime;
+
 import static com.modzo.ors.events.domain.Event.Type.RADIO_STATION_STREAM_CREATED;
 
 public class RadioStationStreamCreated extends DomainEvent {
@@ -19,6 +21,8 @@ public class RadioStationStreamCreated extends DomainEvent {
 
         private final String uniqueId;
 
+        private final ZonedDateTime created;
+
         private final long radioStationId;
 
         private final String radioStationUniqueId;
@@ -28,11 +32,13 @@ public class RadioStationStreamCreated extends DomainEvent {
         @JsonCreator
         public Data(@JsonProperty("id") long id,
                     @JsonProperty("uniqueId") String uniqueId,
+                    @JsonProperty("created") ZonedDateTime created,
                     @JsonProperty("radioStationId") long radioStationId,
                     @JsonProperty("radioStationUniqueId") String radioStationUniqueId,
                     @JsonProperty("url") String url) {
             this.id = id;
             this.uniqueId = uniqueId;
+            this.created = created;
             this.radioStationId = radioStationId;
             this.radioStationUniqueId = radioStationUniqueId;
             this.url = url;
@@ -44,6 +50,10 @@ public class RadioStationStreamCreated extends DomainEvent {
 
         public String getUniqueId() {
             return uniqueId;
+        }
+
+        public ZonedDateTime getCreated() {
+            return created;
         }
 
         public long getRadioStationId() {

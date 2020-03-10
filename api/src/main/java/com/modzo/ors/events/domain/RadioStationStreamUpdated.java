@@ -14,6 +14,7 @@ public class RadioStationStreamUpdated extends DomainEvent {
     }
 
     public static class Data extends DomainEvent.Data {
+
         private final String uniqueId;
 
         private final String radioStationUniqueId;
