@@ -5,10 +5,13 @@
     <div class="hero-body">
         <div class="container">
             {{#radioStation}}
-                <h1 class="title">{{title}}
+                <h1 class="title radio-station-title">{{title}}
                     {{#hasGenres}}
                         <i> -
-                            {{#genres}}{{title}} {{/genres}}
+                            {{#genres}}
+                                <a href="/search/by-genre/{{seoTitle}}"
+                                   title="Search radio station by genre {{title}}">{{title}}</a>
+                            {{/genres}}
                         </i>
                     {{/hasGenres}}
                 </h1>

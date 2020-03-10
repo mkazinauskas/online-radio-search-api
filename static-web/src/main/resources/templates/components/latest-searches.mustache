@@ -1,7 +1,7 @@
 <div class="content has-text-centered">
     <h1>Latest searches</h1>
     <p>
-        {{ #latestSearches }}
+        {{ #commonLatestSearches }}
         {{ #queries }}
         {{#songType}}
             <a href="/search/by-song/{{seoQuery}}">{{query}}</a>
@@ -13,6 +13,6 @@
             <a href="/search/by-radio-station/{{seoQuery}}">{{query}}</a>
         {{/radioStationType}}
         {{ /queries }}
-        {{ /latestSearches }}
+        {{ /commonLatestSearches }}
     </p>
 </div>
