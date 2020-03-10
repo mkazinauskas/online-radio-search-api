@@ -1,0 +1,57 @@
+{{>/components/header}}
+
+{{>/components/navbar/index}}
+
+<section class="hero is-info">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">Found songs by title "{{query}}"</h1>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        {{>/search/menu}}
+        {{#foundSongs}}
+            {{#content}}
+                <a href="/radio-stations/by-played-song/{{seoTitle}}/{{id}}">
+                    <div class="box" style="margin-bottom: 10px">
+                        <article class="media">
+                            <div class="media-content">
+                                <div class="content">
+                                    <strong>{{title}}</strong>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </a>
+            {{/content}}
+            {{^content}}
+                <p class="has-text-centered">No results found for song with title "{{query}}"</p>
+            {{/content}}
+
+            {{#metadata.navigationPossible}}
+                <nav class="pagination is-rounded" role="navigation" aria-label="pagination" style="padding-top: 20px">
+                    {{#metadata.hasPrevious}}
+                        <a href="/search/by-song/{{seoQuery}}?page={{metadata.previousPage}}"
+                        class="pagination-previous">Previous</a>
+                    {{/metadata.hasPrevious}}
+                    {{^metadata.hasPrevious}}
+                        <a class="pagination-previous" disabled>Previous</a>
+                    {{/metadata.hasPrevious}}
+
+                    {{#metadata.hasNext}}
+                        <a href="/search/by-song/{{seoQuery}}?page={{metadata.nextPage}}"
+                        class="pagination-next">Next page</a>
+                    {{/metadata.hasNext}}
+                    {{^metadata.hasNext}}
+                        <a class="pagination-next" disabled>Next page</a>
+                    {{/metadata.hasNext}}
+                </nav>
+            {{/metadata.navigationPossible}}
+        {{/foundSongs}}
+    </div>
+</section>
+
+{{>/components/footer}}

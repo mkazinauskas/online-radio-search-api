@@ -12,22 +12,27 @@ public class LastSearchResponse {
 
     private final String query;
 
-    private final ZonedDateTime date;
+    private final String type;
+
+    private final ZonedDateTime created;
 
     @JsonCreator
     private LastSearchResponse(@JsonProperty("id") String id,
                                @JsonProperty("query") String query,
-                               @JsonProperty("date") ZonedDateTime date) {
+                               @JsonProperty("type") String type,
+                               @JsonProperty("created") ZonedDateTime created) {
         this.id = id;
         this.query = query;
-        this.date = date;
+        this.type = type;
+        this.created = created;
     }
 
     static LastSearchResponse create(SearchedQuery searchedQuery) {
         return new LastSearchResponse(
                 searchedQuery.getId(),
                 searchedQuery.getQuery(),
-                searchedQuery.getDate()
+                searchedQuery.getType().getTitle(),
+                searchedQuery.getCreated()
         );
     }
 
@@ -39,7 +44,11 @@ public class LastSearchResponse {
         return query;
     }
 
-    public ZonedDateTime getDate() {
-        return date;
+    public String getType() {
+        return type;
+    }
+
+    public ZonedDateTime getCreated() {
+        return created;
     }
 }

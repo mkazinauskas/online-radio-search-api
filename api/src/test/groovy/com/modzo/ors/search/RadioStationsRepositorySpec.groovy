@@ -1,8 +1,8 @@
 package com.modzo.ors.search
 
-import com.modzo.ors.stations.resources.IntegrationSpec
 import com.modzo.ors.search.domain.RadioStationDocument
 import com.modzo.ors.search.domain.RadioStationsRepository
+import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.beans.factory.annotation.Autowired
 import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils
 
@@ -14,6 +14,7 @@ class RadioStationsRepositorySpec extends IntegrationSpec {
         when:
             RadioStationDocument document = repository.save(
                     new RadioStationDocument(
+                            RandomStringUtils.randomNumeric(10) as long,
                             RandomStringUtils.randomAlphanumeric(40),
                             RandomStringUtils.randomAlphanumeric(10)
                     )

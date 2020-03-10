@@ -1,0 +1,22 @@
+<nav class="navbar is-link" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="/" title="Online Radio Search - millions of free radio stations online">
+            <strong>OnlineRadioSeach</strong>.com
+        </a>
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+           data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+        {{> /components/navbar/start }}
+        {{> /components/navbar/end }}
+    </div>
+    <div class="is-hidden-desktop">
+    {{> /components/navbar/search }}
+    </div>
+</nav>

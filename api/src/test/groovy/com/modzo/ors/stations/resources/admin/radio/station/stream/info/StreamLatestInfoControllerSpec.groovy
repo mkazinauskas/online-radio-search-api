@@ -46,7 +46,7 @@ class StreamLatestInfoControllerSpec extends IntegrationSpec {
                     .handle(new GetRadioStationStream(radioStation.id, stream.id))
 
             updatedStream.url == stream.url
-            updatedStream.type == RadioStationStream.Type.MP3
+            updatedStream.type.get() == RadioStationStream.Type.MP3
             updatedStream.bitRate == 192
         and:
             RadioStation updateRadioStation = radioStationHandler.handle(new GetRadioStation(radioStation.id))
@@ -57,7 +57,7 @@ class StreamLatestInfoControllerSpec extends IntegrationSpec {
 
     private void serverResponseExist(String url) {
         String content = getClass().getResource('/services/scrappers/stream/sample-source.html').text
-        Map<String, String> headers = [(HttpHeader.CONTENT_TYPE): 'text/html']
+        Map<String, String> headers = [(HttpHeader.CONTENT_TYPE.asString()): 'text/html']
         wireMockTestHelper.okGetResponse(url, headers, content)
     }
 }

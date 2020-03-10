@@ -6,7 +6,7 @@ import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
 
-import static org.springframework.hateoas.Link.REL_SELF
+import static org.springframework.hateoas.IanaLinkRelations.SELF
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpStatus.OK
 
@@ -20,26 +20,32 @@ class RadioStationStreamControllerSpec extends IntegrationSpec {
         and:
             String url = "/radio-stations/${radioStation.id}/streams"
         when:
-            ResponseEntity<RadioStationStreamsResource> result = restTemplate.exchange(
-                    url + '?size=100&page=0',
+            ResponseEntity<RadioStationStreamsModel> result = restTemplate.exchange(
+                    "${url}?size=100&page=0",
                     GET,
                     HttpEntityBuilder.builder()
                             .build(),
-                    RadioStationStreamsResource
+                    RadioStationStreamsModel
             )
         then:
             result.statusCode == OK
         and:
             with(result.body) {
-                RadioStationStreamResource resource = it.content.first() as RadioStationStreamResource
+                RadioStationStreamModel resource = it.content.first()
 
-                resource.radioStationStream.id == radioStationStream.id
-                resource.radioStationStream.url == radioStationStream.url
+                with(resource.content) {
+                    it.id == radioStationStream.id
+                    it.uniqueId == radioStationStream.uniqueId
+                    it.created.toInstant() == radioStationStream.created.toInstant()
+                    it.url == radioStationStream.url
+                    it.bitRate == radioStationStream.bitRate
+                    it.type == radioStationStream.type.map { it.name() }.orElse(null)
+                }
 
-                resource.links.first().rel == REL_SELF
+                resource.links.first().rel == SELF
                 resource.links.first().href.endsWith("${url}/${radioStationStream.id}")
 
-                links.first().rel == REL_SELF
+                links.first().rel == SELF
                 links.first().href.endsWith(url)
             }
     }
@@ -52,21 +58,27 @@ class RadioStationStreamControllerSpec extends IntegrationSpec {
         and:
             String url = "/radio-stations/${radioStation.id}/streams/${stream.id}"
         when:
-            ResponseEntity<RadioStationStreamResource> result = restTemplate.exchange(
+            ResponseEntity<RadioStationStreamModel> result = restTemplate.exchange(
                     url,
                     GET,
                     HttpEntityBuilder.builder().build(),
-                    RadioStationStreamResource
+                    RadioStationStreamModel
             )
         then:
             result.statusCode == OK
         and:
-            with(result.body as RadioStationStreamResource) {
-                it.radioStationStream.id == stream.id
-                it.radioStationStream.url == stream.url
-
-                links.first().rel == REL_SELF
-                links.first().href.endsWith(url)
+            RadioStationStreamModel resource = result.body
+            with(result.body.content) {
+                it.id == stream.id
+                it.uniqueId == stream.uniqueId
+                it.url == stream.url
+                it.bitRate == stream.bitRate
+                it.type == stream.type.map { it.name() }.orElse(null)
+            }
+        and:
+            with(resource.links.first()) {
+                it.rel == SELF
+                it.href.endsWith(url)
             }
     }
 }

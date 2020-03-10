@@ -1,16 +1,16 @@
 package com.modzo.ors.stations.domain.song.commands
 
-import com.modzo.ors.stations.domain.events.Event
-import com.modzo.ors.stations.domain.events.Events
+import com.modzo.ors.events.domain.Event
+import com.modzo.ors.events.domain.Events
 import com.modzo.ors.stations.domain.song.Song
 import com.modzo.ors.stations.domain.song.Songs
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 
-import static com.modzo.ors.stations.domain.events.DomainEvent.Data.deserialize
-import static com.modzo.ors.stations.domain.events.Event.Type.SONG_DELETED
-import static com.modzo.ors.stations.domain.events.SongDeleted.Data
+import static com.modzo.ors.events.domain.DomainEvent.Data.deserialize
+import static com.modzo.ors.events.domain.Event.Type.SONG_DELETED
+import static com.modzo.ors.events.domain.SongDeleted.Data
 import static org.springframework.data.domain.Pageable.unpaged
 
 class DeleteSongSpec extends IntegrationSpec {

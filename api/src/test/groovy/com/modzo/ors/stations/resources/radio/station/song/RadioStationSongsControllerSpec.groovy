@@ -7,7 +7,7 @@ import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
 
 import static java.time.ZoneId.systemDefault
-import static org.springframework.hateoas.Link.REL_SELF
+import static org.springframework.hateoas.IanaLinkRelations.SELF
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpStatus.OK
 
@@ -19,20 +19,21 @@ class RadioStationSongsControllerSpec extends IntegrationSpec {
         and:
             String url = "/radio-stations/${radioStation.id}/songs"
         when:
-            ResponseEntity<RadioStationSongsResource> result = restTemplate.exchange(
+            ResponseEntity<RadioStationSongsModel> result = restTemplate.exchange(
                     url + '?size=100&page=0',
                     GET,
                     HttpEntityBuilder.builder().build(),
-                    RadioStationSongsResource
+                    RadioStationSongsModel
             )
         then:
             result.statusCode == OK
         and:
-            with(result.body as RadioStationSongsResource) {
+            with(result.body) {
                 it.content.isEmpty()
-
-                links.first().rel == REL_SELF
-                links.first().href.endsWith(url)
+                with(links.first()) {
+                    rel == SELF
+                    href.endsWith(url)
+                }
             }
     }
 
@@ -44,26 +45,31 @@ class RadioStationSongsControllerSpec extends IntegrationSpec {
         and:
             String url = "/radio-stations/${radioStation.id}/songs"
         when:
-            ResponseEntity<RadioStationSongsResource> result = restTemplate.exchange(
+            ResponseEntity<RadioStationSongsModel> result = restTemplate.exchange(
                     url + '?size=100&page=0',
                     GET,
                     HttpEntityBuilder.builder().build(),
-                    RadioStationSongsResource
+                    RadioStationSongsModel
             )
         then:
             result.statusCode == OK
         and:
-            with(result.body as RadioStationSongsResource) {
-                RadioStationSongResource song = it.content
-                        .find { item -> item.radioStationSong.id == radioStationSong.id } as RadioStationSongResource
+            with(result.body) {
+                RadioStationSongModel model = it.content
+                        .find { item -> item.content.id == radioStationSong.id }
+                with(model.content) {
+                    it.id == radioStationSong.id
+                    it.uniqueId == radioStationSong.uniqueId
+                    it.created.toInstant() == radioStationSong.created.toInstant()
+                    it.playedTime.withZoneSameInstant(systemDefault()) == radioStationSong.playedTime
+                }
 
-                song.radioStationSong.id == radioStationSong.id
-                song.radioStationSong.playedTime.withZoneSameInstant(systemDefault()) == radioStationSong.playedTime
+                with(model.links.first()) {
+                    it.rel == SELF
+                    it.href.endsWith("${url}/${radioStationSong.id}")
+                }
 
-                song.links.first().rel == REL_SELF
-                song.links.first().href.endsWith("${url}/${radioStationSong.id}")
-
-                links.first().rel == REL_SELF
+                links.first().rel == SELF
                 links.first().href.endsWith(url)
             }
     }
@@ -76,22 +82,24 @@ class RadioStationSongsControllerSpec extends IntegrationSpec {
         and:
             String url = "/radio-stations/${radioStation.id}/songs/${radioStationSong.id}"
         when:
-            ResponseEntity<RadioStationSongResource> result = restTemplate.exchange(
+            ResponseEntity<RadioStationSongModel> result = restTemplate.exchange(
                     url,
                     GET,
                     HttpEntityBuilder.builder().build(),
-                    RadioStationSongResource
+                    RadioStationSongModel
             )
         then:
             result.statusCode == OK
         and:
-            with(result.body as RadioStationSongResource) {
-                it.radioStationSong.id == radioStationSong.id
-                it.radioStationSong.songId == radioStationSong.songId
-                it.radioStationSong.playedTime.withZoneSameInstant(systemDefault()) == radioStationSong.playedTime
-
-                links.first().rel == REL_SELF
-                links.first().href.endsWith(url)
+            RadioStationSongModel model = result.body
+            with(model.content) {
+                it.id == radioStationSong.id
+                it.songId == radioStationSong.songId
+                it.playedTime.withZoneSameInstant(systemDefault()) == radioStationSong.playedTime
+            }
+            with(model.links.first()) {
+                it.rel == SELF
+                it.href.endsWith(url)
             }
     }
 }

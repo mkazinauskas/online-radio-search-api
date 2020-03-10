@@ -1,0 +1,42 @@
+<section class="section">
+    <div class="container">
+        <h2 class="title">Streams</h2>
+        {{#radioStationStreams}}
+            {{#hasContent}}
+                <div class="table-container">
+                    <table class="table is-fullwidth">
+                        <thead class="is-hidden-mobile">
+                        <tr>
+                            <th>Player</th>
+                            <th>URL</th>
+                            <th>Bit Rate</th>
+                            <th>Type</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#content}}
+                            <tr>
+                                <td>
+                                    <audio controls>
+                                        <source src="{{ url }}" type="audio/ogg">
+                                        <source src="{{ url }}" type="audio/mpeg">
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                </td>
+                                <td class="is-hidden-mobile">
+                                    <a href="{{url}}" title="Link to {{url}}" target="_blank">{{url}}</a>
+                                </td>
+                                <td class="is-hidden-mobile">{{bitRate}}</td>
+                                <td class="is-hidden-mobile">{{type}}</td>
+                            </tr>
+                        {{/content}}
+                        </tbody>
+                    </table>
+                </div>
+            {{/hasContent}}
+            {{^hasContent}}
+                <p class="has-text-centered">No streams found for radio station "{{radioStation.title}}"</p>
+            {{/hasContent}}
+        {{/radioStationStreams}}
+    </div>
+</section>

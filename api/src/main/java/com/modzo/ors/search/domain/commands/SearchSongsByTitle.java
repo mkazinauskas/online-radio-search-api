@@ -1,5 +1,7 @@
 package com.modzo.ors.search.domain.commands;
 
+import com.modzo.ors.last.searches.domain.SearchedQuery;
+import com.modzo.ors.last.searches.domain.commands.CreateSearchedQuery;
 import com.modzo.ors.search.domain.SongDocument;
 import com.modzo.ors.search.domain.SongsRepository;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -26,10 +28,15 @@ public class SearchSongsByTitle {
 
     @Component
     public static class Handler {
+
         private final SongsRepository songsRepository;
 
-        public Handler(SongsRepository songsRepository) {
+        private final CreateSearchedQuery.Handler lastSearchedQueryHandler;
+
+        public Handler(SongsRepository songsRepository,
+                       CreateSearchedQuery.Handler lastSearchedQueryHandler) {
             this.songsRepository = songsRepository;
+            this.lastSearchedQueryHandler = lastSearchedQueryHandler;
         }
 
         public Page<SongDocument> handle(SearchSongsByTitle command) {
@@ -37,7 +44,13 @@ public class SearchSongsByTitle {
                     .withQuery(searchInTitle(command))
                     .withPageable(command.pageable)
                     .withSort(sortByRelevance());
-            return songsRepository.search(searchQuery.build());
+
+            var result = songsRepository.search(searchQuery.build());
+
+            if (result.getNumberOfElements() > 0) {
+                lastSearchedQueryHandler.handle(new CreateSearchedQuery(command.title, SearchedQuery.Type.SONG));
+            }
+            return result;
         }
 
         private BoolQueryBuilder searchInTitle(SearchSongsByTitle command) {

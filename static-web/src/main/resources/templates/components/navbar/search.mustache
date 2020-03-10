@@ -1,0 +1,19 @@
+<div id="navbar-search" class="navbar-item">
+    <form action="/search/by-song" method="post">
+        <div class="field is-grouped">
+            <p class="control is-expanded">
+                <input class="input"
+                       type="text"
+                       name="query"
+                       value="{{#query}}{{.}}{{/query}}"
+                       placeholder="Search for songs or radio stations"
+                       required/>
+            </p>
+            <p class="control">
+                <button class="button is-primary">
+                    Search
+                </button>
+            </p>
+        </div>
+    </form>
+</div>

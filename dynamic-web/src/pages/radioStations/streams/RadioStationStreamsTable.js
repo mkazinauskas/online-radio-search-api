@@ -11,12 +11,22 @@ const columns = [
     {
         title: 'Id',
         dataIndex: 'id',
-        width: '10%',
+    },
+    {
+        title: 'Unique Id',
+        dataIndex: 'uniqueId'
     },
     {
         title: 'Url',
         dataIndex: 'url',
-        width: '40%',
+    },
+    {
+        title: 'Bit Rate',
+        dataIndex: 'bitRate'
+    },
+    {
+        title: 'Type',
+        dataIndex: 'type'
     },
     {
         title: 'Preview',
@@ -125,9 +135,9 @@ class RadioStationStreamsTable extends Component {
         Axios.get(`/radio-stations/${radioStationId}/streams?${urlSearchParams.toString()}`)
             .then((response) => {
                 let data = [];
-                if (response.data._embedded && response.data._embedded.radioStationStreamResourceList) {
-                    data = response.data._embedded.radioStationStreamResourceList.map(element => {
-                        return { ...element.radioStationStream, radioStationId }
+                if (response.data._embedded && response.data._embedded.radioStationStreamResponseList) {
+                    data = response.data._embedded.radioStationStreamResponseList.map(element => {
+                        return { ...element, radioStationId }
                     });
                 }
 

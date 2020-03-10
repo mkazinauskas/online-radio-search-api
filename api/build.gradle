@@ -21,6 +21,7 @@ ext {
     keycloakVersion = '8.0.1'
     testContainersVersion = '1.12.4'
     spockVersion = '1.3-groovy-2.5'
+    set('springCloudVersion', 'Hoxton.SR1')
 }
 
 dependencies {
@@ -41,6 +42,7 @@ dependencies {
     runtime 'org.postgresql:postgresql'
 
     testImplementation 'org.codehaus.groovy:groovy'
+    testImplementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     testImplementation "org.spockframework:spock-core:${spockVersion}"
     testImplementation "org.spockframework:spock-spring:${spockVersion}"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -56,5 +58,11 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom "org.keycloak.bom:keycloak-adapter-bom:${keycloakVersion}"
+    }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }

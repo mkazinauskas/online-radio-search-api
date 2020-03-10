@@ -1,5 +1,6 @@
 package com.modzo.ors.last.searches
 
+import com.modzo.ors.last.searches.domain.SearchedQuery
 import com.modzo.ors.last.searches.domain.commands.CreateSearchedQuery
 import org.springframework.stereotype.Component
 
@@ -14,8 +15,8 @@ class TestSearchQuery {
         this.handler = handler
     }
 
-    com.modzo.ors.last.searches.domain.SearchedQuery create() {
-        return handler.handle(new CreateSearchedQuery(randomQuery()))
+    SearchedQuery create(SearchedQuery.Type type = SearchedQuery.Type.RADIO_STATION) {
+        return handler.handle(new CreateSearchedQuery(randomQuery(), type))
     }
 
     static String randomQuery() {

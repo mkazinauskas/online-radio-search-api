@@ -1,7 +1,7 @@
 package com.modzo.ors.stations.domain.song.commands;
 
 import com.modzo.ors.stations.domain.DomainException;
-import com.modzo.ors.stations.domain.events.SongCreated;
+import com.modzo.ors.events.domain.SongCreated;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.song.Song;
 import com.modzo.ors.stations.domain.song.Songs;
@@ -48,7 +48,9 @@ public class CreateSong {
                     new SongCreated(
                             song,
                             new SongCreated.Data(
+                                    song.getId(),
                                     song.getUniqueId(),
+                                    song.getCreated(),
                                     song.getTitle()
                             ))
             );

@@ -1,7 +1,7 @@
 package com.modzo.ors.stations.domain.radio.station.commands;
 
+import com.modzo.ors.events.domain.RadioStationCreated;
 import com.modzo.ors.stations.domain.DomainException;
-import com.modzo.ors.stations.domain.events.RadioStationCreated;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import org.springframework.context.ApplicationEventPublisher;
@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CreateRadioStation {
+
     private final String title;
 
     public CreateRadioStation(String title) {
@@ -44,17 +45,19 @@ public class CreateRadioStation {
         @Transactional
         public Result handle(CreateRadioStation command) {
             validator.validate(command);
-            RadioStation savedRadioStation = radioStations.save(command.toRadioStation());
+            RadioStation radioStation = radioStations.save(command.toRadioStation());
             applicationEventPublisher.publishEvent(
                     new RadioStationCreated(
-                            savedRadioStation,
+                            radioStation,
                             new RadioStationCreated.Data(
-                                    savedRadioStation.getUniqueId(),
-                                    savedRadioStation.getTitle()
+                                    radioStation.getId(),
+                                    radioStation.getUniqueId(),
+                                    radioStation.getCreated(),
+                                    radioStation.getTitle()
                             )
                     )
             );
-            return new Result(savedRadioStation.getId());
+            return new Result(radioStation.getId());
         }
     }
 

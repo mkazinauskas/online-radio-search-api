@@ -1,0 +1,54 @@
+<div class="tabs is-centered is-boxed">
+    <ul>
+        {{#submenu-search-by-song}}
+            <li class="is-active">
+                <a title="Search song by title `{{query}}`">
+                    <span class="icon is-small"><i class="fas fa-music" aria-hidden="true"></i></span>
+                    <span>Songs</span>
+                </a>
+            </li>
+        {{/submenu-search-by-song}}
+        {{^submenu-search-by-song}}
+            <li>
+                <a href="/search/by-song/{{seoQuery}}" title="Search song by title `{{query}}`">
+                    <span class="icon is-small"><i class="fas fa-music" aria-hidden="true"></i></span>
+                    <span>Songs</span>
+                </a>
+            </li>
+        {{/submenu-search-by-song}}
+
+        {{#submenu-search-by-radio-station}}
+            <li class="is-active">
+                <a title="Search radio station by title `{{query}}`">
+                    <span class="icon is-small"><i class="fas fa-broadcast-tower" aria-hidden="true"></i></span>
+                    <span>Radio stations</span>
+                </a>
+            </li>
+        {{/submenu-search-by-radio-station}}
+        {{^submenu-search-by-radio-station}}
+            <li>
+                <a href="/search/by-radio-station/{{seoQuery}}" title="Search radio station by title `{{query}}`">
+                    <span class="icon is-small"><i class="fas fa-broadcast-tower" aria-hidden="true"></i></span>
+                    <span>Radio stations</span>
+                </a>
+            </li>
+        {{/submenu-search-by-radio-station}}
+
+        {{#submenu-search-by-genre}}
+            <li class="is-active">
+                <a title="Search song by title `{{query}}`">
+                    <span class="icon is-small"><i class="fas fa-compact-disc" aria-hidden="true"></i></span>
+                    <span>Genres</span>
+                </a>
+            </li>
+        {{/submenu-search-by-genre}}
+        {{^submenu-search-by-genre}}
+            <li>
+                <a href="/search/by-genre/{{seoQuery}}" title="Search genre by title `{{query}}`">
+                    <span class="icon is-small"><i class="fas fa-compact-disc" aria-hidden="true"></i></span>
+                    <span>Genres</span>
+                </a>
+            </li>
+        {{/submenu-search-by-genre}}
+    </ul>
+</div>

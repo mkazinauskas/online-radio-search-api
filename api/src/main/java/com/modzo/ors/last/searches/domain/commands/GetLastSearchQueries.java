@@ -34,8 +34,8 @@ public class GetLastSearchQueries {
                     .withPageable(command.pageable);
 
             searchQuery.withSort(
-                    SortBuilders.fieldSort("id")
-                            .unmappedType("long")
+                    SortBuilders.fieldSort("created")
+                            .unmappedType("date")
                             .order(SortOrder.DESC)
             );
             try {

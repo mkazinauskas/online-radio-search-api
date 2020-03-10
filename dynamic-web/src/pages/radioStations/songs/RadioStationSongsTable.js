@@ -105,13 +105,12 @@ class RadioStationStreamsTable extends Component {
         urlSearchParams.set('size', this.state.filter.size);
 
         const radioStationId = this.props.match.params.radioStationId;
-
         Axios.get(`/radio-stations/${radioStationId}/songs?${urlSearchParams.toString()}`)
             .then((response) => {
                 let data = [];
-                if (response.data._embedded && response.data._embedded.radioStationSongResourceList) {
-                    data = response.data._embedded.radioStationSongResourceList.map(element => {
-                        return { ...element.radioStationSong, radioStationId }
+                if (response.data._embedded && response.data._embedded.radioStationSongResponseList) {
+                    data = response.data._embedded.radioStationSongResponseList.map(element => {
+                        return { ...element, radioStationId }
                     });
                 }
 

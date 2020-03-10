@@ -4,11 +4,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-@Document(indexName = "online_radio_search", type = "radio_station_stream")
+@Document(indexName = "online_radio_search_streams")
 public class RadioStationStreamDocument {
+
     @Id
+    @JsonProperty("id")
+    private long id;
+
     @JsonProperty("uniqueId")
     private String uniqueId;
+
+    @JsonProperty("radioStationId")
+    private long radioStationId;
 
     @JsonProperty("radioStationUniqueId")
     private String radioStationUniqueId;
@@ -25,16 +32,28 @@ public class RadioStationStreamDocument {
     RadioStationStreamDocument() {
     }
 
-    public RadioStationStreamDocument(String uniqueId,
+    public RadioStationStreamDocument(long id,
+                                      String uniqueId,
+                                      long radioStationId,
                                       String radioStationUniqueId,
                                       String url) {
+        this.id = id;
         this.uniqueId = uniqueId;
+        this.radioStationId = radioStationId;
         this.radioStationUniqueId = radioStationUniqueId;
         this.url = url;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public String getUniqueId() {
         return uniqueId;
+    }
+
+    public long getRadioStationId() {
+        return radioStationId;
     }
 
     public String getRadioStationUniqueId() {

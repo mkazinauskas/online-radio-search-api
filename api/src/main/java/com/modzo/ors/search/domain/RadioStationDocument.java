@@ -11,9 +11,13 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-@Document(indexName = "online_radio_search", type = "radio_station")
+@Document(indexName = "online_radio_search_radio_stations")
 public class RadioStationDocument {
+
     @Id
+    @JsonProperty("id")
+    private long id;
+
     @JsonProperty("uniqueId")
     private String uniqueId;
 
@@ -38,9 +42,18 @@ public class RadioStationDocument {
     RadioStationDocument() {
     }
 
-    public RadioStationDocument(String uniqueId, String title) {
+    public RadioStationDocument(long id, String uniqueId, String title) {
+        this.id = id;
         this.uniqueId = uniqueId;
         this.title = title;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getUniqueId() {

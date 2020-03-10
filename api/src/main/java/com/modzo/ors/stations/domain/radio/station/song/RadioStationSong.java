@@ -1,9 +1,13 @@
 package com.modzo.ors.stations.domain.radio.station.song;
 
+import com.modzo.ors.stations.domain.song.Song;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -29,11 +33,18 @@ public class RadioStationSong {
     @Column(name = "unique_id", length = 40, unique = true, nullable = false)
     private String uniqueId = randomAlphanumeric(40);
 
+    @Column(name = "created", nullable = false)
+    private ZonedDateTime created = ZonedDateTime.now();
+
     @Column(name = "radio_station_id")
     private long radioStationId;
 
     @Column(name = "song_id")
     private long songId;
+
+    @OneToOne(optional = false)
+    @JoinColumn(name = "song_id", insertable = false, updatable = false)
+    private Song song;
 
     @Column(name = "playing_time")
     private ZonedDateTime playedTime;
@@ -63,6 +74,10 @@ public class RadioStationSong {
         this.uniqueId = uniqueId;
     }
 
+    public ZonedDateTime getCreated() {
+        return created;
+    }
+
     public long getRadioStationId() {
         return radioStationId;
     }
@@ -77,6 +92,14 @@ public class RadioStationSong {
 
     public void setSongId(long songId) {
         this.songId = songId;
+    }
+
+    public Song getSong() {
+        return song;
+    }
+
+    public void setSong(Song song) {
+        this.song = song;
     }
 
     public ZonedDateTime getPlayedTime() {

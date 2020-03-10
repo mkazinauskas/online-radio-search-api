@@ -5,7 +5,7 @@ import com.modzo.ors.stations.domain.song.Song
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
 
-import static org.springframework.hateoas.Link.REL_SELF
+import static org.springframework.hateoas.IanaLinkRelations.SELF
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpStatus.OK
 
@@ -17,26 +17,34 @@ class SongControllerSpec extends IntegrationSpec {
         and:
             String url = '/songs'
         when:
-            ResponseEntity<SongsResource> result = restTemplate.exchange(
+            ResponseEntity<SongsModel> result = restTemplate.exchange(
                     url + '?size=100&page=0',
                     GET,
                     HttpEntityBuilder.builder()
                             .build(),
-                    SongsResource
+                    SongsModel
             )
         then:
             result.statusCode == OK
         and:
-            with(result.body as SongsResource) {
-                SongResource resource = it.content.find { it.song.id == song.id } as SongResource
+            with(result.body as SongsModel) {
+                SongModel resource = it.content.find { it.content.id == song.id }
 
-                resource.song.title == song.title
+                with(resource.content) {
+                    uniqueId == song.uniqueId
+                    created.toInstant() == song.created.toInstant()
+                    title == song.title
+                }
 
-                resource.links.first().rel == REL_SELF
-                resource.links.first().href.endsWith("${url}/${song.id}")
+                with(resource.links.first()) {
+                    rel == SELF
+                    href.endsWith("${url}/${song.id}")
+                }
 
-                links.first().rel == REL_SELF
-                links.first().href.endsWith(url)
+                with(links.first()) {
+                    rel == SELF
+                    href.endsWith(url)
+                }
             }
     }
 
@@ -46,21 +54,23 @@ class SongControllerSpec extends IntegrationSpec {
         and:
             String url = "/songs/${song.id}"
         when:
-            ResponseEntity<SongResource> result = restTemplate.exchange(
+            ResponseEntity<SongModel> result = restTemplate.exchange(
                     url,
                     GET,
                     HttpEntityBuilder.builder().build(),
-                    SongResource
+                    SongModel
             )
         then:
             result.statusCode == OK
         and:
-            with(result.body as SongResource) {
-                it.song.id == song.id
-                it.song.title == song.title
-
-                links.first().rel == REL_SELF
-                links.first().href.endsWith(url)
+            SongModel model = result.body
+            with(model.content) {
+                it.id == song.id
+                it.title == song.title
+            }
+            with(model.links.first()) {
+                rel == SELF
+                href.endsWith(url)
             }
     }
 }

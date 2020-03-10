@@ -1,0 +1,10 @@
+apply plugin: 'checkstyle'
+
+checkstyle {
+    toolVersion = '8.12'
+    configFile = rootProject.file('gradle/checkstyle/checkstyle.xml')
+    showViolations = true
+    ignoreFailures = false
+    maxErrors = 0
+    maxWarnings = 0
+}

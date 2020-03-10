@@ -10,23 +10,26 @@ import ShowRadioStationStreamsButton from './streams/ShowRadioStationStreamsButt
 const columns = [
     {
         title: 'Id',
-        dataIndex: 'radioStation.id',
-        width: '10%',
+        dataIndex: 'id',
+    },
+    {
+        title: 'Unique Id',
+        dataIndex: 'uniqueId',
     },
     {
         title: 'Title',
-        dataIndex: 'radioStation.title',
+        dataIndex: 'title',
     },
     {
         title: 'Website',
-        dataIndex: 'radioStation.website',
+        dataIndex: 'website',
     },
     {
         title: 'Actions',
         key: 'operation',
         fixed: 'right',
         render: (text, record) => {
-            const id = record.radioStation.id;
+            const id = record.id;
             return (
                 <span>
                     <span style={{ padding: 15 }}>
@@ -106,8 +109,8 @@ class RadioStationsTable extends Component {
             .then((response) => {
                 let data = [];
 
-                if (response.data._embedded && response.data._embedded.radioStationResourceList) {
-                    data = response.data._embedded.radioStationResourceList;
+                if (response.data._embedded && response.data._embedded.radioStationResponseList) {
+                    data = response.data._embedded.radioStationResponseList;
                 }
 
                 if (!data.length && response.data.page.totalPages > 1) {
@@ -159,7 +162,7 @@ class RadioStationsTable extends Component {
         return (
             <Table
                 columns={columns}
-                rowKey={record => record.radioStation.id}
+                rowKey={record => record.id}
                 dataSource={this.state.data}
                 pagination={this.state.pagination}
                 loading={this.state.loading}

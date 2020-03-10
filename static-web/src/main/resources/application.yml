@@ -1,0 +1,15 @@
+server.port: 3002
+
+spring.jackson.deserialization.adjust_dates_to_context_time_zone: false
+spring.jackson.serialization.write_dates_as_timestamps: false
+spring.jackson.date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
+
+application:
+  apiUrl: http://localhost:8080
+  latestSearchesClient.size: 50
+  radioStationSongsClient.size: 10
+  radioStreamsClient.size: 10
+  radioStationsClient.size: 10
+  searchRadioStationClient.size: 10
+  searchSongClient.size: 10
+  searchGenreClient.size: 10

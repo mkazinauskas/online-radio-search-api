@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static java.util.Objects.requireNonNull;
 
 public class GetRadioStationSongs {
+
     private final long radioStationId;
 
     private final Pageable pageable;
@@ -41,6 +42,7 @@ public class GetRadioStationSongs {
 
     @Component
     private static class Validator {
+
         private final RadioStations radioStations;
 
         public Validator(RadioStations radioStations) {
@@ -53,7 +55,7 @@ public class GetRadioStationSongs {
                         "Radio station id cannot be less or equal to zero");
             }
 
-            if (!radioStations.findById(command.radioStationId).isPresent()) {
+            if (radioStations.findById(command.radioStationId).isEmpty()) {
                 throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT",
                         "Radio station with id is not available");
             }

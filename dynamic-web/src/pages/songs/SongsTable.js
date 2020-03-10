@@ -8,12 +8,12 @@ import DeleteSongButton from './deleteSong/DeleteSongButton';
 const columns = [
     {
         title: 'Id',
-        dataIndex: 'song.id',
+        dataIndex: 'id',
         width: '10%',
     },
     {
         title: 'Title',
-        dataIndex: 'song.title',
+        dataIndex: 'title',
         width: '40%',
     },
     {
@@ -21,7 +21,7 @@ const columns = [
         key: 'operation',
         fixed: 'right',
         render: (text, record) => {
-            const id = record.song.id;
+            const id = record.id;
             return (<DeleteSongButton key={id} id={id} />)
         },
     }
@@ -91,8 +91,8 @@ class SongsTable extends Component {
             .then((response) => {
                 let data = [];
 
-                if (response.data._embedded && response.data._embedded.songResourceList) {
-                    data = response.data._embedded.songResourceList;
+                if (response.data._embedded && response.data._embedded.songResponseList) {
+                    data = response.data._embedded.songResponseList;
                 }
 
                 if (!data.length && response.data.page.totalPages > 1) {
@@ -144,7 +144,7 @@ class SongsTable extends Component {
         return (
             <Table
                 columns={columns}
-                rowKey={record => record.song.id}
+                rowKey={record => record.id}
                 dataSource={this.state.data}
                 pagination={this.state.pagination}
                 loading={this.state.loading}

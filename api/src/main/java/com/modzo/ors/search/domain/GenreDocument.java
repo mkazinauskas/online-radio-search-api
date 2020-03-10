@@ -4,9 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-@Document(indexName = "genres", type = "genre")
+@Document(indexName = "online_radio_search_genres")
 public class GenreDocument {
+
     @Id
+    @JsonProperty("id")
+    private long id;
+
     @JsonProperty("uniqueId")
     private String uniqueId;
 
@@ -16,9 +20,18 @@ public class GenreDocument {
     GenreDocument() {
     }
 
-    public GenreDocument(String uniqueId, String title) {
+    public GenreDocument(long id, String uniqueId, String title) {
+        this.id = id;
         this.uniqueId = uniqueId;
         this.title = title;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getUniqueId() {

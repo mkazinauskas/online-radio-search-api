@@ -6,23 +6,42 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.time.ZonedDateTime;
 
-@Document(indexName = "searched_queries", type = "searched_query")
+@Document(indexName = "online_radio_search_searched_queries")
 public class SearchedQuery {
+
+    public enum Type {
+        SONG("song"), RADIO_STATION("radiostation"), GENRE("genre");
+
+        private final String title;
+
+        Type(String title) {
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+    }
+
     @Id
     @JsonProperty("id")
     private String id;
 
     @JsonProperty("created")
-    private ZonedDateTime date = ZonedDateTime.now();
+    private ZonedDateTime created = ZonedDateTime.now();
 
     @JsonProperty("query")
     private String query;
 
+    @JsonProperty("type")
+    private Type type;
+
     SearchedQuery() {
     }
 
-    public SearchedQuery(String query) {
+    public SearchedQuery(String query, Type type) {
         this.query = query;
+        this.type = type;
     }
 
     public String getId() {
@@ -33,12 +52,8 @@ public class SearchedQuery {
         this.id = id;
     }
 
-    public ZonedDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(ZonedDateTime date) {
-        this.date = date;
+    public ZonedDateTime getCreated() {
+        return created;
     }
 
     public String getQuery() {
@@ -47,5 +62,13 @@ public class SearchedQuery {
 
     public void setQuery(String query) {
         this.query = query;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }
