@@ -6,9 +6,11 @@ import com.modzo.ors.web.utils.SeoText;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static java.time.format.DateTimeFormatter.ofPattern;
+
 public class RadioStationSongModel {
 
-    private static final DateTimeFormatter PLAYED_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd - HH:mm:ss z");
+    private static final DateTimeFormatter PLAYED_TIME_FORMATTER = ofPattern("yyyy-MM-dd - HH:mm:ss z");
 
     private final long id;
 

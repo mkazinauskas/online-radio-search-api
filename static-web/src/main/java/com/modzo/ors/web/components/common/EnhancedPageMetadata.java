@@ -26,7 +26,7 @@ public class EnhancedPageMetadata extends PagedModel.PageMetadata {
         }
     }
 
-    public boolean navigationPossible(){
+    public boolean navigationPossible() {
         return hasPrevious() || hasNext();
     }
 
