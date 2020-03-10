@@ -26,7 +26,13 @@ public class MainPageController {
     @GetMapping("/")
     public ModelAndView getMainPage(Pageable pageable) {
         Map<String, Object> items = new HashMap<>(commonComponents.load());
-        items.put(ComponentType.PAGE_TITLE.getType(), "Online Radio Search. Millions of free online radio stations");
+        items.put(ComponentType.PAGE_TITLE.getType(), "Online Radio Stations, Internet Radio, Free Music " +
+                "| OnlineRadioSearch.com");
+        items.put(ComponentType.DESCRIPTION.getType(), "Listen to music from thousands of internet radio stations " +
+                "streaming live. Search and browse all your favourite music genres.");
+        items.put(ComponentType.KEYWORDS.getType(), "shoutcast, web radio, mp3, aac, wmv, streaming, dnas, " +
+                "shoutcast radio, stations, music, m3u, pls, winamp");
+
         items.put("latestRadioStations", latestRadioStations.retrieve(pageable));
         return new ModelAndView("/main/index", items);
     }
