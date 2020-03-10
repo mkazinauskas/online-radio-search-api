@@ -5,14 +5,14 @@
     <div class="hero-body">
         <div class="container">
             {{#radioStation}}
-                <h1 class="title radio-station-title">{{title}}
+                <h1 class="title">{{title}}
                     {{#hasGenres}}
-                        <i> -
-                            {{#genres}}
-                                <a href="/search/by-genre/{{seoTitle}}"
-                                   title="Search radio station by genre {{title}}">{{title}}</a>
-                            {{/genres}}
-                        </i>
+                        -
+                        {{#genres}}
+                            <a class="is-white-link"
+                               href="/search/by-genre/{{seoTitle}}"
+                               title="Search radio station by genre {{title}}"><i>{{title}}</i></a>
+                        {{/genres}}
                     {{/hasGenres}}
                 </h1>
                 {{#website}} <h2 class="subtitle"><a href="{{.}}" target="_blank">{{.}}</a></h2>{{/website}}

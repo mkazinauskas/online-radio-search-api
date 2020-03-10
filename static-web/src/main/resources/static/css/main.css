@@ -18,3 +18,11 @@
 .privacy-text p {
     margin-top: 0.5em;
 }
+
+a.is-white-link {
+    color: #FFFFFF;
+}
+
+a.is-white-link:hover {
+    color: #3273dc;
+}
