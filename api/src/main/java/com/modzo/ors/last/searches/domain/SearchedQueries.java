@@ -7,5 +7,6 @@ import java.util.stream.Stream;
 
 public interface SearchedQueries extends ElasticsearchRepository<SearchedQuery, String> {
 
-    List<SearchedQuery> findAllByQueryAndType(String query, SearchedQuery.Type type);
+    void deleteAllByQueryAndType(String query, SearchedQuery.Type type);
+
 }

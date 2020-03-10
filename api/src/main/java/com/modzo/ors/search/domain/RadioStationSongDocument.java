@@ -6,7 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.time.ZonedDateTime;
 
-@Document(indexName = "online_radio_search", type = "radio_station_song")
+@Document(indexName = "online_radio_search_radio_station_songs")
 public class RadioStationSongDocument {
 
     @Id

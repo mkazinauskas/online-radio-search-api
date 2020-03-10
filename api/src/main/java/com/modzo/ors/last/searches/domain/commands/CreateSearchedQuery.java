@@ -4,9 +4,9 @@ import com.modzo.ors.last.searches.domain.SearchedQueries;
 import com.modzo.ors.last.searches.domain.SearchedQuery;
 import com.modzo.ors.stations.domain.DomainException;
 import org.jsoup.helper.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 public class CreateSearchedQuery {
 
@@ -22,6 +22,8 @@ public class CreateSearchedQuery {
     @Component
     public static class Handler {
 
+        private static final Logger log = LoggerFactory.getLogger(Handler.class);
+
         private final SearchedQueries searchedQueries;
 
         private final Validator validator;
@@ -34,8 +36,12 @@ public class CreateSearchedQuery {
 
         public SearchedQuery handle(CreateSearchedQuery command) {
             validator.validate(command);
-            List<SearchedQuery> oldSearchesToDelete = searchedQueries.findAllByQueryAndType(command.query, command.type);
-            searchedQueries.deleteAll(oldSearchesToDelete);
+
+            try {
+                searchedQueries.deleteAllByQueryAndType(command.query, command.type);
+            } catch (Exception ex) {
+                log.error("Failed to delete last queries", ex);
+            }
 
             return searchedQueries.save(new SearchedQuery(command.query, command.type));
         }

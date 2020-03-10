@@ -11,7 +11,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-@Document(indexName = "online_radio_search", type = "radio_station")
+@Document(indexName = "online_radio_search_radio_stations")
 public class RadioStationDocument {
 
     @Id

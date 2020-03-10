@@ -8,7 +8,7 @@ import java.time.ZonedDateTime;
 
 import static java.lang.String.valueOf;
 
-@Document(indexName = "parsed_events", type = "parsed_event")
+@Document(indexName = "online_radio_search_parsed_events")
 public class ParsedEvent {
     @Id
     @JsonProperty("id")

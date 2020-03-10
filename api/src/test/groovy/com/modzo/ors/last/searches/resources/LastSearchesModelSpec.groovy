@@ -61,7 +61,7 @@ class LastSearchesModelSpec extends IntegrationSpec {
                 response
                 response.id == searchedQuery.id
                 response.query == searchedQuery.query
-                response.created.withZoneSameInstant(systemDefault()) == searchedQuery.created
+                response.creationDate.withZoneSameInstant(systemDefault()) == searchedQuery.created
 
                 links.first().rel == SELF
                 links.first().href.endsWith(url)

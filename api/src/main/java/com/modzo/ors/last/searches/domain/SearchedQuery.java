@@ -6,7 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.time.ZonedDateTime;
 
-@Document(indexName = "searched_queries", type = "searched_query")
+@Document(indexName = "online_radio_search_searched_queries")
 public class SearchedQuery {
 
     public enum Type {
@@ -26,9 +26,6 @@ public class SearchedQuery {
     @Id
     @JsonProperty("id")
     private String id;
-
-    @JsonProperty("created")
-    private ZonedDateTime created = ZonedDateTime.now();
 
     @JsonProperty("query")
     private String query;
@@ -53,11 +50,7 @@ public class SearchedQuery {
     }
 
     public ZonedDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(ZonedDateTime created) {
-        this.created = created;
+        return null;
     }
 
     public String getQuery() {

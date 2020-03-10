@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-@Document(indexName = "songs", type = "song")
+@Document(indexName = "online_radio_search_songs")
 public class SongDocument {
 
     @Id

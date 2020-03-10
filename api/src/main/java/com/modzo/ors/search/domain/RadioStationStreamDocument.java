@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-@Document(indexName = "online_radio_search", type = "radio_station_stream")
+@Document(indexName = "online_radio_search_streams")
 public class RadioStationStreamDocument {
 
     @Id
