@@ -38,3 +38,6 @@ keycloak:
   principal-attribute: preferred_username
   bearer-only: true
   use-resource-role-mappings: true
+
+application:
+  events.processor.enabled: false

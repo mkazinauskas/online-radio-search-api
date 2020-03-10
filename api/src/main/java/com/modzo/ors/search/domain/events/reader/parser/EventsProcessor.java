@@ -5,7 +5,6 @@ import com.modzo.ors.events.domain.Events;
 import com.modzo.ors.search.domain.events.parsedevents.ParsedEvent;
 import com.modzo.ors.search.domain.events.parsedevents.ParsedEvents;
 import com.modzo.ors.search.domain.events.parsedevents.commands.FindLastParsedEvent;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -28,7 +27,6 @@ public class EventsProcessor {
         this.eventsParser = eventsParser;
     }
 
-    @Scheduled(fixedDelay = 10L)
     public void process() {
         if (parsedEvents.count() == 0) {
             firstEvent().ifPresent(eventsParser::parseEvent);

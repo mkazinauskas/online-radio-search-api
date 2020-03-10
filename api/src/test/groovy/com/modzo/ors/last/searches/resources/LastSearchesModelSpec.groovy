@@ -7,7 +7,6 @@ import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 
-import static java.time.ZoneId.systemDefault
 import static org.springframework.hateoas.IanaLinkRelations.SELF
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpStatus.OK

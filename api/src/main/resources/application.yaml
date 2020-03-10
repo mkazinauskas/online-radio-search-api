@@ -34,3 +34,4 @@ spring.jackson.date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
 application:
   radio.station.stream.scrapper.info.url.endings: /index.html?sid=1
   radio.station.stream.scrapper.played.songs.url.endings: /played.html,/played.html?sid=1,/played.html?sid=2
+  events.processor.enabled: true
