@@ -60,7 +60,7 @@ class RadioStationSongsControllerSpec extends IntegrationSpec {
                 with(model.content) {
                     it.id == radioStationSong.id
                     it.uniqueId == radioStationSong.uniqueId
-                    it.created == radioStationSong.created
+                    it.created.toInstant() == radioStationSong.created.toInstant()
                     it.playedTime.withZoneSameInstant(systemDefault()) == radioStationSong.playedTime
                 }
 
