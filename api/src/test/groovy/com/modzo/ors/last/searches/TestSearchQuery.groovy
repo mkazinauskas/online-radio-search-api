@@ -15,7 +15,7 @@ class TestSearchQuery {
         this.handler = handler
     }
 
-    SearchedQuery create() {
+    SearchedQuery create(SearchedQuery.Type type = SearchedQuery.Type.RADIO_STATION) {
         return handler.handle(new CreateSearchedQuery(randomQuery(), type))
     }
 
