@@ -37,7 +37,17 @@ public class SearchByRadioStationController {
     @GetMapping("/search/by-radio-station/{query}")
     public ModelAndView searchBySong(@PathVariable("query") String query, Pageable pageable) {
         Map<String, Object> items = new HashMap<>(commonComponents.load());
-        items.put(ComponentType.PAGE_TITLE.getType(), "Radio stations \"" + query + "\"| Online Radio Search");
+        items.put(ComponentType.PAGE_TITLE.getType(), query + " results of free online radio stations, free mp3, " +
+                "aac music at OnlineRadioSearch.com. Page " + (pageable.getPageNumber() + 1));
+
+        items.put(ComponentType.DESCRIPTION.getType(), query + " online free radio search results. Browse "
+                + query + " mp3 music radio station results. Page " + (pageable.getPageNumber() + 1)
+        );
+        items.put(ComponentType.KEYWORDS.getType(),
+                query.replaceAll("-", ", ") + ", shoutcast, web radio, " +
+                        "mp3, aac, wmv, streaming, dnas, shoutcast radio, music, m3u, pls"
+        );
+
         items.put("seoQuery", SeoText.from(query));
         items.put("query", SeoText.revert(query));
         items.put("radioStations", searchByRadioStationService.retrieve(query, pageable));
