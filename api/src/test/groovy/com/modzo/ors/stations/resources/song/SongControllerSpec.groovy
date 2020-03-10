@@ -32,7 +32,7 @@ class SongControllerSpec extends IntegrationSpec {
 
                 with(resource.content) {
                     uniqueId == song.uniqueId
-                    created == song.created
+                    created.toInstant() == song.created.toInstant()
                     title == song.title
                 }
 
