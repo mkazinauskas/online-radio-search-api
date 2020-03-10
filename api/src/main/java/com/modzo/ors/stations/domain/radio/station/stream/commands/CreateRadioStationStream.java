@@ -69,6 +69,7 @@ public class CreateRadioStationStream {
                             new RadioStationStreamCreated.Data(
                                     savedStream.getId(),
                                     savedStream.getUniqueId(),
+                                    savedStream.getCreated(),
                                     savedStream.getRadioStationId(),
                                     radioStation.getUniqueId(),
                                     savedStream.getUrl())));

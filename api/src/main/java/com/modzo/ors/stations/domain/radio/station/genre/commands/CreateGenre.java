@@ -51,6 +51,7 @@ public class CreateGenre {
                             new GenreCreated.Data(
                                     genre.getId(),
                                     genre.getUniqueId(),
+                                    genre.getCreated(),
                                     genre.getTitle())
                     )
             );

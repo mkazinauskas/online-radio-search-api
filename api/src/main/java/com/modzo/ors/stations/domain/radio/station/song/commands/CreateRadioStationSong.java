@@ -82,6 +82,7 @@ public class CreateRadioStationSong {
                             new RadioStationSongCreated.Data(
                                     radioStationSong.getId(),
                                     radioStationSong.getUniqueId(),
+                                    radioStationSong.getCreated(),
                                     song.getId(),
                                     song.getUniqueId(),
                                     radioStation.getId(),

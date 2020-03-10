@@ -52,6 +52,7 @@ public class CreateRadioStation {
                             new RadioStationCreated.Data(
                                     radioStation.getId(),
                                     radioStation.getUniqueId(),
+                                    radioStation.getCreated(),
                                     radioStation.getTitle()
                             )
                     )

@@ -50,6 +50,7 @@ public class CreateSong {
                             new SongCreated.Data(
                                     song.getId(),
                                     song.getUniqueId(),
+                                    song.getCreated(),
                                     song.getTitle()
                             ))
             );
