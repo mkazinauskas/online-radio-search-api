@@ -37,7 +37,18 @@ public class SearchBySongController {
     public ModelAndView searchBySong(@PathVariable("query") String query,
                                      Pageable pageable) {
         Map<String, Object> items = new HashMap<>(commonComponents.load());
-        items.put(ComponentType.PAGE_TITLE.getType(), "Online Radio Search. Millions of free online radio stations");
+
+        items.put(ComponentType.PAGE_TITLE.getType(), query + " results of popular mp3, " +
+                "aac music and songs at OnlineRadioSearch.com. Page " + (pageable.getPageNumber() + 1));
+
+        items.put(ComponentType.DESCRIPTION.getType(), query + " music search results. Browse "
+                + query + " mp3 songs from search results. Page " + (pageable.getPageNumber() + 1)
+        );
+        items.put(ComponentType.KEYWORDS.getType(),
+                query.replaceAll("-", ", ") + ", search, mp3, aac, wmv, streaming, dnas, music, " +
+                        "m3u, pls"
+        );
+
         items.put("seoQuery", SeoText.from(query));
         items.put("query", SeoText.revert(query));
         items.put("foundSongs", searchBySongService.retrieve(query, pageable));

@@ -4,6 +4,7 @@ import com.modzo.ors.web.components.CommonComponents;
 import com.modzo.ors.web.components.ComponentType;
 import com.modzo.ors.web.components.common.Paged;
 import com.modzo.ors.web.components.common.model.RadioStationModel;
+import com.modzo.ors.web.utils.SeoText;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +47,18 @@ public class RadioStationsByGenreController {
         Paged<RadioStationModel> radioStations = radioStationByGenreService.retrieveStationBy(genreId, pageable);
 
         Map<String, Object> items = new HashMap<>(commonComponents.load());
-        items.put(ComponentType.PAGE_TITLE.getType(), "Online Radio Search. Millions of free online radio stations");
+
+        var nonSeoTitle = SeoText.revert(songTitle);
+        items.put(ComponentType.PAGE_TITLE.getType(), nonSeoTitle + " results of free online " +
+                "radio stations, free mp3, aac music at OnlineRadioSearch.com. Page " + (pageable.getPageNumber() + 1));
+
+        items.put(ComponentType.DESCRIPTION.getType(), nonSeoTitle + " online free radio search results. Browse "
+                + nonSeoTitle + " mp3 music radio station results. Page " + (pageable.getPageNumber() + 1)
+        );
+        items.put(ComponentType.KEYWORDS.getType(),
+                songTitle.replaceAll("-", ", ") + ", shoutcast, web radio, " +
+                        "mp3, aac, wmv, streaming, dnas, shoutcast radio, music, m3u, pls"
+        );
         items.put("genre", genre);
         items.put("radioStations", radioStations);
         return new ModelAndView("/search/by-genre/radio-stations", items);
