@@ -31,6 +31,8 @@ class SongControllerSpec extends IntegrationSpec {
                 SongModel resource = it.content.find { it.content.id == song.id }
 
                 with(resource.content) {
+                    uniqueId == song.uniqueId
+                    created == song.created
                     title == song.title
                 }
 

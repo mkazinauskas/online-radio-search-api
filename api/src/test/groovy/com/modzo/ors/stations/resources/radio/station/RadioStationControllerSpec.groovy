@@ -33,6 +33,7 @@ class RadioStationControllerSpec extends IntegrationSpec {
                     with(it.content) {
                         it.id
                         it.uniqueId
+                        it.created
                         it.title.size() > 0
                     }
                     with(it.links.first()) {
@@ -68,6 +69,7 @@ class RadioStationControllerSpec extends IntegrationSpec {
                 it.content.with {
                     it.id == radioStation.id
                     it.uniqueId == radioStation.uniqueId
+                    it.created == radioStation.created
                     it.title == radioStation.title
                     it.genres.size() == 1
                     with(it.genres.first()) {

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.genre.Genre;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,8 @@ class RadioStationResponse {
     private final long id;
 
     private final String uniqueId;
+
+    private final ZonedDateTime created;
 
     private final String title;
 
@@ -23,11 +26,13 @@ class RadioStationResponse {
     @JsonCreator
     private RadioStationResponse(@JsonProperty("id") long id,
                                  @JsonProperty("uniqueId") String uniqueId,
+                                 @JsonProperty("created") ZonedDateTime created,
                                  @JsonProperty("title") String title,
                                  @JsonProperty("website") String website,
                                  @JsonProperty("genres") List<GenreResponse> genres) {
         this.id = id;
         this.uniqueId = uniqueId;
+        this.created = created;
         this.title = title;
         this.website = website;
         this.genres = genres;
@@ -37,6 +42,7 @@ class RadioStationResponse {
         return new RadioStationResponse(
                 radioStation.getId(),
                 radioStation.getUniqueId(),
+                radioStation.getCreated(),
                 radioStation.getTitle(),
                 radioStation.getWebsite(),
                 radioStation.getGenres().stream()
@@ -51,6 +57,10 @@ class RadioStationResponse {
 
     public String getUniqueId() {
         return uniqueId;
+    }
+
+    public ZonedDateTime getCreated() {
+        return created;
     }
 
     public String getTitle() {

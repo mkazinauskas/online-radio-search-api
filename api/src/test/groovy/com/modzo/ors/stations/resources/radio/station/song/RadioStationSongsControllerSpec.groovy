@@ -59,6 +59,8 @@ class RadioStationSongsControllerSpec extends IntegrationSpec {
                         .find { item -> item.content.id == radioStationSong.id }
                 with(model.content) {
                     it.id == radioStationSong.id
+                    it.uniqueId == radioStationSong.uniqueId
+                    it.created == radioStationSong.created
                     it.playedTime.withZoneSameInstant(systemDefault()) == radioStationSong.playedTime
                 }
 

@@ -36,6 +36,7 @@ class RadioStationStreamControllerSpec extends IntegrationSpec {
                 with(resource.content) {
                     it.id == radioStationStream.id
                     it.uniqueId == radioStationStream.uniqueId
+                    it.created == radioStationStream.created
                     it.url == radioStationStream.url
                     it.bitRate == radioStationStream.bitRate
                     it.type == radioStationStream.type.map { it.name() }.orElse(null)

@@ -32,6 +32,8 @@ class GenreControllerSpec extends IntegrationSpec {
 
                 with(resource.content) {
                     title == genre.title
+                    uniqueId == genre.uniqueId
+                    created == genre.created
                 }
 
                 with(resource.links.first()) {
