@@ -1,8 +1,8 @@
 package com.modzo.ors.last.searches.domain
 
+import com.modzo.ors.last.searches.domain.commands.CreateSearchedQuery
 import com.modzo.ors.stations.domain.DomainException
 import com.modzo.ors.stations.resources.IntegrationSpec
-import com.modzo.ors.last.searches.domain.commands.CreateSearchedQuery
 import org.springframework.beans.factory.annotation.Autowired
 import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils
 
@@ -17,7 +17,7 @@ class CreateSearchedQuerySpec extends IntegrationSpec {
 
     void 'searched query should not be accepted if blank'() {
         when:
-            handler.handle(new CreateSearchedQuery(EMPTY, type))
+            handler.handle(new CreateSearchedQuery(EMPTY, SearchedQuery.Type.RADIO_STATION))
         then:
             DomainException exception = thrown(DomainException)
             exception.id == 'SEARCH_QUERY_NOT_BLANK'
@@ -28,7 +28,7 @@ class CreateSearchedQuerySpec extends IntegrationSpec {
         given:
             String query = RandomStringUtils.randomAlphanumeric(40)
         when:
-            SearchedQuery result = handler.handle(new CreateSearchedQuery(query, type))
+            SearchedQuery result = handler.handle(new CreateSearchedQuery(query, SearchedQuery.Type.GENRE))
         then:
             SearchedQuery savedQuery = searchedQueries.findById(result.id).get()
             savedQuery.created

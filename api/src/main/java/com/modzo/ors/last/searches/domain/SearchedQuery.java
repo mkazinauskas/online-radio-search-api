@@ -27,6 +27,9 @@ public class SearchedQuery {
     @JsonProperty("id")
     private String id;
 
+    @JsonProperty("created")
+    private ZonedDateTime created = ZonedDateTime.now();
+
     @JsonProperty("query")
     private String query;
 
@@ -50,7 +53,7 @@ public class SearchedQuery {
     }
 
     public ZonedDateTime getCreated() {
-        return null;
+        return created;
     }
 
     public String getQuery() {
