@@ -4,6 +4,7 @@ import Axios from 'axios';
 import { connect } from 'react-redux';
 
 const DEFAULT_STATE = {
+    genres: [],
     loading: false,
     successMessage: null,
     errorMessage: null
@@ -12,7 +13,8 @@ const DEFAULT_STATE = {
 class UpdateRadioStationModal extends Component {
 
     state = {
-        ...DEFAULT_STATE
+        ...DEFAULT_STATE,
+        genres: this.props.radioStation.genres
     }
 
     handleSubmit = e => {
@@ -41,6 +43,16 @@ class UpdateRadioStationModal extends Component {
         });
     };
 
+    handleSearch = value => {
+        if (value && value.length > 3) {
+            Axios.get(`/search/genre/?title=${value}`)
+                .then((result) => { this.setState({ ...this.state, genres: result.data._embedded.searchGenreResultResponseList }) })
+                .catch(() => this.setState({ ...this.state, genres: [] }));
+        } else {
+            this.setState({ genres: [] });
+        }
+    }
+
     onCancel = () => {
         this.props.form.resetFields();
         this.props.onModalClose();
@@ -50,8 +62,8 @@ class UpdateRadioStationModal extends Component {
         const { getFieldDecorator } = this.props.form;
         const radioStation = this.props.radioStation;
 
-        const options = radioStation.genres
-            .map(genre => <Select.Option value={genre.id}>{genre.title}</Select.Option>);
+        const options = this.state.genres
+            .map(genre => <Select.Option key={genre.id} value={genre.id}>{genre.title}</Select.Option>);
 
         const form = (
             <Form
@@ -82,10 +94,13 @@ class UpdateRadioStationModal extends Component {
                     })(
                         <Select
                             showSearch
+                            defaultActiveFirstOption={false}
                             showArrow={false}
+                            onSearch={this.handleSearch}
+                            filterOption={false}
                             mode="multiple"
-                            notFoundContent="null"
-                            placeholder="Please select genre">
+                            notFoundContent={null}
+                            placeholder="Please select genres">
                             {options}
                         </Select>
                     )}
