@@ -21,6 +21,8 @@ class RadioStationResponse {
 
     private final String website;
 
+    private final boolean enabled;
+
     private final List<GenreResponse> genres;
 
     @JsonCreator
@@ -29,12 +31,14 @@ class RadioStationResponse {
                                  @JsonProperty("created") ZonedDateTime created,
                                  @JsonProperty("title") String title,
                                  @JsonProperty("website") String website,
+                                 @JsonProperty("enabled") boolean enabled,
                                  @JsonProperty("genres") List<GenreResponse> genres) {
         this.id = id;
         this.uniqueId = uniqueId;
         this.created = created;
         this.title = title;
         this.website = website;
+        this.enabled = enabled;
         this.genres = genres;
     }
 
@@ -45,6 +49,7 @@ class RadioStationResponse {
                 radioStation.getCreated(),
                 radioStation.getTitle(),
                 radioStation.getWebsite(),
+                radioStation.isEnabled(),
                 radioStation.getGenres().stream()
                         .map(GenreResponse::create)
                         .collect(Collectors.toList())
@@ -69,6 +74,10 @@ class RadioStationResponse {
 
     public String getWebsite() {
         return website;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 
     public List<GenreResponse> getGenres() {

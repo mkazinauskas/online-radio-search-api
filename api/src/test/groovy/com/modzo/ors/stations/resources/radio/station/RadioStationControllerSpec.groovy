@@ -71,6 +71,7 @@ class RadioStationControllerSpec extends IntegrationSpec {
                     it.uniqueId == radioStation.uniqueId
                     it.created == radioStation.created
                     it.title == radioStation.title
+                    it.enabled == radioStation.enabled
                     it.genres.size() == 1
                     with(it.genres.first()) {
                         it.id == genre.id
