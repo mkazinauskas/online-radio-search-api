@@ -29,6 +29,9 @@ public class RadioStationStreamDocument {
     @JsonProperty("type")
     private String type;
 
+    @JsonProperty("working")
+    private boolean working;
+
     RadioStationStreamDocument() {
     }
 
@@ -82,5 +85,13 @@ public class RadioStationStreamDocument {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public boolean isWorking() {
+        return working;
+    }
+
+    public void setWorking(boolean working) {
+        this.working = working;
     }
 }

@@ -39,6 +39,9 @@ public class RadioStationDocument {
     @JsonProperty("genres")
     private Set<GenreDocument> genres = new LinkedHashSet<>();
 
+    @JsonProperty("enabled")
+    private boolean enabled;
+
     RadioStationDocument() {
     }
 
@@ -102,6 +105,14 @@ public class RadioStationDocument {
 
     public void setGenres(Set<GenreDocument> genres) {
         this.genres = new LinkedHashSet<>(genres);
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public void removeStream(String streamId) {

@@ -77,12 +77,15 @@ public class LatestInfoService {
         String website = resolveString(currentRadioStation.getWebsite(), response.getWebsite());
 
         Set<Genre> genres = resolveSet(currentRadioStation.getGenres(), genres(response.getGenres()));
-        updateRadioStation.handle(new UpdateRadioStation(radioStationId,
-                new UpdateRadioStation.Data(
-                        radioStationName,
-                        website,
-                        genres
-                )));
+
+        UpdateRadioStation.Data data = new UpdateRadioStation.DataBuilder()
+                .setTitle(radioStationName)
+                .setWebsite(website)
+                .setEnabled(true)
+                .setGenres(genres)
+                .build();
+
+        updateRadioStation.handle(new UpdateRadioStation(radioStationId, data));
     }
 
     private Set<Genre> resolveSet(Set<Genre> previousSet, Set<Genre> newSet) {
@@ -119,14 +122,17 @@ public class LatestInfoService {
     }
 
     private void updateRadioStreamInfo(StreamScrapper.Response response, RadioStationStream stream) {
+        UpdateRadioStationStream.Data data = new UpdateRadioStationStream.DataBuilder()
+                .setUrl(stream.getUrl())
+                .setBitRate(response.getBitrate())
+                .setType(resolve(response.getFormat()))
+                .setWorking(true)
+                .build();
+
         UpdateRadioStationStream update = new UpdateRadioStationStream(
                 stream.getRadioStationId(),
                 stream.getId(),
-                new UpdateRadioStationStream.Data(
-                        stream.getUrl(),
-                        response.getBitrate(),
-                        resolve(response.getFormat())
-                )
+                data
         );
         updateRadioStationStream.handle(update);
     }

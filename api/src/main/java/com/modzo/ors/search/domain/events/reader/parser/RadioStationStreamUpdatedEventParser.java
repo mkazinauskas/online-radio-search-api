@@ -49,6 +49,7 @@ class RadioStationStreamUpdatedEventParser implements EventParser {
         streamDocument.setUrl(data.getUrl());
         streamDocument.setBitRate(data.getBitRate());
         streamDocument.setType(data.getType());
+        streamDocument.setWorking(data.isWorking());
 
         radioStationsRepository.save(radioStationDocument);
     }

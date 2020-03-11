@@ -32,9 +32,13 @@ class TestRadioStation {
         RadioStation station = create()
         updateRadioStationHandler.handle(
                 new UpdateRadioStation(
-                        station.id, new UpdateRadioStation.Data(
-                        station.title, station.website, [genre] as Set
-                )
+                        station.id,
+                        new UpdateRadioStation.DataBuilder()
+                                .setTitle(station.title)
+                                .setWebsite(station.website)
+                                .setEnabled(true)
+                                .setGenres([genre] as Set)
+                                .build()
                 )
         )
         return station

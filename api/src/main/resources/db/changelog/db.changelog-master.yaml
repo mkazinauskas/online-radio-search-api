@@ -35,6 +35,11 @@ databaseChangeLog:
             type: varchar(100)
             constraints:
               nullable: true
+        - column:
+            name: enabled
+            type: boolean
+            constraints:
+              nullable: false
     - createSequence:
         schemaName: public
         sequenceName: radio_stations_sequence
@@ -87,6 +92,11 @@ databaseChangeLog:
             type: varchar(100)
             constraints:
               nullable: true
+        - column:
+            name: working
+            type: boolean
+            constraints:
+              nullable: false
     - createSequence:
         schemaName: public
         sequenceName: radio_station_streams_sequence
