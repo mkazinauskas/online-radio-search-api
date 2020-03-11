@@ -25,7 +25,7 @@ class UpdateRadioStationSpec extends IntegrationSpec {
     @Autowired
     private Events events
 
-    void 'should create radio station'() {
+    void 'should update radio station'() {
         given:
             RadioStation radioStation = testRadioStation.create()
         and:
@@ -57,6 +57,6 @@ class UpdateRadioStationSpec extends IntegrationSpec {
             foundEvent.title == command.data.title
             foundEvent.website == command.data.website
             foundEvent.enabled == command.data.enabled
-            foundEvent.genres.first().title == command.data.genres.first().title
+            foundEvent.genres.first().title == genre.title
     }
 }
