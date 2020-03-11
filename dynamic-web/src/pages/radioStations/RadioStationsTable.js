@@ -25,6 +25,15 @@ const columns = [
         dataIndex: 'website',
     },
     {
+        title: 'Enabled',
+        dataIndex: 'enabled',
+        render: (text, record) => {
+            return (
+                record.enabled ? 'Yes' : 'No'
+            );
+        }
+    },
+    {
         title: 'Actions',
         key: 'operation',
         fixed: 'right',

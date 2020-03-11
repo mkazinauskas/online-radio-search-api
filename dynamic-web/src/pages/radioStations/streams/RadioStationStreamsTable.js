@@ -29,6 +29,15 @@ const columns = [
         dataIndex: 'type'
     },
     {
+        title: 'Working',
+        dataIndex: 'working',
+        render: (text, record) => {
+            return (
+                record.working ? 'Yes' : 'No'
+            );
+        }
+    },
+    {
         title: 'Preview',
         key: 'preview',
         dataIndex: 'url',
