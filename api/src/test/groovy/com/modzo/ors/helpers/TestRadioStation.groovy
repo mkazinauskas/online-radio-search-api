@@ -37,7 +37,7 @@ class TestRadioStation {
                                 .setTitle(station.title)
                                 .setWebsite(station.website)
                                 .setEnabled(true)
-                                .setGenres([genre] as Set)
+                                .setGenres([new UpdateRadioStation.Data.Genre(genre.id)] as Set)
                                 .build()
                 )
         )

@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 import static com.nimbusds.oauth2.sdk.util.CollectionUtils.isNotEmpty;
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -65,7 +66,7 @@ public class UpdateRadioStation {
         private Data(String title,
                      String website,
                      boolean enabled,
-                     Set<Genre> genres) {
+                     Set<Data.Genre> genres) {
             this.title = title;
             this.website = website;
             this.enabled = enabled;
@@ -86,13 +87,13 @@ public class UpdateRadioStation {
             return enabled;
         }
 
-        public Set<Genre> getGenres() {
+        public Set<Data.Genre> getGenres() {
             return genres;
         }
 
         public Set<Long> getGenreIds() {
             return genres.stream()
-                    .map(Genre::getId)
+                    .map(Data.Genre::getId)
                     .collect(Collectors.toSet());
         }
     }
@@ -207,15 +208,21 @@ public class UpdateRadioStation {
                 throw new DomainException("FIELD_TITLE_NOT_BLANK", "Field title cannot be blank");
             }
 
-            command.data.genres.forEach(genre ->
-                    genres.findById(genre.id)
-                            .orElseThrow(
-                                    () -> new DomainException(
-                                            "GENRE_WAS_NOT_FOUND",
-                                            format("Genre by id `%s` was not found", genre.id
-                                            )
-                                    )
-                            )
+            List<Long> genreIds = command.getData().getGenres()
+                    .stream()
+                    .map(Data.Genre::getId)
+                    .collect(toList());
+
+            genreIds.forEach(id ->
+                    this.genres.findById(id)
+                            .orElseThrow(() -> genreWasNotFound(id))
+            );
+        }
+
+        private DomainException genreWasNotFound(long genreId) {
+            return new DomainException(
+                    "GENRE_WAS_NOT_FOUND",
+                    format("Genre by id `%s` was not found", genreId)
             );
         }
     }

@@ -1,4 +1,4 @@
-package com.modzo.ors.stations.resources.admin.radio.station.stream;
+package com.modzo.ors.stations.resources.admin.radio.station.stream.create;
 
 import com.modzo.ors.stations.domain.radio.station.stream.commands.CreateRadioStationStream;
 import org.springframework.http.ResponseEntity;

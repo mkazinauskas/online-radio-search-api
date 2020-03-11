@@ -3,6 +3,7 @@ package com.modzo.ors.stations.resources.admin.radio.station.stream
 import com.modzo.ors.HttpEntityBuilder
 import com.modzo.ors.stations.domain.radio.station.RadioStation
 import com.modzo.ors.stations.resources.IntegrationSpec
+import com.modzo.ors.stations.resources.admin.radio.station.stream.create.CreateRadioStationStreamRequest
 import org.springframework.http.ResponseEntity
 
 import static com.modzo.ors.TestUsers.ADMIN

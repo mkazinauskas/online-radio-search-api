@@ -37,7 +37,7 @@ class UpdateRadioStationSpec extends IntegrationSpec {
                             .setTitle('new title')
                             .setWebsite('awesome website')
                             .setEnabled(true)
-                            .setGenres([genre] as Set)
+                            .setGenres([new UpdateRadioStation.Data.Genre(genre.id)] as Set)
                             .build()
             )
         when:

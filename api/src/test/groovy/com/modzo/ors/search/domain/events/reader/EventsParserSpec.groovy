@@ -93,7 +93,7 @@ class EventsParserSpec extends IntegrationSpec {
                                     .setTitle(newTitle)
                                     .setWebsite(newWebsite)
                                     .setEnabled(true)
-                                    .setGenres([genre] as Set)
+                                    .setGenres([new UpdateRadioStation.Data.Genre(genre.id)] as Set)
                                     .build()
                     )
             )
