@@ -16,7 +16,8 @@ class RadioStationsRepositorySpec extends IntegrationSpec {
                     new RadioStationDocument(
                             RandomStringUtils.randomNumeric(10) as long,
                             RandomStringUtils.randomAlphanumeric(40),
-                            RandomStringUtils.randomAlphanumeric(10)
+                            RandomStringUtils.randomAlphanumeric(10),
+                            true
                     )
             )
         then:

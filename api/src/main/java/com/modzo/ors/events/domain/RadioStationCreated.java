@@ -16,6 +16,7 @@ public class RadioStationCreated extends DomainEvent {
     }
 
     public static class Data extends DomainEvent.Data {
+
         private final long id;
 
         private final String uniqueId;
@@ -24,15 +25,20 @@ public class RadioStationCreated extends DomainEvent {
 
         private final String title;
 
+        private final boolean enabled;
+
         @JsonCreator
         public Data(@JsonProperty("id") long id,
                     @JsonProperty("uniqueId") String uniqueId,
                     @JsonProperty("created") ZonedDateTime created,
-                    @JsonProperty("title") String title) {
+                    @JsonProperty("title") String title,
+                    @JsonProperty("enabled") boolean enabled
+        ) {
             this.id = id;
             this.uniqueId = uniqueId;
             this.created = created;
             this.title = title;
+            this.enabled = enabled;
         }
 
         public long getId() {
@@ -49,6 +55,10 @@ public class RadioStationCreated extends DomainEvent {
 
         public String getTitle() {
             return title;
+        }
+
+        public boolean isEnabled() {
+            return enabled;
         }
 
         public static RadioStationCreated.Data deserialize(String body) {

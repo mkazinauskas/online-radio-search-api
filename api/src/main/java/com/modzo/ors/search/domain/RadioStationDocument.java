@@ -45,10 +45,11 @@ public class RadioStationDocument {
     RadioStationDocument() {
     }
 
-    public RadioStationDocument(long id, String uniqueId, String title) {
+    public RadioStationDocument(long id, String uniqueId, String title, boolean enabled) {
         this.id = id;
         this.uniqueId = uniqueId;
         this.title = title;
+        this.enabled = enabled;
     }
 
     public long getId() {
