@@ -5,12 +5,17 @@ import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.genre.Genre;
+import com.modzo.ors.stations.domain.radio.station.genre.Genres;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import static com.nimbusds.oauth2.sdk.util.CollectionUtils.isNotEmpty;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toSet;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -36,13 +41,26 @@ public class UpdateRadioStation {
 
     public static class Data {
 
+        public static class Genre {
+
+            private final long id;
+
+            public Genre(long id) {
+                this.id = id;
+            }
+
+            public long getId() {
+                return id;
+            }
+        }
+
         private final String title;
 
         private final String website;
 
         private final boolean enabled;
 
-        private final Set<Genre> genres;
+        private final Set<Data.Genre> genres = new HashSet<>();
 
         private Data(String title,
                      String website,
@@ -51,7 +69,9 @@ public class UpdateRadioStation {
             this.title = title;
             this.website = website;
             this.enabled = enabled;
-            this.genres = genres;
+            if (isNotEmpty(genres)) {
+                this.genres.addAll(genres);
+            }
         }
 
         public String getTitle() {
@@ -69,6 +89,12 @@ public class UpdateRadioStation {
         public Set<Genre> getGenres() {
             return genres;
         }
+
+        public Set<Long> getGenreIds() {
+            return genres.stream()
+                    .map(Genre::getId)
+                    .collect(Collectors.toSet());
+        }
     }
 
     public static class DataBuilder {
@@ -79,9 +105,7 @@ public class UpdateRadioStation {
 
         private boolean enabled;
 
-        private boolean working;
-
-        private Set<Genre> genres;
+        private Set<Data.Genre> genres;
 
         public DataBuilder setTitle(String title) {
             this.title = title;
@@ -98,7 +122,7 @@ public class UpdateRadioStation {
             return this;
         }
 
-        public DataBuilder setGenres(Set<Genre> genres) {
+        public DataBuilder setGenres(Set<Data.Genre> genres) {
             this.genres = genres;
             return this;
         }
@@ -113,13 +137,18 @@ public class UpdateRadioStation {
 
         private final RadioStations radioStations;
 
+        private final Genres genres;
+
         private final Validator validator;
 
         private final ApplicationEventPublisher applicationEventPublisher;
 
-        public Handler(RadioStations radioStations, Validator validator,
+        public Handler(RadioStations radioStations,
+                       Genres genres,
+                       Validator validator,
                        ApplicationEventPublisher applicationEventPublisher) {
             this.radioStations = radioStations;
+            this.genres = genres;
             this.validator = validator;
             this.applicationEventPublisher = applicationEventPublisher;
         }
@@ -132,44 +161,62 @@ public class UpdateRadioStation {
             radioStation.setTitle(command.data.title);
             radioStation.setWebsite(command.data.website);
             radioStation.setEnabled(command.data.enabled);
-            radioStation.getGenres().addAll(command.data.genres);
+
+            List<Genre> foundGenres = genres.findAllById(command.data.getGenreIds());
+            radioStation.getGenres().addAll(foundGenres);
+
+            RadioStationUpdated.Data eventData = new RadioStationUpdated.Data(
+                    radioStation.getUniqueId(),
+                    radioStation.getTitle(),
+                    radioStation.getWebsite(),
+                    radioStation.isEnabled(),
+                    radioStation.getGenres().stream()
+                            .map(genre -> new RadioStationUpdated.Data.Genre(
+                                            genre.getUniqueId(),
+                                            genre.getTitle()
+                                    )
+                            )
+                            .collect(toSet())
+            );
 
             applicationEventPublisher.publishEvent(
-                    new RadioStationUpdated(radioStation,
-                            new RadioStationUpdated.Data(
-                                    radioStation.getUniqueId(),
-                                    radioStation.getTitle(),
-                                    radioStation.getWebsite(),
-                                    radioStation.isEnabled(),
-                                    radioStation.getGenres().stream()
-                                            .map(genre -> new RadioStationUpdated.Data.Genre(
-                                                            genre.getUniqueId(),
-                                                            genre.getTitle()
-                                                    )
-                                            )
-                                            .collect(toSet())
-                            )
-                    )
+                    new RadioStationUpdated(radioStation, eventData)
             );
         }
     }
 
     @Component
     private static class Validator {
+
         private final RadioStations radioStations;
 
-        public Validator(RadioStations radioStations) {
+        private final Genres genres;
+
+        public Validator(RadioStations radioStations, Genres genres) {
             this.radioStations = radioStations;
+            this.genres = genres;
         }
 
         void validate(UpdateRadioStation command) {
             if (radioStations.findById(command.radioStationId).isEmpty()) {
                 throw new DomainException("FIELD_RADIO_STATION_HAS_INCORRECT_DATA",
-                        format("Radio station id `%s` was not found", command.radioStationId));
+                        format("Radio station id `%s` was not found", command.radioStationId)
+                );
             }
             if (isBlank(command.data.title)) {
                 throw new DomainException("FIELD_TITLE_NOT_BLANK", "Field title cannot be blank");
             }
+
+            command.data.genres.forEach(genre ->
+                    genres.findById(genre.id)
+                            .orElseThrow(
+                                    () -> new DomainException(
+                                            "GENRE_WAS_NOT_FOUND",
+                                            format("Genre by id `%s` was not found", genre.id
+                                            )
+                                    )
+                            )
+            );
         }
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toSet;
@@ -76,7 +77,10 @@ public class LatestInfoService {
         String radioStationName = resolveString(currentRadioStation.getTitle(), response.getStreamName());
         String website = resolveString(currentRadioStation.getWebsite(), response.getWebsite());
 
-        Set<Genre> genres = resolveSet(currentRadioStation.getGenres(), genres(response.getGenres()));
+        var genres = resolveSet(currentRadioStation.getGenres(), genres(response.getGenres()))
+                .stream()
+                .map(genre -> new UpdateRadioStation.Data.Genre(genre.getId()))
+                .collect(Collectors.toSet());
 
         UpdateRadioStation.Data data = new UpdateRadioStation.DataBuilder()
                 .setTitle(radioStationName)

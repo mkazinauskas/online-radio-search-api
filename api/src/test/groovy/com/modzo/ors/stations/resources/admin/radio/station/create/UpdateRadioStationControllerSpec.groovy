@@ -10,7 +10,7 @@ import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.OK
 import static org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils.randomAlphanumeric
 
-class CreateRadioStationControllerSpec extends IntegrationSpec {
+class UpdateRadioStationControllerSpec extends IntegrationSpec {
 
     void 'admin should create radio station'() {
         given:
