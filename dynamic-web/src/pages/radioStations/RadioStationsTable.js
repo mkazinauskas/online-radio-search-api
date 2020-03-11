@@ -6,6 +6,7 @@ import { RADIO_STATIONS } from '../../layouts/pathTypes';
 import DeleteRadioStationButton from './deleteStation/DeleteRadioStationButton';
 import ShowRadioStationSongsButton from './songs/ShowRadioStationSongsButton';
 import ShowRadioStationStreamsButton from './streams/ShowRadioStationStreamsButton';
+import UpdateRadioStationButton from './updateRadioStation/UpdateRadioStationButton';
 
 const columns = [
     {
@@ -34,6 +35,15 @@ const columns = [
         }
     },
     {
+        title: 'Genres',
+        dataIndex: 'genres',
+        render: (text, record) => {
+            return (
+                record.genres.map(genre=>genre.title).join(',')
+            );
+        }
+    },
+    {
         title: 'Actions',
         key: 'operation',
         fixed: 'right',
@@ -42,11 +52,12 @@ const columns = [
             return (
                 <span>
                     <span style={{ padding: 15 }}>
-                        <ShowRadioStationSongsButton key={`streams-${id}`} id={id} style={{ padding: 10 }} />
+                        <ShowRadioStationSongsButton key={`songs-${id}`} id={id} style={{ padding: 10 }} />
                     </span>
                     <span style={{ padding: 15 }}>
                         <ShowRadioStationStreamsButton key={`streams-${id}`} id={id} />
                     </span>
+                    <UpdateRadioStationButton key={`update-radio-station-${id}`} radioStation={record} />
                     <DeleteRadioStationButton key={`delete-${id}`} id={id} />
                 </span>
             )
