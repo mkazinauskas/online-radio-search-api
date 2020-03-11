@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toSet;
@@ -76,13 +77,19 @@ public class LatestInfoService {
         String radioStationName = resolveString(currentRadioStation.getTitle(), response.getStreamName());
         String website = resolveString(currentRadioStation.getWebsite(), response.getWebsite());
 
-        Set<Genre> genres = resolveSet(currentRadioStation.getGenres(), genres(response.getGenres()));
-        updateRadioStation.handle(new UpdateRadioStation(radioStationId,
-                new UpdateRadioStation.Data(
-                        radioStationName,
-                        website,
-                        genres
-                )));
+        var genres = resolveSet(currentRadioStation.getGenres(), genres(response.getGenres()))
+                .stream()
+                .map(genre -> new UpdateRadioStation.Data.Genre(genre.getId()))
+                .collect(Collectors.toSet());
+
+        UpdateRadioStation.Data data = new UpdateRadioStation.DataBuilder()
+                .setTitle(radioStationName)
+                .setWebsite(website)
+                .setEnabled(true)
+                .setGenres(genres)
+                .build();
+
+        updateRadioStation.handle(new UpdateRadioStation(radioStationId, data));
     }
 
     private Set<Genre> resolveSet(Set<Genre> previousSet, Set<Genre> newSet) {
@@ -119,14 +126,17 @@ public class LatestInfoService {
     }
 
     private void updateRadioStreamInfo(StreamScrapper.Response response, RadioStationStream stream) {
+        UpdateRadioStationStream.Data data = new UpdateRadioStationStream.DataBuilder()
+                .setUrl(stream.getUrl())
+                .setBitRate(response.getBitrate())
+                .setType(resolve(response.getFormat()))
+                .setWorking(true)
+                .build();
+
         UpdateRadioStationStream update = new UpdateRadioStationStream(
                 stream.getRadioStationId(),
                 stream.getId(),
-                new UpdateRadioStationStream.Data(
-                        stream.getUrl(),
-                        response.getBitrate(),
-                        resolve(response.getFormat())
-                )
+                data
         );
         updateRadioStationStream.handle(update);
     }

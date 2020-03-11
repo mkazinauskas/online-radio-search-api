@@ -89,11 +89,12 @@ class EventsParserSpec extends IntegrationSpec {
         when:
             updateRadioStationHandler.handle(
                     new UpdateRadioStation(station.id,
-                            new UpdateRadioStation.Data(
-                                    newTitle,
-                                    newWebsite,
-                                    [genre] as Set
-                            )
+                            new UpdateRadioStation.DataBuilder()
+                                    .setTitle(newTitle)
+                                    .setWebsite(newWebsite)
+                                    .setEnabled(true)
+                                    .setGenres([new UpdateRadioStation.Data.Genre(genre.id)] as Set)
+                                    .build()
                     )
             )
             eventsProcessor.process()
@@ -104,6 +105,7 @@ class EventsParserSpec extends IntegrationSpec {
             foundStation.title == newTitle
             foundStation.website == newWebsite
             foundStation.genres.size() == 1
+            foundStation.enabled
             with(foundStation.genres.first() as GenreDocument) {
                 uniqueId == genre.uniqueId
                 title == genre.title
@@ -137,8 +139,12 @@ class EventsParserSpec extends IntegrationSpec {
         when:
             updateRadioStationStreamHandler.handle(
                     new UpdateRadioStationStream(radioStation.id, stream.id,
-                            new UpdateRadioStationStream.Data(
-                                    newStreamUrl, 192, ACC)
+                            new UpdateRadioStationStream.DataBuilder()
+                                    .setUrl(newStreamUrl)
+                                    .setBitRate(192)
+                                    .setType(ACC)
+                                    .setWorking(true)
+                                    .build()
                     )
             )
             eventsProcessor.process()
@@ -157,6 +163,7 @@ class EventsParserSpec extends IntegrationSpec {
             resultStream.url == newStreamUrl
             resultStream.bitRate == 192
             resultStream.type == ACC.name()
+            resultStream.working
     }
 
     void 'should process song'() {

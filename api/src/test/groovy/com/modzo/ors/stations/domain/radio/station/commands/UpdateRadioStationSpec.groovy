@@ -25,7 +25,7 @@ class UpdateRadioStationSpec extends IntegrationSpec {
     @Autowired
     private Events events
 
-    void 'should create radio station'() {
+    void 'should update radio station'() {
         given:
             RadioStation radioStation = testRadioStation.create()
         and:
@@ -33,7 +33,12 @@ class UpdateRadioStationSpec extends IntegrationSpec {
         and:
             UpdateRadioStation command = new UpdateRadioStation(
                     radioStation.id,
-                    new UpdateRadioStation.Data('new title', 'awesome website', [genre] as Set)
+                    new UpdateRadioStation.DataBuilder()
+                            .setTitle('new title')
+                            .setWebsite('awesome website')
+                            .setEnabled(true)
+                            .setGenres([new UpdateRadioStation.Data.Genre(genre.id)] as Set)
+                            .build()
             )
         when:
             testTarget.handle(command)
@@ -41,6 +46,7 @@ class UpdateRadioStationSpec extends IntegrationSpec {
             RadioStation savedRadioStation = radioStations.findById(radioStation.id).get()
             savedRadioStation.title == command.data.title
             savedRadioStation.website == command.data.website
+            savedRadioStation.enabled == command.data.enabled
             savedRadioStation.genres*.uniqueId.first() == genre.uniqueId
         and:
             Page<Event> events = events.findAllByType(RADIO_STATION_UPDATED, unpaged())
@@ -50,6 +56,7 @@ class UpdateRadioStationSpec extends IntegrationSpec {
                     .find { Data data -> data.uniqueId == savedRadioStation.uniqueId }
             foundEvent.title == command.data.title
             foundEvent.website == command.data.website
-            foundEvent.genres.first().title == command.data.genres.first().title
+            foundEvent.enabled == command.data.enabled
+            foundEvent.genres.first().title == genre.title
     }
 }

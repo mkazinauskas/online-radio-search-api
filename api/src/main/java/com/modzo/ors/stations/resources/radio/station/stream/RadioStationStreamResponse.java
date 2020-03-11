@@ -20,19 +20,23 @@ public class RadioStationStreamResponse {
 
     private final String type;
 
+    private final boolean working;
+
     @JsonCreator
     private RadioStationStreamResponse(@JsonProperty("id") long id,
                                        @JsonProperty("uniqueId") String uniqueId,
                                        @JsonProperty("created") ZonedDateTime created,
                                        @JsonProperty("url") String url,
                                        @JsonProperty("bitRate") Integer bitRate,
-                                       @JsonProperty("type") String type) {
+                                       @JsonProperty("type") String type,
+                                       @JsonProperty("working") boolean working) {
         this.id = id;
         this.uniqueId = uniqueId;
         this.created = created;
         this.url = url;
         this.bitRate = bitRate;
         this.type = type;
+        this.working = working;
     }
 
     static RadioStationStreamResponse create(RadioStationStream radioStationStream) {
@@ -44,7 +48,8 @@ public class RadioStationStreamResponse {
                 radioStationStream.getBitRate(),
                 radioStationStream.getType()
                         .map(RadioStationStream.Type::name)
-                        .orElse(null)
+                        .orElse(null),
+                radioStationStream.isWorking()
         );
     }
 
@@ -70,5 +75,9 @@ public class RadioStationStreamResponse {
 
     public String getType() {
         return type;
+    }
+
+    public boolean isWorking() {
+        return working;
     }
 }

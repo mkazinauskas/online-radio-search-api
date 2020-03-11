@@ -18,6 +18,11 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 @Entity
 @Table(name = "radio_station_streams")
 public class RadioStationStream {
+
+    public enum Type {
+        MP3, ACC, MPEG, UNKNOWN
+    }
+
     @Id
     @GeneratedValue(generator = "radio_station_streams_sequence", strategy = SEQUENCE)
     @SequenceGenerator(
@@ -46,6 +51,9 @@ public class RadioStationStream {
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private Type type;
+
+    @Column(name = "working")
+    private boolean working = true;
 
     RadioStationStream() {
     }
@@ -99,7 +107,11 @@ public class RadioStationStream {
         this.type = type;
     }
 
-    public enum Type {
-        MP3, ACC, MPEG, UNKNOWN
+    public boolean isWorking() {
+        return working;
+    }
+
+    public void setWorking(boolean working) {
+        this.working = working;
     }
 }

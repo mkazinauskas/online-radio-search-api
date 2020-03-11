@@ -1,4 +1,4 @@
-package com.modzo.ors.stations.resources.admin.radio.station.stream;
+package com.modzo.ors.stations.resources.admin.radio.station.stream.create;
 
 import org.hibernate.validator.constraints.URL;
 

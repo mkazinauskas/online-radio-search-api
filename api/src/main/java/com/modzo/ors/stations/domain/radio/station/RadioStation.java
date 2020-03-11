@@ -46,6 +46,9 @@ public class RadioStation {
     @Column(name = "website", length = 100, unique = true)
     private String website;
 
+    @Column(name = "enabled")
+    private boolean enabled = true;
+
     @ManyToMany(cascade = REFRESH, fetch = EAGER)
     @JoinTable(
             name = "genres_to_radio_stations",
@@ -91,6 +94,14 @@ public class RadioStation {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Set<Genre> getGenres() {

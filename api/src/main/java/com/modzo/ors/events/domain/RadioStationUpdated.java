@@ -16,11 +16,14 @@ public class RadioStationUpdated extends DomainEvent {
     }
 
     public static class Data extends DomainEvent.Data {
+
         private final String uniqueId;
 
         private final String title;
 
         private final String website;
+
+        private final boolean enabled;
 
         private final Set<Genre> genres;
 
@@ -28,14 +31,17 @@ public class RadioStationUpdated extends DomainEvent {
         public Data(@JsonProperty("uniqueId") String uniqueId,
                     @JsonProperty("title") String title,
                     @JsonProperty("website") String website,
+                    @JsonProperty("enabled") boolean enabled,
                     @JsonProperty("genres") Set<Genre> genres) {
             this.uniqueId = uniqueId;
             this.title = title;
             this.website = website;
+            this.enabled = enabled;
             this.genres = genres;
         }
 
         public static class Genre {
+
             private final String uniqueId;
 
             private final String title;
@@ -66,6 +72,10 @@ public class RadioStationUpdated extends DomainEvent {
 
         public String getWebsite() {
             return website;
+        }
+
+        public boolean isEnabled() {
+            return enabled;
         }
 
         public Set<Genre> getGenres() {

@@ -1,18 +1,18 @@
-package com.modzo.ors.stations.resources.admin.radio.station.stream
+package com.modzo.ors.stations.resources.admin.radio.station.stream.create
 
 import com.modzo.ors.HttpEntityBuilder
+import com.modzo.ors.TestUsers
 import com.modzo.ors.stations.domain.radio.station.RadioStation
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
 
-import static com.modzo.ors.TestUsers.ADMIN
 import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.HttpStatus.OK
 import static org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils.randomAlphanumeric
 
 class CreateRadioStationStreamControllerSpec extends IntegrationSpec {
 
-    void 'admin should create radio station song'() {
+    void 'admin should create radio station'() {
         given:
             RadioStation radioStation = testRadioStation.create()
         and:
@@ -24,7 +24,7 @@ class CreateRadioStationStreamControllerSpec extends IntegrationSpec {
                     "/admin/radio-stations/${radioStation.id}/streams",
                     POST,
                     HttpEntityBuilder.builder()
-                            .bearer(token(ADMIN))
+                            .bearer(token(TestUsers.ADMIN))
                             .body(request)
                             .build(),
                     String

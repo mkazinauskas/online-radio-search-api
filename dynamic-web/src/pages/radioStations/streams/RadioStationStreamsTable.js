@@ -6,6 +6,7 @@ import { createURLRadioStationStreams } from '../../../layouts/pathTypes';
 import DeleteRadioStationStreamButton from './delete/DeleteRadioStationStreamButton';
 import RadioStationStreamLatestInfoButton from './latestInfo/RadioStationStreamLatestInfoButton';
 import UpdateRadioStationStreamSongsButton from './songs/UpdateRadioStationStreamSongsButton';
+import UpdateRadioStationStreamButton from './update/UpdateRadioStationStreamButton';
 
 const columns = [
     {
@@ -27,6 +28,15 @@ const columns = [
     {
         title: 'Type',
         dataIndex: 'type'
+    },
+    {
+        title: 'Working',
+        dataIndex: 'working',
+        render: (text, record) => {
+            return (
+                record.working ? 'Yes' : 'No'
+            );
+        }
     },
     {
         title: 'Preview',
@@ -57,6 +67,11 @@ const columns = [
                     <RadioStationStreamLatestInfoButton
                         key={`fetch-info-${record.id}`}
                         radioStationId={record.radioStationId}
+                        id={record.id}
+                    />
+                    <UpdateRadioStationStreamButton
+                        key={`update-${record.id}`}
+                        radioStationStream={record}
                         id={record.id}
                     />
                     <DeleteRadioStationStreamButton

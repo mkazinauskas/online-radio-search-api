@@ -18,7 +18,7 @@ class EventsProcessorScheduler {
         this.processor = processor;
     }
 
-    @Scheduled(fixedDelay = 10L)
+    @Scheduled(fixedDelay = 1000L)
     void process() {
         log.info("Executing events processor.");
         processor.process();

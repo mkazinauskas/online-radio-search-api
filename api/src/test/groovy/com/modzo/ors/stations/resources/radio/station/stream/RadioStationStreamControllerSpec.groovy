@@ -74,6 +74,7 @@ class RadioStationStreamControllerSpec extends IntegrationSpec {
                 it.url == stream.url
                 it.bitRate == stream.bitRate
                 it.type == stream.type.map { it.name() }.orElse(null)
+                it.working == stream.working
             }
         and:
             with(resource.links.first()) {

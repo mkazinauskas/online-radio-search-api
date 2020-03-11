@@ -47,6 +47,7 @@ class RadioStationUpdatedEventParser implements EventParser {
         radioStationDocument.setTitle(data.getTitle());
         radioStationDocument.setWebsite(data.getWebsite());
         radioStationDocument.setGenres(genres(data.getGenres()));
+        radioStationDocument.setEnabled(data.isEnabled());
         radioStationsRepository.save(radioStationDocument);
     }
 

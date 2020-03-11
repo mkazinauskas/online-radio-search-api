@@ -53,7 +53,8 @@ public class CreateRadioStation {
                                     radioStation.getId(),
                                     radioStation.getUniqueId(),
                                     radioStation.getCreated(),
-                                    radioStation.getTitle()
+                                    radioStation.getTitle(),
+                                    radioStation.isEnabled()
                             )
                     )
             );

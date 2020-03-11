@@ -32,7 +32,12 @@ class UpdateRadioStationStreamSpec extends IntegrationSpec {
         and:
             UpdateRadioStationStream command = new UpdateRadioStationStream(
                     radioStation.id, stream.id,
-                    new UpdateRadioStationStream.Data('new test url', 993, ACC)
+                    new UpdateRadioStationStream.DataBuilder()
+                            .setUrl('new test url')
+                            .setBitRate(993)
+                            .setType(ACC)
+                            .setWorking(true)
+                            .build()
             )
         when:
             testTarget.handle(command)
