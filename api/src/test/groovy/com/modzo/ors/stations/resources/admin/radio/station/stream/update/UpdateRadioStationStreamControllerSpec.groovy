@@ -9,7 +9,7 @@ import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 
-import static org.springframework.http.HttpMethod.POST
+import static org.springframework.http.HttpMethod.PATCH
 import static org.springframework.http.HttpStatus.ACCEPTED
 import static org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils.randomAlphanumeric
 
@@ -33,7 +33,7 @@ class UpdateRadioStationStreamControllerSpec extends IntegrationSpec {
         when:
             ResponseEntity<String> response = restTemplate.exchange(
                     "/admin/radio-stations/${radioStation.id}/streams/${stream.id}",
-                    POST,
+                    PATCH,
                     HttpEntityBuilder.builder()
                             .bearer(token(TestUsers.ADMIN))
                             .body(request)

@@ -2,8 +2,8 @@ package com.modzo.ors.stations.resources.admin.radio.station.stream.update;
 
 import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateRadioStationStream;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +20,7 @@ class UpdateRadioStationStreamController {
         this.updateRadioStationStream = updateRadioStationStream;
     }
 
-    @PostMapping("/admin/radio-stations/{id}/streams/{streamId}")
+    @PatchMapping("/admin/radio-stations/{id}/streams/{streamId}")
     ResponseEntity<String> updateRadioStationStream(@PathVariable("id") long radioStationId,
                                                     @PathVariable("streamId") long streamId,
                                                     @Valid @RequestBody UpdateRadioStationStreamRequest request) {
