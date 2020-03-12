@@ -5,6 +5,7 @@ import com.modzo.ors.stations.domain.radio.station.song.commands.CreateRadioStat
 import com.modzo.ors.stations.domain.radio.station.song.commands.FindRadioStationSongByPlayingTime;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStream;
+import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateSongsCheckedTime;
 import com.modzo.ors.stations.domain.song.Song;
 import com.modzo.ors.stations.domain.song.commands.CreateSong;
 import com.modzo.ors.stations.domain.song.commands.FindSong;
@@ -13,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 @Component
@@ -34,13 +36,16 @@ public class SongsUpdaterService {
 
     private final GetSong.Handler getSongById;
 
+    private final UpdateSongsCheckedTime.Handler updateSongsCheckedTimeHandler;
+
     public SongsUpdaterService(GetRadioStationStream.Handler radioStationStream,
                                LastPlayedSongsScrapper playedSongsScrapper,
                                FindRadioStationSongByPlayingTime.Handler findSong,
                                CreateRadioStationSong.Handler createRadioStationSong,
                                FindSong.Handler findSongByTitle,
                                CreateSong.Handler createSong,
-                               GetSong.Handler getSongById) {
+                               GetSong.Handler getSongById,
+                               UpdateSongsCheckedTime.Handler updateSongsCheckedTimeHandler) {
         this.radioStationStream = radioStationStream;
         this.playedSongsScrapper = playedSongsScrapper;
         this.findSong = findSong;
@@ -48,6 +53,7 @@ public class SongsUpdaterService {
         this.findSongByTitle = findSongByTitle;
         this.createSong = createSong;
         this.getSongById = getSongById;
+        this.updateSongsCheckedTimeHandler = updateSongsCheckedTimeHandler;
     }
 
     public void update(long radioStationId, long streamId) {
@@ -55,7 +61,7 @@ public class SongsUpdaterService {
                 new GetRadioStationStream(radioStationId, streamId)
         );
 
-        stream.setSongsChecked(checkingTime);
+        updateSongsCheckedTimeHandler.handle(new UpdateSongsCheckedTime(radioStationId, streamId, ZonedDateTime.now()));
 
         String streamUrl = stream.getUrl();
 

@@ -48,6 +48,7 @@ class UpdateRadioStationStreamControllerSpec extends IntegrationSpec {
                 bitRate == request.bitRate
                 type.get() == request.type
                 working == request.working
+                songsChecked
             }
     }
 }

@@ -1,5 +1,6 @@
 package com.modzo.ors.stations.domain.radio.station.stream.commands;
 
+import com.modzo.ors.events.domain.RadioStationStreamSongsCheckedUpdated;
 import com.modzo.ors.events.domain.RadioStationStreamUpdated;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
@@ -11,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
+import static java.util.Objects.isNull;
 
 public class UpdateSongsCheckedTime {
 
@@ -46,13 +47,13 @@ public class UpdateSongsCheckedTime {
 
         private final RadioStations radioStations;
 
-        private final UpdateRadioStationStream.Validator validator;
+        private final UpdateSongsCheckedTime.Validator validator;
 
         private final ApplicationEventPublisher applicationEventPublisher;
 
         public Handler(RadioStationStreams radioStationStreams,
                        RadioStations radioStations,
-                       UpdateRadioStationStream.Validator validator,
+                       UpdateSongsCheckedTime.Validator validator,
                        ApplicationEventPublisher applicationEventPublisher) {
             this.radioStationStreams = radioStationStreams;
             this.radioStations = radioStations;
@@ -61,26 +62,20 @@ public class UpdateSongsCheckedTime {
         }
 
         @Transactional
-        public void handle(UpdateRadioStationStream command) {
+        public void handle(UpdateSongsCheckedTime command) {
             validator.validate(command);
             RadioStationStream stream = radioStationStreams
                     .findByRadioStationIdAndId(command.radioStationId, command.streamId).get();
 
-            stream.setBitRate(command.data.bitRate);
-            stream.setType(command.data.type);
-            stream.setUrl(command.data.url);
-            stream.setWorking(command.data.working);
-            String radioStationUniqueId = radioStations.getOne(command.radioStationId).getUniqueId();
+            stream.setSongsChecked(command.songsCheckedTime);
 
             applicationEventPublisher.publishEvent(
-                    new RadioStationStreamUpdated(stream,
-                            new RadioStationStreamUpdated.Data(
+                    new RadioStationStreamSongsCheckedUpdated(
+                            stream,
+                            new RadioStationStreamSongsCheckedUpdated.Data(
+                                    stream.getId(),
                                     stream.getUniqueId(),
-                                    radioStationUniqueId,
-                                    command.data.url,
-                                    command.data.bitRate,
-                                    command.data.type.name(),
-                                    command.data.working
+                                    stream.getSongsChecked()
                             )
                     )
             );
@@ -96,7 +91,7 @@ public class UpdateSongsCheckedTime {
             this.radioStations = radioStations;
         }
 
-        void validate(UpdateRadioStationStream command) {
+        void validate(UpdateSongsCheckedTime command) {
             if (command.radioStationId <= 0) {
                 throw new DomainException("FIELD_RADIO_STATION_ID_IS_NOT_POSITIVE",
                         "Field radio station id should be positive");
@@ -105,8 +100,11 @@ public class UpdateSongsCheckedTime {
                 throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT",
                         "Radio station with id is not available");
             }
-            if (isBlank(command.data.url)) {
-                throw new DomainException("FIELD_URL_NOT_BLANK", "Field data url cannot be blank");
+            if (isNull(command.songsCheckedTime)) {
+                throw new DomainException(
+                        "FIELD_SONGS_CHECKED_TIME_IS_NULL",
+                        "Field songs checked time should not be null"
+                );
             }
         }
     }

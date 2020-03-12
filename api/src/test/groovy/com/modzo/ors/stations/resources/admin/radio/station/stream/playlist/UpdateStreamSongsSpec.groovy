@@ -71,7 +71,7 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
 
     private void serverResponseExist(String url) {
         String body = getClass().getResource('/services/scrappers/played/played-source.html').text
-        Map<String, String> headers = [(HttpHeader.CONTENT_TYPE): 'text/html']
+        Map<String, String> headers = [(HttpHeader.CONTENT_TYPE.asString()): 'text/html']
         wireMockTestHelper.okGetResponse(url, headers, body)
     }
 }
