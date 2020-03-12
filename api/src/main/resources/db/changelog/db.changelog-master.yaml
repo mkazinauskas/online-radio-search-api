@@ -97,6 +97,12 @@ databaseChangeLog:
             type: boolean
             constraints:
               nullable: false
+        - column:
+            name: songs_checked
+            type: timestamp with time zone
+        - column:
+            name: info_checked
+            type: timestamp with time zone
     - createSequence:
         schemaName: public
         sequenceName: radio_station_streams_sequence

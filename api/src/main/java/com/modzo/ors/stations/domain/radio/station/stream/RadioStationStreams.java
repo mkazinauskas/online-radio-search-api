@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 public interface RadioStationStreams extends CrudRepository<RadioStationStream, Long> {
@@ -13,4 +14,6 @@ public interface RadioStationStreams extends CrudRepository<RadioStationStream, 
     Optional<RadioStationStream> findByRadioStationIdAndUrl(long radioStationId, String url);
 
     Page<RadioStationStream> findAllByRadioStationId(long radioStationId, Pageable pageable);
+
+    Optional<RadioStationStream> findOneBySongsCheckedIsBeforeOrSongsCheckedIsNullOrderBySongsCheckedAsc(ZonedDateTime songCheckedBefore);
 }

@@ -24,14 +24,14 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
 @Component
-public class LastPlayedSongsScrapper {
+class LastPlayedSongsScrapper {
 
     private final WebPageReader siteReader;
 
     private final StreamPlayedSongsUrlGenerator generator;
 
-    public LastPlayedSongsScrapper(WebPageReader siteReader,
-                                   StreamPlayedSongsUrlGenerator generator) {
+    LastPlayedSongsScrapper(WebPageReader siteReader,
+                            StreamPlayedSongsUrlGenerator generator) {
         this.siteReader = siteReader;
         this.generator = generator;
     }

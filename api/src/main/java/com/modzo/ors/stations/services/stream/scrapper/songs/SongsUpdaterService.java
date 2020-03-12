@@ -1,6 +1,5 @@
-package com.modzo.ors.stations.resources.admin.radio.station.stream.playlist;
+package com.modzo.ors.stations.services.stream.scrapper.songs;
 
-import com.modzo.ors.stations.domain.radio.station.commands.GetRadioStation;
 import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong;
 import com.modzo.ors.stations.domain.radio.station.song.commands.CreateRadioStationSong;
 import com.modzo.ors.stations.domain.radio.station.song.commands.FindRadioStationSongByPlayingTime;
@@ -10,7 +9,6 @@ import com.modzo.ors.stations.domain.song.Song;
 import com.modzo.ors.stations.domain.song.commands.CreateSong;
 import com.modzo.ors.stations.domain.song.commands.FindSong;
 import com.modzo.ors.stations.domain.song.commands.GetSong;
-import com.modzo.ors.stations.services.stream.scrapper.songs.LastPlayedSongsScrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -18,13 +16,11 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-class StreamSongsService {
+public class SongsUpdaterService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(StreamSongsService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SongsUpdaterService.class);
 
     private final GetRadioStationStream.Handler radioStationStream;
-
-    private final GetRadioStation.Handler radioStation;
 
     private final LastPlayedSongsScrapper playedSongsScrapper;
 
@@ -32,38 +28,34 @@ class StreamSongsService {
 
     private final CreateRadioStationSong.Handler createRadioStationSong;
 
-    private final CreateRadioStationSong.Handler getCreateRadioStationSong;
-
     private final FindSong.Handler findSongByTitle;
 
     private final CreateSong.Handler createSong;
 
     private final GetSong.Handler getSongById;
 
-    public StreamSongsService(GetRadioStationStream.Handler radioStationStream,
-                              GetRadioStation.Handler radioStation,
-                              LastPlayedSongsScrapper playedSongsScrapper,
-                              FindRadioStationSongByPlayingTime.Handler findSong,
-                              CreateRadioStationSong.Handler createRadioStationSong,
-                              CreateRadioStationSong.Handler getCreateRadioStationSong,
-                              FindSong.Handler findSongByTitle,
-                              CreateSong.Handler createSong,
-                              GetSong.Handler getSongById) {
+    public SongsUpdaterService(GetRadioStationStream.Handler radioStationStream,
+                               LastPlayedSongsScrapper playedSongsScrapper,
+                               FindRadioStationSongByPlayingTime.Handler findSong,
+                               CreateRadioStationSong.Handler createRadioStationSong,
+                               FindSong.Handler findSongByTitle,
+                               CreateSong.Handler createSong,
+                               GetSong.Handler getSongById) {
         this.radioStationStream = radioStationStream;
-        this.radioStation = radioStation;
         this.playedSongsScrapper = playedSongsScrapper;
         this.findSong = findSong;
         this.createRadioStationSong = createRadioStationSong;
-        this.getCreateRadioStationSong = getCreateRadioStationSong;
         this.findSongByTitle = findSongByTitle;
         this.createSong = createSong;
         this.getSongById = getSongById;
     }
 
-    void update(long radioStationId, long streamId) {
+    public void update(long radioStationId, long streamId) {
         RadioStationStream stream = radioStationStream.handle(
                 new GetRadioStationStream(radioStationId, streamId)
         );
+
+        stream.setSongsChecked(checkingTime);
 
         String streamUrl = stream.getUrl();
 
