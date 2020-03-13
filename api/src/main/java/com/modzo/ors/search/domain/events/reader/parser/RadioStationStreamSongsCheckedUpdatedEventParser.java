@@ -2,26 +2,19 @@ package com.modzo.ors.search.domain.events.reader.parser;
 
 import com.modzo.ors.events.domain.DomainEvent;
 import com.modzo.ors.events.domain.Event;
-import com.modzo.ors.events.domain.RadioStationStreamUpdated;
-import com.modzo.ors.search.domain.RadioStationDocument;
+import com.modzo.ors.events.domain.RadioStationStreamSongsCheckedUpdated;
 import com.modzo.ors.search.domain.RadioStationStreamDocument;
-import com.modzo.ors.search.domain.RadioStationsRepository;
+import com.modzo.ors.search.domain.RadioStationStreamsRepository;
 import com.modzo.ors.search.domain.ReadModelException;
-import com.modzo.ors.search.domain.commands.FindRadioStationByUniqueId;
 import org.springframework.stereotype.Component;
 
 @Component
 class RadioStationStreamSongsCheckedUpdatedEventParser implements EventParser {
 
-    private final FindRadioStationByUniqueId.Handler findRadioStationByUniqueId;
+    private final RadioStationStreamsRepository radioStationStreamsRepository;
 
-    private final RadioStationsRepository radioStationsRepository;
-
-    RadioStationStreamSongsCheckedUpdatedEventParser(
-            FindRadioStationByUniqueId.Handler findRadioStationByUniqueId,
-            RadioStationsRepository radioStationsRepository) {
-        this.findRadioStationByUniqueId = findRadioStationByUniqueId;
-        this.radioStationsRepository = radioStationsRepository;
+    RadioStationStreamSongsCheckedUpdatedEventParser(RadioStationStreamsRepository radioStationStreamsRepository) {
+        this.radioStationStreamsRepository = radioStationStreamsRepository;
     }
 
     @Override
@@ -31,13 +24,10 @@ class RadioStationStreamSongsCheckedUpdatedEventParser implements EventParser {
 
     @Override
     public void parse(Event event) {
-        RadioStationStreamUpdated.Data data = RadioStationStreamUpdated.Data.deserialize(event.getBody());
+        RadioStationStreamSongsCheckedUpdated.Data data = RadioStationStreamSongsCheckedUpdated.Data
+                .deserialize(event.getBody());
 
-        RadioStationDocument radioStationDocument = findRadioStationByUniqueId.handle(
-                new FindRadioStationByUniqueId(data.getRadioStationUniqueId())
-        );
-
-        RadioStationStreamDocument streamDocument = radioStationDocument.getStreams()
+        RadioStationStreamDocument streamDocument = radioStationStreamsRepository.findByUniqueId(data.getUniqueId())
                 .stream()
                 .filter(stream -> stream.getUniqueId().equals(data.getUniqueId()))
                 .findFirst()
@@ -48,6 +38,6 @@ class RadioStationStreamSongsCheckedUpdatedEventParser implements EventParser {
 
         streamDocument.setSongsChecked(streamDocument.getSongsChecked());
 
-        radioStationsRepository.save(radioStationDocument);
+        radioStationStreamsRepository.save(streamDocument);
     }
 }
