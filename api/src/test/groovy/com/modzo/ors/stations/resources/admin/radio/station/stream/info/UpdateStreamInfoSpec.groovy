@@ -14,7 +14,7 @@ import static com.modzo.ors.TestUsers.ADMIN
 import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.HttpStatus.NO_CONTENT
 
-class StreamLatestInfoControllerSpec extends IntegrationSpec {
+class UpdateStreamInfoSpec extends IntegrationSpec {
 
     @Autowired
     GetRadioStationStream.Handler radioStationStreamHandler
@@ -48,6 +48,7 @@ class StreamLatestInfoControllerSpec extends IntegrationSpec {
             updatedStream.url == stream.url
             updatedStream.type.get() == RadioStationStream.Type.MP3
             updatedStream.bitRate == 192
+            updatedStream.infoChecked
         and:
             RadioStation updateRadioStation = radioStationHandler.handle(new GetRadioStation(radioStation.id))
             updateRadioStation.title == 'Radio 2.0 - Valli di Bergamo'

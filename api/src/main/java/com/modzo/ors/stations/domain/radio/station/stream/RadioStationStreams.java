@@ -18,4 +18,8 @@ public interface RadioStationStreams extends CrudRepository<RadioStationStream, 
     Optional<RadioStationStream> findOneBySongsCheckedIsBeforeOrSongsCheckedIsNullOrderBySongsCheckedAsc(
             ZonedDateTime songCheckedBefore
     );
+
+    Optional<RadioStationStream> findOneByInfoCheckedIsBeforeOrInfoCheckedIsNullOrderByInfoCheckedAsc(
+            ZonedDateTime songCheckedBefore
+    );
 }

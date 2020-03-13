@@ -37,6 +37,9 @@ public class RadioStationStreamDocument {
     @JsonProperty("songsChecked")
     private ZonedDateTime songsChecked;
 
+    @JsonProperty("infoChecked")
+    private ZonedDateTime infoChecked;
+
     RadioStationStreamDocument() {
     }
 
@@ -106,5 +109,13 @@ public class RadioStationStreamDocument {
 
     public void setSongsChecked(ZonedDateTime songsChecked) {
         this.songsChecked = songsChecked;
+    }
+
+    public ZonedDateTime getInfoChecked() {
+        return infoChecked;
+    }
+
+    public void setInfoChecked(ZonedDateTime infoChecked) {
+        this.infoChecked = infoChecked;
     }
 }

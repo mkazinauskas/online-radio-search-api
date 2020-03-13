@@ -43,6 +43,7 @@ public class Event {
         RADIO_STATION_STREAM_DELETED(RadioStationStreamDeleted.Data.class),
         RADIO_STATION_STREAM_UPDATED(RadioStationStreamUpdated.Data.class),
         RADIO_STATION_STREAM_SONGS_CHECKED_UPDATED(RadioStationStreamSongsCheckedUpdated.Data.class),
+        RADIO_STATION_STREAM_INFO_CHECKED_UPDATED(RadioStationStreamInfoCheckedUpdated.Data.class),
         GENRE_CREATED(GenreCreated.Data.class),
         SONG_CREATED(SongCreated.Data.class),
         SONG_DELETED(SongDeleted.Data.class),

@@ -36,3 +36,4 @@ application:
   radio.station.stream.scrapper.played.songs.url.endings: /played.html,/played.html?sid=1,/played.html?sid=2
   events.processor.enabled: true
   songs.updater.scheduler.enabled: true
+  info.updater.scheduler: true
