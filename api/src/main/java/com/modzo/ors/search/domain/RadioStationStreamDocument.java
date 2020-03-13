@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import java.time.ZonedDateTime;
+
 @Document(indexName = "online_radio_search_streams")
 public class RadioStationStreamDocument {
 
@@ -31,6 +33,9 @@ public class RadioStationStreamDocument {
 
     @JsonProperty("working")
     private boolean working;
+
+    @JsonProperty("songsChecked")
+    private ZonedDateTime songsChecked;
 
     RadioStationStreamDocument() {
     }
@@ -93,5 +98,13 @@ public class RadioStationStreamDocument {
 
     public void setWorking(boolean working) {
         this.working = working;
+    }
+
+    public ZonedDateTime getSongsChecked() {
+        return songsChecked;
+    }
+
+    public void setSongsChecked(ZonedDateTime songsChecked) {
+        this.songsChecked = songsChecked;
     }
 }
