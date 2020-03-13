@@ -142,6 +142,7 @@ public class UpdateRadioStationStream {
             applicationEventPublisher.publishEvent(
                     new RadioStationStreamUpdated(stream,
                             new RadioStationStreamUpdated.Data(
+                                    stream.getId(),
                                     stream.getUniqueId(),
                                     radioStationUniqueId,
                                     command.data.url,

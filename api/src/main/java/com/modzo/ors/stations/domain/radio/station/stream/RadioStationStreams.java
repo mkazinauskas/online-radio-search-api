@@ -15,5 +15,7 @@ public interface RadioStationStreams extends CrudRepository<RadioStationStream, 
 
     Page<RadioStationStream> findAllByRadioStationId(long radioStationId, Pageable pageable);
 
-    Optional<RadioStationStream> findOneBySongsCheckedIsBeforeOrSongsCheckedIsNullOrderBySongsCheckedAsc(ZonedDateTime songCheckedBefore);
+    Optional<RadioStationStream> findOneBySongsCheckedIsBeforeOrSongsCheckedIsNullOrderBySongsCheckedAsc(
+            ZonedDateTime songCheckedBefore
+    );
 }

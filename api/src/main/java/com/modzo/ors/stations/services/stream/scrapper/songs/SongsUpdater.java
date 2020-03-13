@@ -22,18 +22,11 @@ class SongsUpdater {
     }
 
     void update() {
-        ZonedDateTime checkingTime = ZonedDateTime.now();
-
         ZonedDateTime before = ZonedDateTime.now().minus(1, ChronoUnit.HOURS);
 
-        Optional<RadioStationStream> stream = radioStationStreams.findOneBySongsCheckedIsBeforeOrSongsCheckedIsNullOrderBySongsCheckedAsc(before);
+        Optional<RadioStationStream> stream = radioStationStreams
+                .findOneBySongsCheckedIsBeforeOrSongsCheckedIsNullOrderBySongsCheckedAsc(before);
 
-        stream.ifPresent(it ->
-                {
-                    it.setSongsChecked(checkingTime);
-                    radioStationStreams.save(it);
-                    updaterService.update(it.getRadioStationId(), it.getId());
-                }
-        );
+        stream.ifPresent(it -> updaterService.update(it.getRadioStationId(), it.getId()));
     }
 }

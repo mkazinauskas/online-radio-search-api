@@ -15,12 +15,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Component
 public class SongsUpdaterService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SongsUpdaterService.class);
+    private static final Logger log = LoggerFactory.getLogger(SongsUpdaterService.class);
 
     private final GetRadioStationStream.Handler radioStationStream;
 
@@ -57,22 +58,23 @@ public class SongsUpdaterService {
     }
 
     public void update(long radioStationId, long streamId) {
+        log.info("Processing radio station `{}` and stream `{}`", radioStationId, streamId);
         RadioStationStream stream = radioStationStream.handle(
                 new GetRadioStationStream(radioStationId, streamId)
         );
 
         updateSongsCheckedTimeHandler.handle(new UpdateSongsCheckedTime(radioStationId, streamId, ZonedDateTime.now()));
 
-        String streamUrl = stream.getUrl();
-
         Optional<LastPlayedSongsScrapper.Response> scrappedPage = playedSongsScrapper.scrap(
-                new LastPlayedSongsScrapper.Request(streamUrl)
+                new LastPlayedSongsScrapper.Request(stream.getUrl())
         );
 
         scrappedPage
                 .map(LastPlayedSongsScrapper.Response::getSongs)
-                .ifPresent(songs -> songs
-                        .forEach(playedSong -> updateRadioStreamInfo(playedSong, radioStationId)));
+                .orElse(List.of())
+                .forEach(playedSong -> updateRadioStreamInfo(playedSong, radioStationId));
+
+        log.info("Finished processing radio station `{}` and stream `{}`", radioStationId, streamId);
     }
 
     private void updateRadioStreamInfo(LastPlayedSongsScrapper.Response.PlayedSong playedSong,
@@ -103,7 +105,7 @@ public class SongsUpdaterService {
             CreateSong.Result creationResult = createSong.handle(new CreateSong(title));
             getSongById.handle(new GetSong(creationResult.id));
         } catch (Exception exception) {
-            LOGGER.warn("Failed to created song, but recovered and trying to search for existing", exception);
+            log.warn("Failed to created song, but recovered and trying to search for existing", exception);
         }
         return findSongByTitle.handle(new FindSong(title));
     }

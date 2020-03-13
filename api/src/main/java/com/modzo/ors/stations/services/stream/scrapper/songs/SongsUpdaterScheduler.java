@@ -15,7 +15,7 @@ class SongsUpdaterScheduler {
     }
 
     @Scheduled(fixedDelay = 1000L)
-    void update(){
+    void update() {
         songsUpdater.update();
     }
 }
