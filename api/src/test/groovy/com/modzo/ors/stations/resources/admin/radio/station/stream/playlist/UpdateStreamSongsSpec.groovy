@@ -2,7 +2,6 @@ package com.modzo.ors.stations.resources.admin.radio.station.stream.playlist
 
 import com.modzo.ors.HttpEntityBuilder
 import com.modzo.ors.stations.domain.radio.station.RadioStation
-import com.modzo.ors.stations.domain.radio.station.commands.GetRadioStation
 import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong
 import com.modzo.ors.stations.domain.radio.station.song.commands.GetRadioStationSongs
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
@@ -24,9 +23,6 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
 
     @Autowired
     GetRadioStationStream.Handler radioStationStreamHandler
-
-    @Autowired
-    GetRadioStation.Handler radioStationHandler
 
     @Autowired
     GetSong.Handler getSongHandler
@@ -67,6 +63,8 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
             songs.find { it.title == 'Notiziario nazionale - Sigla finale' }
             songs.find { it.title == 'Notiziario nazionale' }
             songs.find { it.title == "Rihanna - If It's Lovin' That You Want" }
+        and:
+            radioStationStreamHandler.handle(new GetRadioStationStream(radioStation.id, stream.id)).songsChecked
     }
 
     private void serverResponseExist(String url) {
