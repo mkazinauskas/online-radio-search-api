@@ -62,7 +62,7 @@ public class UpdateInfoCheckedTime {
             RadioStationStream stream = radioStationStreams
                     .findByRadioStationIdAndId(command.radioStationId, command.streamId).get();
 
-            stream.setSongsChecked(command.infoCheckedTime);
+            stream.setInfoChecked(command.infoCheckedTime);
 
             applicationEventPublisher.publishEvent(
                     new RadioStationStreamInfoCheckedUpdated(
