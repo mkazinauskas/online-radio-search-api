@@ -67,9 +67,42 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
             radioStationStreamHandler.handle(new GetRadioStationStream(radioStation.id, stream.id)).songsChecked
     }
 
+    void 'admin should not change status to not working, if songs were not found'() {
+        given:
+            RadioStation radioStation = testRadioStation.create()
+        and:
+            RadioStationStream stream = testRadioStationStream.create(radioStation.id)
+        and:
+            noServerResponseExist(stream.url)
+        when:
+            ResponseEntity<String> response = restTemplate.exchange(
+                    "/admin/radio-stations/${radioStation.id}/streams/${stream.id}/songs",
+                    POST,
+                    HttpEntityBuilder
+                            .builder()
+                            .bearer(token(ADMIN))
+                            .build(),
+                    String
+            )
+        then:
+            response.statusCode == NO_CONTENT
+        and:
+            Page<RadioStationSong> radioStationSongs = radioStationSongsHandler.handle(
+                    new GetRadioStationSongs(radioStation.id, unpaged())
+            )
+
+            radioStationSongs.totalElements == 0
+        and:
+            radioStationStreamHandler.handle(new GetRadioStationStream(radioStation.id, stream.id)).working
+    }
+
     private void serverResponseExist(String url) {
         String body = getClass().getResource('/services/scrappers/played/played-source.html').text
         Map<String, String> headers = [(HttpHeader.CONTENT_TYPE.asString()): 'text/html']
         wireMockTestHelper.okGetResponse(url, headers, body)
+    }
+
+    private void noServerResponseExist(String url) {
+        wireMockTestHelper.notFoundResponse(url)
     }
 }
