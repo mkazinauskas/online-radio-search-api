@@ -49,6 +49,7 @@ class UpdateStreamInfoSpec extends IntegrationSpec {
             updatedStream.type.get() == RadioStationStream.Type.MP3
             updatedStream.bitRate == 192
             updatedStream.infoChecked
+            updatedStream.working
         and:
             RadioStation updateRadioStation = radioStationHandler.handle(new GetRadioStation(radioStation.id))
             updateRadioStation.title == 'Radio 2.0 - Valli di Bergamo'
@@ -56,9 +57,40 @@ class UpdateStreamInfoSpec extends IntegrationSpec {
             updateRadioStation.genres*.title.containsAll(['Pop', 'Rock', '80s', '70s', 'Top 40'])
     }
 
+    void 'admin should set stream as not working, if failed to load it'() {
+        given:
+            RadioStation radioStation = testRadioStation.create()
+        and:
+            RadioStationStream stream = testRadioStationStream.create(radioStation.id)
+        and:
+            noServerResponseExist(stream.url)
+        when:
+            ResponseEntity<String> response = restTemplate.exchange(
+                    "/admin/radio-stations/${radioStation.id}/streams/${stream.id}/latest-info",
+                    POST,
+                    HttpEntityBuilder
+                            .builder()
+                            .bearer(token(ADMIN))
+                            .build(),
+                    String
+            )
+        then:
+            response.statusCode == NO_CONTENT
+        and:
+            RadioStationStream updatedStream = radioStationStreamHandler
+                    .handle(new GetRadioStationStream(radioStation.id, stream.id))
+
+            updatedStream.infoChecked
+            !updatedStream.working
+    }
+
     private void serverResponseExist(String url) {
         String content = getClass().getResource('/services/scrappers/stream/sample-source.html').text
         Map<String, String> headers = [(HttpHeader.CONTENT_TYPE.asString()): 'text/html']
         wireMockTestHelper.okGetResponse(url, headers, content)
+    }
+
+    private void noServerResponseExist(String url) {
+        wireMockTestHelper.notFoundResponse(url)
     }
 }
