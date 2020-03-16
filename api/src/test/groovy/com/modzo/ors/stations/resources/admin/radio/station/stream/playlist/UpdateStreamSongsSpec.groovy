@@ -2,7 +2,6 @@ package com.modzo.ors.stations.resources.admin.radio.station.stream.playlist
 
 import com.modzo.ors.HttpEntityBuilder
 import com.modzo.ors.stations.domain.radio.station.RadioStation
-import com.modzo.ors.stations.domain.radio.station.commands.GetRadioStation
 import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong
 import com.modzo.ors.stations.domain.radio.station.song.commands.GetRadioStationSongs
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
@@ -24,9 +23,6 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
 
     @Autowired
     GetRadioStationStream.Handler radioStationStreamHandler
-
-    @Autowired
-    GetRadioStation.Handler radioStationHandler
 
     @Autowired
     GetSong.Handler getSongHandler
@@ -67,11 +63,46 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
             songs.find { it.title == 'Notiziario nazionale - Sigla finale' }
             songs.find { it.title == 'Notiziario nazionale' }
             songs.find { it.title == "Rihanna - If It's Lovin' That You Want" }
+        and:
+            radioStationStreamHandler.handle(new GetRadioStationStream(radioStation.id, stream.id)).songsChecked
+    }
+
+    void 'admin should not change status to not working, if songs were not found'() {
+        given:
+            RadioStation radioStation = testRadioStation.create()
+        and:
+            RadioStationStream stream = testRadioStationStream.create(radioStation.id)
+        and:
+            noServerResponseExist(stream.url)
+        when:
+            ResponseEntity<String> response = restTemplate.exchange(
+                    "/admin/radio-stations/${radioStation.id}/streams/${stream.id}/songs",
+                    POST,
+                    HttpEntityBuilder
+                            .builder()
+                            .bearer(token(ADMIN))
+                            .build(),
+                    String
+            )
+        then:
+            response.statusCode == NO_CONTENT
+        and:
+            Page<RadioStationSong> radioStationSongs = radioStationSongsHandler.handle(
+                    new GetRadioStationSongs(radioStation.id, unpaged())
+            )
+
+            radioStationSongs.totalElements == 0
+        and:
+            radioStationStreamHandler.handle(new GetRadioStationStream(radioStation.id, stream.id)).working
     }
 
     private void serverResponseExist(String url) {
         String body = getClass().getResource('/services/scrappers/played/played-source.html').text
-        Map<String, String> headers = [(HttpHeader.CONTENT_TYPE): 'text/html']
+        Map<String, String> headers = [(HttpHeader.CONTENT_TYPE.asString()): 'text/html']
         wireMockTestHelper.okGetResponse(url, headers, body)
+    }
+
+    private void noServerResponseExist(String url) {
+        wireMockTestHelper.notFoundResponse(url)
     }
 }

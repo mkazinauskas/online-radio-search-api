@@ -15,6 +15,8 @@ public class RadioStationStreamUpdated extends DomainEvent {
 
     public static class Data extends DomainEvent.Data {
 
+        private final long id;
+
         private final String uniqueId;
 
         private final String radioStationUniqueId;
@@ -28,18 +30,24 @@ public class RadioStationStreamUpdated extends DomainEvent {
         private final boolean working;
 
         @JsonCreator
-        public Data(@JsonProperty("uniqueId") String uniqueId,
+        public Data(@JsonProperty("id") long id,
+                    @JsonProperty("uniqueId") String uniqueId,
                     @JsonProperty("radioStationUniqueId") String radioStationUniqueId,
                     @JsonProperty("url") String url,
                     @JsonProperty("bitRate") Integer bitRate,
                     @JsonProperty("type") String type,
                     @JsonProperty("working") boolean working) {
+            this.id = id;
             this.uniqueId = uniqueId;
             this.radioStationUniqueId = radioStationUniqueId;
             this.url = url;
             this.bitRate = bitRate;
             this.type = type;
             this.working = working;
+        }
+
+        public long getId() {
+            return id;
         }
 
         public String getUniqueId() {

@@ -55,6 +55,12 @@ public class RadioStationStream {
     @Column(name = "working")
     private boolean working = true;
 
+    @Column(name = "songs_checked")
+    private ZonedDateTime songsChecked;
+
+    @Column(name = "info_checked")
+    private ZonedDateTime infoChecked;
+
     RadioStationStream() {
     }
 
@@ -113,5 +119,21 @@ public class RadioStationStream {
 
     public void setWorking(boolean working) {
         this.working = working;
+    }
+
+    public ZonedDateTime getSongsChecked() {
+        return songsChecked;
+    }
+
+    public void setSongsChecked(ZonedDateTime songsChecked) {
+        this.songsChecked = songsChecked;
+    }
+
+    public ZonedDateTime getInfoChecked() {
+        return infoChecked;
+    }
+
+    public void setInfoChecked(ZonedDateTime infoChecked) {
+        this.infoChecked = infoChecked;
     }
 }

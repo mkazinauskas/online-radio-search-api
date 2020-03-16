@@ -1,4 +1,4 @@
-package com.modzo.ors.stations.resources.admin.radio.station.stream.info;
+package com.modzo.ors.stations.services.stream.scrapper.stream;
 
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.commands.GetRadioStation;
@@ -8,11 +8,12 @@ import com.modzo.ors.stations.domain.radio.station.genre.commands.CreateGenre;
 import com.modzo.ors.stations.domain.radio.station.genre.commands.FindGenre;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStream;
+import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateInfoCheckedTime;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateRadioStationStream;
-import com.modzo.ors.stations.services.stream.scrapper.stream.StreamScrapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -25,7 +26,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Component
-public class LatestInfoService {
+public class InfoUpdaterService {
 
     private final GetRadioStationStream.Handler radioStationStream;
 
@@ -41,12 +42,16 @@ public class LatestInfoService {
 
     private final FindGenre.Handler findGenre;
 
-    public LatestInfoService(GetRadioStationStream.Handler radioStationStream,
-                             GetRadioStation.Handler radioStation,
-                             UpdateRadioStationStream.Handler updateRadioStationStream,
-                             UpdateRadioStation.Handler updateRadioStation,
-                             StreamScrapper streamScrapper,
-                             CreateGenre.Handler createGenre, FindGenre.Handler findGenre) {
+    private final UpdateInfoCheckedTime.Handler updateInfoCheckedTime;
+
+    InfoUpdaterService(GetRadioStationStream.Handler radioStationStream,
+                       GetRadioStation.Handler radioStation,
+                       UpdateRadioStationStream.Handler updateRadioStationStream,
+                       UpdateRadioStation.Handler updateRadioStation,
+                       StreamScrapper streamScrapper,
+                       CreateGenre.Handler createGenre,
+                       FindGenre.Handler findGenre,
+                       UpdateInfoCheckedTime.Handler updateInfoCheckedTime) {
         this.radioStationStream = radioStationStream;
         this.radioStation = radioStation;
         this.updateRadioStationStream = updateRadioStationStream;
@@ -54,12 +59,15 @@ public class LatestInfoService {
         this.streamScrapper = streamScrapper;
         this.createGenre = createGenre;
         this.findGenre = findGenre;
+        this.updateInfoCheckedTime = updateInfoCheckedTime;
     }
 
-    void update(long radioStationId, long streamId) {
+    public void update(long radioStationId, long streamId) {
         RadioStationStream stream = radioStationStream.handle(
                 new GetRadioStationStream(radioStationId, streamId)
         );
+
+        updateInfoCheckedTime.handle(new UpdateInfoCheckedTime(radioStationId, streamId, ZonedDateTime.now()));
 
         String streamUrl = stream.getUrl();
 
@@ -67,8 +75,27 @@ public class LatestInfoService {
                 new StreamScrapper.Request(streamUrl)
         );
 
-        scrappedPage.ifPresent(response -> updateRadioStreamInfo(response, stream));
-        scrappedPage.ifPresent(response -> updateRadioStationInfo(response, stream.getRadioStationId()));
+        if (scrappedPage.isPresent()) {
+            var response = scrappedPage.get();
+            updateRadioStreamInfo(response, stream);
+            updateRadioStationInfo(response, stream.getRadioStationId());
+        } else {
+            streamIsNotWorking(stream);
+        }
+    }
+
+    private void streamIsNotWorking(RadioStationStream stream) {
+        updateRadioStationStream.handle(new UpdateRadioStationStream(
+                        stream.getRadioStationId(),
+                        stream.getId(),
+                        new UpdateRadioStationStream.DataBuilder()
+                                .setUrl(stream.getUrl())
+                                .setBitRate(stream.getBitRate())
+                                .setType(RadioStationStream.Type.UNKNOWN)
+                                .setWorking(false)
+                                .build()
+                )
+        );
     }
 
     private void updateRadioStationInfo(StreamScrapper.Response response, long radioStationId) {

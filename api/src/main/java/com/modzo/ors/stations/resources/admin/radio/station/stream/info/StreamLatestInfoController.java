@@ -1,5 +1,6 @@
 package com.modzo.ors.stations.resources.admin.radio.station.stream.info;
 
+import com.modzo.ors.stations.services.stream.scrapper.stream.InfoUpdaterService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,9 +11,9 @@ import static org.springframework.http.ResponseEntity.noContent;
 @RestController
 class StreamLatestInfoController {
 
-    private final LatestInfoService latestInfoService;
+    private final InfoUpdaterService latestInfoService;
 
-    public StreamLatestInfoController(LatestInfoService latestInfoService) {
+    public StreamLatestInfoController(InfoUpdaterService latestInfoService) {
         this.latestInfoService = latestInfoService;
     }
 
