@@ -1,15 +1,20 @@
 package com.modzo.ors.stations.domain.radio.station.stream;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.MapKey;
+import javax.persistence.MapKeyEnumerated;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
 import java.time.ZonedDateTime;
+import java.util.Map;
 import java.util.Optional;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -60,6 +65,11 @@ public class RadioStationStream {
 
     @Column(name = "info_checked")
     private ZonedDateTime infoChecked;
+
+    @OneToMany(mappedBy = "stream", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @MapKey(name = "type")
+    @MapKeyEnumerated(EnumType.STRING)
+    private Map<StreamUrl.Type, StreamUrl> urls;
 
     RadioStationStream() {
     }
@@ -135,5 +145,13 @@ public class RadioStationStream {
 
     public void setInfoChecked(ZonedDateTime infoChecked) {
         this.infoChecked = infoChecked;
+    }
+
+    public Map<StreamUrl.Type, StreamUrl> getUrls() {
+        return urls;
+    }
+
+    public void setUrls(Map<StreamUrl.Type, StreamUrl> urls) {
+        this.urls = urls;
     }
 }

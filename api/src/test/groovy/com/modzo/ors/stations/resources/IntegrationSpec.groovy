@@ -10,6 +10,8 @@ import com.modzo.ors.helpers.TestSong
 import com.modzo.ors.search.TestRadioStationDocument
 import com.modzo.ors.search.TestSongDocument
 import com.modzo.ors.search.domain.events.reader.parser.EventsProcessor
+import com.modzo.ors.stations.domain.radio.station.RadioStations
+import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -52,6 +54,12 @@ class IntegrationSpec extends Specification {
 
     @Autowired
     EventsProcessor eventsProcessor
+
+    @Autowired
+    RadioStationStreams radioStationStreams
+
+    @Autowired
+    RadioStations radioStations
 
     String token(TestUsers.TestUser user) {
         tokenProvider.token(user.username, user.password)

@@ -1,5 +1,6 @@
 package com.modzo.ors.stations.domain.radio.station.stream.commands;
 
+import com.modzo.ors.commons.Urls;
 import com.modzo.ors.events.domain.RadioStationStreamCreated;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
@@ -12,8 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-
-import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CreateRadioStationStream {
     private final long radioStationId;
@@ -94,12 +93,14 @@ public class CreateRadioStationStream {
                 throw new DomainException("FIELD_RADIO_STATION_ID_IS_NOT_POSITIVE",
                         "Field radio station id should be positive");
             }
-            if (!radioStations.findById(command.radioStationId).isPresent()) {
+
+            if (radioStations.findById(command.radioStationId).isEmpty()) {
                 throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT",
                         "Radio station with id is not available");
             }
-            if (isBlank(command.url)) {
-                throw new DomainException("FIELD_URL_NOT_BLANK", "Field url cannot be blank");
+
+            if (Urls.isNotValid(command.url)) {
+                throw new DomainException("FIELD_URL_NOT_VALID", "Field url is not valid");
             }
 
             Optional<RadioStationStream> existing = radioStationStreams.findByRadioStationIdAndUrl(
