@@ -5,7 +5,6 @@ import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams;
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,28 +50,19 @@ public class CreateRadioStationStreamUrl {
     @Component
     public static class Handler {
 
-        private final RadioStations radioStations;
-
         private final RadioStationStreams radioStationStreams;
 
         private final Validator validator;
 
-        private final ApplicationEventPublisher applicationEventPublisher;
-
-        Handler(RadioStations radioStations,
-                RadioStationStreams radioStationStreams, Validator validator,
-                ApplicationEventPublisher applicationEventPublisher) {
-            this.radioStations = radioStations;
+        Handler(RadioStationStreams radioStationStreams,
+                Validator validator) {
             this.radioStationStreams = radioStationStreams;
             this.validator = validator;
-            this.applicationEventPublisher = applicationEventPublisher;
         }
 
         @Transactional
         public void handle(CreateRadioStationStreamUrl command) {
             validator.validate(command);
-
-            var radioStation = radioStations.findById(command.radioStationId).get();
 
             var radioStationStream = radioStationStreams.findByRadioStationIdAndId(
                     command.radioStationId,
@@ -83,17 +73,6 @@ public class CreateRadioStationStreamUrl {
             streamUrl.setStream(radioStationStream);
 
             radioStationStream.getUrls().put(command.type, streamUrl);
-
-
-//            applicationEventPublisher.publishEvent(
-//                    new RadioStationStreamDeleted(
-//                            radioStationStream,
-//                            new RadioStationStreamDeleted.Data(
-//                                    radioStationStream.getUniqueId(),
-//                                    radioStation.getUniqueId()
-//                            )
-//                    )
-//            );
         }
     }
 
