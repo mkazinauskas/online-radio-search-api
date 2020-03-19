@@ -61,7 +61,7 @@ public class CreateRadioStationStreamUrl {
         }
 
         @Transactional
-        public void handle(CreateRadioStationStreamUrl command) {
+        public StreamUrl handle(CreateRadioStationStreamUrl command) {
             validator.validate(command);
 
             var radioStationStream = radioStationStreams.findByRadioStationIdAndId(
@@ -73,6 +73,7 @@ public class CreateRadioStationStreamUrl {
             streamUrl.setStream(radioStationStream);
 
             radioStationStream.getUrls().put(command.type, streamUrl);
+            return streamUrl;
         }
     }
 

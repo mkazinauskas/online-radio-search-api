@@ -6,6 +6,7 @@ import com.modzo.ors.helpers.TestGenre
 import com.modzo.ors.helpers.TestRadioStation
 import com.modzo.ors.helpers.TestRadioStationSong
 import com.modzo.ors.helpers.TestRadioStationStream
+import com.modzo.ors.helpers.TestRadioStationStreamUrl
 import com.modzo.ors.helpers.TestSong
 import com.modzo.ors.search.TestRadioStationDocument
 import com.modzo.ors.search.TestSongDocument
@@ -33,6 +34,9 @@ class IntegrationSpec extends Specification {
 
     @Autowired
     TestRadioStationStream testRadioStationStream
+
+    @Autowired
+    TestRadioStationStreamUrl testStreamUrl
 
     @Autowired
     TestSong testSong

@@ -3,7 +3,6 @@ package com.modzo.ors.stations.domain.radio.station.stream.commands
 import com.modzo.ors.helpers.FakeUrl
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl
-import com.modzo.ors.stations.domain.radio.station.stream.StreamUrls
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -11,9 +10,6 @@ class CreateRadioStationStreamUrlSpec extends IntegrationSpec {
 
     @Autowired
     CreateRadioStationStreamUrl.Handler createRadioStationStreamUrl
-
-    @Autowired
-    StreamUrls streamUrls
 
     void 'should add radio station stream url'() {
         given:
