@@ -1,6 +1,7 @@
 package com.modzo.ors.stations.services.stream.scrapper.songs
 
-import com.modzo.ors.stations.services.stream.scrapper.WebPageReader
+import com.modzo.ors.stations.services.stream.WebPageReader
+import com.modzo.ors.stations.services.stream.url.StreamPlayedSongsUrlGenerator
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -57,7 +58,7 @@ class LastPlayedSongsSpec extends Specification {
         String page = getClass().getResource('/services/scrappers/played/played-source.html').text
 
         WebPageReader stub = Stub(WebPageReader) {
-            read(url) >> Optional.of(new WebPageReader.Response(null, page))
+            read(url) >> Optional.of(new WebPageReader.Response(url, null, page))
         }
 
         return new LastPlayedSongsScrapper(stub, generator)

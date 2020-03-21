@@ -1,6 +1,7 @@
 package com.modzo.ors.stations.services.stream.scrapper.stream
 
-import com.modzo.ors.stations.services.stream.scrapper.WebPageReader
+import com.modzo.ors.stations.services.stream.WebPageReader
+import com.modzo.ors.stations.services.stream.url.StreamInfoUrlGenerator
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -87,7 +88,7 @@ class StreamScrapperSpec extends Specification {
         String page = getClass().getResource('/services/scrappers/stream/sample-source.html').text
 
         WebPageReader webPageReaderStub = Stub(WebPageReader) {
-            read(url) >> Optional.of(new WebPageReader.Response(null, page))
+            read(url) >> Optional.of(new WebPageReader.Response(url, null, page))
         }
         return new StreamScrapper(webPageReaderStub, generator, strategies)
     }
@@ -96,7 +97,7 @@ class StreamScrapperSpec extends Specification {
         String page = getClass().getResource('/services/scrappers/stream/sample-source-icy.html').text
 
         WebPageReader webPageReaderStub = Stub(WebPageReader) {
-            read(url) >> Optional.of(new WebPageReader.Response(null, page))
+            read(url) >> Optional.of(new WebPageReader.Response(url, null, page))
         }
         return new StreamScrapper(webPageReaderStub, generator, strategies)
     }
@@ -114,7 +115,7 @@ class StreamScrapperSpec extends Specification {
                 'icy-url'     : ['http://www.veniceclassicradio.eu']
         ]
         WebPageReader webPageReaderStub = Stub(WebPageReader) {
-            read(url) >> Optional.of(new WebPageReader.Response(headers, null))
+            read(url) >> Optional.of(new WebPageReader.Response(url, headers, null))
         }
         return new StreamScrapper(webPageReaderStub, generator, strategies)
     }

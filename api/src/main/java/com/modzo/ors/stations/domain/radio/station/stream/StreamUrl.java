@@ -21,7 +21,7 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 public class StreamUrl {
 
     public enum Type {
-        LAST_PLAYED_SONGS,
+        SONGS,
         INFO
     }
 

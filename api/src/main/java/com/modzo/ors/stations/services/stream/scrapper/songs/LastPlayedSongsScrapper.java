@@ -1,6 +1,6 @@
 package com.modzo.ors.stations.services.stream.scrapper.songs;
 
-import com.modzo.ors.stations.services.stream.scrapper.WebPageReader;
+import com.modzo.ors.stations.services.stream.WebPageReader;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,27 +28,18 @@ class LastPlayedSongsScrapper {
 
     private final WebPageReader siteReader;
 
-    private final StreamPlayedSongsUrlGenerator generator;
-
-    LastPlayedSongsScrapper(WebPageReader siteReader,
-                            StreamPlayedSongsUrlGenerator generator) {
+    LastPlayedSongsScrapper(WebPageReader siteReader) {
         this.siteReader = siteReader;
-        this.generator = generator;
     }
 
     public Optional<LastPlayedSongsScrapper.Response> scrap(LastPlayedSongsScrapper.Request request) {
-        return generator.generateUrls(request.url)
-                .stream()
-                .map(this.siteReader::read)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+        return siteReader.read(request.url)
                 .map(WebPageReader.Response::getBody)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(this::extract)
                 .filter(Optional::isPresent)
-                .map(Optional::get)
-                .findFirst();
+                .map(Optional::get);
     }
 
     private Optional<LastPlayedSongsScrapper.Response> extract(String body) {
@@ -96,6 +87,7 @@ class LastPlayedSongsScrapper {
     }
 
     public static class Request {
+
         private final String url;
 
         public Request(String url) {

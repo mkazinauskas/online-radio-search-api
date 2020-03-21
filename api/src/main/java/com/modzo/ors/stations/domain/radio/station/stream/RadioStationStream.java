@@ -154,4 +154,8 @@ public class RadioStationStream {
     public void setUrls(Map<StreamUrl.Type, StreamUrl> urls) {
         this.urls = urls;
     }
+
+    public Optional<StreamUrl> findUrl(StreamUrl.Type type) {
+        return Optional.ofNullable(this.getUrls().get(type));
+    }
 }

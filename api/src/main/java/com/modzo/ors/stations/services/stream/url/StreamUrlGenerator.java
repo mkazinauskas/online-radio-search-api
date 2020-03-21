@@ -1,5 +1,6 @@
-package com.modzo.ors.stations.services.stream.scrapper;
+package com.modzo.ors.stations.services.stream.url;
 
+import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl;
 import com.rainerhahnekamp.sneakythrow.Sneaky;
 
 import java.net.URI;
@@ -8,15 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class StreamUrlGenerator {
+abstract class StreamUrlGenerator {
 
     private final List<String> endings;
 
-    public StreamUrlGenerator(List<String> endings) {
+    StreamUrlGenerator(List<String> endings) {
         this.endings = endings;
     }
 
-    public List<String> generateUrls(String url) {
+    abstract StreamUrl.Type forType();
+
+    List<String> generateUrls(String url) {
         List<String> generatedUrls = new ArrayList<>();
         generatedUrls.add(url);
         generatedUrls.addAll(urlsWithAppendedEndings(url));
