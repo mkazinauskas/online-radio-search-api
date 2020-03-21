@@ -4,7 +4,7 @@ import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils
 
 class FakeUrl {
 
-    static create() {
+    static String create() {
         return "http://www.${RandomStringUtils.randomAlphanumeric(10)}.com"
     }
 }

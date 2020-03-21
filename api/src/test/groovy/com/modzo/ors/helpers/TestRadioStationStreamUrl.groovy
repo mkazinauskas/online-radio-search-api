@@ -22,7 +22,6 @@ class TestRadioStationStreamUrl {
     CreateRadioStationStreamUrl.Handler createRadioStationStreamUrl
 
     StreamUrl create(long radioStationId, long streamId, StreamUrl.Type type = StreamUrl.Type.INFO) {
-
         CreateRadioStationStreamUrl request = new CreateRadioStationStreamUrl(
                 radioStationId,
                 streamId,
@@ -30,7 +29,7 @@ class TestRadioStationStreamUrl {
                 randomStreamUrl()
         )
 
-        return createRadioStationStreamUrl.handle(request);
+        return createRadioStationStreamUrl.handle(request)
     }
 
     StreamUrl create(StreamUrl.Type type = StreamUrl.Type.INFO) {

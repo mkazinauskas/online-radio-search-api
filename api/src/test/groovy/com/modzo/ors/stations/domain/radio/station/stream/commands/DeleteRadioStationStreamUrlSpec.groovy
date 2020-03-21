@@ -17,9 +17,11 @@ class DeleteRadioStationStreamUrlSpec extends IntegrationSpec {
         given:
             StreamUrl streamUrl = testStreamUrl.create()
         when:
-            deleteRadioStationStreamUrl.handle(new DeleteRadioStationStreamUrl(
-                    streamUrl.stream.radioStationId, streamUrl.stream.id, streamUrl.id
-            ))
+            deleteRadioStationStreamUrl.handle(
+                    new DeleteRadioStationStreamUrl(
+                            streamUrl.stream.radioStationId, streamUrl.stream.id, streamUrl.id
+                    )
+            )
         then:
             streamUrls.findById(streamUrl.id).isEmpty()
     }

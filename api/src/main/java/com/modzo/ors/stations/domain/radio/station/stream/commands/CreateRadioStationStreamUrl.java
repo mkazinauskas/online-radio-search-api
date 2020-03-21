@@ -95,8 +95,8 @@ public class CreateRadioStationStreamUrl {
                 throw new DomainException(
                         "FIELD_TYPE_CANNOT_BE_NULL",
                         String.format(
-                                "Radio station stream with id = `%s` for radio station with id = `%s` " +
-                                        "type cannot be null",
+                                "Radio station stream with id = `%s` for radio station with id = `%s` "
+                                        + "type cannot be null",
                                 command.streamId,
                                 command.radioStationId
                         )
