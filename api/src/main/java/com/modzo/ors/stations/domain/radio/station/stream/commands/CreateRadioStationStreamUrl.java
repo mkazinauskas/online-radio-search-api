@@ -1,10 +1,13 @@
 package com.modzo.ors.stations.domain.radio.station.stream.commands;
 
 import com.modzo.ors.commons.Urls;
+import com.modzo.ors.events.domain.RadioStationStreamUrlCreated;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams;
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl;
+import com.modzo.ors.stations.domain.radio.station.stream.StreamUrls;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,14 +57,22 @@ public class CreateRadioStationStreamUrl {
 
         private final Validator validator;
 
-        Handler(RadioStationStreams radioStationStreams,
-                Validator validator) {
+        private final StreamUrls streamUrls;
+
+        private final ApplicationEventPublisher applicationEventPublisher;
+
+        public Handler(RadioStationStreams radioStationStreams,
+                       Validator validator,
+                       StreamUrls streamUrls,
+                       ApplicationEventPublisher applicationEventPublisher) {
             this.radioStationStreams = radioStationStreams;
             this.validator = validator;
+            this.streamUrls = streamUrls;
+            this.applicationEventPublisher = applicationEventPublisher;
         }
 
         @Transactional
-        public StreamUrl handle(CreateRadioStationStreamUrl command) {
+        public CreateRadioStationStreamUrl.Result handle(CreateRadioStationStreamUrl command) {
             validator.validate(command);
 
             var radioStationStream = radioStationStreams.findByRadioStationIdAndId(
@@ -72,10 +83,28 @@ public class CreateRadioStationStreamUrl {
             var streamUrl = new StreamUrl(command.type, command.url);
             streamUrl.setStream(radioStationStream);
 
-            radioStationStream.getUrls().put(command.type, streamUrl);
-            return streamUrl;
+            StreamUrl savedUrl = streamUrls.save(streamUrl);
+
+            radioStationStream.getUrls().put(command.type, savedUrl);
+
+            applicationEventPublisher.publishEvent(
+                    new RadioStationStreamUrlCreated(
+                            savedUrl,
+                            new RadioStationStreamUrlCreated.Data(
+                                    savedUrl.getId(),
+                                    savedUrl.getUniqueId(),
+                                    savedUrl.getCreated(),
+                                    savedUrl.getStream().getId(),
+                                    savedUrl.getStream().getUniqueId(),
+                                    savedUrl.getUrl(),
+                                    savedUrl.getType()
+                            )
+                    )
+            );
+            return new CreateRadioStationStreamUrl.Result(savedUrl.getId());
         }
     }
+
 
     @Component
     private static class Validator {
@@ -137,6 +166,14 @@ public class CreateRadioStationStreamUrl {
                             command.radioStationId
                     )
             );
+        }
+    }
+
+    public static class Result {
+        public final long id;
+
+        Result(long id) {
+            this.id = id;
         }
     }
 }

@@ -24,19 +24,28 @@ public class DeleteRadioStationStreamUrl {
     @Component
     public static class Handler {
 
-        private final StreamUrls streamUrls;
+        private final RadioStationStreams streams;
 
         private final Validator validator;
 
-        Handler(StreamUrls streamUrls,
+        Handler(RadioStationStreams streams,
                 Validator validator) {
-            this.streamUrls = streamUrls;
+            this.streams = streams;
             this.validator = validator;
         }
 
+        @Transactional
         public void handle(DeleteRadioStationStreamUrl command) {
             validator.validate(command);
-            streamUrls.deleteById(command.streamUrlId);
+
+            var stream = streams.findByRadioStationIdAndId(command.radioStationId, command.streamId).get();
+            var streamToRemove = stream.getUrls().values().stream()
+                    .filter(url -> url.getId() == command.streamUrlId)
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("Stream url was not found!"));
+
+            stream.getUrls()
+                    .remove(streamToRemove.getType());
         }
     }
 

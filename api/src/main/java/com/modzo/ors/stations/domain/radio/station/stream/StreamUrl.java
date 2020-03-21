@@ -41,7 +41,7 @@ public class StreamUrl {
     @Column(name = "created", nullable = false)
     private ZonedDateTime created = ZonedDateTime.now();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "radio_station_stream_id")
     private RadioStationStream stream;
 

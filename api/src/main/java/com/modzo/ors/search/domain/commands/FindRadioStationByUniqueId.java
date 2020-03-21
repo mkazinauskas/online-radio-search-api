@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import static java.lang.String.format;
 
 public class FindRadioStationByUniqueId {
+
     private final String radioStationUniqueId;
 
     public FindRadioStationByUniqueId(String radioStationUniqueId) {

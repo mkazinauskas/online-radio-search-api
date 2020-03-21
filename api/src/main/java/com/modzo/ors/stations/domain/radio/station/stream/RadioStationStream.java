@@ -66,7 +66,7 @@ public class RadioStationStream {
     @Column(name = "info_checked")
     private ZonedDateTime infoChecked;
 
-    @OneToMany(mappedBy = "stream", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "stream", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
     @MapKey(name = "type")
     @MapKeyEnumerated(EnumType.STRING)
     private Map<StreamUrl.Type, StreamUrl> urls;
