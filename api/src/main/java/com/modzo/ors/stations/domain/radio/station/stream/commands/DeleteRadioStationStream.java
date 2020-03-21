@@ -1,7 +1,7 @@
 package com.modzo.ors.stations.domain.radio.station.stream.commands;
 
-import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.events.domain.RadioStationStreamDeleted;
+import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams;
 import org.springframework.context.ApplicationEventPublisher;
@@ -57,7 +57,9 @@ public class DeleteRadioStationStream {
                     new RadioStationStreamDeleted(
                             radioStationStream,
                             new RadioStationStreamDeleted.Data(
+                                    radioStationStream.getId(),
                                     radioStationStream.getUniqueId(),
+                                    radioStation.getId(),
                                     radioStation.getUniqueId()
                             )
                     )

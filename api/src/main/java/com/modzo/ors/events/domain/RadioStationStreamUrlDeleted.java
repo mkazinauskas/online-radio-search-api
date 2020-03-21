@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import static com.modzo.ors.events.domain.Event.Type.RADIO_STATION_STREAM_DELETED;
+import static com.modzo.ors.events.domain.Event.Type.RADIO_STATION_STREAM_URL_DELETED;
 
-public class RadioStationStreamDeleted extends DomainEvent {
+public class RadioStationStreamUrlDeleted extends DomainEvent {
 
     private final Data data;
 
-    public RadioStationStreamDeleted(Object source, Data data) {
+    public RadioStationStreamUrlDeleted(Object source, Data data) {
         super(source);
         this.data = data;
     }
@@ -20,20 +21,20 @@ public class RadioStationStreamDeleted extends DomainEvent {
 
         private final String uniqueId;
 
-        private final long radioStationId;
+        private final long streamId;
 
-        private final String radioStationUniqueId;
+        private final String streamUniqueId;
 
         @JsonCreator
         public Data(@JsonProperty("id") long id,
                     @JsonProperty("uniqueId") String uniqueId,
-                    @JsonProperty("radioStationId") long radioStationId,
-                    @JsonProperty("radioStationUniqueId") String radioStationUniqueId
+                    @JsonProperty("streamId") long streamId,
+                    @JsonProperty("streamUniqueId") String streamUniqueId
         ) {
             this.id = id;
             this.uniqueId = uniqueId;
-            this.radioStationId = radioStationId;
-            this.radioStationUniqueId = radioStationUniqueId;
+            this.streamId = streamId;
+            this.streamUniqueId = streamUniqueId;
         }
 
         public long getId() {
@@ -44,16 +45,16 @@ public class RadioStationStreamDeleted extends DomainEvent {
             return uniqueId;
         }
 
-        public long getRadioStationId() {
-            return radioStationId;
+        public long getStreamId() {
+            return streamId;
         }
 
-        public String getRadioStationUniqueId() {
-            return radioStationUniqueId;
+        public String getStreamUniqueId() {
+            return streamUniqueId;
         }
 
-        public static RadioStationStreamDeleted.Data deserialize(String body) {
-            return RadioStationStreamDeleted.Data.deserialize(body, RadioStationStreamDeleted.Data.class);
+        public static RadioStationStreamUrlDeleted.Data deserialize(String body) {
+            return RadioStationStreamUrlDeleted.Data.deserialize(body, RadioStationStreamUrlDeleted.Data.class);
         }
     }
 
@@ -64,7 +65,7 @@ public class RadioStationStreamDeleted extends DomainEvent {
 
     @Override
     Event.Type type() {
-        return RADIO_STATION_STREAM_DELETED;
+        return RADIO_STATION_STREAM_URL_DELETED;
     }
 
     @Override
