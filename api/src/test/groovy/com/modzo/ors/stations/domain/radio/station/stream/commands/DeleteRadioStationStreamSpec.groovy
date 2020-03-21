@@ -1,10 +1,8 @@
 package com.modzo.ors.stations.domain.radio.station.stream.commands
 
 import com.modzo.ors.events.domain.Event
-import com.modzo.ors.events.domain.Events
 import com.modzo.ors.stations.domain.radio.station.RadioStation
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
-import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -19,32 +17,31 @@ class DeleteRadioStationStreamSpec extends IntegrationSpec {
     @Autowired
     private DeleteRadioStationStream.Handler testTarget
 
-    @Autowired
-    private RadioStationStreams radioStationStreams
-
-    @Autowired
-    private Events events
-
     void 'should delete radio station stream'() {
         given:
-            RadioStation testRadioStation = testRadioStation.create()
-            RadioStationStream testRadioStationStream = testRadioStationStream.create(testRadioStation.id)
+            RadioStation radioStation = testRadioStation.create()
+            RadioStationStream stream = testRadioStationStream.create(radioStation.id)
         expect:
-            radioStationStreams.findById(testRadioStationStream.id).isPresent()
+            radioStationStreams.findById(stream.id).isPresent()
         when:
             DeleteRadioStationStream command = new DeleteRadioStationStream(
-                    testRadioStationStream.radioStationId,
-                    testRadioStationStream.id
+                    stream.radioStationId,
+                    stream.id
             )
             testTarget.handle(command)
         then:
-            !radioStationStreams.findById(testRadioStationStream.id).isPresent()
+            radioStationStreams.findById(stream.id).isEmpty()
         and:
-            Page<Event> events = events.findAllByType(RADIO_STATION_STREAM_DELETED, unpaged())
-        and:
-            Data event = events.content
-                    .collect { deserialize(it.body, it.type.eventClass) }
-                    .find { Data data -> data.uniqueId == testRadioStationStream.uniqueId }
-            event.radioStationUniqueId == testRadioStation.uniqueId
+            eventWasCreated(radioStation, stream)
+    }
+
+    private void eventWasCreated(RadioStation radioStation, RadioStationStream stream) {
+        Page<Event> events = events.findAllByType(RADIO_STATION_STREAM_DELETED, unpaged())
+        Data event = events.content
+                .collect { deserialize(it.body, it.type.eventClass) }
+                .find { Data data -> data.uniqueId == stream.uniqueId }
+        event.id == stream.id
+        event.radioStationId == radioStation.id
+        event.radioStationUniqueId == radioStation.uniqueId
     }
 }
