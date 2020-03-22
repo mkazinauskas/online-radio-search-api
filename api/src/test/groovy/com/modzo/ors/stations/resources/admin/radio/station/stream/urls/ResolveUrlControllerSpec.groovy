@@ -7,6 +7,7 @@ import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl
 import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStream
 import com.modzo.ors.stations.resources.IntegrationSpec
+import com.modzo.ors.stations.resources.admin.radio.station.stream.urls.resolve.ResolveUrlRequest
 import org.eclipse.jetty.http.HttpHeader
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity

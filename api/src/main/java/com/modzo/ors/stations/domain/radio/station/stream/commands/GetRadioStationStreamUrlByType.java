@@ -4,70 +4,68 @@ import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams;
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl;
-import com.modzo.ors.stations.domain.radio.station.stream.StreamUrls;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-public class GetRadioStationStreamUrl {
+import java.util.Optional;
+
+public class GetRadioStationStreamUrlByType {
 
     private final long radioStationId;
 
     private final long streamId;
 
-    private final long urlId;
+    private final StreamUrl.Type type;
 
-    public GetRadioStationStreamUrl(long radioStationId,
-                                    long streamId,
-                                    long urlId) {
+    public GetRadioStationStreamUrlByType(long radioStationId,
+                                          long streamId,
+                                          StreamUrl.Type type) {
         this.radioStationId = radioStationId;
         this.streamId = streamId;
-        this.urlId = urlId;
+        this.type = type;
     }
 
     @Component
     public static class Handler {
 
-        private final StreamUrls urls;
+        private final RadioStationStreams radioStationStreams;
 
         private final Validator validator;
 
-        public Handler(StreamUrls urls, Validator validator) {
-            this.urls = urls;
+        public Handler(RadioStationStreams radioStationStreams, Validator validator) {
+            this.radioStationStreams = radioStationStreams;
             this.validator = validator;
         }
 
         @Transactional(readOnly = true)
-        public StreamUrl handle(GetRadioStationStreamUrl command) {
+        public Optional<StreamUrl> handle(GetRadioStationStreamUrlByType command) {
             validator.validate(command);
 
-            return urls.findById(command.urlId).get();
+            var stream = radioStationStreams.findByIdAndRadioStation_Id(command.radioStationId, command.streamId);
+
+            StreamUrl streamUrl = stream.get()
+                    .getUrls()
+                    .get(command.type);
+
+            return Optional.ofNullable(streamUrl);
         }
     }
 
     @Component
     private static class Validator {
-
         private final RadioStations radioStations;
 
-        private final RadioStationStreams streams;
-
-        private final StreamUrls urls;
-
-        public Validator(RadioStations radioStations,
-                         RadioStationStreams streams,
-                         StreamUrls urls) {
+        public Validator(RadioStations radioStations) {
             this.radioStations = radioStations;
-            this.streams = streams;
-            this.urls = urls;
         }
 
-        void validate(GetRadioStationStreamUrl command) {
+        void validate(GetRadioStationStreamUrlByType command) {
             if (command.radioStationId <= 0) {
                 throw new DomainException("FIELD_RADIO_STATION_ID_IS_LESS_OR_EQUAL_TO_ZERO",
                         "Radio station id cannot be less or equal to zero");
             }
 
-            if (radioStations.findById(command.radioStationId).isEmpty()) {
+            if (!radioStations.findById(command.radioStationId).isPresent()) {
                 throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT",
                         "Radio station with id is not available");
             }
@@ -75,16 +73,6 @@ public class GetRadioStationStreamUrl {
             if (command.streamId <= 0) {
                 throw new DomainException("FIELD_STREAM_ID_IS_LESS_OR_EQUAL_TO_ZERO",
                         "Radio station stream id cannot be less or equal to zero");
-            }
-
-            if (streams.findById(command.streamId).isEmpty()) {
-                throw new DomainException("FIELD_RADIO_STATION_STREAM_ID_IS_INCORRECT",
-                        "Radio station stream with id is not available");
-            }
-
-            if (urls.findById(command.urlId).isEmpty()) {
-                throw new DomainException("FIELD_RADIO_STATION_STREAM_URL_ID_IS_INCORRECT",
-                        "Radio station stream url with id is not available");
             }
         }
     }

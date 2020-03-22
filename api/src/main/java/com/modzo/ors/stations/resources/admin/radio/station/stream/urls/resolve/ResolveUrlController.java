@@ -1,4 +1,4 @@
-package com.modzo.ors.stations.resources.admin.radio.station.stream.urls;
+package com.modzo.ors.stations.resources.admin.radio.station.stream.urls.resolve;
 
 import com.modzo.ors.stations.services.stream.url.UrlResolver;
 import org.springframework.http.ResponseEntity;
