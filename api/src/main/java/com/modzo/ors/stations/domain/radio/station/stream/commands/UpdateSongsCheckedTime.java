@@ -1,7 +1,6 @@
 package com.modzo.ors.stations.domain.radio.station.stream.commands;
 
 import com.modzo.ors.events.domain.RadioStationStreamSongsCheckedUpdated;
-import com.modzo.ors.events.domain.RadioStationStreamUpdated;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
@@ -45,18 +44,14 @@ public class UpdateSongsCheckedTime {
 
         private final RadioStationStreams radioStationStreams;
 
-        private final RadioStations radioStations;
-
         private final UpdateSongsCheckedTime.Validator validator;
 
         private final ApplicationEventPublisher applicationEventPublisher;
 
         public Handler(RadioStationStreams radioStationStreams,
-                       RadioStations radioStations,
                        UpdateSongsCheckedTime.Validator validator,
                        ApplicationEventPublisher applicationEventPublisher) {
             this.radioStationStreams = radioStationStreams;
-            this.radioStations = radioStations;
             this.validator = validator;
             this.applicationEventPublisher = applicationEventPublisher;
         }
@@ -65,7 +60,7 @@ public class UpdateSongsCheckedTime {
         public void handle(UpdateSongsCheckedTime command) {
             validator.validate(command);
             RadioStationStream stream = radioStationStreams
-                    .findByRadioStationIdAndId(command.radioStationId, command.streamId).get();
+                    .findByIdAndRadioStation_Id(command.radioStationId, command.streamId).get();
 
             stream.setSongsChecked(command.songsCheckedTime);
 
@@ -75,7 +70,9 @@ public class UpdateSongsCheckedTime {
                             new RadioStationStreamSongsCheckedUpdated.Data(
                                     stream.getId(),
                                     stream.getUniqueId(),
-                                    stream.getSongsChecked()
+                                    stream.getRadioStation().getId(),
+                                    stream.getRadioStation().getUniqueId(),
+                                    command.getSongsCheckedTime()
                             )
                     )
             );

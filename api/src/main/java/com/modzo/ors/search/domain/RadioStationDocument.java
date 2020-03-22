@@ -5,10 +5,12 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Document(indexName = "online_radio_search_radio_stations")
@@ -116,11 +118,17 @@ public class RadioStationDocument {
         this.enabled = enabled;
     }
 
+    public Optional<RadioStationStreamDocument> findStream(String uniqueId){
+        return streams.stream()
+                .filter(stream-> StringUtils.pathEquals(stream.getUniqueId(), uniqueId))
+                .findFirst();
+    }
+
     public void removeStream(String streamId) {
-        this.streams.removeIf(stream -> stream.getUniqueId().equals(streamId));
+        streams.removeIf(stream -> stream.getUniqueId().equals(streamId));
     }
 
     public void removeSong(String songUniqueId) {
-        this.songs.removeIf(song -> song.getUniqueId().equals(songUniqueId));
+        songs.removeIf(song -> song.getUniqueId().equals(songUniqueId));
     }
 }

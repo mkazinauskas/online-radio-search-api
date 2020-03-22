@@ -4,9 +4,11 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { createURLRadioStationStreams } from '../../../layouts/pathTypes';
 import DeleteRadioStationStreamButton from './delete/DeleteRadioStationStreamButton';
-import RadioStationStreamLatestInfoButton from './latestInfo/RadioStationStreamLatestInfoButton';
+import UpdateRadioStationStreamLatestInfoButton from './latestInfo/UpdateRadioStationStreamLatestInfoButton';
 import UpdateRadioStationStreamSongsButton from './songs/UpdateRadioStationStreamSongsButton';
 import UpdateRadioStationStreamButton from './update/UpdateRadioStationStreamButton';
+import ResolveLatestInfoUrlButton from './latestInfo/ResolveLatestInfoUrlButton';
+import ResolveSongsUrlButton from './songs/ResolveSongsUrlButton';
 
 const columns = [
     {
@@ -64,8 +66,18 @@ const columns = [
                         radioStationId={record.radioStationId}
                         id={record.id}
                     />
-                    <RadioStationStreamLatestInfoButton
+                    <ResolveSongsUrlButton
+                        key={`fetch-songs-${record.id}`}
+                        radioStationId={record.radioStationId}
+                        id={record.id}
+                    />
+                    <UpdateRadioStationStreamLatestInfoButton
                         key={`fetch-info-${record.id}`}
+                        radioStationId={record.radioStationId}
+                        id={record.id}
+                    />
+                    <ResolveLatestInfoUrlButton
+                        key={`resolve-info-${record.id}`}
                         radioStationId={record.radioStationId}
                         id={record.id}
                     />

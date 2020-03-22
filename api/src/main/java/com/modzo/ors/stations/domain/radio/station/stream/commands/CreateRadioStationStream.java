@@ -32,12 +32,11 @@ public class CreateRadioStationStream {
         return url;
     }
 
-    private RadioStationStream toRadioStationStream() {
-        return new RadioStationStream(this.radioStationId, this.url);
-    }
-
     @Component
     public static class Handler {
+
+        private final RadioStations stations;
+
         private final RadioStationStreams radioStationStreams;
 
         private final Validator validator;
@@ -46,10 +45,11 @@ public class CreateRadioStationStream {
 
         private final RadioStations radioStations;
 
-        public Handler(RadioStationStreams radioStationStreams,
+        public Handler(RadioStations stations, RadioStationStreams radioStationStreams,
                        Validator validator,
                        ApplicationEventPublisher applicationEventPublisher,
                        RadioStations radioStations) {
+            this.stations = stations;
             this.radioStationStreams = radioStationStreams;
             this.validator = validator;
             this.applicationEventPublisher = applicationEventPublisher;
@@ -59,7 +59,12 @@ public class CreateRadioStationStream {
         @Transactional
         public Result handle(CreateRadioStationStream command) {
             validator.validate(command);
-            RadioStationStream savedStream = radioStationStreams.save(command.toRadioStationStream());
+
+            RadioStation station = stations.findById(command.radioStationId).get();
+
+            RadioStationStream stream = new RadioStationStream(station, command.url);
+
+            RadioStationStream savedStream = radioStationStreams.save(stream);
 
             RadioStation radioStation = radioStations.findById(savedStream.getRadioStationId()).get();
 
@@ -103,7 +108,7 @@ public class CreateRadioStationStream {
                 throw new DomainException("FIELD_URL_NOT_VALID", "Field url is not valid");
             }
 
-            Optional<RadioStationStream> existing = radioStationStreams.findByRadioStationIdAndUrl(
+            Optional<RadioStationStream> existing = radioStationStreams.findByRadioStation_IdAndUrl(
                     command.radioStationId,
                     command.url
             );

@@ -1,5 +1,7 @@
 package com.modzo.ors.stations.domain.radio.station.stream;
 
+import com.modzo.ors.stations.domain.radio.station.RadioStation;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,9 +10,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.MapKey;
 import javax.persistence.MapKeyEnumerated;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.time.ZonedDateTime;
@@ -44,8 +48,9 @@ public class RadioStationStream {
     @Column(name = "created", nullable = false)
     private ZonedDateTime created = ZonedDateTime.now();
 
-    @Column(name = "radio_station_id")
-    private long radioStationId;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="radio_station_id")
+    private RadioStation radioStation;
 
     @Column(name = "url", length = 100)
     private String url;
@@ -74,8 +79,8 @@ public class RadioStationStream {
     RadioStationStream() {
     }
 
-    public RadioStationStream(long radioStationId, String url) {
-        this.radioStationId = radioStationId;
+    public RadioStationStream(RadioStation radioStation, String url) {
+        this.radioStation = radioStation;
         this.url = url;
     }
 
@@ -91,12 +96,12 @@ public class RadioStationStream {
         return created;
     }
 
-    public long getRadioStationId() {
-        return radioStationId;
+    public RadioStation getRadioStation() {
+        return radioStation;
     }
 
-    public void setRadioStationId(Long radioStationId) {
-        this.radioStationId = radioStationId;
+    public long getRadioStationId() {
+        return radioStation.getId();
     }
 
     public String getUrl() {

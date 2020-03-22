@@ -32,7 +32,7 @@ class CreateRadioStationStreamUrlSpec extends IntegrationSpec {
             createRadioStationStreamUrl.handle(request)
         then:
             RadioStationStream savedStream = radioStationStreams
-                    .findByRadioStationIdAndId(stream.radioStationId, stream.id)
+                    .findByIdAndRadioStation_Id(stream.radioStationId, stream.id)
                     .get()
 
             savedStream.urls.size() == 1

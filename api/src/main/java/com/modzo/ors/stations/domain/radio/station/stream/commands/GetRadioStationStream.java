@@ -31,7 +31,7 @@ public class GetRadioStationStream {
         @Transactional(readOnly = true)
         public RadioStationStream handle(GetRadioStationStream command) {
             validator.validate(command);
-            return radioStationStreams.findByRadioStationIdAndId(command.radioStationId, command.streamId)
+            return radioStationStreams.findByIdAndRadioStation_Id(command.radioStationId, command.streamId)
                     .orElseThrow(() -> new DomainException(
                             "RADIO_STATION_STREAM_BY_ID_NOT_FOUND",
                             "Radio station stream by id was not found")

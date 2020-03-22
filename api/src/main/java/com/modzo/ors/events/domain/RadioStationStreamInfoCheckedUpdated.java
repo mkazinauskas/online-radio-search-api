@@ -22,14 +22,22 @@ public class RadioStationStreamInfoCheckedUpdated extends DomainEvent {
 
         private final String uniqueId;
 
+        private final long radioStationId;
+
+        private final String radioStationUniqueId;
+
         private final ZonedDateTime infoChecked;
 
         @JsonCreator
         public Data(@JsonProperty("id") long id,
                     @JsonProperty("uniqueId") String uniqueId,
+                    @JsonProperty("radioStationId") long radioStationId,
+                    @JsonProperty("radioStationUniqueId") String radioStationUniqueId,
                     @JsonProperty("infoChecked") ZonedDateTime infoChecked) {
             this.id = id;
             this.uniqueId = uniqueId;
+            this.radioStationId = radioStationId;
+            this.radioStationUniqueId = radioStationUniqueId;
             this.infoChecked = infoChecked;
         }
 
@@ -39,6 +47,14 @@ public class RadioStationStreamInfoCheckedUpdated extends DomainEvent {
 
         public String getUniqueId() {
             return uniqueId;
+        }
+
+        public long getRadioStationId() {
+            return radioStationId;
+        }
+
+        public String getRadioStationUniqueId() {
+            return radioStationUniqueId;
         }
 
         public ZonedDateTime getInfoChecked() {

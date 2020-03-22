@@ -1,4 +1,4 @@
-package com.modzo.ors.stations.services.stream.scrapper
+package com.modzo.ors.stations.services.stream
 
 import com.modzo.ors.stations.resources.IntegrationSpec
 import com.modzo.ors.stations.services.stream.WebPageReader

@@ -1,7 +1,7 @@
 package com.modzo.ors.stations.resources.admin.radio.station.stream.urls
 
 import com.modzo.ors.HttpEntityBuilder
-import com.modzo.ors.stations.domain.radio.station.RadioStation
+import com.modzo.ors.TestUsers
 import com.modzo.ors.stations.domain.radio.station.commands.GetRadioStation
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl
@@ -11,7 +11,6 @@ import org.eclipse.jetty.http.HttpHeader
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 
-import static com.modzo.ors.TestUsers.getADMIN
 import static org.springframework.http.HttpMethod.PUT
 import static org.springframework.http.HttpStatus.ACCEPTED
 
@@ -23,22 +22,22 @@ class ResolveUrlControllerSpec extends IntegrationSpec {
     @Autowired
     GetRadioStation.Handler radioStationHandler
 
-    void 'admin should have possibility to resolve url'() {
+    void 'admin should resolve info url'() {
         given:
-            RadioStation radioStation = testRadioStation.create()
+            RadioStationStream stream = testRadioStationStream.create()
         and:
-            RadioStationStream stream = testRadioStationStream.create(radioStation.id)
+            String streamInfoUrl = stream.url + '/index.html'
         and:
-            serverResponseExist(stream.url)
+            serverResponseExist(streamInfoUrl)
         and:
             ResolveUrlRequest request = new ResolveUrlRequest(StreamUrl.Type.INFO)
         when:
             ResponseEntity<String> response = restTemplate.exchange(
-                    "/admin/radio-stations/${radioStation.id}/streams/${stream.id}/urls",
+                    "/admin/radio-stations/${stream.radioStationId}/streams/${stream.id}/urls",
                     PUT,
                     HttpEntityBuilder
                             .builder()
-                            .bearer(token(ADMIN))
+                            .bearer(token(TestUsers.ADMIN))
                             .body(request)
                             .build(),
                     String
@@ -47,18 +46,42 @@ class ResolveUrlControllerSpec extends IntegrationSpec {
             response.statusCode == ACCEPTED
         and:
             RadioStationStream updatedStream = radioStationStreamHandler
-                    .handle(new GetRadioStationStream(radioStation.id, stream.id))
+                    .handle(new GetRadioStationStream(stream.radioStationId, stream.id))
 
-            updatedStream.url == stream.url
-            updatedStream.type.get() == RadioStationStream.Type.MP3
-            updatedStream.bitRate == 192
-            updatedStream.infoChecked
-            updatedStream.working
+            StreamUrl savedUrl = updatedStream.findUrl(StreamUrl.Type.INFO).get()
+            savedUrl.type == StreamUrl.Type.INFO
+            savedUrl.url == streamInfoUrl
+    }
+
+    void 'admin should resolve last songs url'() {
+        given:
+            RadioStationStream stream = testRadioStationStream.create()
         and:
-            RadioStation updateRadioStation = radioStationHandler.handle(new GetRadioStation(radioStation.id))
-            updateRadioStation.title == 'Radio 2.0 - Valli di Bergamo'
-            updateRadioStation.website == 'www.radioduepuntozero.it'
-            updateRadioStation.genres*.title.containsAll(['Pop', 'Rock', '80s', '70s', 'Top 40'])
+            String streamInfoUrl = stream.url + '/played.html'
+        and:
+            serverResponseExist(streamInfoUrl)
+        and:
+            ResolveUrlRequest request = new ResolveUrlRequest(StreamUrl.Type.SONGS)
+        when:
+            ResponseEntity<String> response = restTemplate.exchange(
+                    "/admin/radio-stations/${stream.radioStationId}/streams/${stream.id}/urls",
+                    PUT,
+                    HttpEntityBuilder
+                            .builder()
+                            .bearer(token(TestUsers.ADMIN))
+                            .body(request)
+                            .build(),
+                    String
+            )
+        then:
+            response.statusCode == ACCEPTED
+        and:
+            RadioStationStream updatedStream = radioStationStreamHandler
+                    .handle(new GetRadioStationStream(stream.radioStationId, stream.id))
+
+            StreamUrl savedUrl = updatedStream.findUrl(StreamUrl.Type.SONGS).get()
+            savedUrl.type == StreamUrl.Type.SONGS
+            savedUrl.url == streamInfoUrl
     }
 
     private void serverResponseExist(String url) {

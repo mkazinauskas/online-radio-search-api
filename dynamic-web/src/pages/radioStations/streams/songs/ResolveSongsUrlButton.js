@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom'
 import { ONLINE_RADIO_SEARCH_API } from '../../../../auth/resourceTypes';
 import { reloadPage } from '../../../../utils/historyUtils';
 
-class RadioStationStreamLatestInfoButton extends Component {
+class ResolveSongsUrlButton extends Component {
 
     state = {
         loading: false
@@ -20,11 +20,11 @@ class RadioStationStreamLatestInfoButton extends Component {
         }
         return (
             <Popconfirm
-                title="Sure to fetch info?"
+                title="Sure to resolve songs url?"
                 onConfirm={() => this.handleDelete(this.props.id)}
                 disabled={this.state.loading}
             >
-                <Button type="link" disabled={this.state.loading}>Fetch latest info</Button>
+                <Button type="link" disabled={this.state.loading}>Resolve songs url</Button>
             </Popconfirm>
         );
     }
@@ -38,7 +38,7 @@ class RadioStationStreamLatestInfoButton extends Component {
             }
         }
 
-        Axios.post(`/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.id}/latest-info`, null, config)
+        Axios.put(`/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.id}/urls`, { type: 'SONGS' }, config)
             .then(() => {
                 this.setState({ loading: false });
                 reloadPage(this.props.history);
@@ -55,4 +55,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(withRouter(RadioStationStreamLatestInfoButton));
+export default connect(mapStateToProps)(withRouter(ResolveSongsUrlButton));
