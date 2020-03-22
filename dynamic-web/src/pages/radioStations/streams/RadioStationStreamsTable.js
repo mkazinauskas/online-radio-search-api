@@ -9,6 +9,7 @@ import UpdateRadioStationStreamSongsButton from './songs/UpdateRadioStationStrea
 import UpdateRadioStationStreamButton from './update/UpdateRadioStationStreamButton';
 import ResolveLatestInfoUrlButton from './latestInfo/ResolveLatestInfoUrlButton';
 import ResolveSongsUrlButton from './songs/ResolveSongsUrlButton';
+import ShowStreamsUrlsButton from './urls/ShowStreamsUrlsButton';
 
 const columns = [
     {
@@ -67,7 +68,7 @@ const columns = [
                         id={record.id}
                     />
                     <ResolveSongsUrlButton
-                        key={`fetch-songs-${record.id}`}
+                        key={`resolve-songs-${record.id}`}
                         radioStationId={record.radioStationId}
                         id={record.id}
                     />
@@ -91,6 +92,14 @@ const columns = [
                         radioStationId={record.radioStationId}
                         id={record.id}
                     />
+                    <ShowStreamsUrlsButton
+                        key={`show-streams-info-${record.id}`}
+                        radioStationId={record.radioStationId}
+                        streamId={record.id}
+                        id={record.id}
+                    />
+
+
                 </span>
             )
         },

@@ -2,13 +2,8 @@ import { Button, Result, Table } from 'antd';
 import Axios from 'axios';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { createURLRadioStationStreams } from '../../../layouts/pathTypes';
-import DeleteRadioStationStreamButton from './delete/DeleteRadioStationStreamButton';
-import UpdateRadioStationStreamLatestInfoButton from './latestInfo/UpdateRadioStationStreamLatestInfoButton';
-import UpdateRadioStationStreamSongsButton from './songs/UpdateRadioStationStreamSongsButton';
-import UpdateRadioStationStreamButton from './update/UpdateRadioStationStreamButton';
-import ResolveLatestInfoUrlButton from './latestInfo/ResolveLatestInfoUrlButton';
-import ResolveSongsUrlButton from './songs/ResolveSongsUrlButton';
+import { createURLStreamUrls } from '../../../../layouts/pathTypes';
+import DeleteStreamUrlButton from './delete/DeleteStreamUrlButton';
 
 const columns = [
     {
@@ -20,40 +15,16 @@ const columns = [
         dataIndex: 'uniqueId'
     },
     {
-        title: 'Url',
-        dataIndex: 'url',
-    },
-    {
-        title: 'Bit Rate',
-        dataIndex: 'bitRate'
+        title: 'Created',
+        dataIndex: 'created'
     },
     {
         title: 'Type',
         dataIndex: 'type'
     },
     {
-        title: 'Working',
-        dataIndex: 'working',
-        render: (text, record) => {
-            return (
-                record.working ? 'Yes' : 'No'
-            );
-        }
-    },
-    {
-        title: 'Preview',
-        key: 'preview',
+        title: 'Url',
         dataIndex: 'url',
-        render: (text, record) => {
-            return (
-                <audio controls>
-                    <source src={record.url} type="audio/ogg" />
-                    <source src={record.url} type="audio/mpeg" />
-                    <source src={record.url} type="audio/wav" />
-                    Your browser does not support the audio element.
-                </audio>
-            );
-        }
     },
     {
         title: 'Actions',
@@ -61,34 +32,11 @@ const columns = [
         render: (text, record) => {
             return (
                 <span>
-                    <UpdateRadioStationStreamSongsButton
-                        key={`fetch-songs-${record.id}`}
-                        radioStationId={record.radioStationId}
-                        id={record.id}
-                    />
-                    <ResolveSongsUrlButton
-                        key={`fetch-songs-${record.id}`}
-                        radioStationId={record.radioStationId}
-                        id={record.id}
-                    />
-                    <UpdateRadioStationStreamLatestInfoButton
-                        key={`fetch-info-${record.id}`}
-                        radioStationId={record.radioStationId}
-                        id={record.id}
-                    />
-                    <ResolveLatestInfoUrlButton
-                        key={`resolve-info-${record.id}`}
-                        radioStationId={record.radioStationId}
-                        id={record.id}
-                    />
-                    <UpdateRadioStationStreamButton
-                        key={`update-${record.id}`}
-                        radioStationStream={record}
-                        id={record.id}
-                    />
-                    <DeleteRadioStationStreamButton
+                    <DeleteStreamUrlButton
                         key={`delete-${record.id}`}
                         radioStationId={record.radioStationId}
+                        streamId={record.streamId}
+                        urlId={record.id}
                         id={record.id}
                     />
                 </span>
@@ -158,13 +106,14 @@ class StreamUrlsTable extends Component {
         urlSearchParams.set('size', this.state.filter.size);
 
         const radioStationId = this.props.match.params.radioStationId;
+        const streamId = this.props.match.params.streamId;
 
-        Axios.get(`/radio-stations/${radioStationId}/streams?${urlSearchParams.toString()}`)
+        Axios.get(`/radio-stations/${radioStationId}/streams/${streamId}/urls?${urlSearchParams.toString()}`)
             .then((response) => {
                 let data = [];
-                if (response.data._embedded && response.data._embedded.radioStationStreamResponseList) {
-                    data = response.data._embedded.radioStationStreamResponseList.map(element => {
-                        return { ...element, radioStationId }
+                if (response.data._embedded && response.data._embedded.radioStationStreamUrlResponseList) {
+                    data = response.data._embedded.radioStationStreamUrlResponseList.map(element => {
+                        return { ...element, radioStationId, streamId }
                     });
                 }
 
@@ -194,7 +143,8 @@ class StreamUrlsTable extends Component {
         urlSearchParams.set('size', size);
 
         const radioStationId = this.props.match.params.radioStationId;
-        this.props.history.push(createURLRadioStationStreams(radioStationId) + '?' + urlSearchParams.toString());
+        const streamId = this.props.match.params.streamId;
+        this.props.history.push(createURLStreamUrls(radioStationId, streamId) + '?' + urlSearchParams.toString());
     }
 
     handleTableChange = (page) => {

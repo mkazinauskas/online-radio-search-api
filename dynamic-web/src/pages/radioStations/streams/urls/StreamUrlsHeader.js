@@ -1,7 +1,7 @@
 import { PageHeader } from 'antd';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
-import { RADIO_STATIONS } from '../../../layouts/pathTypes';
+import { createURLRadioStationStreams } from '../../../../layouts/pathTypes';
 
 class StreamUrlsHeader extends Component {
     state = {
@@ -9,7 +9,7 @@ class StreamUrlsHeader extends Component {
     }
 
     resolvePreviousPath() {
-        let previousPath = RADIO_STATIONS;
+        let previousPath = createURLRadioStationStreams(this.props.match.params.radioStationId);
         if (this.props.location.state && this.props.location.state.previousPath) {
             previousPath = this.props.location.state.previousPath;
         }
@@ -27,7 +27,7 @@ class StreamUrlsHeader extends Component {
                     border: '1px solid rgb(235, 237, 240)',
                 }}
                 onBack={this.handleBack}
-                title="Radio station streams"
+                title="Radio station stream urls"
             />
         );
     }
