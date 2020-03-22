@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { Popconfirm, Button } from 'antd';
 import Axios from 'axios';
 import { connect } from 'react-redux';
-import { ADMIN } from '../../../../auth/resourceRoleType';
+import { ADMIN } from '../../../../../auth/resourceRoleType';
 import { withRouter } from 'react-router-dom'
-import { ONLINE_RADIO_SEARCH_API } from '../../../../auth/resourceTypes';
-import { reloadPage } from '../../../../utils/historyUtils';
+import { ONLINE_RADIO_SEARCH_API } from '../../../../../auth/resourceTypes';
+import { reloadPage } from '../../../../../utils/historyUtils';
 
-class ResolveSongsUrlButton extends Component {
+class UpdateRadioStationStreamSongsButton extends Component {
 
     state = {
         loading: false
@@ -20,11 +20,11 @@ class ResolveSongsUrlButton extends Component {
         }
         return (
             <Popconfirm
-                title="Sure to resolve songs url?"
+                title="Sure to fetch info?"
                 onConfirm={() => this.handleDelete(this.props.id)}
                 disabled={this.state.loading}
             >
-                <Button type="link" disabled={this.state.loading}>Resolve songs url</Button>
+                <Button type="link" disabled={this.state.loading}>Update songs</Button>
             </Popconfirm>
         );
     }
@@ -38,7 +38,7 @@ class ResolveSongsUrlButton extends Component {
             }
         }
 
-        Axios.put(`/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.id}/urls`, { type: 'SONGS' }, config)
+        Axios.post(`/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.id}/songs`, null, config)
             .then(() => {
                 this.setState({ loading: false });
                 reloadPage(this.props.history);
@@ -55,4 +55,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(withRouter(ResolveSongsUrlButton));
+export default connect(mapStateToProps)(withRouter(UpdateRadioStationStreamSongsButton));

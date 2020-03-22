@@ -4,11 +4,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { createURLRadioStationStreams } from '../../../layouts/pathTypes';
 import DeleteRadioStationStreamButton from './delete/DeleteRadioStationStreamButton';
-import UpdateRadioStationStreamLatestInfoButton from './latestInfo/UpdateRadioStationStreamLatestInfoButton';
-import UpdateRadioStationStreamSongsButton from './songs/UpdateRadioStationStreamSongsButton';
 import UpdateRadioStationStreamButton from './update/UpdateRadioStationStreamButton';
-import ResolveLatestInfoUrlButton from './latestInfo/ResolveLatestInfoUrlButton';
-import ResolveSongsUrlButton from './songs/ResolveSongsUrlButton';
 import ShowStreamsUrlsButton from './urls/ShowStreamsUrlsButton';
 
 const columns = [
@@ -62,24 +58,10 @@ const columns = [
         render: (text, record) => {
             return (
                 <span>
-                    <UpdateRadioStationStreamSongsButton
-                        key={`fetch-songs-${record.id}`}
+                    <ShowStreamsUrlsButton
+                        key={`show-streams-info-${record.id}`}
                         radioStationId={record.radioStationId}
-                        id={record.id}
-                    />
-                    <ResolveSongsUrlButton
-                        key={`resolve-songs-${record.id}`}
-                        radioStationId={record.radioStationId}
-                        id={record.id}
-                    />
-                    <UpdateRadioStationStreamLatestInfoButton
-                        key={`fetch-info-${record.id}`}
-                        radioStationId={record.radioStationId}
-                        id={record.id}
-                    />
-                    <ResolveLatestInfoUrlButton
-                        key={`resolve-info-${record.id}`}
-                        radioStationId={record.radioStationId}
+                        streamId={record.id}
                         id={record.id}
                     />
                     <UpdateRadioStationStreamButton
@@ -92,14 +74,6 @@ const columns = [
                         radioStationId={record.radioStationId}
                         id={record.id}
                     />
-                    <ShowStreamsUrlsButton
-                        key={`show-streams-info-${record.id}`}
-                        radioStationId={record.radioStationId}
-                        streamId={record.id}
-                        id={record.id}
-                    />
-
-
                 </span>
             )
         },

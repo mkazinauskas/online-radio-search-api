@@ -32,6 +32,26 @@ const columns = [
         render: (text, record) => {
             return (
                 <span>
+                    {/* <UpdateRadioStationStreamSongsButton
+                        key={`fetch-songs-${record.id}`}
+                        radioStationId={record.radioStationId}
+                        id={record.id}
+                    /> */}
+                    {/* <ResolveSongsUrlButton
+                        key={`resolve-songs-${record.id}`}
+                        radioStationId={record.radioStationId}
+                        id={record.id}
+                    />
+                    <UpdateRadioStationStreamLatestInfoButton
+                        key={`fetch-info-${record.id}`}
+                        radioStationId={record.radioStationId}
+                        id={record.id}
+                    />
+                    <ResolveLatestInfoUrlButton
+                        key={`resolve-info-${record.id}`}
+                        radioStationId={record.radioStationId}
+                        id={record.id}
+                    /> */}
                     <DeleteStreamUrlButton
                         key={`delete-${record.id}`}
                         radioStationId={record.radioStationId}
