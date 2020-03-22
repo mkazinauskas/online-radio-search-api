@@ -30,7 +30,7 @@ class CreateStreamUrlController {
         CreateRadioStationStreamUrl.Result result = createRadioStationStreamUrlHandler.handle(
                 new CreateRadioStationStreamUrl(radioStationId, streamId, request.getType(), request.getUrl())
         );
-        return created(create(format("/radio-stations/%s/streams/%s", radioStationId, result.id)))
+        return created(create(format("/radio-stations/%s/streams/%s/urls/%s", radioStationId, streamId, result.id)))
                 .build();
     }
 }

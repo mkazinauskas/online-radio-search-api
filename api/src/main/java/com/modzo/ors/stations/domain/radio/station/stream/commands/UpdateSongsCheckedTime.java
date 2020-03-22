@@ -60,7 +60,7 @@ public class UpdateSongsCheckedTime {
         public void handle(UpdateSongsCheckedTime command) {
             validator.validate(command);
             RadioStationStream stream = radioStationStreams
-                    .findByIdAndRadioStation_Id(command.radioStationId, command.streamId).get();
+                    .findByRadioStation_IdAndId(command.radioStationId, command.streamId).get();
 
             stream.setSongsChecked(command.songsCheckedTime);
 

@@ -61,7 +61,7 @@ public class UpdateInfoCheckedTime {
             validator.validate(command);
 
             RadioStationStream stream = radioStationStreams
-                    .findByIdAndRadioStation_Id(command.radioStationId, command.streamId).get();
+                    .findByRadioStation_IdAndId(command.radioStationId, command.streamId).get();
 
             stream.setInfoChecked(command.infoCheckedTime);
 

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface RadioStationStreams extends CrudRepository<RadioStationStream, Long> {
 
-    Optional<RadioStationStream> findByIdAndRadioStation_Id(long streamId, long radioStationId);
+    Optional<RadioStationStream> findByRadioStation_IdAndId(long radioStationId, long streamId);
 
     Optional<RadioStationStream> findByRadioStation_IdAndUrl(long radioStationId, String url);
 

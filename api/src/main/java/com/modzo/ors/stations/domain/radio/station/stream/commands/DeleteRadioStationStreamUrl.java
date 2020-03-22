@@ -44,7 +44,7 @@ public class DeleteRadioStationStreamUrl {
         public void handle(DeleteRadioStationStreamUrl command) {
             validator.validate(command);
 
-            var stream = streams.findByIdAndRadioStation_Id(command.radioStationId, command.streamId).get();
+            var stream = streams.findByRadioStation_IdAndId(command.radioStationId, command.streamId).get();
             var urlToRemove = stream.getUrls().values().stream()
                     .filter(url -> url.getId() == command.streamUrlId)
                     .findFirst()

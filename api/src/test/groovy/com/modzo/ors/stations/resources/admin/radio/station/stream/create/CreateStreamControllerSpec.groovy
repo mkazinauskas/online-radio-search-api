@@ -17,7 +17,7 @@ class CreateStreamControllerSpec extends IntegrationSpec {
             RadioStation radioStation = testRadioStation.create()
         and:
             CreateRadioStationStreamRequest request = new CreateRadioStationStreamRequest(
-                    url: "http://www.${randomAlphanumeric(14)}.com"
+                    "http://www.${randomAlphanumeric(14)}.com"
             )
         when:
             ResponseEntity<String> response = restTemplate.exchange(

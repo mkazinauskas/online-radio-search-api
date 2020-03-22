@@ -35,6 +35,6 @@ class CreateStreamUrlControllerSpec extends IntegrationSpec {
             restTemplate.getForEntity(response.headers.getLocation().path, String).statusCode == OK
         and:
             RadioStationStream updatedStream = radioStationStreams.findById(stream.id).get()
-            updatedStream.findUrl(StreamUrl.Type.SONGS).get().url == request.urls
+            updatedStream.findUrl(StreamUrl.Type.SONGS).get().url == request.url
     }
 }

@@ -45,7 +45,7 @@ public class DeleteRadioStationStream {
 
             var radioStation = radioStations.findById(command.radioStationId).get();
 
-            var radioStationStream = radioStationStreams.findByIdAndRadioStation_Id(
+            var radioStationStream = radioStationStreams.findByRadioStation_IdAndId(
                     command.radioStationId,
                     command.streamId
             ).get();

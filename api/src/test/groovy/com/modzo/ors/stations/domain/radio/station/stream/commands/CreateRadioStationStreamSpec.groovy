@@ -34,7 +34,7 @@ class CreateRadioStationStreamSpec extends IntegrationSpec {
         when:
             CreateRadioStationStream.Result result = testTarget.handle(command)
         then:
-            RadioStationStream savedStream = streams.findByIdAndRadioStation_Id(radioStation.id, result.id).get()
+            RadioStationStream savedStream = streams.findByRadioStation_IdAndId(radioStation.id, result.id).get()
         and:
             Page<Event> events = events.findAllByType(Event.Type.RADIO_STATION_STREAM_CREATED, unpaged())
         and:

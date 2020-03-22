@@ -4,6 +4,7 @@ import com.modzo.ors.HttpEntityBuilder
 import com.modzo.ors.stations.domain.radio.station.RadioStation
 import com.modzo.ors.stations.domain.radio.station.commands.GetRadioStation
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
+import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl
 import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStream
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.eclipse.jetty.http.HttpHeader
@@ -22,13 +23,15 @@ class UpdateStreamInfoSpec extends IntegrationSpec {
     @Autowired
     GetRadioStation.Handler radioStationHandler
 
-    void 'admin should update latest radio station'() {
+    void 'admin should update info radio station'() {
         given:
             RadioStation radioStation = testRadioStation.create()
         and:
             RadioStationStream stream = testRadioStationStream.create(radioStation.id)
         and:
-            serverResponseExist(stream.url)
+            StreamUrl streamUrl = testStreamUrl.create(radioStation.id, stream.id, StreamUrl.Type.INFO)
+        and:
+            serverResponseExist(streamUrl.url)
         when:
             ResponseEntity<String> response = restTemplate.exchange(
                     "/admin/radio-stations/${radioStation.id}/streams/${stream.id}/latest-info",
@@ -63,7 +66,9 @@ class UpdateStreamInfoSpec extends IntegrationSpec {
         and:
             RadioStationStream stream = testRadioStationStream.create(radioStation.id)
         and:
-            noServerResponseExist(stream.url)
+            StreamUrl streamUrl = testStreamUrl.create(radioStation.id, stream.id, StreamUrl.Type.INFO)
+        and:
+            noServerResponseExist(streamUrl.url)
         when:
             ResponseEntity<String> response = restTemplate.exchange(
                     "/admin/radio-stations/${radioStation.id}/streams/${stream.id}/latest-info",

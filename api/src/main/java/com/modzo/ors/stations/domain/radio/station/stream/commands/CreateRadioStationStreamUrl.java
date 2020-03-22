@@ -75,7 +75,7 @@ public class CreateRadioStationStreamUrl {
         public CreateRadioStationStreamUrl.Result handle(CreateRadioStationStreamUrl command) {
             validator.validate(command);
 
-            var radioStationStream = radioStationStreams.findByIdAndRadioStation_Id(
+            var radioStationStream = radioStationStreams.findByRadioStation_IdAndId(
                     command.radioStationId,
                     command.streamId
             ).get();

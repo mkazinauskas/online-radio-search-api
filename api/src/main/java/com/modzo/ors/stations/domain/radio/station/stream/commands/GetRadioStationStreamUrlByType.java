@@ -41,7 +41,7 @@ public class GetRadioStationStreamUrlByType {
         public Optional<StreamUrl> handle(GetRadioStationStreamUrlByType command) {
             validator.validate(command);
 
-            var stream = radioStationStreams.findByIdAndRadioStation_Id(command.radioStationId, command.streamId);
+            var stream = radioStationStreams.findByRadioStation_IdAndId(command.radioStationId, command.streamId);
 
             StreamUrl streamUrl = stream.get()
                     .getUrls()
