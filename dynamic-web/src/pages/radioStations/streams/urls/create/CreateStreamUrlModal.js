@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input, Alert, Switch, Select } from 'antd';
+import { Modal, Form, Input, Alert, Select } from 'antd';
 import Axios from 'axios';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { isWebUri } from 'valid-url';
 
-const STREAM_TYPES = [
-    'MP3', 'ACC', 'MPEG', 'UNKNOWN'
+const URL_TYPES = [
+    'SONGS', 'INFO'
 ];
 
 const DEFAULT_STATE = {
@@ -13,10 +15,10 @@ const DEFAULT_STATE = {
     errorMessage: null
 }
 
-class UpdateRadioStationStreamModal extends Component {
+class CreateStreamUrlModal extends Component {
 
     state = {
-        ...DEFAULT_STATE,
+        ...DEFAULT_STATE
     }
 
     handleSubmit = e => {
@@ -30,15 +32,16 @@ class UpdateRadioStationStreamModal extends Component {
                     }
                 }
 
-                let content = {
-                    url: values.url,
-                    bitRate: values.bitRate,
-                    working: values.working,
-                    type: values.type
+                const content = {
+                    ...values
                 }
-                Axios.patch(`/admin/radio-stations/${this.props.radioStationStream.radioStationId}/streams/${this.props.radioStationStream.id}`, content, config)
-                    .then(() => this.setState({ ...this.state, successMessage: 'Radio station stream was updated' }))
-                    .catch(() => this.setState({ ...this.state, errorMessage: 'Failed to update radio station stream' }))
+
+                const radioStationId = this.props.match.params.radioStationId;
+                const streamId = this.props.match.params.streamId;
+
+                Axios.post(`/admin/radio-stations/${radioStationId}/streams/${streamId}/urls`, content, config)
+                    .then(() => this.setState({ ...this.state, successMessage: 'Radio station stream url was added' }))
+                    .catch(() => this.setState({ ...this.state, errorMessage: 'Failed to add stream url' }))
                     .then(() => this.setState({ ...this.state, loading: false }));
             }
         });
@@ -51,40 +54,16 @@ class UpdateRadioStationStreamModal extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
-        const radioStationStream = this.props.radioStationStream;
 
-        const typeOptions = STREAM_TYPES
+
+        const typeOptions = URL_TYPES
             .map(type => <Select.Option key={type} value={type}>{type}</Select.Option>);
 
         const form = (
-            <Form
-                layout='vertical'
-                onSubmit={this.handleSubmit}
-            >
-                <Form.Item label="URL">
-                    {getFieldDecorator('url', {
-                        initialValue: radioStationStream.url,
-                        rules: [{ required: true, type: 'url', message: 'Please input radio station stream url!' }],
-                    })(<Input />)}
-                </Form.Item>
-                <Form.Item label="Bit Rate">
-                    {getFieldDecorator('bitRate', {
-                        initialValue: radioStationStream.bitRate,
-                        rules: [{ required: false, type: 'number', message: 'Please input radio station stream bit rate!' }],
-                    })(<Input type='number' />)}
-                </Form.Item>
-                <Form.Item label="Working">
-                    {getFieldDecorator('working', {
-                        initialValue: radioStationStream.working,
-                        valuePropName: 'checked',
-                    })(<Switch />)}
-                </Form.Item>
+            <Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} onSubmit={this.handleSubmit}>
                 <Form.Item label="Type">
-                    {getFieldDecorator('type', {
-                        initialValue: radioStationStream.type,
-                    })(
+                    {getFieldDecorator('type')(
                         <Select
-                            showSearch
                             defaultActiveFirstOption={false}
                             showArrow={false}
                             onSearch={this.handleSearch}
@@ -94,6 +73,34 @@ class UpdateRadioStationStreamModal extends Component {
                             {typeOptions}
                         </Select>
                     )}
+                </Form.Item>
+                <Form.Item label="URL">
+                    {getFieldDecorator('url', {
+                        rules: [
+                            { required: true, message: 'Please input radio station stream title!' },
+                            {
+                                validator: (rule, value, callback) => {
+                                    if (value === value.trim()) {
+                                        callback();
+                                    } else {
+                                        callback(false);
+                                    }
+                                },
+                                message: 'Value cannot have empty spaces around',
+                            },
+                            {
+                                validator: (rule, value, callback) => {
+                                    if (isWebUri(value)) {
+                                        callback();
+                                    } else {
+                                        callback(false);
+                                    }
+                                },
+                                message: 'Radio station stream url is invalid',
+                            },
+
+                        ],
+                    })(<Input />)}
                 </Form.Item>
             </Form>
         );
@@ -108,9 +115,9 @@ class UpdateRadioStationStreamModal extends Component {
         return (
             <span>
                 <Modal
-                    title="Update Radio Station Stream"
+                    title="Add New Radio Station Stream"
                     visible={this.props.visible}
-                    okText="Update"
+                    okText="Add"
                     okButtonProps={{ disabled: this.state.loading }}
                     onOk={this.handleSubmit}
                     onCancel={this.onCancel}
@@ -126,7 +133,7 @@ class UpdateRadioStationStreamModal extends Component {
     }
 }
 
-const form = Form.create({ name: 'coordinated' })(UpdateRadioStationStreamModal)
+const form = Form.create({ name: 'coordinated' })(withRouter(CreateStreamUrlModal))
 
 const mapStateToProps = (state) => {
     return {

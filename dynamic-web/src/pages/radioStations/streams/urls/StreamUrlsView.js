@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import StreamUrlsHeader from './StreamUrlsHeader';
 import StreamUrlsTable from './StreamUrlsTable';
+import CreateStreamUrlButton from './create/CreateStreamUrlButton';
 
 class StreamUrlsView extends Component {
 
@@ -8,9 +9,9 @@ class StreamUrlsView extends Component {
         return (
             <div>
                 <StreamUrlsHeader />
-                {/* <div style={{ marginTop: 10, marginBottom: 10 }}>
-                    <AddRadioStationStreamButton />
-                </div> */}
+                <div style={{ marginTop: 10, marginBottom: 10 }}>
+                    <CreateStreamUrlButton />
+                </div>
                 <StreamUrlsTable />
             </div>
         );
