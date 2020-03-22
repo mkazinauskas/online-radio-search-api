@@ -118,9 +118,9 @@ public class RadioStationDocument {
         this.enabled = enabled;
     }
 
-    public Optional<RadioStationStreamDocument> findStream(String uniqueId){
+    public Optional<RadioStationStreamDocument> findStream(String uniqueId) {
         return streams.stream()
-                .filter(stream-> StringUtils.pathEquals(stream.getUniqueId(), uniqueId))
+                .filter(stream -> StringUtils.pathEquals(stream.getUniqueId(), uniqueId))
                 .findFirst();
     }
 

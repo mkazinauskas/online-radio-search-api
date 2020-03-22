@@ -6,7 +6,6 @@ import com.modzo.ors.stations.services.stream.scrapper.stream.IcyHeaderStreamScr
 import com.modzo.ors.stations.services.stream.scrapper.stream.IcyStreamScrappingStrategy
 import com.modzo.ors.stations.services.stream.scrapper.stream.StreamInfoScrappingStrategy
 import com.modzo.ors.stations.services.stream.scrapper.stream.StreamScrapper
-import com.modzo.ors.stations.services.stream.url.StreamInfoUrlGenerator
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll

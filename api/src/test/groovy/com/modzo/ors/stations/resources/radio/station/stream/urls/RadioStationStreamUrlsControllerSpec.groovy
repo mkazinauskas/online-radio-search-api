@@ -1,11 +1,9 @@
 package com.modzo.ors.stations.resources.radio.station.stream.urls
 
 import com.modzo.ors.HttpEntityBuilder
-import com.modzo.ors.stations.domain.radio.station.RadioStation
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl
 import com.modzo.ors.stations.resources.IntegrationSpec
-import com.modzo.ors.stations.resources.radio.station.stream.RadioStationStreamModel
 import org.springframework.http.ResponseEntity
 
 import static org.springframework.hateoas.IanaLinkRelations.SELF

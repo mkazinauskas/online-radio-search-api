@@ -6,7 +6,6 @@ import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
 
-import static com.modzo.ors.TestUsers.getADMIN
 import static org.springframework.http.HttpMethod.DELETE
 import static org.springframework.http.HttpStatus.OK
 

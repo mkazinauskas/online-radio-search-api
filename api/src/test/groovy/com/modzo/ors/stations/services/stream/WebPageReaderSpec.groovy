@@ -1,7 +1,6 @@
 package com.modzo.ors.stations.services.stream
 
 import com.modzo.ors.stations.resources.IntegrationSpec
-import com.modzo.ors.stations.services.stream.WebPageReader
 import org.apache.commons.lang3.RandomStringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType

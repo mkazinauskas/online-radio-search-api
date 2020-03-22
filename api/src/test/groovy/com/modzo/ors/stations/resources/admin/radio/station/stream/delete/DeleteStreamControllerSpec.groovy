@@ -9,7 +9,7 @@ import static com.modzo.ors.TestUsers.ADMIN
 import static org.springframework.http.HttpMethod.DELETE
 import static org.springframework.http.HttpStatus.OK
 
-class DeleteStreamUrlControllerSpec extends IntegrationSpec {
+class DeleteStreamControllerSpec extends IntegrationSpec {
 
     void 'admin should delete radio station stream'() {
         given:

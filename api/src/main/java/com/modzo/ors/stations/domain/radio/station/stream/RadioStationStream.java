@@ -49,7 +49,7 @@ public class RadioStationStream {
     private ZonedDateTime created = ZonedDateTime.now();
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="radio_station_id")
+    @JoinColumn(name = "radio_station_id")
     private RadioStation radioStation;
 
     @Column(name = "url", length = 100)
