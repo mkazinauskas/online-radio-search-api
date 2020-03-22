@@ -10,9 +10,9 @@ import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.HttpStatus.OK
 import static org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils.randomAlphanumeric
 
-class CreateRadioStationStreamControllerSpec extends IntegrationSpec {
+class CreateStreamUrlControllerSpec extends IntegrationSpec {
 
-    void 'admin should create radio station'() {
+    void 'admin should create radio station stream'() {
         given:
             RadioStation radioStation = testRadioStation.create()
         and:
@@ -32,4 +32,5 @@ class CreateRadioStationStreamControllerSpec extends IntegrationSpec {
         then:
             restTemplate.getForEntity(response.headers.getLocation().path, String).statusCode == OK
     }
+
 }

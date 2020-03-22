@@ -2,6 +2,7 @@ package com.modzo.ors.stations.resources.admin.radio.station.stream.create;
 
 import com.modzo.ors.stations.domain.radio.station.stream.commands.CreateRadioStationStream;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +24,8 @@ class CreateRadioStationStreamController {
     }
 
     @PostMapping("/admin/radio-stations/{id}/streams")
-    ResponseEntity createRadioStationStream(@PathVariable("id") long radioStationId,
-                                            @Valid @RequestBody CreateRadioStationStreamRequest request) {
+    ResponseEntity<String> createRadioStationStream(@PathVariable("id") long radioStationId,
+                                            @Validated @RequestBody CreateRadioStationStreamRequest request) {
         CreateRadioStationStream.Result result = createStationStreamHandler.handle(
                 new CreateRadioStationStream(radioStationId, request.getUrl())
         );
