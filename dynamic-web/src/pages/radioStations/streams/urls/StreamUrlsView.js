@@ -4,6 +4,7 @@ import StreamUrlsTable from './StreamUrlsTable';
 import CreateStreamUrlButton from './create/CreateStreamUrlButton';
 import ResolveSongsUrlButton from './songs/ResolveSongsUrlButton';
 import { withRouter } from 'react-router';
+import ResolveInfoUrlButton from './info/ResolveInfoUrlButton';
 
 class StreamUrlsView extends Component {
 
@@ -17,6 +18,12 @@ class StreamUrlsView extends Component {
                     <CreateStreamUrlButton />
                     <span style={{ marginLeft: 10}}>
                         <ResolveSongsUrlButton
+                            radioStationId={radioStationId}
+                            streamId={streamId}
+                        />
+                    </span>
+                    <span style={{ marginLeft: 10}}>
+                        <ResolveInfoUrlButton
                             radioStationId={radioStationId}
                             streamId={streamId}
                         />

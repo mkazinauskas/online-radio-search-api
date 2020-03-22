@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Popconfirm, Button } from 'antd';
+import { Popconfirm, Button, Icon } from 'antd';
 import Axios from 'axios';
 import { connect } from 'react-redux';
-import { ADMIN } from '../../../../auth/resourceRoleType';
+import { ADMIN } from '../../../../../auth/resourceRoleType';
 import { withRouter } from 'react-router-dom'
-import { ONLINE_RADIO_SEARCH_API } from '../../../../auth/resourceTypes';
-import { reloadPage } from '../../../../utils/historyUtils';
+import { ONLINE_RADIO_SEARCH_API } from '../../../../../auth/resourceTypes';
+import { reloadPage } from '../../../../../utils/historyUtils';
 
-class ResolveLatestInfoUrlButton extends Component {
+class ResolveInfoUrlButton extends Component {
 
     state = {
         loading: false
@@ -21,15 +21,17 @@ class ResolveLatestInfoUrlButton extends Component {
         return (
             <Popconfirm
                 title="Sure to resolve info url?"
-                onConfirm={() => this.handleDelete(this.props.id)}
+                onConfirm={this.resolve}
                 disabled={this.state.loading}
             >
-                <Button type="link" disabled={this.state.loading}>Resolve info url</Button>
+                <Button type="primary" disabled={this.state.loading}>
+                    <Icon type="retweet" />
+                Resolve info url</Button>
             </Popconfirm>
         );
     }
 
-    handleDelete = id => {
+    resolve = () => {
         this.setState({ loading: true });
 
         const config = {
@@ -38,7 +40,7 @@ class ResolveLatestInfoUrlButton extends Component {
             }
         }
 
-        Axios.put(`/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.id}/urls`, { type: 'INFO' }, config)
+        Axios.put(`/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.streamId}/urls`, { type: 'INFO' }, config)
             .then(() => {
                 this.setState({ loading: false });
                 reloadPage(this.props.history);
@@ -55,4 +57,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(withRouter(ResolveLatestInfoUrlButton));
+export default connect(mapStateToProps)(withRouter(ResolveInfoUrlButton));
