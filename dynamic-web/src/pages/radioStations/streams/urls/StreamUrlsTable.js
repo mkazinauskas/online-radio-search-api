@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { createURLStreamUrls } from '../../../../layouts/pathTypes';
 import DeleteStreamUrlButton from './delete/DeleteStreamUrlButton';
+import RefreshRadioStationSongsButton from './songs/RefreshRadioStationSongsButton';
+import RefreshRadioStationInfoButton from './info/RefreshRadioStationInfoButton';
 
 const columns = [
     {
@@ -30,28 +32,28 @@ const columns = [
         title: 'Actions',
         key: 'operation',
         render: (text, record) => {
+
+            let button;
+
+            if (record.type === 'SONGS') {
+                button = (<RefreshRadioStationSongsButton
+                    key={`fetch-songs-${record.id}`}
+                    radioStationId={record.radioStationId}
+                    streamId={record.streamId}
+                />);
+            };
+
+            if (record.type === 'INFO') {
+                button = (<RefreshRadioStationInfoButton
+                    key={`fetch-info-${record.id}`}
+                    radioStationId={record.radioStationId}
+                    streamId={record.streamId}
+                />);
+            }
+
             return (
                 <span>
-                    {/* <UpdateRadioStationStreamSongsButton
-                        key={`fetch-songs-${record.id}`}
-                        radioStationId={record.radioStationId}
-                        id={record.id}
-                    /> */}
-                    {/* <ResolveSongsUrlButton
-                        key={`resolve-songs-${record.id}`}
-                        radioStationId={record.radioStationId}
-                        id={record.id}
-                    />
-                    <UpdateRadioStationStreamLatestInfoButton
-                        key={`fetch-info-${record.id}`}
-                        radioStationId={record.radioStationId}
-                        id={record.id}
-                    />
-                    <ResolveLatestInfoUrlButton
-                        key={`resolve-info-${record.id}`}
-                        radioStationId={record.radioStationId}
-                        id={record.id}
-                    /> */}
+                    {button}
                     <DeleteStreamUrlButton
                         key={`delete-${record.id}`}
                         radioStationId={record.radioStationId}
