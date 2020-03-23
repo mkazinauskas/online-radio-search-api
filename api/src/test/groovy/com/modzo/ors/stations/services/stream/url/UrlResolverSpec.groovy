@@ -25,7 +25,7 @@ class UrlResolverSpec extends IntegrationSpec {
         and:
             String correctUrl = stream.url + urlEnding
         and:
-            serverResponseExist(stream.url)
+            noServerResponseExist(stream.url)
             serverResponseExist(correctUrl)
         when:
             testTarget.resolve(stream.radioStationId, stream.id, urlType)
