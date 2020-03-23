@@ -26,7 +26,7 @@ class ResolveUrlControllerSpec extends IntegrationSpec {
         given:
             RadioStationStream stream = testRadioStationStream.create()
         and:
-            String streamInfoUrl = stream.url + '/index.html'
+            String streamInfoUrl = stream.url + '/index.html?sid=1'
         and:
             serverResponseExist(streamInfoUrl)
         and:
@@ -57,7 +57,7 @@ class ResolveUrlControllerSpec extends IntegrationSpec {
         given:
             RadioStationStream stream = testRadioStationStream.create()
         and:
-            String streamInfoUrl = stream.url + '/played.html'
+            String streamInfoUrl = stream.url + '/played.html?sid=1'
         and:
             serverResponseExist(streamInfoUrl)
         and:

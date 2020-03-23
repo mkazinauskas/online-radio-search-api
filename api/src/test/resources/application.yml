@@ -40,8 +40,8 @@ keycloak:
   use-resource-role-mappings: true
 
 application:
-  radio.station.stream.scrapper.info.url.endings: /index.html
-  radio.station.stream.scrapper.played.songs.url.endings: /played.html
+  radio.station.stream.scrapper.info.url.endings: '/index.html?sid=1,'
+  radio.station.stream.scrapper.played.songs.url.endings: '/played.html?sid=1,'
   events.processor.enabled: false
   songs.updater.scheduler.enabled: false
   info.updater.scheduler.enabled: false
