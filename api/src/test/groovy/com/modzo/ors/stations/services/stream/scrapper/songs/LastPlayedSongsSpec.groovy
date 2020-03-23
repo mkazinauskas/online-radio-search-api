@@ -1,10 +1,7 @@
 package com.modzo.ors.stations.services.stream.scrapper.songs
 
 import com.modzo.ors.stations.services.stream.WebPageReader
-import com.modzo.ors.stations.services.stream.url.StreamPlayedSongsUrlGenerator
-import spock.lang.Shared
 import spock.lang.Specification
-import spock.lang.Unroll
 
 import java.time.LocalDate
 import java.time.ZonedDateTime
@@ -13,17 +10,13 @@ import static java.time.ZoneId.systemDefault
 
 class LastPlayedSongsSpec extends Specification {
 
-    @Shared
-    StreamPlayedSongsUrlGenerator generator = new StreamPlayedSongsUrlGenerator(
-            ['/played.html', '/played.html?sid=1', '/played.html?sid=2']
-    )
-
-    @Unroll
-    void 'should use `#streamLastPlayedUrl` to scrap stream played songs from `#streamUrl`'() {
+    void 'should scrap stream played songs from url'() {
         given:
-            LastPlayedSongsScrapper scrapper = prepareScrapper(streamLastPlayedUrl)
+            String url = 'http://192.168.169.34:92100/index.html?sid=2'
         and:
-            LastPlayedSongsScrapper.Request request = new LastPlayedSongsScrapper.Request(streamUrl)
+            LastPlayedSongsScrapper scrapper = prepareScrapper(url)
+        and:
+            LastPlayedSongsScrapper.Request request = new LastPlayedSongsScrapper.Request(url)
         when:
             LastPlayedSongsScrapper.Response scraped = scrapper.scrap(request).get()
         then:
@@ -39,15 +32,6 @@ class LastPlayedSongsSpec extends Specification {
 
             scraped.songs[19].playedTime.withZoneSameInstant(systemDefault()) == todayAtTime(15, 15, 53)
             scraped.songs[19].name == 'Notiziario nazionale'
-        where:
-            streamUrl                       | streamLastPlayedUrl
-            'http://192.168.169.34:92100'   | 'http://192.168.169.34:92100'
-            'http://192.168.169.34:92100'   | 'http://192.168.169.34:92100/played.html'
-            'http://192.168.169.34:92100/;' | 'http://192.168.169.34:92100/;'
-            'http://192.168.169.34:92100/;' | 'http://192.168.169.34:92100/played.html'
-            'http://test.com/test/'         | 'http://test.com/test/played.html?sid=1'
-            'http://test.com/test'          | 'http://test.com/test/played.html?sid=1'
-            'http://test.com/test'          | 'http://test.com/played.html?sid=2'
     }
 
     private static ZonedDateTime todayAtTime(int hour, int minute, int second) {
@@ -61,6 +45,6 @@ class LastPlayedSongsSpec extends Specification {
             read(url) >> Optional.of(new WebPageReader.Response(url, null, page))
         }
 
-        return new LastPlayedSongsScrapper(stub, generator)
+        return new LastPlayedSongsScrapper(stub)
     }
 }
