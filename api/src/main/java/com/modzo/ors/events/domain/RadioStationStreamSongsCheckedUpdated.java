@@ -21,14 +21,22 @@ public class RadioStationStreamSongsCheckedUpdated extends DomainEvent {
 
         private final String uniqueId;
 
+        private final long radioStationId;
+
+        private final String radioStationUniqueId;
+
         private final ZonedDateTime songsChecked;
 
         @JsonCreator
         public Data(@JsonProperty("id") long id,
                     @JsonProperty("uniqueId") String uniqueId,
+                    @JsonProperty("radioStationId") long radioStationId,
+                    @JsonProperty("radioStationUniqueId") String radioStationUniqueId,
                     @JsonProperty("songsChecked") ZonedDateTime songsChecked) {
             this.id = id;
             this.uniqueId = uniqueId;
+            this.radioStationId = radioStationId;
+            this.radioStationUniqueId = radioStationUniqueId;
             this.songsChecked = songsChecked;
         }
 
@@ -38,6 +46,14 @@ public class RadioStationStreamSongsCheckedUpdated extends DomainEvent {
 
         public String getUniqueId() {
             return uniqueId;
+        }
+
+        public long getRadioStationId() {
+            return radioStationId;
+        }
+
+        public String getRadioStationUniqueId() {
+            return radioStationUniqueId;
         }
 
         public ZonedDateTime getSongsChecked() {

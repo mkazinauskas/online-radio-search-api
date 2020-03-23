@@ -1,9 +1,8 @@
 package com.modzo.ors.stations.services.stream.scrapper.stream
 
-import com.modzo.ors.stations.services.stream.scrapper.WebPageReader
+import com.modzo.ors.stations.services.stream.WebPageReader
 import spock.lang.Shared
 import spock.lang.Specification
-import spock.lang.Unroll
 
 import static com.modzo.ors.stations.services.stream.scrapper.stream.StreamScrapper.Response.Format.MP3
 import static com.modzo.ors.stations.services.stream.scrapper.stream.StreamScrapper.Response.Format.MPEG
@@ -17,15 +16,13 @@ class StreamScrapperSpec extends Specification {
             new IcyHeaderStreamScrappingStrategy()
     ]
 
-    @Shared
-    StreamInfoUrlGenerator generator = new StreamInfoUrlGenerator(['/info.html', '/info.html?si=1'])
-
-    @Unroll
     void 'should use `#streamInfoUrl` to scrap stream info from `#streamUrl`'() {
         given:
-            StreamScrapper scrapper = prepareScrapper(streamInfoUrl)
+            String url = 'http://192.168.169.34:92100'
+        and:
+            StreamScrapper scrapper = prepareScrapper(url)
         when:
-            StreamScrapper.Response scraped = scrapper.scrap(new StreamScrapper.Request(streamUrl)).get()
+            StreamScrapper.Response scraped = scrapper.scrap(new StreamScrapper.Request(url)).get()
         then:
             scraped.with {
                 listingStatus == 'Stream is currently up and public'
@@ -36,15 +33,6 @@ class StreamScrapperSpec extends Specification {
                 genres == ['Pop', 'Rock', '80s', '70s', 'Top 40']
                 website == 'www.radioduepuntozero.it'
             }
-        where:
-            streamUrl                       | streamInfoUrl
-            'http://192.168.169.34:92100'   | 'http://192.168.169.34:92100'
-            'http://192.168.169.34:92100/;' | 'http://192.168.169.34:92100/;'
-            'http://192.168.169.34:92100'   | 'http://192.168.169.34:92100/info.html'
-            'http://192.168.169.34:92100/;' | 'http://192.168.169.34:92100/info.html'
-            'http://test.com/test/'         | 'http://test.com/test/info.html?si=1'
-            'http://test.com/test'          | 'http://test.com/test/info.html?si=1'
-            'http://test.com/test'          | 'http://test.com/info.html?si=1'
     }
 
     void 'should scrap icy pages'() {
@@ -87,18 +75,18 @@ class StreamScrapperSpec extends Specification {
         String page = getClass().getResource('/services/scrappers/stream/sample-source.html').text
 
         WebPageReader webPageReaderStub = Stub(WebPageReader) {
-            read(url) >> Optional.of(new WebPageReader.Response(null, page))
+            read(url) >> Optional.of(new WebPageReader.Response(url, null, page))
         }
-        return new StreamScrapper(webPageReaderStub, generator, strategies)
+        return new StreamScrapper(webPageReaderStub, strategies)
     }
 
     private StreamScrapper prepareIcyScrapper(String url) {
         String page = getClass().getResource('/services/scrappers/stream/sample-source-icy.html').text
 
         WebPageReader webPageReaderStub = Stub(WebPageReader) {
-            read(url) >> Optional.of(new WebPageReader.Response(null, page))
+            read(url) >> Optional.of(new WebPageReader.Response(url, null, page))
         }
-        return new StreamScrapper(webPageReaderStub, generator, strategies)
+        return new StreamScrapper(webPageReaderStub, strategies)
     }
 
     private StreamScrapper prepareHeaderScrapper(String url) {
@@ -114,8 +102,8 @@ class StreamScrapperSpec extends Specification {
                 'icy-url'     : ['http://www.veniceclassicradio.eu']
         ]
         WebPageReader webPageReaderStub = Stub(WebPageReader) {
-            read(url) >> Optional.of(new WebPageReader.Response(headers, null))
+            read(url) >> Optional.of(new WebPageReader.Response(url, headers, null))
         }
-        return new StreamScrapper(webPageReaderStub, generator, strategies)
+        return new StreamScrapper(webPageReaderStub, strategies)
     }
 }

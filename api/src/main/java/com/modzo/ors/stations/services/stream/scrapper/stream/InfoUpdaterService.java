@@ -7,10 +7,13 @@ import com.modzo.ors.stations.domain.radio.station.genre.Genre;
 import com.modzo.ors.stations.domain.radio.station.genre.commands.CreateGenre;
 import com.modzo.ors.stations.domain.radio.station.genre.commands.FindGenre;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
+import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateInfoCheckedTime;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateRadioStationStream;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
@@ -27,6 +30,8 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Component
 public class InfoUpdaterService {
+
+    private static final Logger log = LoggerFactory.getLogger(InfoUpdaterService.class);
 
     private final GetRadioStationStream.Handler radioStationStream;
 
@@ -63,16 +68,23 @@ public class InfoUpdaterService {
     }
 
     public void update(long radioStationId, long streamId) {
+        log.info("Processing radio station `{}` and stream `{}`", radioStationId, streamId);
         RadioStationStream stream = radioStationStream.handle(
                 new GetRadioStationStream(radioStationId, streamId)
         );
 
         updateInfoCheckedTime.handle(new UpdateInfoCheckedTime(radioStationId, streamId, ZonedDateTime.now()));
 
-        String streamUrl = stream.getUrl();
+        stream.findUrl(StreamUrl.Type.INFO)
+                .ifPresent(streamUrl -> updateInfo(streamUrl, stream));
 
+
+        log.info("Finished processing radio station `{}` and stream `{}`", radioStationId, streamId);
+    }
+
+    private void updateInfo(StreamUrl streamUrl, RadioStationStream stream) {
         Optional<StreamScrapper.Response> scrappedPage = streamScrapper.scrap(
-                new StreamScrapper.Request(streamUrl)
+                new StreamScrapper.Request(streamUrl.getUrl())
         );
 
         if (scrappedPage.isPresent()) {

@@ -35,7 +35,7 @@ public class GetRadioStationStreams {
         @Transactional(readOnly = true)
         public Page<RadioStationStream> handle(GetRadioStationStreams command) {
             validator.validate(command);
-            return radioStationStreams.findAllByRadioStationId(command.radioStationId, command.pageable);
+            return radioStationStreams.findAllByRadioStation_Id(command.radioStationId, command.pageable);
         }
     }
 

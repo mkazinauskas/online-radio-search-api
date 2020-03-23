@@ -31,7 +31,7 @@ public class GetRadioStationStream {
         @Transactional(readOnly = true)
         public RadioStationStream handle(GetRadioStationStream command) {
             validator.validate(command);
-            return radioStationStreams.findByRadioStationIdAndId(command.radioStationId, command.streamId)
+            return radioStationStreams.findByRadioStation_IdAndId(command.radioStationId, command.streamId)
                     .orElseThrow(() -> new DomainException(
                             "RADIO_STATION_STREAM_BY_ID_NOT_FOUND",
                             "Radio station stream by id was not found")
@@ -53,7 +53,7 @@ public class GetRadioStationStream {
                         "Radio station id cannot be less or equal to zero");
             }
 
-            if (!radioStations.findById(command.radioStationId).isPresent()) {
+            if (radioStations.findById(command.radioStationId).isEmpty()) {
                 throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT",
                         "Radio station with id is not available");
             }

@@ -1,6 +1,6 @@
 package com.modzo.ors.stations.services.stream.scrapper.stream;
 
-import com.modzo.ors.stations.services.stream.scrapper.WebPageReader;
+import com.modzo.ors.stations.services.stream.WebPageReader;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -15,26 +15,17 @@ public class StreamScrapper {
 
     private final WebPageReader siteReader;
 
-    private final StreamInfoUrlGenerator generator;
-
     private final List<StreamInfoScrappingStrategy> streamInfoScrappingStrategies;
 
     public StreamScrapper(WebPageReader siteReader,
-                          StreamInfoUrlGenerator generator,
                           List<StreamInfoScrappingStrategy> streamInfoScrappingStrategies) {
         this.siteReader = siteReader;
-        this.generator = generator;
         this.streamInfoScrappingStrategies = streamInfoScrappingStrategies;
     }
 
     public Optional<Response> scrap(Request request) {
-        return generator.generateUrls(request.url)
-                .stream()
-                .map(this.siteReader::read)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(getResponseHavingHighestPropertyCount()
-                ).findFirst()
+        return siteReader.read(request.url)
+                .map(getResponseHavingHighestPropertyCount())
                 .orElse(Optional.empty());
     }
 

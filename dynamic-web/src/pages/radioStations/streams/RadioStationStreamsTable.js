@@ -4,9 +4,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { createURLRadioStationStreams } from '../../../layouts/pathTypes';
 import DeleteRadioStationStreamButton from './delete/DeleteRadioStationStreamButton';
-import RadioStationStreamLatestInfoButton from './latestInfo/RadioStationStreamLatestInfoButton';
-import UpdateRadioStationStreamSongsButton from './songs/UpdateRadioStationStreamSongsButton';
 import UpdateRadioStationStreamButton from './update/UpdateRadioStationStreamButton';
+import ShowStreamsUrlsButton from './urls/ShowStreamsUrlsButton';
 
 const columns = [
     {
@@ -59,14 +58,10 @@ const columns = [
         render: (text, record) => {
             return (
                 <span>
-                    <UpdateRadioStationStreamSongsButton
-                        key={`fetch-songs-${record.id}`}
+                    <ShowStreamsUrlsButton
+                        key={`show-streams-info-${record.id}`}
                         radioStationId={record.radioStationId}
-                        id={record.id}
-                    />
-                    <RadioStationStreamLatestInfoButton
-                        key={`fetch-info-${record.id}`}
-                        radioStationId={record.radioStationId}
+                        streamId={record.id}
                         id={record.id}
                     />
                     <UpdateRadioStationStreamButton

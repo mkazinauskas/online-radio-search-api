@@ -9,11 +9,11 @@ import java.util.Optional;
 
 public interface RadioStationStreams extends CrudRepository<RadioStationStream, Long> {
 
-    Optional<RadioStationStream> findByRadioStationIdAndId(long radioStationId, long streamId);
+    Optional<RadioStationStream> findByRadioStation_IdAndId(long radioStationId, long streamId);
 
-    Optional<RadioStationStream> findByRadioStationIdAndUrl(long radioStationId, String url);
+    Optional<RadioStationStream> findByRadioStation_IdAndUrl(long radioStationId, String url);
 
-    Page<RadioStationStream> findAllByRadioStationId(long radioStationId, Pageable pageable);
+    Page<RadioStationStream> findAllByRadioStation_Id(long radioStationId, Pageable pageable);
 
     Optional<RadioStationStream> findOneBySongsCheckedIsBeforeOrSongsCheckedIsNullOrderBySongsCheckedAsc(
             ZonedDateTime songCheckedBefore

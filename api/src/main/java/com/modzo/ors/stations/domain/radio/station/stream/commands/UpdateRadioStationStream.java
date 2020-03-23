@@ -131,7 +131,7 @@ public class UpdateRadioStationStream {
         public void handle(UpdateRadioStationStream command) {
             validator.validate(command);
             RadioStationStream stream = radioStationStreams
-                    .findByRadioStationIdAndId(command.radioStationId, command.streamId).get();
+                    .findByRadioStation_IdAndId(command.radioStationId, command.streamId).get();
 
             stream.setBitRate(command.data.bitRate);
             stream.setType(command.data.type);

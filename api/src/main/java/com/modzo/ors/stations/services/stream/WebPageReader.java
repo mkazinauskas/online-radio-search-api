@@ -1,4 +1,4 @@
-package com.modzo.ors.stations.services.stream.scrapper;
+package com.modzo.ors.stations.services.stream;
 
 import com.nimbusds.oauth2.sdk.util.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -69,11 +69,11 @@ public class WebPageReader {
                 log.error(
                         String.format("Url = `%s` is not acceptable content type = `%s`", url, contentType.orElse(EMPTY))
                 );
-                return Optional.of(new Response(headerFields));
+                return Optional.of(new Response(url, headerFields));
             }
 
             String body = new String(((InputStream) connection.getContent()).readAllBytes(), StandardCharsets.UTF_8);
-            return Optional.of(new Response(headerFields, body));
+            return Optional.of(new Response(url, headerFields, body));
         } catch (Exception exception) {
             log.error(String.format("Failed to establish connection to url = `%s`", url), exception);
             return Optional.empty();
@@ -100,18 +100,26 @@ public class WebPageReader {
 
     public static class Response {
 
+        private final String url;
+
         private final Map<String, List<String>> headers;
 
         private final String body;
 
-        public Response(Map<String, List<String>> headers, String body) {
+        public Response(String url, Map<String, List<String>> headers, String body) {
+            this.url = url;
             this.headers = headers;
             this.body = body;
         }
 
-        public Response(Map<String, List<String>> headers) {
+        public Response(String url, Map<String, List<String>> headers) {
+            this.url = url;
             this.headers = headers;
             this.body = null;
+        }
+
+        public String getUrl() {
+            return url;
         }
 
         public Map<String, String> getHeaders() {

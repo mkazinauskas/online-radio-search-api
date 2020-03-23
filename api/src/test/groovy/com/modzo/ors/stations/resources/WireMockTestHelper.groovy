@@ -55,7 +55,8 @@ class WireMockTestHelper {
 
     private static String getPath(String inputUrl) {
         try {
-            return new URL(inputUrl).path
+            URL url = new URL(inputUrl)
+            return [url.path, url.query].findAll().join('?')
         } catch (MalformedURLException ignored) {
             log.info("${inputUrl} is malformed, using it as path")
             return inputUrl

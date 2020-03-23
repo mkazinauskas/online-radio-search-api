@@ -16,7 +16,7 @@ class DeleteRadioStationStreamController {
     }
 
     @DeleteMapping("/admin/radio-stations/{radioStationId}/streams/{streamId}")
-    ResponseEntity deleteRadioStation(@PathVariable("radioStationId") long radioStationId,
+    ResponseEntity<String> deleteRadioStationStream(@PathVariable("radioStationId") long radioStationId,
                                       @PathVariable("streamId") long streamId) {
         deleteRadioStationStream.handle(new DeleteRadioStationStream(radioStationId, streamId));
         return ResponseEntity.ok().build();

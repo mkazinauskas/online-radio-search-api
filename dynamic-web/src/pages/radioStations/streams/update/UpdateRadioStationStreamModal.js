@@ -36,7 +36,6 @@ class UpdateRadioStationStreamModal extends Component {
                     working: values.working,
                     type: values.type
                 }
-                debugger
                 Axios.patch(`/admin/radio-stations/${this.props.radioStationStream.radioStationId}/streams/${this.props.radioStationStream.id}`, content, config)
                     .then(() => this.setState({ ...this.state, successMessage: 'Radio station stream was updated' }))
                     .catch(() => this.setState({ ...this.state, errorMessage: 'Failed to update radio station stream' }))

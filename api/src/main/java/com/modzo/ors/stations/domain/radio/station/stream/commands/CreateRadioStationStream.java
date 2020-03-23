@@ -1,5 +1,6 @@
 package com.modzo.ors.stations.domain.radio.station.stream.commands;
 
+import com.modzo.ors.commons.Urls;
 import com.modzo.ors.events.domain.RadioStationStreamCreated;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
@@ -12,8 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-
-import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CreateRadioStationStream {
     private final long radioStationId;
@@ -33,12 +32,11 @@ public class CreateRadioStationStream {
         return url;
     }
 
-    private RadioStationStream toRadioStationStream() {
-        return new RadioStationStream(this.radioStationId, this.url);
-    }
-
     @Component
     public static class Handler {
+
+        private final RadioStations stations;
+
         private final RadioStationStreams radioStationStreams;
 
         private final Validator validator;
@@ -47,10 +45,11 @@ public class CreateRadioStationStream {
 
         private final RadioStations radioStations;
 
-        public Handler(RadioStationStreams radioStationStreams,
+        public Handler(RadioStations stations, RadioStationStreams radioStationStreams,
                        Validator validator,
                        ApplicationEventPublisher applicationEventPublisher,
                        RadioStations radioStations) {
+            this.stations = stations;
             this.radioStationStreams = radioStationStreams;
             this.validator = validator;
             this.applicationEventPublisher = applicationEventPublisher;
@@ -60,7 +59,12 @@ public class CreateRadioStationStream {
         @Transactional
         public Result handle(CreateRadioStationStream command) {
             validator.validate(command);
-            RadioStationStream savedStream = radioStationStreams.save(command.toRadioStationStream());
+
+            RadioStation station = stations.findById(command.radioStationId).get();
+
+            RadioStationStream stream = new RadioStationStream(station, command.url);
+
+            RadioStationStream savedStream = radioStationStreams.save(stream);
 
             RadioStation radioStation = radioStations.findById(savedStream.getRadioStationId()).get();
 
@@ -94,15 +98,17 @@ public class CreateRadioStationStream {
                 throw new DomainException("FIELD_RADIO_STATION_ID_IS_NOT_POSITIVE",
                         "Field radio station id should be positive");
             }
-            if (!radioStations.findById(command.radioStationId).isPresent()) {
+
+            if (radioStations.findById(command.radioStationId).isEmpty()) {
                 throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT",
                         "Radio station with id is not available");
             }
-            if (isBlank(command.url)) {
-                throw new DomainException("FIELD_URL_NOT_BLANK", "Field url cannot be blank");
+
+            if (Urls.isNotValid(command.url)) {
+                throw new DomainException("FIELD_URL_NOT_VALID", "Field url is not valid");
             }
 
-            Optional<RadioStationStream> existing = radioStationStreams.findByRadioStationIdAndUrl(
+            Optional<RadioStationStream> existing = radioStationStreams.findByRadioStation_IdAndUrl(
                     command.radioStationId,
                     command.url
             );

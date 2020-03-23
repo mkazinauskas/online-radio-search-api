@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import static com.modzo.ors.events.domain.Event.Type.RADIO_STATION_STREAM_DELETED;
 
 public class RadioStationStreamDeleted extends DomainEvent {
+
     private final Data data;
 
     public RadioStationStreamDeleted(Object source, Data data) {
@@ -15,20 +16,36 @@ public class RadioStationStreamDeleted extends DomainEvent {
 
     public static class Data extends DomainEvent.Data {
 
+        private final long id;
+
         private final String uniqueId;
+
+        private final long radioStationId;
 
         private final String radioStationUniqueId;
 
         @JsonCreator
-        public Data(@JsonProperty("uniqueId") String uniqueId,
+        public Data(@JsonProperty("id") long id,
+                    @JsonProperty("uniqueId") String uniqueId,
+                    @JsonProperty("radioStationId") long radioStationId,
                     @JsonProperty("radioStationUniqueId") String radioStationUniqueId
         ) {
+            this.id = id;
             this.uniqueId = uniqueId;
+            this.radioStationId = radioStationId;
             this.radioStationUniqueId = radioStationUniqueId;
+        }
+
+        public long getId() {
+            return id;
         }
 
         public String getUniqueId() {
             return uniqueId;
+        }
+
+        public long getRadioStationId() {
+            return radioStationId;
         }
 
         public String getRadioStationUniqueId() {

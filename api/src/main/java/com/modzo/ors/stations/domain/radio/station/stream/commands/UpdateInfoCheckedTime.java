@@ -49,7 +49,7 @@ public class UpdateInfoCheckedTime {
         private final ApplicationEventPublisher applicationEventPublisher;
 
         public Handler(RadioStationStreams radioStationStreams,
-                       UpdateInfoCheckedTime.Validator validator,
+                       Validator validator,
                        ApplicationEventPublisher applicationEventPublisher) {
             this.radioStationStreams = radioStationStreams;
             this.validator = validator;
@@ -59,8 +59,9 @@ public class UpdateInfoCheckedTime {
         @Transactional
         public void handle(UpdateInfoCheckedTime command) {
             validator.validate(command);
+
             RadioStationStream stream = radioStationStreams
-                    .findByRadioStationIdAndId(command.radioStationId, command.streamId).get();
+                    .findByRadioStation_IdAndId(command.radioStationId, command.streamId).get();
 
             stream.setInfoChecked(command.infoCheckedTime);
 
@@ -70,6 +71,8 @@ public class UpdateInfoCheckedTime {
                             new RadioStationStreamInfoCheckedUpdated.Data(
                                     stream.getId(),
                                     stream.getUniqueId(),
+                                    stream.getRadioStation().getId(),
+                                    stream.getRadioStation().getUniqueId(),
                                     stream.getInfoChecked()
                             )
                     )

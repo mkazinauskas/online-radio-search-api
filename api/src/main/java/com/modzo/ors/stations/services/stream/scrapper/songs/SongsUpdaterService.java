@@ -4,6 +4,7 @@ import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong;
 import com.modzo.ors.stations.domain.radio.station.song.commands.CreateRadioStationSong;
 import com.modzo.ors.stations.domain.radio.station.song.commands.FindRadioStationSongByPlayingTime;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
+import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateSongsCheckedTime;
 import com.modzo.ors.stations.domain.song.Song;
@@ -59,26 +60,30 @@ public class SongsUpdaterService {
 
     public void update(long radioStationId, long streamId) {
         log.info("Processing radio station `{}` and stream `{}`", radioStationId, streamId);
-        RadioStationStream stream = radioStationStream.handle(
-                new GetRadioStationStream(radioStationId, streamId)
+        RadioStationStream stream = radioStationStream.handle(new GetRadioStationStream(radioStationId, streamId));
+
+        updateSongsCheckedTimeHandler.handle(
+                new UpdateSongsCheckedTime(stream.getRadioStationId(), stream.getId(), ZonedDateTime.now())
         );
 
-        updateSongsCheckedTimeHandler.handle(new UpdateSongsCheckedTime(radioStationId, streamId, ZonedDateTime.now()));
+        stream.findUrl(StreamUrl.Type.SONGS)
+                .ifPresent(streamUrl -> updateSongs(streamUrl, stream));
+        log.info("Finished processing radio station `{}` and stream `{}`", radioStationId, streamId);
+    }
 
+    private void updateSongs(StreamUrl lastPlayedSongsUrl, RadioStationStream stream) {
         Optional<LastPlayedSongsScrapper.Response> scrappedPage = playedSongsScrapper.scrap(
-                new LastPlayedSongsScrapper.Request(stream.getUrl())
+                new LastPlayedSongsScrapper.Request(lastPlayedSongsUrl.getUrl())
         );
 
         scrappedPage
                 .map(LastPlayedSongsScrapper.Response::getSongs)
                 .orElse(List.of())
-                .forEach(playedSong -> updateRadioStreamInfo(playedSong, radioStationId));
-
-        log.info("Finished processing radio station `{}` and stream `{}`", radioStationId, streamId);
+                .forEach(playedSong -> updatePlayedSongs(playedSong, stream.getRadioStationId()));
     }
 
-    private void updateRadioStreamInfo(LastPlayedSongsScrapper.Response.PlayedSong playedSong,
-                                       long radioStationId) {
+    private void updatePlayedSongs(LastPlayedSongsScrapper.Response.PlayedSong playedSong,
+                                   long radioStationId) {
         Optional<RadioStationSong> foundSong = findSong.handle(
                 new FindRadioStationSongByPlayingTime(radioStationId, playedSong.getPlayedTime())
         );

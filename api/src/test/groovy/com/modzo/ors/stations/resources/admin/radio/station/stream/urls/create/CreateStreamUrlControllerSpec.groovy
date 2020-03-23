@@ -1,8 +1,9 @@
-package com.modzo.ors.stations.resources.admin.radio.station.stream.create
+package com.modzo.ors.stations.resources.admin.radio.station.stream.urls.create
 
 import com.modzo.ors.HttpEntityBuilder
 import com.modzo.ors.TestUsers
-import com.modzo.ors.stations.domain.radio.station.RadioStation
+import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
+import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
 
@@ -10,18 +11,19 @@ import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.HttpStatus.OK
 import static org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils.randomAlphanumeric
 
-class CreateRadioStationStreamControllerSpec extends IntegrationSpec {
+class CreateStreamUrlControllerSpec extends IntegrationSpec {
 
-    void 'admin should create radio station'() {
+    void 'admin should create radio station stream url'() {
         given:
-            RadioStation radioStation = testRadioStation.create()
+            RadioStationStream stream = testRadioStationStream.create()
         and:
-            CreateRadioStationStreamRequest request = new CreateRadioStationStreamRequest(
-                    url: "http://www.${randomAlphanumeric(14)}.com"
+            CreateStreamUrlRequest request = new CreateStreamUrlRequest(
+                    StreamUrl.Type.SONGS,
+                    "http://www.${randomAlphanumeric(14)}.com"
             )
         when:
             ResponseEntity<String> response = restTemplate.exchange(
-                    "/admin/radio-stations/${radioStation.id}/streams",
+                    "/admin/radio-stations/${stream.radioStationId}/streams/${stream.id}/urls",
                     POST,
                     HttpEntityBuilder.builder()
                             .bearer(token(TestUsers.ADMIN))
@@ -31,5 +33,8 @@ class CreateRadioStationStreamControllerSpec extends IntegrationSpec {
             )
         then:
             restTemplate.getForEntity(response.headers.getLocation().path, String).statusCode == OK
+        and:
+            RadioStationStream updatedStream = radioStationStreams.findById(stream.id).get()
+            updatedStream.findUrl(StreamUrl.Type.SONGS).get().url == request.url
     }
 }

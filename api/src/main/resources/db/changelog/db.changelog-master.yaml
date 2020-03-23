@@ -1,345 +1,396 @@
 databaseChangeLog:
-- changeSet:
-    id: 1
-    author: modestukasai
-    changes:
-    - createTable:
-        tableName: radio_stations
-        columns:
-        - column:
-            name: id
-            type: bigint
-            autoIncrement: true
-            constraints:
-              primaryKey: true
-              nullable: false
-        - column:
-            name: unique_id
-            type: varchar(20)
-            constraints:
-              nullable: false
-              unique: true
-        - column:
-            name: created
-            type: timestamp with time zone
-            constraints:
-              nullable: false
-        - column:
-            name: title
-            type: varchar(100)
-            constraints:
-              nullable: false
-              unique: true
-        - column:
-            name: website
-            type: varchar(100)
-            constraints:
-              nullable: true
-        - column:
-            name: enabled
-            type: boolean
-            constraints:
-              nullable: false
-    - createSequence:
-        schemaName: public
-        sequenceName: radio_stations_sequence
-        incrementBy: 1
-        startValue: 1
-- changeSet:
-    id: 2
-    author: modestukasai
-    changes:
-    - createTable:
-        tableName: radio_station_streams
-        columns:
-        - column:
-            name: id
-            type: bigint
-            autoIncrement: true
-            constraints:
-              primaryKey: true
-              nullable: false
-        - column:
-            name: unique_id
-            type: varchar(20)
-            constraints:
-              nullable: false
-              unique: true
-        - column:
-            name: created
-            type: timestamp with time zone
-            constraints:
-              nullable: false
-        - column:
-            name: radio_station_id
-            type: bigint
-            autoIncrement: true
-            constraints:
-              primaryKey: true
-              nullable: false
-        - column:
-            name: url
-            type: varchar(100)
-            constraints:
-              nullable: false
-        - column:
-            name: bit_rate
-            type: int
-            constraints:
-              nullable: true
-        - column:
-            name: type
-            type: varchar(100)
-            constraints:
-              nullable: true
-        - column:
-            name: working
-            type: boolean
-            constraints:
-              nullable: false
-        - column:
-            name: songs_checked
-            type: timestamp with time zone
-        - column:
-            name: info_checked
-            type: timestamp with time zone
-    - createSequence:
-        schemaName: public
-        sequenceName: radio_station_streams_sequence
-        incrementBy: 1
-        startValue: 1
-    - addForeignKeyConstraint:
-        baseColumnNames: radio_station_id
-        baseTableName: radio_station_streams
-        constraintName: fk_radio_station_stream_to_radio_station_id
-        deferrable: true
-        initiallyDeferred: true
-        onDelete: CASCADE
-        onUpdate: RESTRICT
-        referencedColumnNames: id
-        referencedTableName: radio_stations
-    - addUniqueConstraint:
-        tableName: radio_station_streams
-        columnNames: radio_station_id, url
-        constraintName: unique_radio_station_stream_url_index
-- changeSet:
-    id: 3
-    author: modestukasai
-    changes:
-    - createTable:
-        tableName: songs
-        columns:
-        - column:
-            name: id
-            type: bigint
-            autoIncrement: true
-            constraints:
-              primaryKey: true
-              nullable: false
-        - column:
-            name: unique_id
-            type: varchar(40)
-            constraints:
-              nullable: false
-              unique: true
-        - column:
-            name: created
-            type: timestamp with time zone
-            constraints:
-              nullable: false
-        - column:
-            name: title
-            type: varchar(300)
-            constraints:
-              nullable: false
-              unique: true
-    - createSequence:
-        schemaName: public
-        sequenceName: songs_sequence
-        incrementBy: 1
-        startValue: 1
-- changeSet:
-    id: 3.1
-    author: modestukasai
-    changes:
-    - createTable:
-        tableName: radio_station_songs
-        columns:
-        - column:
-            name: id
-            type: bigint
-            autoIncrement: true
-            constraints:
-              primaryKey: true
-              nullable: false
-        - column:
-            name: unique_id
-            type: varchar(40)
-            constraints:
-              nullable: false
-              unique: true
-        - column:
-            name: created
-            type: timestamp with time zone
-            constraints:
-              nullable: false
-        - column:
-            name: radio_station_id
-            type: bigint
-            constraints:
-              nullable: false
-        - column:
-            name: song_id
-            type: bigint
-            constraints:
-              nullable: false
-        - column:
-            name: playing_time
-            type: timestamp with time zone
-            constraints:
-              nullable: false
-    - addForeignKeyConstraint:
-        baseColumnNames: radio_station_id
-        baseTableName: radio_station_songs
-        constraintName: fk_song_to_radio_stations_to_radio_stations_id
-        deferrable: true
-        initiallyDeferred: true
-        onDelete: CASCADE
-        onUpdate: RESTRICT
-        referencedColumnNames: id
-        referencedTableName: radio_stations
-    - addForeignKeyConstraint:
-        baseColumnNames: song_id
-        baseTableName: radio_station_songs
-        constraintName: fk_songs_to_radio_stations_to_genres_id
-        deferrable: true
-        initiallyDeferred: true
-        onDelete: CASCADE
-        onUpdate: RESTRICT
-        referencedColumnNames: id
-        referencedTableName: songs
-    - createSequence:
-        schemaName: public
-        sequenceName: radio_station_songs_sequence
-        incrementBy: 1
-        startValue: 1
-- changeSet:
-    id: 4
-    author: modestukasai
-    changes:
-    - createTable:
-        tableName: genres
-        columns:
-        - column:
-            name: id
-            type: bigint
-            autoIncrement: true
-            constraints:
-              primaryKey: true
-              nullable: false
-        - column:
-            name: unique_id
-            type: varchar(20)
-            constraints:
-              nullable: false
-              unique: true
-        - column:
-            name: created
-            type: timestamp with time zone
-            constraints:
-              nullable: false
-        - column:
-            name: title
-            type: varchar(100)
-            constraints:
-              nullable: false
-              unique: true
-    - createSequence:
-        schemaName: public
-        sequenceName: genres_sequence
-        incrementBy: 1
-        startValue: 1
-- changeSet:
-    id: 4.1
-    author: modestukasai
-    changes:
-    - createTable:
-        tableName: genres_to_radio_stations
-        columns:
-        - column:
-            name: radio_station_id
-            type: bigint
-            constraints:
-              nullable: false
-        - column:
-            name: genre_id
-            type: bigint
-            constraints:
-              nullable: false
-    - addForeignKeyConstraint:
-        baseColumnNames: radio_station_id
-        baseTableName: genres_to_radio_stations
-        constraintName: fk_genres_to_radio_stations_to_radio_stations_id
-        deferrable: true
-        initiallyDeferred: true
-        onDelete: CASCADE
-        onUpdate: RESTRICT
-        referencedColumnNames: id
-        referencedTableName: radio_stations
-    - addForeignKeyConstraint:
-        baseColumnNames: genre_id
-        baseTableName: genres_to_radio_stations
-        constraintName: fk_genres_to_radio_stations_to_genres_id
-        deferrable: true
-        initiallyDeferred: true
-        onDelete: CASCADE
-        onUpdate: RESTRICT
-        referencedColumnNames: id
-        referencedTableName: genres
-- changeSet:
-    id: 5
-    author: modestukasai
-    changes:
-    - createTable:
-        tableName: events
-        columns:
-        - column:
-            name: id
-            type: bigint
-            autoIncrement: true
-            constraints:
-              primaryKey: true
-              nullable: false
-        - column:
-              name: entity_unique_id
-              type: varchar(40)
-              constraints:
-                  nullable: false
-        - column:
-            name: created
-            type: timestamp
-            constraints:
-              nullable: false
-        - column:
-            name: type
-            type: varchar(100)
-            constraints:
-              nullable: false
-        - column:
-            name: body
-            type: clob
-            constraints:
-              nullable: false
-    - createSequence:
-        schemaName: public
-        sequenceName: events_sequence
-        incrementBy: 1
-        startValue: 1
-    - createIndex:
-        columns:
-            - column:
-                name: entity_unique_id
-                type: varchar(40)
-        indexName: idx_entity_unique_id
-        schemaName: public
-        tableName: events
+  - changeSet:
+      id: 1-radio-stations
+      author: modestukasai
+      changes:
+        - createTable:
+            tableName: radio_stations
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: unique_id
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: created
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: website
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: enabled
+                  type: boolean
+                  constraints:
+                    nullable: false
+        - createSequence:
+            schemaName: public
+            sequenceName: radio_stations_sequence
+            incrementBy: 1
+            startValue: 1
+  - changeSet:
+      id: 1-radio-station-streams
+      author: modestukasai
+      changes:
+        - createTable:
+            tableName: radio_station_streams
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: unique_id
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: created
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: radio_station_id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: url
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: bit_rate
+                  type: int
+                  constraints:
+                    nullable: true
+              - column:
+                  name: type
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: working
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: songs_checked
+                  type: timestamp with time zone
+              - column:
+                  name: info_checked
+                  type: timestamp with time zone
+        - createSequence:
+            schemaName: public
+            sequenceName: radio_station_streams_sequence
+            incrementBy: 1
+            startValue: 1
+        - addForeignKeyConstraint:
+            baseColumnNames: radio_station_id
+            baseTableName: radio_station_streams
+            constraintName: fk_radio_station_stream_to_radio_station_id
+            deferrable: true
+            initiallyDeferred: true
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: radio_stations
+        - addUniqueConstraint:
+            tableName: radio_station_streams
+            columnNames: radio_station_id, url
+            constraintName: unique_radio_station_stream_url_index
+  - changeSet:
+      id: 1-stream-urls
+      author: modestukasai
+      changes:
+        - createTable:
+            tableName: stream_urls
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: unique_id
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: created
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: radio_station_stream_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: url
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+        - createSequence:
+            schemaName: public
+            sequenceName: stream_urls_sequence
+            incrementBy: 1
+            startValue: 1
+        - createIndex:
+            tableName: stream_urls
+            columns:
+              - column:
+                  name: url
+            constraintName: stream_urls_url_index
+  - changeSet:
+      id: 1-songs
+      author: modestukasai
+      changes:
+        - createTable:
+            tableName: songs
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: unique_id
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: created
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(300)
+                  constraints:
+                    nullable: false
+                    unique: true
+        - createSequence:
+            schemaName: public
+            sequenceName: songs_sequence
+            incrementBy: 1
+            startValue: 1
+  - changeSet:
+      id: 1-radio-station-songs
+      author: modestukasai
+      changes:
+        - createTable:
+            tableName: radio_station_songs
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: unique_id
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: created
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: radio_station_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: song_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: playing_time
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: radio_station_id
+            baseTableName: radio_station_songs
+            constraintName: fk_song_to_radio_stations_to_radio_stations_id
+            deferrable: true
+            initiallyDeferred: true
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: radio_stations
+        - addForeignKeyConstraint:
+            baseColumnNames: song_id
+            baseTableName: radio_station_songs
+            constraintName: fk_songs_to_radio_stations_to_genres_id
+            deferrable: true
+            initiallyDeferred: true
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: songs
+        - createSequence:
+            schemaName: public
+            sequenceName: radio_station_songs_sequence
+            incrementBy: 1
+            startValue: 1
+  - changeSet:
+      id: 1-genres
+      author: modestukasai
+      changes:
+        - createTable:
+            tableName: genres
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: unique_id
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: created
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+        - createSequence:
+            schemaName: public
+            sequenceName: genres_sequence
+            incrementBy: 1
+            startValue: 1
+  - changeSet:
+      id: 1-genres-to-radio-stations
+      author: modestukasai
+      changes:
+        - createTable:
+            tableName: genres_to_radio_stations
+            columns:
+              - column:
+                  name: radio_station_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: genre_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: radio_station_id
+            baseTableName: genres_to_radio_stations
+            constraintName: fk_genres_to_radio_stations_to_radio_stations_id
+            deferrable: true
+            initiallyDeferred: true
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: radio_stations
+        - addForeignKeyConstraint:
+            baseColumnNames: genre_id
+            baseTableName: genres_to_radio_stations
+            constraintName: fk_genres_to_radio_stations_to_genres_id
+            deferrable: true
+            initiallyDeferred: true
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: genres
+  - changeSet:
+      id: 1-events
+      author: modestukasai
+      changes:
+        - createTable:
+            tableName: events
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: entity_unique_id
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: body
+                  type: clob
+                  constraints:
+                    nullable: false
+        - createSequence:
+            schemaName: public
+            sequenceName: events_sequence
+            incrementBy: 1
+            startValue: 1
+        - createIndex:
+            columns:
+              - column:
+                  name: entity_unique_id
+                  type: varchar(40)
+            indexName: idx_entity_unique_id
+            schemaName: public
+            tableName: events

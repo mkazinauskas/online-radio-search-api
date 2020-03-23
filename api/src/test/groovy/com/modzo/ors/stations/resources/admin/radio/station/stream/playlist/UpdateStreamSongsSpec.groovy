@@ -5,6 +5,7 @@ import com.modzo.ors.stations.domain.radio.station.RadioStation
 import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong
 import com.modzo.ors.stations.domain.radio.station.song.commands.GetRadioStationSongs
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
+import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl
 import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStream
 import com.modzo.ors.stations.domain.song.Song
 import com.modzo.ors.stations.domain.song.commands.GetSong
@@ -36,7 +37,9 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
         and:
             RadioStationStream stream = testRadioStationStream.create(radioStation.id)
         and:
-            serverResponseExist(stream.url)
+            StreamUrl streamUrl = testStreamUrl.create(radioStation.id, stream.id, StreamUrl.Type.SONGS)
+        and:
+            serverResponseExist(streamUrl.url)
         when:
             ResponseEntity<String> response = restTemplate.exchange(
                     "/admin/radio-stations/${radioStation.id}/streams/${stream.id}/songs",
@@ -73,7 +76,9 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
         and:
             RadioStationStream stream = testRadioStationStream.create(radioStation.id)
         and:
-            noServerResponseExist(stream.url)
+            StreamUrl streamUrl = testStreamUrl.create(radioStation.id, stream.id, StreamUrl.Type.SONGS)
+        and:
+            noServerResponseExist(streamUrl.url)
         when:
             ResponseEntity<String> response = restTemplate.exchange(
                     "/admin/radio-stations/${radioStation.id}/streams/${stream.id}/songs",
