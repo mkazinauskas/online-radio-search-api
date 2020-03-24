@@ -16,15 +16,16 @@ class StreamScrapperSpec extends Specification {
             new IcyHeaderStreamScrappingStrategy()
     ]
 
-    void 'should use `#streamInfoUrl` to scrap stream info from `#streamUrl`'() {
+    void 'should scrap stream info from sample url'() {
         given:
             String url = 'http://192.168.169.34:92100'
+            String sampleSource = '/services/scrappers/stream/sample-source.html'
         and:
-            StreamScrapper scrapper = prepareScrapper(url)
+            StreamScrapper scrapper = prepareScrapper(url, sampleSource)
         when:
             StreamScrapper.Response scraped = scrapper.scrap(new StreamScrapper.Request(url)).get()
         then:
-            scraped.with {
+            with(scraped) {
                 listingStatus == 'Stream is currently up and public'
                 format == MP3
                 bitrate == 192
@@ -35,14 +36,35 @@ class StreamScrapperSpec extends Specification {
             }
     }
 
-    void 'should scrap icy pages'() {
+    void 'should scrap stream info from shoutcast page'() {
         given:
-            String url = 'http://192.168.169.34:92100';
-            StreamScrapper scrapper = prepareIcyScrapper(url)
+            String url = 'http://192.168.169.34:92100'
+            String sampleSource = '/services/scrappers/stream/sample-source-shoutcast.html'
+        and:
+            StreamScrapper scrapper = prepareScrapper(url, sampleSource)
         when:
             StreamScrapper.Response scraped = scrapper.scrap(new StreamScrapper.Request(url)).get()
         then:
-            scraped.with {
+            with(scraped) {
+                listingStatus == 'Server is currently up and waiting on a Directory response.'
+                format == MPEG
+                bitrate == 128
+                listenerPeak == 165
+                streamName == "FRISKY CHILL | feelin' frisky?"
+                genres == ['Ambient']
+                website == 'http://www.frisky.fm'
+            }
+    }
+
+    void 'should scrap stream info from sample icy page url'() {
+        given:
+            String url = 'http://192.168.169.34:92100'
+            String sampleSource = '/services/scrappers/stream/sample-source-icy.html'
+            StreamScrapper scrapper = prepareScrapper(url, sampleSource)
+        when:
+            StreamScrapper.Response scraped = scrapper.scrap(new StreamScrapper.Request(url)).get()
+        then:
+            with(scraped) {
                 listingStatus == 'Server is currently up and private.'
                 format == MPEG
                 bitrate == 64
@@ -60,8 +82,8 @@ class StreamScrapperSpec extends Specification {
         when:
             StreamScrapper.Response scraped = scrapper.scrap(new StreamScrapper.Request(url)).get()
         then:
-            scraped.with {
-                listingStatus == ''
+            with(scraped) {
+                !listingStatus
                 format == MPEG
                 bitrate == 128
                 listenerPeak == 0
@@ -71,17 +93,8 @@ class StreamScrapperSpec extends Specification {
             }
     }
 
-    private StreamScrapper prepareScrapper(String url) {
-        String page = getClass().getResource('/services/scrappers/stream/sample-source.html').text
-
-        WebPageReader webPageReaderStub = Stub(WebPageReader) {
-            read(url) >> Optional.of(new WebPageReader.Response(url, null, page))
-        }
-        return new StreamScrapper(webPageReaderStub, strategies)
-    }
-
-    private StreamScrapper prepareIcyScrapper(String url) {
-        String page = getClass().getResource('/services/scrappers/stream/sample-source-icy.html').text
+    private StreamScrapper prepareScrapper(String url, String sampleSource) {
+        String page = getClass().getResource(sampleSource).text
 
         WebPageReader webPageReaderStub = Stub(WebPageReader) {
             read(url) >> Optional.of(new WebPageReader.Response(url, null, page))

@@ -1,6 +1,7 @@
 package com.modzo.ors.stations.services.stream.scrapper.stream;
 
 import com.modzo.ors.stations.services.stream.WebPageReader;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -58,6 +59,7 @@ class IcyStreamScrappingStrategy implements StreamInfoScrappingStrategy {
     private List<String> genres(String genresLine) {
         return Stream.of(genresLine.split(" , "))
                 .map(String::trim)
+                .filter(StringUtils::isNotBlank)
                 .collect(toList());
     }
 

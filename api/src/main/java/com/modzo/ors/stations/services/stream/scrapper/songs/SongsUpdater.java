@@ -25,7 +25,7 @@ class SongsUpdater {
         ZonedDateTime before = ZonedDateTime.now().minus(1, ChronoUnit.HOURS);
 
         Optional<RadioStationStream> stream = radioStationStreams
-                .findOneBySongsCheckedIsBeforeOrSongsCheckedIsNullOrderBySongsCheckedAsc(before);
+                .findTop1BySongsCheckedIsBeforeOrSongsCheckedIsNullOrderBySongsCheckedAsc(before);
 
         stream.ifPresent(it -> updaterService.update(it.getRadioStationId(), it.getId()));
     }
