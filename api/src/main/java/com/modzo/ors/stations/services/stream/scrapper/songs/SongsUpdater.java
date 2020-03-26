@@ -2,6 +2,8 @@ package com.modzo.ors.stations.services.stream.scrapper.songs;
 
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams;
+import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl;
+import com.modzo.ors.stations.domain.radio.station.stream.StreamUrls;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
@@ -11,22 +13,22 @@ import java.util.Optional;
 @Component
 class SongsUpdater {
 
-    private final RadioStationStreams radioStationStreams;
+    private final StreamUrls streamUrls;
 
     private final SongsUpdaterService updaterService;
 
-    private SongsUpdater(RadioStationStreams radioStationStreams,
+    private SongsUpdater(StreamUrls streamUrls,
                          SongsUpdaterService updaterService) {
-        this.radioStationStreams = radioStationStreams;
+        this.streamUrls = streamUrls;
         this.updaterService = updaterService;
     }
 
     void update() {
         ZonedDateTime before = ZonedDateTime.now().minus(1, ChronoUnit.HOURS);
 
-        Optional<RadioStationStream> stream = radioStationStreams
-                .findTop1BySongsCheckedIsBeforeOrSongsCheckedIsNullOrderBySongsCheckedAsc(before);
+        Optional<StreamUrl> stream = streamUrls
+                .findTop1ByTypeAndCheckedBeforeOrCheckedIsNull(StreamUrl.Type.SONGS, before);
 
-        stream.ifPresent(it -> updaterService.update(it.getRadioStationId(), it.getId()));
+        stream.ifPresent(it -> updaterService.update(it.getStream().getRadioStationId(), it.getId()));
     }
 }

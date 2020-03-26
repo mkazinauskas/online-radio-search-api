@@ -6,7 +6,7 @@ import com.modzo.ors.stations.domain.radio.station.song.commands.FindRadioStatio
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStream;
-import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateSongsCheckedTime;
+import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateStreamUrlCheckedTime;
 import com.modzo.ors.stations.domain.song.Song;
 import com.modzo.ors.stations.domain.song.commands.CreateSong;
 import com.modzo.ors.stations.domain.song.commands.FindSong;
@@ -38,7 +38,7 @@ public class SongsUpdaterService {
 
     private final GetSong.Handler getSongById;
 
-    private final UpdateSongsCheckedTime.Handler updateSongsCheckedTimeHandler;
+    private final UpdateStreamUrlCheckedTime.Handler updateStreamUrlCheckedTime;
 
     public SongsUpdaterService(GetRadioStationStream.Handler radioStationStream,
                                LastPlayedSongsScrapper playedSongsScrapper,
@@ -47,7 +47,7 @@ public class SongsUpdaterService {
                                FindSong.Handler findSongByTitle,
                                CreateSong.Handler createSong,
                                GetSong.Handler getSongById,
-                               UpdateSongsCheckedTime.Handler updateSongsCheckedTimeHandler) {
+                               UpdateStreamUrlCheckedTime.Handler updateStreamUrlCheckedTime) {
         this.radioStationStream = radioStationStream;
         this.playedSongsScrapper = playedSongsScrapper;
         this.findSong = findSong;
@@ -55,16 +55,12 @@ public class SongsUpdaterService {
         this.findSongByTitle = findSongByTitle;
         this.createSong = createSong;
         this.getSongById = getSongById;
-        this.updateSongsCheckedTimeHandler = updateSongsCheckedTimeHandler;
+        this.updateStreamUrlCheckedTime = updateStreamUrlCheckedTime;
     }
 
     public void update(long radioStationId, long streamId) {
         log.info("Processing radio station `{}` and stream `{}`", radioStationId, streamId);
         RadioStationStream stream = radioStationStream.handle(new GetRadioStationStream(radioStationId, streamId));
-
-        updateSongsCheckedTimeHandler.handle(
-                new UpdateSongsCheckedTime(stream.getRadioStationId(), stream.getId(), ZonedDateTime.now())
-        );
 
         stream.findUrl(StreamUrl.Type.SONGS)
                 .ifPresent(streamUrl -> updateSongs(streamUrl, stream));
@@ -72,6 +68,11 @@ public class SongsUpdaterService {
     }
 
     private void updateSongs(StreamUrl lastPlayedSongsUrl, RadioStationStream stream) {
+
+        updateStreamUrlCheckedTime.handle(
+                new UpdateStreamUrlCheckedTime(lastPlayedSongsUrl.getId(), ZonedDateTime.now())
+        );
+
         Optional<LastPlayedSongsScrapper.Response> scrappedPage = playedSongsScrapper.scrap(
                 new LastPlayedSongsScrapper.Request(lastPlayedSongsUrl.getUrl())
         );

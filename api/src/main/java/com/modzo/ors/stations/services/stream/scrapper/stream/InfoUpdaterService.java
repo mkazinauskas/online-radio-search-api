@@ -9,8 +9,8 @@ import com.modzo.ors.stations.domain.radio.station.genre.commands.FindGenre;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStream;
-import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateInfoCheckedTime;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateRadioStationStream;
+import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateStreamUrlCheckedTime;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +47,7 @@ public class InfoUpdaterService {
 
     private final FindGenre.Handler findGenre;
 
-    private final UpdateInfoCheckedTime.Handler updateInfoCheckedTime;
+    private final UpdateStreamUrlCheckedTime.Handler updateStreamUrlCheckedTime;
 
     InfoUpdaterService(GetRadioStationStream.Handler radioStationStream,
                        GetRadioStation.Handler radioStation,
@@ -56,7 +56,7 @@ public class InfoUpdaterService {
                        StreamScrapper streamScrapper,
                        CreateGenre.Handler createGenre,
                        FindGenre.Handler findGenre,
-                       UpdateInfoCheckedTime.Handler updateInfoCheckedTime) {
+                       UpdateStreamUrlCheckedTime.Handler updateStreamUrlCheckedTime) {
         this.radioStationStream = radioStationStream;
         this.radioStation = radioStation;
         this.updateRadioStationStream = updateRadioStationStream;
@@ -64,7 +64,7 @@ public class InfoUpdaterService {
         this.streamScrapper = streamScrapper;
         this.createGenre = createGenre;
         this.findGenre = findGenre;
-        this.updateInfoCheckedTime = updateInfoCheckedTime;
+        this.updateStreamUrlCheckedTime = updateStreamUrlCheckedTime;
     }
 
     public void update(long radioStationId, long streamId) {
@@ -72,8 +72,6 @@ public class InfoUpdaterService {
         RadioStationStream stream = radioStationStream.handle(
                 new GetRadioStationStream(radioStationId, streamId)
         );
-
-        updateInfoCheckedTime.handle(new UpdateInfoCheckedTime(radioStationId, streamId, ZonedDateTime.now()));
 
         stream.findUrl(StreamUrl.Type.INFO)
                 .ifPresent(streamUrl -> updateInfo(streamUrl, stream));
@@ -83,6 +81,9 @@ public class InfoUpdaterService {
     }
 
     private void updateInfo(StreamUrl streamUrl, RadioStationStream stream) {
+
+        updateStreamUrlCheckedTime.handle(new UpdateStreamUrlCheckedTime(streamUrl.getId(), ZonedDateTime.now()));
+
         Optional<StreamScrapper.Response> scrappedPage = streamScrapper.scrap(
                 new StreamScrapper.Request(streamUrl.getUrl())
         );

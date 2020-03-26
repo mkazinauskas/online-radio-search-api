@@ -65,11 +65,8 @@ public class RadioStationStream {
     @Column(name = "working")
     private boolean working = true;
 
-    @Column(name = "songs_checked")
-    private ZonedDateTime songsChecked;
-
-    @Column(name = "info_checked")
-    private ZonedDateTime infoChecked;
+    @Column(name = "checked")
+    private ZonedDateTime checked;
 
     @OneToMany(mappedBy = "stream", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
     @MapKey(name = "type")
@@ -136,20 +133,12 @@ public class RadioStationStream {
         this.working = working;
     }
 
-    public ZonedDateTime getSongsChecked() {
-        return songsChecked;
+    public ZonedDateTime getChecked() {
+        return checked;
     }
 
-    public void setSongsChecked(ZonedDateTime songsChecked) {
-        this.songsChecked = songsChecked;
-    }
-
-    public ZonedDateTime getInfoChecked() {
-        return infoChecked;
-    }
-
-    public void setInfoChecked(ZonedDateTime infoChecked) {
-        this.infoChecked = infoChecked;
+    public void setChecked(ZonedDateTime checked) {
+        this.checked = checked;
     }
 
     public Map<StreamUrl.Type, StreamUrl> getUrls() {

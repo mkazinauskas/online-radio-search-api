@@ -18,17 +18,21 @@ public class RadioStationStreamUrlResponse {
 
     private final String url;
 
+    private final ZonedDateTime checked;
+
     @JsonCreator
     private RadioStationStreamUrlResponse(@JsonProperty("id") long id,
                                           @JsonProperty("uniqueId") String uniqueId,
                                           @JsonProperty("created") ZonedDateTime created,
                                           @JsonProperty("type") StreamUrl.Type type,
-                                          @JsonProperty("url") String url) {
+                                          @JsonProperty("url") String url,
+                                          @JsonProperty("checked") ZonedDateTime checked) {
         this.id = id;
         this.uniqueId = uniqueId;
         this.created = created;
         this.type = type;
         this.url = url;
+        this.checked = checked;
     }
 
     static RadioStationStreamUrlResponse create(StreamUrl url) {
@@ -37,7 +41,8 @@ public class RadioStationStreamUrlResponse {
                 url.getUniqueId(),
                 url.getCreated(),
                 url.getType(),
-                url.getUrl()
+                url.getUrl(),
+                url.getChecked()
         );
     }
 
@@ -59,5 +64,9 @@ public class RadioStationStreamUrlResponse {
 
     public String getUrl() {
         return url;
+    }
+
+    public ZonedDateTime getChecked() {
+        return checked;
     }
 }

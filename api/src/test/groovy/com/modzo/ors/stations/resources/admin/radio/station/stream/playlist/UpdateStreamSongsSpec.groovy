@@ -67,7 +67,10 @@ class UpdateStreamSongsSpec extends IntegrationSpec {
             songs.find { it.title == 'Notiziario nazionale' }
             songs.find { it.title == "Rihanna - If It's Lovin' That You Want" }
         and:
-            radioStationStreamHandler.handle(new GetRadioStationStream(radioStation.id, stream.id)).songsChecked
+            radioStationStreamHandler.handle(new GetRadioStationStream(radioStation.id, stream.id))
+                    .findUrl(StreamUrl.Type.SONGS)
+                    .get()
+                    .checked
     }
 
     void 'admin should not change status to not working, if songs were not found'() {

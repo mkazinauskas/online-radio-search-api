@@ -1,7 +1,7 @@
 package com.modzo.ors.stations.services.stream.scrapper.stream;
 
-import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
-import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams;
+import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl;
+import com.modzo.ors.stations.domain.radio.station.stream.StreamUrls;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
@@ -13,21 +13,20 @@ class InfoUpdater {
 
     private final InfoUpdaterService infoUpdaterService;
 
-    private final RadioStationStreams radioStationStreams;
+    private final StreamUrls streamUrls;
 
     InfoUpdater(InfoUpdaterService infoUpdaterService,
-                RadioStationStreams radioStationStreams) {
+                StreamUrls streamUrls) {
         this.infoUpdaterService = infoUpdaterService;
-        this.radioStationStreams = radioStationStreams;
+        this.streamUrls = streamUrls;
     }
 
     void update() {
         ZonedDateTime before = ZonedDateTime.now().minus(5, ChronoUnit.DAYS);
 
-        Optional<RadioStationStream> stream = radioStationStreams
-                .findOneByInfoCheckedIsBeforeOrInfoCheckedIsNullOrderByInfoCheckedAsc(before);
+        Optional<StreamUrl> stream = streamUrls
+                .findTop1ByTypeAndCheckedBeforeOrCheckedIsNull(StreamUrl.Type.INFO, before);
 
-        stream.ifPresent(it -> infoUpdaterService.update(it.getRadioStationId(), it.getId()));
+        stream.ifPresent(it -> infoUpdaterService.update(it.getStream().getRadioStationId(), it.getId()));
     }
-
 }

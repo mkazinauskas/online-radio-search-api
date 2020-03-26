@@ -51,7 +51,6 @@ class UpdateStreamInfoSpec extends IntegrationSpec {
             updatedStream.url == stream.url
             updatedStream.type.get() == RadioStationStream.Type.MP3
             updatedStream.bitRate == 192
-            updatedStream.infoChecked
             updatedStream.working
         and:
             RadioStation updateRadioStation = radioStationHandler.handle(new GetRadioStation(radioStation.id))
@@ -85,7 +84,6 @@ class UpdateStreamInfoSpec extends IntegrationSpec {
             RadioStationStream updatedStream = radioStationStreamHandler
                     .handle(new GetRadioStationStream(radioStation.id, stream.id))
 
-            updatedStream.infoChecked
             !updatedStream.working
     }
 
