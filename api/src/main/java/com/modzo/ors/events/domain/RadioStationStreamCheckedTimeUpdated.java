@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.ZonedDateTime;
 
-import static com.modzo.ors.events.domain.Event.Type.STREAM_URL_CHECKED_TIME_UPDATED;
+import static com.modzo.ors.events.domain.Event.Type.RADIO_STATION_STREAM_CHECKED_TIME_UPDATED;
 
 public class RadioStationStreamCheckedTimeUpdated extends DomainEvent {
 
@@ -60,7 +60,7 @@ public class RadioStationStreamCheckedTimeUpdated extends DomainEvent {
 
     @Override
     Event.Type type() {
-        return STREAM_URL_CHECKED_TIME_UPDATED;
+        return RADIO_STATION_STREAM_CHECKED_TIME_UPDATED;
     }
 
     @Override
