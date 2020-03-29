@@ -39,11 +39,14 @@ class CheckStreamIsWorkingButton extends Component {
         }
 
         Axios.post(`/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.streamId}/working`, null, config)
-            .then(() => {
-                this.setState({ loading: false });
-                reloadPage(this.props.history);
-            });
+            .then(this.afterFetch)
+            .catch(this.afterFetch);
     };
+
+    adterFetch = () => {
+        this.setState({ loading: false });
+        reloadPage(this.props.history);
+    }
 
 }
 
