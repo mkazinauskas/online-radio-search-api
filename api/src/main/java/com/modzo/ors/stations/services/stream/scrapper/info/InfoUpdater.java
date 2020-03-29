@@ -25,6 +25,6 @@ class InfoUpdater {
 
         findOldestCheckedRadioStationStreamUrlHandler.handle(
                 new FindOldestCheckedRadioStationStreamUrl(StreamUrl.Type.INFO, before)
-        ).ifPresent(it -> infoUpdaterService.update(it.getStream().getRadioStationId(), it.getId()));
+        ).ifPresent(it -> infoUpdaterService.update(it.getStream().getRadioStationId(), it.getStream().getId()));
     }
 }

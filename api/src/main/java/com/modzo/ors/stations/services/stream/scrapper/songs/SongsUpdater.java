@@ -14,7 +14,7 @@ class SongsUpdater {
 
     private final SongsUpdaterService updaterService;
 
-    private SongsUpdater(FindOldestCheckedRadioStationStreamUrl.Handler findOldestCheckedRadioStationStreamUrlHandler,
+    SongsUpdater(FindOldestCheckedRadioStationStreamUrl.Handler findOldestCheckedRadioStationStreamUrlHandler,
                          SongsUpdaterService updaterService) {
         this.findOldestCheckedRadioStationStreamUrlHandler = findOldestCheckedRadioStationStreamUrlHandler;
         this.updaterService = updaterService;
@@ -25,6 +25,6 @@ class SongsUpdater {
 
         findOldestCheckedRadioStationStreamUrlHandler.handle(
                 new FindOldestCheckedRadioStationStreamUrl(StreamUrl.Type.SONGS, before)
-        ).ifPresent(it -> updaterService.update(it.getStream().getRadioStationId(), it.getId()));
+        ).ifPresent(it -> updaterService.update(it.getStream().getRadioStationId(), it.getStream().getId()));
     }
 }

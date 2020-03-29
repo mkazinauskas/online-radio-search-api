@@ -1,4 +1,4 @@
-package com.modzo.ors.stations.services.stream.scrapper.info
+package com.modzo.ors.stations.services.stream.scrapper.songs
 
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl
 import com.modzo.ors.stations.domain.radio.station.stream.commands.FindOldestCheckedRadioStationStreamUrl
@@ -6,16 +6,16 @@ import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
-class InfoUpdaterSchedulerSpec extends IntegrationSpec {
+class SongsUpdaterSchedulerSpec extends IntegrationSpec {
 
     @Autowired
-    InfoUpdaterSchedulerPreparer testTargetPreparer
+    SongsUpdaterSchedulerPreparer testTargetPreparer
 
-    void 'scheduler should update radio station info from old not checked stream urls'() {
+    void 'scheduler should update radio station songs from old not checked stream urls'() {
         given:
-            StreamUrl streamUrl = testStreamUrl.create(StreamUrl.Type.INFO)
+            StreamUrl streamUrl = testStreamUrl.create(StreamUrl.Type.SONGS)
         and:
-            InfoUpdaterScheduler testTarget = testTargetPreparer.prepare(prepareStub(streamUrl))
+            SongsUpdaterScheduler testTarget = testTargetPreparer.prepare(prepareStub(streamUrl))
         when:
             testTarget.update()
         then:
@@ -30,16 +30,16 @@ class InfoUpdaterSchedulerSpec extends IntegrationSpec {
     }
 
     @Component
-    private static class InfoUpdaterSchedulerPreparer {
+    private static class SongsUpdaterSchedulerPreparer {
 
         @Autowired
-        private InfoUpdaterService infoUpdaterService
+        private SongsUpdaterService songsUpdaterService
 
-        InfoUpdaterScheduler prepare(FindOldestCheckedRadioStationStreamUrl.Handler handler) {
-            return new InfoUpdaterScheduler(
-                    new InfoUpdater(
-                            infoUpdaterService,
-                            handler
+        SongsUpdaterScheduler prepare(FindOldestCheckedRadioStationStreamUrl.Handler handler) {
+            return new SongsUpdaterScheduler(
+                    new SongsUpdater(
+                            handler,
+                            songsUpdaterService
                     )
             )
         }
