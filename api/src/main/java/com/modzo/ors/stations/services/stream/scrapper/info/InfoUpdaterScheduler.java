@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConditionalOnProperty(name = "application.info.updater.scheduler.enabled", havingValue = "true")
-class StreamScrapperScheduler {
+class InfoUpdaterScheduler {
 
     private final InfoUpdater infoUpdater;
 
-    StreamScrapperScheduler(InfoUpdater infoUpdater) {
+    InfoUpdaterScheduler(InfoUpdater infoUpdater) {
         this.infoUpdater = infoUpdater;
     }
 
