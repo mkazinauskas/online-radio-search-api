@@ -23,6 +23,14 @@ public class UpdateRadioStationStreamCheckedTime {
         this.checkedTime = checkedTime;
     }
 
+    public long getStreamId() {
+        return streamId;
+    }
+
+    public ZonedDateTime getCheckedTime() {
+        return checkedTime;
+    }
+
     @Component
     public static class Handler {
 

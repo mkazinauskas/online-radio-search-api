@@ -1,11 +1,9 @@
 package com.modzo.ors.stations.domain.radio.station.stream.commands
 
 import com.modzo.ors.events.domain.Event
-import com.modzo.ors.events.domain.Events
 import com.modzo.ors.events.domain.RadioStationStreamUpdated
 import com.modzo.ors.stations.domain.radio.station.RadioStation
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
-import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -15,14 +13,9 @@ import static com.modzo.ors.stations.domain.radio.station.stream.RadioStationStr
 import static org.springframework.data.domain.Pageable.unpaged
 
 class UpdateRadioStationStreamSpec extends IntegrationSpec {
+
     @Autowired
     private UpdateRadioStationStream.Handler testTarget
-
-    @Autowired
-    private RadioStationStreams streams
-
-    @Autowired
-    private Events events
 
     void 'should create radio station stream'() {
         given:
@@ -42,7 +35,7 @@ class UpdateRadioStationStreamSpec extends IntegrationSpec {
         when:
             testTarget.handle(command)
         then:
-            RadioStationStream savedStream = streams.findByRadioStation_IdAndId(radioStation.id, stream.id).get()
+            RadioStationStream savedStream = radioStationStreams.findByRadioStation_IdAndId(radioStation.id, stream.id).get()
         and:
             Page<Event> events = events.findAllByType(Event.Type.RADIO_STATION_STREAM_UPDATED, unpaged())
         and:
