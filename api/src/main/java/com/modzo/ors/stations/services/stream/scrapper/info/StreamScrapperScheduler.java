@@ -1,4 +1,4 @@
-package com.modzo.ors.stations.services.stream.scrapper.stream;
+package com.modzo.ors.stations.services.stream.scrapper.info;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;

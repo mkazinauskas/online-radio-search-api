@@ -137,5 +137,11 @@ public class WebPageReader {
         public Optional<String> getBody() {
             return ofNullable(body);
         }
+
+        public boolean hasAudioContentTypeHeader() {
+            return ofNullable(getHeaders().get(HttpHeaders.CONTENT_TYPE))
+                    .filter(type -> type.contains("audio"))
+                    .isPresent();
+        }
     }
 }

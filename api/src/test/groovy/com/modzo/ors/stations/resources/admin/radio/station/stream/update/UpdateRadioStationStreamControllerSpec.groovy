@@ -4,9 +4,7 @@ import com.modzo.ors.HttpEntityBuilder
 import com.modzo.ors.TestUsers
 import com.modzo.ors.stations.domain.radio.station.RadioStation
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
-import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams
 import com.modzo.ors.stations.resources.IntegrationSpec
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 
 import static org.springframework.http.HttpMethod.PATCH
@@ -14,9 +12,6 @@ import static org.springframework.http.HttpStatus.ACCEPTED
 import static org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils.randomAlphanumeric
 
 class UpdateRadioStationStreamControllerSpec extends IntegrationSpec {
-
-    @Autowired
-    RadioStationStreams radioStationStreams
 
     void 'admin should update radio station'() {
         given:

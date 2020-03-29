@@ -1,4 +1,4 @@
-package com.modzo.ors.stations.services.stream.scrapper.stream;
+package com.modzo.ors.stations.services.stream.scrapper.info;
 
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.commands.GetRadioStation;

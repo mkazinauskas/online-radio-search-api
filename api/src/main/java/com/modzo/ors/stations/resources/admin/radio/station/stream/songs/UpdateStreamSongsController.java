@@ -1,4 +1,4 @@
-package com.modzo.ors.stations.resources.admin.radio.station.stream.playlist;
+package com.modzo.ors.stations.resources.admin.radio.station.stream.songs;
 
 import com.modzo.ors.stations.services.stream.scrapper.songs.SongsUpdaterService;
 import org.springframework.http.ResponseEntity;

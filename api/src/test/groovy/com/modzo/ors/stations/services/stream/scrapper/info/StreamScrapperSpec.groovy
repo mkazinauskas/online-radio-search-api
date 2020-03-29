@@ -1,11 +1,11 @@
-package com.modzo.ors.stations.services.stream.scrapper.stream
+package com.modzo.ors.stations.services.stream.scrapper.info
 
 import com.modzo.ors.stations.services.stream.WebPageReader
 import spock.lang.Shared
 import spock.lang.Specification
 
-import static com.modzo.ors.stations.services.stream.scrapper.stream.StreamScrapper.Response.Format.MP3
-import static com.modzo.ors.stations.services.stream.scrapper.stream.StreamScrapper.Response.Format.MPEG
+import static com.modzo.ors.stations.services.stream.scrapper.info.StreamScrapper.Response.Format.MP3
+import static com.modzo.ors.stations.services.stream.scrapper.info.StreamScrapper.Response.Format.MPEG
 
 class StreamScrapperSpec extends Specification {
 
