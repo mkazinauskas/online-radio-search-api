@@ -23,6 +23,14 @@ public class UpdateStreamUrlCheckedTime {
         this.checkedTime = checkedTime;
     }
 
+    public long getUrlId() {
+        return urlId;
+    }
+
+    public ZonedDateTime getCheckedTime() {
+        return checkedTime;
+    }
+
     @Component
     public static class Handler {
 

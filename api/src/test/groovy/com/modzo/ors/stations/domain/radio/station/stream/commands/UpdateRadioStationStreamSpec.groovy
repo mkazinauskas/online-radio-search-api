@@ -35,7 +35,9 @@ class UpdateRadioStationStreamSpec extends IntegrationSpec {
         when:
             testTarget.handle(command)
         then:
-            RadioStationStream savedStream = radioStationStreams.findByRadioStation_IdAndId(radioStation.id, stream.id).get()
+            RadioStationStream savedStream = radioStationStreams
+                    .findByRadioStation_IdAndId(radioStation.id, stream.id)
+                    .get()
         and:
             Page<Event> events = events.findAllByType(Event.Type.RADIO_STATION_STREAM_UPDATED, unpaged())
         and:

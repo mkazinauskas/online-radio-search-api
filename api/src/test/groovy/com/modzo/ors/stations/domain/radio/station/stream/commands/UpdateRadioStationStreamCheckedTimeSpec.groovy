@@ -39,7 +39,6 @@ class UpdateRadioStationStreamCheckedTimeSpec extends IntegrationSpec {
                     .find { RadioStationStreamCheckedTimeUpdated.Data data -> data.uniqueId == savedStream.uniqueId }
 
             foundEvent.streamId == command.streamId
-            foundEvent.uniqueId == stream.uniqueId
-            foundEvent.checkedTime == checkedTime
+            foundEvent.checkedTime.toInstant() == checkedTime.toInstant()
     }
 }
