@@ -19,7 +19,7 @@ class StreamChecker {
         this.findOlderCheckerRadioStationStreamHandler = findOlderCheckerRadioStationStreamHandler;
     }
 
-    void update() {
+    void check() {
         ZonedDateTime before = ZonedDateTime.now().minus(5, ChronoUnit.DAYS);
 
         findOlderCheckerRadioStationStreamHandler.handle(new FindOldestCheckedRadioStationStream(before))

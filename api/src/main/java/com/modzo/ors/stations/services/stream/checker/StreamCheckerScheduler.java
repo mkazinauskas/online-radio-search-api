@@ -15,7 +15,7 @@ class StreamCheckerScheduler {
     }
 
     @Scheduled(fixedDelay = 1000L)
-    void update() {
-        streamChecker.update();
+    void check() {
+        streamChecker.check();
     }
 }
