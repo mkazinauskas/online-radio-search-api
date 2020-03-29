@@ -92,23 +92,7 @@ public class InfoUpdaterService {
             var response = scrappedPage.get();
             updateRadioStreamInfo(response, stream);
             updateRadioStationInfo(response, stream.getRadioStationId());
-        } else {
-            streamIsNotWorking(stream);
         }
-    }
-
-    private void streamIsNotWorking(RadioStationStream stream) {
-        updateRadioStationStream.handle(new UpdateRadioStationStream(
-                        stream.getRadioStationId(),
-                        stream.getId(),
-                        new UpdateRadioStationStream.DataBuilder()
-                                .setUrl(stream.getUrl())
-                                .setBitRate(stream.getBitRate())
-                                .setType(RadioStationStream.Type.UNKNOWN)
-                                .setWorking(false)
-                                .build()
-                )
-        );
     }
 
     private void updateRadioStationInfo(StreamScrapper.Response response, long radioStationId) {
