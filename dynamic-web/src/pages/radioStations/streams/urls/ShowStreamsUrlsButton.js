@@ -7,10 +7,12 @@ class ShowRadioStationStreamsLink extends Component {
 
     render() {
         return (
-            <Link to={{
-                pathname: createURLStreamUrls(this.props.radioStationId, this.props.streamId),
-                state: { previousPath: previousPath(this.props.location) }
-            }}>Urls</Link>
+            <span style={{ 'padding': '0px 15px' }}>
+                <Link to={{
+                    pathname: createURLStreamUrls(this.props.radioStationId, this.props.streamId),
+                    state: { previousPath: previousPath(this.props.location) }
+                }}>Urls</Link>
+            </span>
         );
     }
 

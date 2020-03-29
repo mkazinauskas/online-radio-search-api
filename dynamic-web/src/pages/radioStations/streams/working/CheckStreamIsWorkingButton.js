@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom'
 import { ONLINE_RADIO_SEARCH_API } from '../../../../auth/resourceTypes';
 import { reloadPage } from '../../../../utils/historyUtils';
 
-class DeleteRadioStationStreamButton extends Component {
+class CheckStreamIsWorkingButton extends Component {
 
     state = {
         loading: false
@@ -20,16 +20,16 @@ class DeleteRadioStationStreamButton extends Component {
         }
         return (
             <Popconfirm
-                title="Sure to delete?"
-                onConfirm={this.handleDelete}
+                title="Sure to check?"
+                onConfirm={this.handleCheck}
                 disabled={this.state.loading}
             >
-                <Button type="link" disabled={this.state.loading}>Delete</Button>
+                <Button type="link" disabled={this.state.loading}>Check if working</Button>
             </Popconfirm>
         );
     }
 
-    handleDelete = () => {
+    handleCheck = () => {
         this.setState({ loading: true });
 
         const config = {
@@ -38,7 +38,7 @@ class DeleteRadioStationStreamButton extends Component {
             }
         }
 
-        Axios.delete(`/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.id}`, config)
+        Axios.post(`/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.streamId}/working`, null, config)
             .then(() => {
                 this.setState({ loading: false });
                 reloadPage(this.props.history);
@@ -55,4 +55,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(withRouter(DeleteRadioStationStreamButton));
+export default connect(mapStateToProps)(withRouter(CheckStreamIsWorkingButton));
