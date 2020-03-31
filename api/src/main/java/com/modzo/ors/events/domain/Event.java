@@ -9,31 +9,13 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
-import static java.time.LocalDateTime.now;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
 @Table(name = "events")
 public class Event {
-    @Id
-    @GeneratedValue(generator = "events_sequence", strategy = SEQUENCE)
-    @SequenceGenerator(name = "events_sequence", sequenceName = "events_sequence", allocationSize = 1)
-    @Column(name = "id")
-    private Long id;
-
-    @Column(name = "entity_unique_id", nullable = false)
-    private String entityUniqueId;
-
-    @Column(name = "created", nullable = false)
-    private LocalDateTime created = now();
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type")
-    private Type type;
-
-    @Column(name = "body", columnDefinition = "clob", nullable = false)
-    private String body;
 
     public enum Type {
         RADIO_STATION_CREATED(RadioStationCreated.Data.class),
@@ -63,6 +45,25 @@ public class Event {
         }
     }
 
+    @Id
+    @GeneratedValue(generator = "events_sequence", strategy = SEQUENCE)
+    @SequenceGenerator(name = "events_sequence", sequenceName = "events_sequence", allocationSize = 1)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "entity_unique_id", nullable = false)
+    private String entityUniqueId;
+
+    @Column(name = "created", nullable = false)
+    private ZonedDateTime created = ZonedDateTime.now();
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private Type type;
+
+    @Column(name = "body", columnDefinition = "clob", nullable = false)
+    private String body;
+
     Event() {
     }
 
@@ -86,7 +87,7 @@ public class Event {
         return entityUniqueId;
     }
 
-    public LocalDateTime getCreated() {
+    public ZonedDateTime getCreated() {
         return created;
     }
 

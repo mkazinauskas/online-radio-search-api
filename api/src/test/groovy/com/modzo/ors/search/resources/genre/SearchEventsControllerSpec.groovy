@@ -9,7 +9,7 @@ import static org.springframework.hateoas.IanaLinkRelations.SELF
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpStatus.OK
 
-class SearchGenreControllerSpec extends IntegrationSpec {
+class SearchEventsControllerSpec extends IntegrationSpec {
 
     void 'should find genre by title'() {
         given:
