@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
+import { Icon, Layout, Menu } from 'antd';
 import { createBrowserHistory } from "history";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
-import { Layout, Menu, Icon } from 'antd';
-import { HOME, RADIO_STATIONS, SONGS } from './pathTypes';
+import { ADMIN } from '../auth/resourceRoleType';
+import { ONLINE_RADIO_SEARCH_API } from '../auth/resourceTypes';
+import { EVENTS, HOME, RADIO_STATIONS, SONGS } from './pathTypes';
 
 class LeftSideMenuComponent extends Component {
     render() {
         const history = createBrowserHistory();
+
         return (
             <Layout.Sider trigger={null} collapsible collapsed={this.props.collapsed}>
                 <div className="logo" />
@@ -23,10 +27,27 @@ class LeftSideMenuComponent extends Component {
                         <Icon type="play-circle" /><span>Songs</span>
                         <Link to={SONGS} />
                     </Menu.Item>
+                    {this.eventsMenu()}
                 </Menu>
             </Layout.Sider>
         )
     }
+
+    eventsMenu = () => {
+        return this.props.hasAdminRole
+            ? (<Menu.Item key={EVENTS}>
+                <Icon type="read" /><span>Events</span>
+                <Link to={EVENTS} />
+            </Menu.Item>)
+            : null;
+    }
 }
 
-export default LeftSideMenuComponent;
+const mapStateToProps = (state) => {
+    const hasAdminRole = state.auth.authenticated ? state.auth.keycloak.hasResourceRole(ADMIN, ONLINE_RADIO_SEARCH_API) : false;
+    return {
+        hasAdminRole
+    }
+}
+
+export default connect(mapStateToProps)(LeftSideMenuComponent);
