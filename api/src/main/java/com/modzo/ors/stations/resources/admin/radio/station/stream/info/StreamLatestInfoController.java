@@ -1,6 +1,6 @@
 package com.modzo.ors.stations.resources.admin.radio.station.stream.info;
 
-import com.modzo.ors.stations.services.stream.scrapper.stream.InfoUpdaterService;
+import com.modzo.ors.stations.services.stream.scrapper.info.InfoUpdaterService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +18,7 @@ class StreamLatestInfoController {
     }
 
     @PostMapping("/admin/radio-stations/{radio-station-id}/streams/{stream-id}/latest-info")
-    ResponseEntity latestInfo(@PathVariable("radio-station-id") long radioStationId,
+    ResponseEntity<String> latestInfo(@PathVariable("radio-station-id") long radioStationId,
                               @PathVariable("stream-id") long streamId) {
         latestInfoService.update(radioStationId, streamId);
         return noContent().build();

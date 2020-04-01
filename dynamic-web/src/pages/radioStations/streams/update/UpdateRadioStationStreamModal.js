@@ -70,7 +70,7 @@ class UpdateRadioStationStreamModal extends Component {
                 <Form.Item label="Bit Rate">
                     {getFieldDecorator('bitRate', {
                         initialValue: radioStationStream.bitRate,
-                        rules: [{ required: false, type: 'number', message: 'Please input radio station stream bit rate!' }],
+                        rules: [{ required: true, message: 'Please input radio station stream bit rate!' }],
                     })(<Input type='number' />)}
                 </Form.Item>
                 <Form.Item label="Working">
@@ -82,6 +82,7 @@ class UpdateRadioStationStreamModal extends Component {
                 <Form.Item label="Type">
                     {getFieldDecorator('type', {
                         initialValue: radioStationStream.type,
+                        rules: [{ required: true }]
                     })(
                         <Select
                             showSearch

@@ -98,10 +98,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: songs_checked
-                  type: timestamp with time zone
-              - column:
-                  name: info_checked
+                  name: checked
                   type: timestamp with time zone
         - createSequence:
             schemaName: public
@@ -162,6 +159,9 @@ databaseChangeLog:
                   type: varchar(100)
                   constraints:
                     nullable: true
+              - column:
+                  name: checked
+                  type: timestamp with time zone
         - createSequence:
             schemaName: public
             sequenceName: stream_urls_sequence

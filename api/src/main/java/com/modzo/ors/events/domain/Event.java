@@ -9,31 +9,13 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
-import static java.time.LocalDateTime.now;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
 @Table(name = "events")
 public class Event {
-    @Id
-    @GeneratedValue(generator = "events_sequence", strategy = SEQUENCE)
-    @SequenceGenerator(name = "events_sequence", sequenceName = "events_sequence", allocationSize = 1)
-    @Column(name = "id")
-    private Long id;
-
-    @Column(name = "entity_unique_id", nullable = false)
-    private String entityUniqueId;
-
-    @Column(name = "created", nullable = false)
-    private LocalDateTime created = now();
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type")
-    private Type type;
-
-    @Column(name = "body", columnDefinition = "clob", nullable = false)
-    private String body;
 
     public enum Type {
         RADIO_STATION_CREATED(RadioStationCreated.Data.class),
@@ -41,11 +23,11 @@ public class Event {
         RADIO_STATION_UPDATED(RadioStationUpdated.Data.class),
         RADIO_STATION_STREAM_URL_CREATED(RadioStationStreamUrlCreated.Data.class),
         RADIO_STATION_STREAM_URL_DELETED(RadioStationStreamUrlDeleted.Data.class),
+        RADIO_STATION_STREAM_CHECKED_TIME_UPDATED(RadioStationStreamCheckedTimeUpdated.Data.class),
         RADIO_STATION_STREAM_CREATED(RadioStationStreamCreated.Data.class),
         RADIO_STATION_STREAM_DELETED(RadioStationStreamDeleted.Data.class),
         RADIO_STATION_STREAM_UPDATED(RadioStationStreamUpdated.Data.class),
-        RADIO_STATION_STREAM_SONGS_CHECKED_UPDATED(RadioStationStreamSongsCheckedUpdated.Data.class),
-        RADIO_STATION_STREAM_INFO_CHECKED_UPDATED(RadioStationStreamInfoCheckedUpdated.Data.class),
+        STREAM_URL_CHECKED_TIME_UPDATED(StreamUrlCheckedTimeUpdated.Data.class),
         GENRE_CREATED(GenreCreated.Data.class),
         SONG_CREATED(SongCreated.Data.class),
         SONG_DELETED(SongDeleted.Data.class),
@@ -62,6 +44,25 @@ public class Event {
             return eventClass;
         }
     }
+
+    @Id
+    @GeneratedValue(generator = "events_sequence", strategy = SEQUENCE)
+    @SequenceGenerator(name = "events_sequence", sequenceName = "events_sequence", allocationSize = 1)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "entity_unique_id", nullable = false)
+    private String entityUniqueId;
+
+    @Column(name = "created", nullable = false)
+    private ZonedDateTime created = ZonedDateTime.now();
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private Type type;
+
+    @Column(name = "body", columnDefinition = "clob", nullable = false)
+    private String body;
 
     Event() {
     }
@@ -86,7 +87,7 @@ public class Event {
         return entityUniqueId;
     }
 
-    public LocalDateTime getCreated() {
+    public ZonedDateTime getCreated() {
         return created;
     }
 

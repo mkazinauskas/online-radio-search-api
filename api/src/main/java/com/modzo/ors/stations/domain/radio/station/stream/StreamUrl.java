@@ -52,6 +52,9 @@ public class StreamUrl {
     @Column(name = "url")
     private String url;
 
+    @Column(name = "checked")
+    private ZonedDateTime checked;
+
     private StreamUrl() {
     }
 
@@ -106,6 +109,14 @@ public class StreamUrl {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public ZonedDateTime getChecked() {
+        return checked;
+    }
+
+    public void setChecked(ZonedDateTime checked) {
+        this.checked = checked;
     }
 }
 

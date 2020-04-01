@@ -21,7 +21,7 @@ class DeleteRadioStationStreamButton extends Component {
         return (
             <Popconfirm
                 title="Sure to delete?"
-                onConfirm={() => this.handleDelete(this.props.id)}
+                onConfirm={this.handleDelete}
                 disabled={this.state.loading}
             >
                 <Button type="link" disabled={this.state.loading}>Delete</Button>
@@ -29,7 +29,7 @@ class DeleteRadioStationStreamButton extends Component {
         );
     }
 
-    handleDelete = id => {
+    handleDelete = () => {
         this.setState({ loading: true });
 
         const config = {
