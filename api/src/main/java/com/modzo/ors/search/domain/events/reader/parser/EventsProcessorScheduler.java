@@ -20,8 +20,8 @@ class EventsProcessorScheduler {
 
     @Scheduled(fixedDelay = 1000L)
     void process() {
-        log.info("Executing events processor.");
+        log.debug("Executing events processor.");
         processor.process();
-        log.info("Finished executing processor.");
+        log.debug("Finished executing processor.");
     }
 }
