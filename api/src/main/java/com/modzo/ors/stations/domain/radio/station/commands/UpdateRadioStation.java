@@ -167,12 +167,14 @@ public class UpdateRadioStation {
             radioStation.getGenres().addAll(foundGenres);
 
             RadioStationUpdated.Data eventData = new RadioStationUpdated.Data(
+                    radioStation.getId(),
                     radioStation.getUniqueId(),
                     radioStation.getTitle(),
                     radioStation.getWebsite(),
                     radioStation.isEnabled(),
                     radioStation.getGenres().stream()
                             .map(genre -> new RadioStationUpdated.Data.Genre(
+                                            genre.getId(),
                                             genre.getUniqueId(),
                                             genre.getTitle()
                                     )

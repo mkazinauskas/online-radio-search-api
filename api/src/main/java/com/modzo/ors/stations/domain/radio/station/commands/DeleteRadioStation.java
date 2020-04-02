@@ -1,7 +1,7 @@
 package com.modzo.ors.stations.domain.radio.station.commands;
 
-import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.events.domain.RadioStationDeleted;
+import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import org.springframework.context.ApplicationEventPublisher;
@@ -43,6 +43,7 @@ public class DeleteRadioStation {
                     new RadioStationDeleted(
                             radioStation,
                             new RadioStationDeleted.Data(
+                                    radioStation.getId(),
                                     radioStation.getUniqueId()
                             )
                     )

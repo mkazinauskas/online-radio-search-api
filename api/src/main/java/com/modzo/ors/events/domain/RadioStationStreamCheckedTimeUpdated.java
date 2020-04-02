@@ -18,23 +18,23 @@ public class RadioStationStreamCheckedTimeUpdated extends DomainEvent {
 
     public static class Data extends DomainEvent.Data {
 
-        private final long streamId;
+        private final long id;
 
         private final String uniqueId;
 
         private final ZonedDateTime checkedTime;
 
         @JsonCreator
-        public Data(@JsonProperty("streamId") long streamId,
+        public Data(@JsonProperty("id") long id,
                     @JsonProperty("uniqueId") String uniqueId,
                     @JsonProperty("checkedTime") ZonedDateTime checkedTime) {
-            this.streamId = streamId;
+            this.id = id;
             this.uniqueId = uniqueId;
             this.checkedTime = checkedTime;
         }
 
-        public long getStreamId() {
-            return streamId;
+        public long getId() {
+            return id;
         }
 
         public String getUniqueId() {
