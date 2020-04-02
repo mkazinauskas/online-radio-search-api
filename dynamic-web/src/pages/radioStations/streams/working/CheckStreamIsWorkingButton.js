@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { Popconfirm, Button } from 'antd';
+import { Button, Popconfirm } from 'antd';
 import Axios from 'axios';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { ADMIN } from '../../../../auth/resourceRoleType';
-import { withRouter } from 'react-router-dom'
 import { ONLINE_RADIO_SEARCH_API } from '../../../../auth/resourceTypes';
 import { reloadPage } from '../../../../utils/historyUtils';
 
@@ -43,7 +43,7 @@ class CheckStreamIsWorkingButton extends Component {
             .catch(this.afterFetch);
     };
 
-    adterFetch = () => {
+    afterFetch = () => {
         this.setState({ loading: false });
         reloadPage(this.props.history);
     }

@@ -130,8 +130,15 @@ public class WebPageReader {
                     .stream()
                     .filter(item -> StringUtils.isNotEmpty(item.getKey()))
                     .filter(item -> CollectionUtils.isNotEmpty(item.getValue()))
-                    .map(item -> Map.entry(item.getKey(), item.getValue().get(0)))
+                    .map(item -> Map.entry(item.getKey(), StringUtils.join(item.getValue(), ";")))
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        }
+
+        public Optional<String> findHeader(String headerName) {
+            return getHeaders().entrySet().stream()
+                    .filter(entry -> StringUtils.equalsIgnoreCase(entry.getKey(), headerName))
+                    .findFirst()
+                    .map(Map.Entry::getValue);
         }
 
         public Optional<String> getBody() {
@@ -139,8 +146,8 @@ public class WebPageReader {
         }
 
         public boolean hasAudioContentTypeHeader() {
-            return ofNullable(getHeaders().get(HttpHeaders.CONTENT_TYPE))
-                    .filter(type -> type.contains("audio"))
+            return findHeader(HttpHeaders.CONTENT_TYPE)
+                    .filter(type -> StringUtils.contains(type, "audio"))
                     .isPresent();
         }
     }
