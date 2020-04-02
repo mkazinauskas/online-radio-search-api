@@ -15,6 +15,14 @@ const columns = [
         dataIndex: 'songId',
     },
     {
+        title: 'Song Unique Id',
+        dataIndex: 'songUniqueId',
+    },
+    {
+        title: 'Title',
+        dataIndex: 'title',
+    },
+    {
         title: 'Played Time',
         dataIndex: 'playedTime',
         render(text, record) {
