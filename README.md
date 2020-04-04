@@ -7,11 +7,21 @@
 
 # OnlineRadioSearch.com source code
 
-# API
+## How to run
+
+### Dev Environment
+* Please go to dev folder 
+* Run `docker-compose up`
+* Then go to each project folder and execute `./gradlew bootRun`
+
+### Latest version
+* Just run `docker-compose up` in root directory 
+
+## API
 Please check api folder
 
-# STATIC-WEB
+## STATIC-WEB
 Please check static web folder
 
-# DYNAMIC-WEB
+## DYNAMIC-WEB
 Please check dynamic web folder
