@@ -1,6 +1,6 @@
-{{>/components/header}}
+{{>components/header}}
 
-{{>/components/navbar/index}}
+{{>components/navbar/index}}
 
 <section class="hero is-info">
     <div class="hero-body">
@@ -12,7 +12,7 @@
 
 <section class="section">
     <div class="container">
-        {{>/search/menu}}
+        {{>search/menu}}
         {{#foundSongs}}
             {{#content}}
                 <a href="/radio-stations/by-played-song/{{seoTitle}}/{{id}}">
@@ -54,4 +54,4 @@
     </div>
 </section>
 
-{{>/components/footer}}
+{{>components/footer}}
