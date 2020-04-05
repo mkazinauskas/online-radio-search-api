@@ -10,12 +10,11 @@
 ## How to run
 
 ### Dev Environment
-* Please go to dev folder 
-* Run `docker-compose up`
+* Please run `./run-dev.sh`
 * Then go to each project folder and execute `./gradlew bootRun`
 
-### Latest version
-* Just run `docker-compose up` in root directory 
+### Start all
+* Just run `./run.sh` in root directory 
 
 ## API
 Please check api folder
