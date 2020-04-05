@@ -59,14 +59,33 @@ services:
        - "9300:9300"
     volumes:
       - "elastic_search_onlineradiosearch:/usr/share/elasticsearch/data"
+  online-radio-search-api:
+    image: ors-api
+    restart: on-failure
+    environment:
+      spring.datasource.url: jdbc:postgresql://online-radio-search-api-db:5432/onlineradiosearchdb
+      spring.datasource.username: online-radio-search-api-admin
+      spring.datasource.password: online-radio-search-api-password
+      elasticsearch.host: online-radio-search-api-elastic-search
+      elasticsearch.port: 9300
+      elasticsearch.clustername: online_radio_search
+      keycloak.auth-server-url: http://localhost:8080/auth
+      keycloak.resource: online-radio-search-app
+      keycloak.keycloak: online-radio-search
+    ports:
+      - "8080:8080"
+    depends_on:
+      - online-radio-search-api-db
+      - online-radio-search-api-elastic-search
+      - keycloak
   online-radio-search-static-web:
     image: ors-static-web
     environment:
-      application.apiUrl: http://localhost:8080
+      application.apiUrl: http://online-radio-search-api:8080
     ports:
       - "3002:8080"
     depends_on:
-      - online-radio-search-api-db
+      - online-radio-search-api
 
 volumes:
   pgdata_keycloak:
