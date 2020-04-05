@@ -55,7 +55,6 @@ services:
       network.publish_host: _local_
       cluster.name: online_radio_search
     ports:
-       - "9200:9200"
        - "9300:9300"
     volumes:
       - "elastic_search_onlineradiosearch:/usr/share/elasticsearch/data"

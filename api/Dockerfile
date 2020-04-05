@@ -1,14 +1,5 @@
-# ============ Production image ===================
-FROM openjdk:8-jre-slim
-
-RUN adduser --system app --home /app
-USER app
-
-WORKDIR /home/app
-
-COPY build/libs/online-radio-search-api-*.jar online-radio-search-api.jar
-COPY src/main/resources/application.yaml application.yaml
-
-EXPOSE 8080
-
-ENTRYPOINT [ "sh", "-c", "java -jar online-radio-search-api.jar" ]
+FROM adoptopenjdk/openjdk11:jre-11.0.6_10-alpine
+RUN mkdir /opt/app
+WORKDIR /opt/app
+COPY build/libs/api-*.jar /opt/app/api.jar
+ENTRYPOINT ["java", "-jar", "/opt/app/api.jar"]

@@ -4,12 +4,6 @@
 * `./gradlew bootRun`
 
 ## How to build
-
-### By typing commands
-* `./gradlew build` or  `docker run --rm -v "$PWD":/app -w /app openjdk:11 ./gradlew clean build`
-* `docker build -t ors-static-web .`
-
-### Running sh script
 * `./build.sh`
 
 ## How to run

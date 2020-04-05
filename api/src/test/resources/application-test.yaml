@@ -1,9 +1,4 @@
-server:
-  connection-timeout: 5000s
-  port: 8080
-
 spring:
-  profiles.active: test
   jpa:
     hibernate:
       ddl-auto: validate
