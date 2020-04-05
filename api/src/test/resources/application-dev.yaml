@@ -15,7 +15,7 @@ spring:
     password: online-radio-search-api-password
 
 elasticsearch:
-  host: localhost
+  host: 127.0.0.1
   port: 9300
   clustername: online_radio_search
 
