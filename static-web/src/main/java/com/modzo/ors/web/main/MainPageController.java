@@ -34,6 +34,6 @@ public class MainPageController {
                 + "shoutcast radio, stations, music, m3u, pls, winamp");
 
         items.put("latestRadioStations", latestRadioStations.retrieve(pageable));
-        return new ModelAndView("/main/index", items);
+        return new ModelAndView("main/index", items);
     }
 }

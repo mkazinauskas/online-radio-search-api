@@ -52,6 +52,6 @@ public class SearchByRadioStationController {
         items.put("query", SeoText.revert(query));
         items.put("radioStations", searchByRadioStationService.retrieve(query, pageable));
         items.put("submenu-search-by-radio-station", true);
-        return new ModelAndView("/search/by-radio-station/index", items);
+        return new ModelAndView("search/by-radio-station/index", items);
     }
 }

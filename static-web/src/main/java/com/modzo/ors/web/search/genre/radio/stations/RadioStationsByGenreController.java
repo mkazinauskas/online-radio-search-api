@@ -62,6 +62,6 @@ public class RadioStationsByGenreController {
         );
         items.put("genre", genre);
         items.put("radioStations", radioStations);
-        return new ModelAndView("/search/by-genre/radio-stations", items);
+        return new ModelAndView("search/by-genre/radio-stations", items);
     }
 }
