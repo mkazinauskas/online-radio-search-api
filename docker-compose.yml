@@ -86,6 +86,12 @@ services:
       - "3002:8080"
     depends_on:
       - online-radio-search-api
+  online-radio-search-dynamic-web:
+    image: ors-dynamic-web
+    ports:
+      - "3000:80"
+    depends_on:
+      - online-radio-search-api
 
 volumes:
   pgdata_keycloak:
