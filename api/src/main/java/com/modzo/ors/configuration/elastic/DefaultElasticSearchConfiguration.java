@@ -35,7 +35,6 @@ class DefaultElasticSearchConfiguration {
     @Bean
     Client client() {
         Settings elasticsearchSettings = Settings.builder()
-                .put("client.transport.sniff", true)
                 .put("cluster.name", elasticSearchClusterName)
                 .build();
         TransportClient client = new PreBuiltTransportClient(elasticsearchSettings);
