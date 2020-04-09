@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Form, Input, Alert } from 'antd';
 import Axios from 'axios';
 import { connect } from 'react-redux';
+import { API_URL } from './../../../AppConfig';
 
 const DEFAULT_STATE={
     loading: false,
@@ -30,7 +31,7 @@ class AddSongModal extends Component {
                     ...values
                 }
 
-                Axios.post('/admin/songs', content, config)
+                Axios.post(API_URL + '/admin/songs', content, config)
                     .then(() => this.setState({ ...this.state, successMessage: 'Song was added' }))
                     .catch(() => this.setState({ ...this.state, errorMessage: 'Failed to add song' }))
                     .then(() => this.setState({ ...this.state, loading: false }));

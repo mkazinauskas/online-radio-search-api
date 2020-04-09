@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Modal, Form, Input, Alert } from 'antd';
 import Axios from 'axios';
 import { connect } from 'react-redux';
+import { API_URL } from '../../../AppConfig';
 
-const DEFAULT_STATE={
+const DEFAULT_STATE = {
     loading: false,
     successMessage: null,
     errorMessage: null
@@ -30,7 +31,7 @@ class AddRadioStationModal extends Component {
                     ...values
                 }
 
-                Axios.post('/admin/radio-stations', content, config)
+                Axios.post(API_URL + '/admin/radio-stations', content, config)
                     .then(() => this.setState({ ...this.state, successMessage: 'Radio station was added' }))
                     .catch(() => this.setState({ ...this.state, errorMessage: 'Failed to add radio station' }))
                     .then(() => this.setState({ ...this.state, loading: false }));

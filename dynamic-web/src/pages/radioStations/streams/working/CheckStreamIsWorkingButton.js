@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { ADMIN } from '../../../../auth/resourceRoleType';
 import { ONLINE_RADIO_SEARCH_API } from '../../../../auth/resourceTypes';
 import { reloadPage } from '../../../../utils/historyUtils';
+import { API_URL } from '../../../../AppConfig';
 
 class CheckStreamIsWorkingButton extends Component {
 
@@ -38,7 +39,7 @@ class CheckStreamIsWorkingButton extends Component {
             }
         }
 
-        Axios.post(`/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.streamId}/working`, null, config)
+        Axios.post(`${API_URL}/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.streamId}/working`, null, config)
             .then(this.afterFetch)
             .catch(this.afterFetch);
     };

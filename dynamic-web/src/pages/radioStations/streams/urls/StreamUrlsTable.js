@@ -6,6 +6,7 @@ import { createURLStreamUrls } from '../../../../layouts/pathTypes';
 import DeleteStreamUrlButton from './delete/DeleteStreamUrlButton';
 import RefreshRadioStationSongsButton from './songs/RefreshRadioStationSongsButton';
 import RefreshRadioStationInfoButton from './info/RefreshRadioStationInfoButton';
+import { API_URL } from '../../../../AppConfig';
 
 const columns = [
     {
@@ -130,7 +131,7 @@ class StreamUrlsTable extends Component {
         const radioStationId = this.props.match.params.radioStationId;
         const streamId = this.props.match.params.streamId;
 
-        Axios.get(`/radio-stations/${radioStationId}/streams/${streamId}/urls?${urlSearchParams.toString()}`)
+        Axios.get(`${API_URL}/radio-stations/${radioStationId}/streams/${streamId}/urls?${urlSearchParams.toString()}`)
             .then((response) => {
                 let data = [];
                 if (response.data._embedded && response.data._embedded.radioStationStreamUrlResponseList) {

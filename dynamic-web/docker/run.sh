@@ -11,6 +11,9 @@ echo ''
 echo "Replacing REACT_APP_API_URL to '$REACT_APP_API_URL'"
 sed -i "s|{{API_URL}}|$REACT_APP_API_URL|g" /usr/share/nginx/html/config.js
 
+echo "Replacing REACT_APP_KEYCLOAK_URL to '$REACT_APP_KEYCLOAK_URL'"
+sed -i "s|{{KEYCLOAK_URL}}|$REACT_APP_KEYCLOAK_URL|g" /usr/share/nginx/html/config.js
+
 echo 'Using folowing configuration:'
 cat /usr/share/nginx/html/config.js
 echo ''

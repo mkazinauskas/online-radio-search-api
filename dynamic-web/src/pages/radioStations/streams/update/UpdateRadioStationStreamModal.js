@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Form, Input, Alert, Switch, Select } from 'antd';
 import Axios from 'axios';
 import { connect } from 'react-redux';
+import { API_URL } from '../../../../AppConfig';
 
 const STREAM_TYPES = [
     'MP3', 'ACC', 'MPEG', 'UNKNOWN'
@@ -36,7 +37,7 @@ class UpdateRadioStationStreamModal extends Component {
                     working: values.working,
                     type: values.type
                 }
-                Axios.patch(`/admin/radio-stations/${this.props.radioStationStream.radioStationId}/streams/${this.props.radioStationStream.id}`, content, config)
+                Axios.patch(`${API_URL}/admin/radio-stations/${this.props.radioStationStream.radioStationId}/streams/${this.props.radioStationStream.id}`, content, config)
                     .then(() => this.setState({ ...this.state, successMessage: 'Radio station stream was updated' }))
                     .catch(() => this.setState({ ...this.state, errorMessage: 'Failed to update radio station stream' }))
                     .then(() => this.setState({ ...this.state, loading: false }));

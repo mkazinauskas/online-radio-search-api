@@ -7,6 +7,7 @@ import DeleteRadioStationButton from './deleteStation/DeleteRadioStationButton';
 import ShowRadioStationSongsButton from './songs/ShowRadioStationSongsButton';
 import ShowRadioStationStreamsButton from './streams/ShowRadioStationStreamsButton';
 import UpdateRadioStationButton from './updateRadioStation/UpdateRadioStationButton';
+import { API_URL } from './../../AppConfig';
 
 const columns = [
     {
@@ -39,7 +40,7 @@ const columns = [
         dataIndex: 'genres',
         render: (text, record) => {
             return (
-                record.genres.map(genre=>genre.title).join(',')
+                record.genres.map(genre => genre.title).join(',')
             );
         }
     },
@@ -125,7 +126,7 @@ class RadioStationsTable extends Component {
         urlSearchParams.set('page', this.state.filter.page);
         urlSearchParams.set('size', this.state.filter.size);
 
-        Axios.get('/radio-stations?' + urlSearchParams.toString())
+        Axios.get(API_URL + '/radio-stations?' + urlSearchParams.toString())
             .then((response) => {
                 let data = [];
 

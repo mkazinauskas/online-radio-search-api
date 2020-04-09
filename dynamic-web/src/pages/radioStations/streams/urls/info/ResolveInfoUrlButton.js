@@ -6,6 +6,7 @@ import { ADMIN } from '../../../../../auth/resourceRoleType';
 import { withRouter } from 'react-router-dom'
 import { ONLINE_RADIO_SEARCH_API } from '../../../../../auth/resourceTypes';
 import { reloadPage } from '../../../../../utils/historyUtils';
+import { API_URL } from '../../../../../AppConfig';
 
 class ResolveInfoUrlButton extends Component {
 
@@ -40,7 +41,7 @@ class ResolveInfoUrlButton extends Component {
             }
         }
 
-        Axios.put(`/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.streamId}/urls`, { type: 'INFO' }, config)
+        Axios.put(`${API_URL}/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.streamId}/urls`, { type: 'INFO' }, config)
             .then(() => {
                 this.setState({ loading: false });
                 reloadPage(this.props.history);

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Form, Input, Alert, Switch, Select } from 'antd';
 import Axios from 'axios';
 import { connect } from 'react-redux';
+import { API_URL } from '../../../AppConfig';
 
 const DEFAULT_STATE = {
     genres: [],
@@ -45,7 +46,7 @@ class UpdateRadioStationModal extends Component {
 
     handleSearch = value => {
         if (value && value.length > 3) {
-            Axios.get(`/search/genre/?title=${value}`)
+            Axios.get(`${API_URL}/search/genre/?title=${value}`)
                 .then((result) => { this.setState({ ...this.state, genres: result.data._embedded.searchGenreResultResponseList }) })
                 .catch(() => this.setState({ ...this.state, genres: [] }));
         } else {

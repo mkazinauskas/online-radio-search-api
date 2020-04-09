@@ -6,6 +6,7 @@ import { ADMIN } from '../../../../../auth/resourceRoleType';
 import { withRouter } from 'react-router-dom'
 import { ONLINE_RADIO_SEARCH_API } from '../../../../../auth/resourceTypes';
 import { reloadPage } from '../../../../../utils/historyUtils';
+import { API_URL } from '../../../../../AppConfig';
 
 class RefreshRadioStationInfoButton extends Component {
 
@@ -38,7 +39,7 @@ class RefreshRadioStationInfoButton extends Component {
             }
         }
 
-        Axios.post(`/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.streamId}/latest-info`, null, config)
+        Axios.post(`${API_URL}/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.streamId}/latest-info`, null, config)
             .then(() => {
                 this.setState({ loading: false });
                 reloadPage(this.props.history);
