@@ -88,8 +88,10 @@ services:
       - online-radio-search-api
   online-radio-search-dynamic-web:
     image: ors-dynamic-web
+    environment:
+      REACT_APP_API_URL: 'http://fromCompose.com'
     ports:
-      - "3000:80"
+      - "3001:80"
     depends_on:
       - online-radio-search-api
 
