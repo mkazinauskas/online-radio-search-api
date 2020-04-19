@@ -72,6 +72,7 @@ services:
       keycloak.auth-server-url: http://keycloak:8080/auth
       keycloak.resource: online-radio-search-app
       keycloak.keycloak: online-radio-search
+      application.cors.urls: http://localhost:3000
     ports:
       - "8080:8080"
     depends_on:
