@@ -5,6 +5,7 @@ import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticatio
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
 import org.keycloak.adapters.springsecurity.filter.KeycloakAuthenticationProcessingFilter;
 import org.keycloak.adapters.springsecurity.filter.KeycloakPreAuthActionsFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,10 @@ import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMap
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -37,7 +42,9 @@ class KeycloakConfiguration extends KeycloakWebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         super.configure(http);
-        http.sessionManagement().sessionCreationPolicy(STATELESS)
+        http.cors()
+                .and()
+                .sessionManagement().sessionCreationPolicy(STATELESS)
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
@@ -82,5 +89,17 @@ class KeycloakConfiguration extends KeycloakWebSecurityConfigurerAdapter {
         public KeycloakSpringBootConfigResolver keycloakConfigResolver() {
             return new KeycloakSpringBootConfigResolver();
         }
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer(@Value("${application.cors.urls:}") List<String> corsUrls) {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry
+                        .addMapping("/**")
+                        .allowedOrigins(corsUrls.toArray(new String[]{}));
+            }
+        };
     }
 }
