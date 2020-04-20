@@ -1,9 +1,4 @@
-server:
-  connection-timeout: 5000s
-  port: 8080
-
 spring:
-  profiles.active: test
   jpa:
     hibernate:
       ddl-auto: validate
@@ -40,6 +35,10 @@ keycloak:
   use-resource-role-mappings: true
 
 application:
+  cors:
+    urls:
+      - http://localhost:3000
+      - http://localhost:8080
   radio.station.stream.scrapper.info.url.endings: '/index.html?sid=1,'
   radio.station.stream.scrapper.played.songs.url.endings: '/played.html?sid=1,'
   events.processor.enabled: false

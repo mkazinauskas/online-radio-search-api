@@ -4,6 +4,7 @@ import Axios from 'axios';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { isWebUri } from 'valid-url';
+import { API_URL } from '../../../../../AppConfig';
 
 const URL_TYPES = [
     'SONGS', 'INFO'
@@ -39,7 +40,7 @@ class CreateStreamUrlModal extends Component {
                 const radioStationId = this.props.match.params.radioStationId;
                 const streamId = this.props.match.params.streamId;
 
-                Axios.post(`/admin/radio-stations/${radioStationId}/streams/${streamId}/urls`, content, config)
+                Axios.post(`${API_URL}/admin/radio-stations/${radioStationId}/streams/${streamId}/urls`, content, config)
                     .then(() => this.setState({ ...this.state, successMessage: 'Radio station stream url was added' }))
                     .catch(() => this.setState({ ...this.state, errorMessage: 'Failed to add stream url' }))
                     .then(() => this.setState({ ...this.state, loading: false }));

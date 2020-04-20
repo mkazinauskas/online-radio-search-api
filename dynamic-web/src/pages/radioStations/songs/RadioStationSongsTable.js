@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { createURLRadioStationSongs } from '../../../layouts/pathTypes';
 import DeleteRadioStationSongButton from './delete/DeleteRadioStationSongButton';
+import { API_URL } from '../../../AppConfig';
 
 const columns = [
     {
@@ -13,6 +14,14 @@ const columns = [
     {
         title: 'Song Id',
         dataIndex: 'songId',
+    },
+    {
+        title: 'Song Unique Id',
+        dataIndex: 'songUniqueId',
+    },
+    {
+        title: 'Title',
+        dataIndex: 'title',
     },
     {
         title: 'Played Time',
@@ -105,7 +114,7 @@ class RadioStationStreamsTable extends Component {
         urlSearchParams.set('size', this.state.filter.size);
 
         const radioStationId = this.props.match.params.radioStationId;
-        Axios.get(`/radio-stations/${radioStationId}/songs?${urlSearchParams.toString()}`)
+        Axios.get(API_URL + `/radio-stations/${radioStationId}/songs?${urlSearchParams.toString()}`)
             .then((response) => {
                 let data = [];
                 if (response.data._embedded && response.data._embedded.radioStationSongResponseList) {

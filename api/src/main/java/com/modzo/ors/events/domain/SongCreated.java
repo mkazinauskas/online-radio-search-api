@@ -16,6 +16,7 @@ public class SongCreated extends DomainEvent {
     }
 
     public static class Data extends DomainEvent.Data {
+
         private final long id;
 
         private final String uniqueId;

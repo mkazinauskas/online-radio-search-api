@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { SONGS } from '../../layouts/pathTypes';
 import DeleteSongButton from './deleteSong/DeleteSongButton';
+import { API_URL } from './../../AppConfig';
 
 const columns = [
     {
@@ -51,7 +52,7 @@ class SongsTable extends Component {
         });
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.unregisterHistoryListener();
     }
 
@@ -87,7 +88,7 @@ class SongsTable extends Component {
         urlSearchParams.set('page', this.state.filter.page);
         urlSearchParams.set('size', this.state.filter.size);
 
-        Axios.get('/songs?' + urlSearchParams.toString())
+        Axios.get(API_URL + '/songs?' + urlSearchParams.toString())
             .then((response) => {
                 let data = [];
 

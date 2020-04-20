@@ -28,6 +28,6 @@ public class PoliciesController {
         items.put(ComponentType.KEYWORDS.getType(), "privacy, policy, shoutcast, web radio, mp3, aac, wmv, "
                 + "streaming, dnas, shoutcast radio, stations, music, m3u, pls, winamp");
 
-        return new ModelAndView("/policies/privacy", items);
+        return new ModelAndView("policies/privacy", items);
     }
 }

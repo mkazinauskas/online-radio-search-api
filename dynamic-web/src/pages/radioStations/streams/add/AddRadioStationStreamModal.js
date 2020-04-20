@@ -4,6 +4,7 @@ import Axios from 'axios';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { isWebUri } from 'valid-url';
+import { API_URL } from '../../../../AppConfig';
 
 const DEFAULT_STATE = {
     loading: false,
@@ -34,7 +35,7 @@ class AddRadioStationStreamModal extends Component {
 
                 const radioStationId = this.props.match.params.radioStationId;
 
-                Axios.post(`/admin/radio-stations/${radioStationId}/streams`, content, config)
+                Axios.post(`${API_URL}/admin/radio-stations/${radioStationId}/streams`, content, config)
                     .then(() => this.setState({ ...this.state, successMessage: 'Radio station stream was added' }))
                     .catch(() => this.setState({ ...this.state, errorMessage: 'Failed to add stream' }))
                     .then(() => this.setState({ ...this.state, loading: false }));

@@ -53,6 +53,6 @@ public class SearchBySongController {
         items.put("query", SeoText.revert(query));
         items.put("foundSongs", searchBySongService.retrieve(query, pageable));
         items.put("submenu-search-by-song", true);
-        return new ModelAndView("/search/by-song/index", items);
+        return new ModelAndView("search/by-song/index", items);
     }
 }

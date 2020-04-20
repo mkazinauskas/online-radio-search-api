@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import { Popconfirm, Button } from 'antd';
+import { Button, Popconfirm } from 'antd';
 import Axios from 'axios';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { ADMIN } from '../../../../auth/resourceRoleType';
-import { withRouter } from 'react-router-dom'
 import { ONLINE_RADIO_SEARCH_API } from '../../../../auth/resourceTypes';
 import { reloadPage } from '../../../../utils/historyUtils';
+import { API_URL } from '../../../../AppConfig';
 
 class CheckStreamIsWorkingButton extends Component {
 
@@ -38,12 +39,12 @@ class CheckStreamIsWorkingButton extends Component {
             }
         }
 
-        Axios.post(`/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.streamId}/working`, null, config)
+        Axios.post(`${API_URL}/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.streamId}/working`, null, config)
             .then(this.afterFetch)
             .catch(this.afterFetch);
     };
 
-    adterFetch = () => {
+    afterFetch = () => {
         this.setState({ loading: false });
         reloadPage(this.props.history);
     }

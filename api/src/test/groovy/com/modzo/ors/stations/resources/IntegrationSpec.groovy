@@ -18,11 +18,13 @@ import com.modzo.ors.stations.domain.radio.station.stream.StreamUrls
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.test.context.ActiveProfiles
 import spock.lang.Specification
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT
 
 @SpringBootTest(webEnvironment = DEFINED_PORT)
+@ActiveProfiles('test')
 class IntegrationSpec extends Specification {
 
     @Autowired

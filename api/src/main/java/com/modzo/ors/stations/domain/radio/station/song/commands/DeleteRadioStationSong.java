@@ -66,7 +66,9 @@ public class DeleteRadioStationSong {
                     new RadioStationSongDeleted(
                             radioStationSong,
                             new RadioStationSongDeleted.Data(
+                                    radioStationSong.getId(),
                                     radioStationSong.getUniqueId(),
+                                    radioStation.getId(),
                                     radioStation.getUniqueId()
                             ))
             );

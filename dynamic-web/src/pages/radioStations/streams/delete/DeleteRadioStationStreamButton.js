@@ -6,6 +6,7 @@ import { ADMIN } from '../../../../auth/resourceRoleType';
 import { withRouter } from 'react-router-dom'
 import { ONLINE_RADIO_SEARCH_API } from '../../../../auth/resourceTypes';
 import { reloadPage } from '../../../../utils/historyUtils';
+import { API_URL } from '../../../../AppConfig';
 
 class DeleteRadioStationStreamButton extends Component {
 
@@ -38,7 +39,7 @@ class DeleteRadioStationStreamButton extends Component {
             }
         }
 
-        Axios.delete(`/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.id}`, config)
+        Axios.delete(`${API_URL}/admin/radio-stations/${this.props.radioStationId}/streams/${this.props.id}`, config)
             .then(() => {
                 this.setState({ loading: false });
                 reloadPage(this.props.history);

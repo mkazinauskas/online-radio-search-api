@@ -43,6 +43,6 @@ public class SearchByGenreController {
         items.put("query", SeoText.revert(query));
         items.put("foundGenres", searchByGenreService.retrieve(query, pageable));
         items.put("submenu-search-by-genre", true);
-        return new ModelAndView("/search/by-genre/index", items);
+        return new ModelAndView("search/by-genre/index", items);
     }
 }

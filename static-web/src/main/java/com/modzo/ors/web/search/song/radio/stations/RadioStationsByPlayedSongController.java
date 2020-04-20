@@ -63,6 +63,6 @@ public class RadioStationsByPlayedSongController {
 
         items.put("song", song);
         items.put("radioStations", radioStations);
-        return new ModelAndView("/search/by-song/radio-stations", items);
+        return new ModelAndView("search/by-song/radio-stations", items);
     }
 }

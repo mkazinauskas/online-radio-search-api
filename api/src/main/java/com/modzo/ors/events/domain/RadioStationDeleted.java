@@ -14,12 +14,21 @@ public class RadioStationDeleted extends DomainEvent {
     }
 
     public static class Data extends DomainEvent.Data {
+
+        private final long id;
+
         private final String uniqueId;
 
 
         @JsonCreator
-        public Data(@JsonProperty("uniqueId") String uniqueId) {
+        public Data(@JsonProperty("id") long id,
+                    @JsonProperty("uniqueId") String uniqueId) {
+            this.id = id;
             this.uniqueId = uniqueId;
+        }
+
+        public long getId() {
+            return id;
         }
 
         public String getUniqueId() {

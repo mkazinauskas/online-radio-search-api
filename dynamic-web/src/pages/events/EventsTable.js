@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { EVENTS } from '../../layouts/pathTypes';
 import ViewEventButton from './viewEvent/ViewEventButton';
+import { API_URL } from './../../AppConfig';
 
 const columns = [
     {
@@ -104,7 +105,7 @@ class EventsTable extends Component {
             }
         }
 
-        Axios.get('/admin/events?' + urlSearchParams.toString(), config)
+        Axios.get(API_URL + '/admin/events?' + urlSearchParams.toString(), config)
             .then((response) => {
                 let data = [];
 

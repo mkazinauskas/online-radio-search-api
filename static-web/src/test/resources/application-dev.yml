@@ -1,0 +1,4 @@
+server.port: 3002
+
+application:
+  apiUrl: http://localhost:8080

@@ -3,6 +3,7 @@ import Axios from 'axios';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { API_URL } from '../../../../AppConfig';
 
 const DEFAULT_STATE = {
     loading: false,
@@ -42,7 +43,7 @@ class AddRadioStationSongModal extends Component {
 
                 const radioStationId = this.props.match.params.radioStationId;
 
-                Axios.post(`/admin/radio-stations/${radioStationId}/songs`, content, config)
+                Axios.post(`${API_URL}/admin/radio-stations/${radioStationId}/songs`, content, config)
                     .then(() => this.setState({ ...this.state, successMessage: 'Radio station song was added' }))
                     .catch(() => this.setState({ ...this.state, errorMessage: 'Failed to add played song' }))
                     .then(() => this.setState({ ...this.state, loading: false }));

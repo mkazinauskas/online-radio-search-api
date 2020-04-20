@@ -60,6 +60,6 @@ public class RadioStationController {
         items.put("radioStation", radioStation);
         items.put("radioStationStreams", stationStreamService.retrieve(id));
         items.put("radioStationSongs", radioStationSongsService.retrieve(id, pageable));
-        return new ModelAndView("/radio-station/index", items);
+        return new ModelAndView("radio-station/index", items);
     }
 }
