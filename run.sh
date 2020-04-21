@@ -4,12 +4,4 @@ cd api
 ./build.sh
 cd $ROOT
 
-cd static-web
-./build.sh
-cd $ROOT
-
-cd dynamic-web
-./build.sh
-cd $ROOT
-
 docker-compose up

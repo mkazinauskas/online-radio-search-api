@@ -17,17 +17,6 @@
 [![Known Vulnerabilities in API](https://snyk.io/test/github/modestukasai/online-radio-search/badge.svg?targetFile=api/build.gradle)](https://snyk.io/test/github/modestukasai/online-radio-search?targetFile=api/build.gradle)
 Please check api folder
 
-## DYNAMIC-WEB
-[![Known Vulnerabilities in DYNAMIC-WEB](https://snyk.io/test/github/modestukasai/online-radio-search/badge.svg?targetFile=dynamic-web/package.json)](https://snyk.io/test/github/modestukasai/online-radio-search?targetFile=dynamic-web/package.json)
-Please check dynamic web folder
-
-# How to use application
-* Launch api `http://localhost:8080`
-* Launch static-web via browser `http://localhost:3002`
-* Launch dynamic-web via browser `http://localhost:3000`
-
-If you want to see keycloak user authentication window visit [http://localhost:8081/auth/realms/online-radio-search/account](http://localhost:8081/auth/realms/online-radio-search/account)
-
 ## As admin
 ### Get auth key
 `curl -ss --data "grant_type=password&client_id=curl&username=joe_admin&password=admin" http://localhost:8081/auth/realms/online-radio-search/protocol/openid-connect/token`
