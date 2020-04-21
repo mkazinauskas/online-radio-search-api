@@ -17,10 +17,6 @@
 [![Known Vulnerabilities in API](https://snyk.io/test/github/modestukasai/online-radio-search/badge.svg?targetFile=api/build.gradle)](https://snyk.io/test/github/modestukasai/online-radio-search?targetFile=api/build.gradle)
 Please check api folder
 
-## STATIC-WEB
-[![Known Vulnerabilities in STATIC-WEB](https://snyk.io/test/github/modestukasai/online-radio-search/badge.svg?targetFile=static-web/build.gradle)](https://snyk.io/test/github/modestukasai/online-radio-search?targetFile=static-web/build.gradle)
-Please check static web folder
-
 ## DYNAMIC-WEB
 [![Known Vulnerabilities in DYNAMIC-WEB](https://snyk.io/test/github/modestukasai/online-radio-search/badge.svg?targetFile=dynamic-web/package.json)](https://snyk.io/test/github/modestukasai/online-radio-search?targetFile=dynamic-web/package.json)
 Please check dynamic web folder
