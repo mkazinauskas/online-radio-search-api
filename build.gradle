@@ -1,7 +1,8 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.4.RELEASE'
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'groovy'
+    id 'idea'
 }
 
 apply from: "${rootDir}/gradle/codenarc/codenarc.gradle"
@@ -18,7 +19,7 @@ repositories {
 }
 
 ext {
-    keycloakVersion = '8.0.1'
+    keycloakVersion = '9.0.3'
     testContainersVersion = '1.12.4'
     spockVersion = '1.3-groovy-2.5'
     set('springCloudVersion', 'Hoxton.SR1')
