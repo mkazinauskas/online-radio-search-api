@@ -1,23 +1,20 @@
-matrix:
-  include:
-    - language: java
-      jdk: openjdk11
-      services:
-        - docker
-      os: linux
-      before_cache:
-        - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-        - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-      cache:
-        directories:
-          - $HOME/.gradle/caches/
-          - $HOME/.gradle/wrapper/
-      before_script:
-        - echo "Skipping before script"
-      install:
-        - echo "Skipping before script"
-      script:
-        - cd api
-        - ./gradlew build
-      after_success:
-        - bash <(curl -s https://codecov.io/bash)
+language: java
+jdk: openjdk11
+services:
+  - docker
+os: linux
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+before_script:
+  - echo "Skipping before script"
+install:
+  - echo "Skipping before script"
+script:
+  - ./gradlew build
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
