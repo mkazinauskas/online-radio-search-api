@@ -3,6 +3,8 @@ jdk: openjdk11
 services:
   - docker
 os: linux
+env:
+  - IMAGE_NAME="modestukasai/online-radio-search-api" IMAGE_VERSION=$(date +"%Y-%m-%d-%H-%M-%S")
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -12,5 +14,16 @@ cache:
     - $HOME/.gradle/wrapper/
 script:
   - ./gradlew build -i
+  - docker build -t "${IMAGE_NAME}" .
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+
+before_deploy:
+  - docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${IMAGE_VERSION}"
+  - docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
+
+deploy:
+  provider: script
+  script: docker push "${IMAGE_NAME}:${IMAGE_VERSION}"
+  on:
+    branch: master
