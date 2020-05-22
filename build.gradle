@@ -37,6 +37,7 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.8'
     implementation 'org.jsoup:jsoup:1.8.3'
     implementation 'com.rainerhahnekamp:sneakythrow:1.2.0'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.5.3'
 
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 
