@@ -20,11 +20,6 @@ class HttpEntityBuilder<B> {
         return this
     }
 
-    HttpEntityBuilder<B> body(String key, B body) {
-        this.body = [(key): body] as B
-        return this
-    }
-
     HttpEntityBuilder<B> bearer(String token) {
         headers.add('Authorization', "Bearer ${token}".toString())
         return this
