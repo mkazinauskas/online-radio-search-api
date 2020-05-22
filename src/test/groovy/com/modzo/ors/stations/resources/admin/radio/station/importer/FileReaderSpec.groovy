@@ -12,7 +12,7 @@ class FileReaderSpec extends Specification {
 
     void 'should check if file is parsable'() {
         given:
-            MultipartFile file = new MockMultipartFile('radioStations.csv', resource('withIpAddress').inputStream)
+            MultipartFile file = file('withIpAddress')
         when:
             List<ImportEntry> result = testTarget.read(file)
         then:
@@ -23,7 +23,22 @@ class FileReaderSpec extends Specification {
             }
     }
 
-    private static InputStreamSource resource(String fileName) {
-        return new ClassPathResource("/radio-stations-importer/file-reader/${fileName}.csv")
+    void 'should check if file is parsable with additional field'() {
+        given:
+            MultipartFile file = file('withAdditionalField')
+        when:
+            List<ImportEntry> result = testTarget.read(file)
+        then:
+            result.size() == 1
+            with(result.first()) {
+                radioStationName == 'Testis'
+                streamUrl == 'http://162.252.85.85:3000'
+            }
     }
+
+    private static MockMultipartFile file(String file) {
+        InputStreamSource source = new ClassPathResource("/radio-stations-importer/file-reader/${file}.csv")
+        return new MockMultipartFile('radioStations.csv', source.inputStream)
+    }
+
 }

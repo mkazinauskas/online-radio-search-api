@@ -22,7 +22,7 @@ class RadioStationsImportControllerSpec extends IntegrationSpec {
             body.add('file', readClasspathResource())
         when:
             ResponseEntity<String> response = restTemplate.exchange(
-                    "/admin/radio-stations/importer",
+                    '/admin/radio-stations/importer',
                     POST,
                     HttpEntityBuilder.builder()
                             .bearer(token(TestUsers.ADMIN))

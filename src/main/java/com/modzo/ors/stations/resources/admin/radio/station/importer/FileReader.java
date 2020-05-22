@@ -1,5 +1,6 @@
 package com.modzo.ors.stations.resources.admin.radio.station.importer;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
@@ -25,6 +26,7 @@ class FileReader {
     private static ObjectReader constructReader() {
         CsvSchema bootstrapSchema = CsvSchema.emptySchema().withHeader();
         CsvMapper mapper = new CsvMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         return mapper.readerFor(ImportEntry.class)
                 .with(bootstrapSchema);
     }

@@ -3,8 +3,6 @@ package com.modzo.ors
 import groovy.transform.CompileStatic
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
-import org.springframework.util.LinkedMultiValueMap
-import org.springframework.util.MultiValueMap
 
 @CompileStatic
 class HttpEntityBuilder<B> {
@@ -23,7 +21,7 @@ class HttpEntityBuilder<B> {
     }
 
     HttpEntityBuilder<B> body(String key, B body) {
-        this.body = [key: body] as B
+        this.body = [(key): body] as B
         return this
     }
 
