@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.6.RELEASE'
+    id 'org.springframework.boot' version '2.3.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'groovy'
     id 'idea'
@@ -37,7 +37,7 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.8'
     implementation 'org.jsoup:jsoup:1.8.3'
     implementation 'com.rainerhahnekamp:sneakythrow:1.2.0'
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.5.3'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.11.0'
 
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 
@@ -70,5 +70,5 @@ dependencyManagement {
 }
 
 bootRun {
-    systemProperty 'spring.config.location', "file:${projectDir}/src/test/resources/application-dev.yaml"
+    systemProperty 'spring.config.additional-location', "file:${projectDir}/src/test/resources/application-dev.yaml"
 }
