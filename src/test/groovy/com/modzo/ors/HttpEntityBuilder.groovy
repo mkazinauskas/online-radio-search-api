@@ -25,6 +25,11 @@ class HttpEntityBuilder<B> {
         return this
     }
 
+    HttpEntityBuilder<B> header(String headerName, String headerValue) {
+        headers.add(headerName, headerValue)
+        return this
+    }
+
     HttpEntity<B> build() {
         return new HttpEntity(body, headers)
     }
