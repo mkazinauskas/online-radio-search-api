@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 @Component
@@ -57,12 +58,16 @@ class ImporterService {
     }
 
     private void createStreamUrls(Long id, String streamUrls) {
-        if (findRadioStationStreamByUrlHandler.handle(new FindRadioStationStreamByUrl(streamUrls)).isPresent()) {
-            logger.warn("Stream url `{}` already exists. Skipping creation.", streamUrls);
+        String[] urls = streamUrls.split("\\|");
+        Arrays.stream(urls).forEach(url -> createStreamUrl(id, url));
+    }
+
+    private void createStreamUrl(Long id, String streamUrl) {
+        if (findRadioStationStreamByUrlHandler.handle(new FindRadioStationStreamByUrl(streamUrl)).isPresent()) {
+            logger.warn("Stream url `{}` already exists. Skipping creation.", streamUrl);
             return;
         }
 
-        createRadioStationStreamHandler.handle(new CreateRadioStationStream(id, streamUrls));
+        createRadioStationStreamHandler.handle(new CreateRadioStationStream(id, streamUrl));
     }
-
 }

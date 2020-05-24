@@ -37,6 +37,8 @@ class RadioStationsImportControllerSpec extends IntegrationSpec {
             radioStations.findByTitle('Chilis - IFC Qatar - Retail Music International').isPresent()
         and:
             radioStationStreams.findByUrl('http://162.252.85.85:7548').isPresent()
+        and:
+            radioStationStreams.findByUrl('http://162.252.85.85:7547').isPresent()
     }
 
     private static InputStreamSource readClasspathResource() {
