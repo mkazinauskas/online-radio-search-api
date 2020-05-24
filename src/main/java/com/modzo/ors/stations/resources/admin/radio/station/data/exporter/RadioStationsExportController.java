@@ -20,7 +20,7 @@ class RadioStationsExportController {
 
     @GetMapping("/admin/radio-stations/exporter")
     ResponseEntity<Resource> radioStationsExport(Pageable pageable) {
-        Resource resource = null; //exporterService.export(pageable);
+        Resource resource = exporterService.export(pageable);
 
         HttpHeaders header = new HttpHeaders();
         header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName(pageable));
@@ -30,7 +30,7 @@ class RadioStationsExportController {
 
         return ResponseEntity.ok()
                 .headers(header)
-                .contentLength(Sneaky.sneak(resource::getFile).length())
+                .contentLength(Sneaky.sneak(resource::contentLength))
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
     }

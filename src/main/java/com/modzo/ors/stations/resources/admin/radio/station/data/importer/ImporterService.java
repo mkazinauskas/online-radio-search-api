@@ -47,22 +47,22 @@ class ImporterService {
         );
         if (existingStation.isPresent()) {
             logger.warn("Radio station name `{}` already exists. Skipping creation.", entry.getRadioStationName());
-            createStream(existingStation.get().getId(), entry.getStreamUrl());
+            createStreamUrls(existingStation.get().getId(), entry.getStreamUrl());
         } else {
             CreateRadioStation.Result result = createRadioStationHandler.handle(
                     new CreateRadioStation(entry.getRadioStationName())
             );
-            createStream(result.id, entry.getStreamUrl());
+            createStreamUrls(result.id, entry.getStreamUrl());
         }
     }
 
-    private void createStream(Long id, String streamUrl) {
-        if (findRadioStationStreamByUrlHandler.handle(new FindRadioStationStreamByUrl(streamUrl)).isPresent()) {
-            logger.warn("Stream url `{}` already exists. Skipping creation.", streamUrl);
+    private void createStreamUrls(Long id, String streamUrls) {
+        if (findRadioStationStreamByUrlHandler.handle(new FindRadioStationStreamByUrl(streamUrls)).isPresent()) {
+            logger.warn("Stream url `{}` already exists. Skipping creation.", streamUrls);
             return;
         }
 
-        createRadioStationStreamHandler.handle(new CreateRadioStationStream(id, streamUrl));
+        createRadioStationStreamHandler.handle(new CreateRadioStationStream(id, streamUrls));
     }
 
 }

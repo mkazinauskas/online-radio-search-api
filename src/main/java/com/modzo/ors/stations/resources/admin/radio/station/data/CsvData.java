@@ -9,6 +9,11 @@ public class CsvData {
     public CsvData() {
     }
 
+    public CsvData(String radioStationName, String streamUrl) {
+        this.radioStationName = radioStationName;
+        this.streamUrl = streamUrl;
+    }
+
     public String getRadioStationName() {
         return radioStationName;
     }
