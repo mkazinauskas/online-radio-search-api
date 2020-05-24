@@ -13,7 +13,6 @@ class RadioStationsImportController {
 
     private final ImporterService importerService;
 
-
     RadioStationsImportController(ImporterService importerService) {
         this.importerService = importerService;
     }
