@@ -1,7 +1,9 @@
 package com.modzo.ors.stations.resources.admin.radio.station.importer;
 
 class ImportEntry {
+
     private String radioStationName;
+
     private String streamUrl;
 
     public ImportEntry() {
