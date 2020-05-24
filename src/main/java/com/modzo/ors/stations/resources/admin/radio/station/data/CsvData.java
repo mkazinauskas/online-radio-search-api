@@ -1,12 +1,12 @@
-package com.modzo.ors.stations.resources.admin.radio.station.importer;
+package com.modzo.ors.stations.resources.admin.radio.station.data;
 
-class ImportEntry {
+public class CsvData {
 
     private String radioStationName;
 
     private String streamUrl;
 
-    public ImportEntry() {
+    public CsvData() {
     }
 
     public String getRadioStationName() {
