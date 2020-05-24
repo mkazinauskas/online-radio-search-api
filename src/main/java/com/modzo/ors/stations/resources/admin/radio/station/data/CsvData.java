@@ -4,14 +4,14 @@ public class CsvData {
 
     private String radioStationName;
 
-    private String streamUrl;
+    private String streamUrls;
 
     public CsvData() {
     }
 
-    public CsvData(String radioStationName, String streamUrl) {
+    public CsvData(String radioStationName, String streamUrls) {
         this.radioStationName = radioStationName;
-        this.streamUrl = streamUrl;
+        this.streamUrls = streamUrls;
     }
 
     public String getRadioStationName() {
@@ -22,11 +22,11 @@ public class CsvData {
         this.radioStationName = radioStationName;
     }
 
-    public String getStreamUrl() {
-        return streamUrl;
+    public String getStreamUrls() {
+        return streamUrls;
     }
 
-    public void setStreamUrl(String streamUrl) {
-        this.streamUrl = streamUrl;
+    public void setStreamUrls(String streamUrls) {
+        this.streamUrls = streamUrls;
     }
 }

@@ -48,12 +48,12 @@ class ImporterService {
         );
         if (existingStation.isPresent()) {
             logger.warn("Radio station name `{}` already exists. Skipping creation.", entry.getRadioStationName());
-            createStreamUrls(existingStation.get().getId(), entry.getStreamUrl());
+            createStreamUrls(existingStation.get().getId(), entry.getStreamUrls());
         } else {
             CreateRadioStation.Result result = createRadioStationHandler.handle(
                     new CreateRadioStation(entry.getRadioStationName())
             );
-            createStreamUrls(result.id, entry.getStreamUrl());
+            createStreamUrls(result.id, entry.getStreamUrls());
         }
     }
 

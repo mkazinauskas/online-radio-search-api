@@ -17,7 +17,7 @@ class CsvMapperConfigurationSpec extends Specification {
     @Unroll
     void 'should read created csv file'() {
         given:
-            CsvData data = new CsvData(radioStationName: radioStationName, streamUrl: streamUrl)
+            CsvData data = new CsvData(radioStationName: radioStationName, streamUrls: streamUrl)
             ByteArrayOutputStream output = new ByteArrayOutputStream()
         when:
             WRITER.writeValue(output, [data])
@@ -29,7 +29,7 @@ class CsvMapperConfigurationSpec extends Specification {
             result.size() == 1
             with(result.first()) { entry ->
                 entry.radioStationName == radioStationName
-                entry.streamUrl == streamUrl
+                entry.streamUrls == streamUrl
             }
         where:
             radioStationName            | streamUrl

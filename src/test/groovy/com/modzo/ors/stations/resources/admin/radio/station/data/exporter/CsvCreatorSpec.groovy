@@ -10,8 +10,8 @@ class CsvCreatorSpec extends Specification {
     void 'should create csv from data'() {
         given:
             List<CsvData> data = [
-                    new CsvData(radioStationName: 'first name', streamUrl: 'http://someurl'),
-                    new CsvData(radioStationName: 'first, name', streamUrl: 'http://someurl.com?:,'),
+                    new CsvData(radioStationName: 'first name', streamUrls: 'http://someurl'),
+                    new CsvData(radioStationName: 'first, name', streamUrls: 'http://someurl.com?:,'),
             ]
         when:
             String result = new String(testTarget.write(data))

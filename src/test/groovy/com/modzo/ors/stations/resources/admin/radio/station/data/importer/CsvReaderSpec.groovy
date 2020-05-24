@@ -22,7 +22,7 @@ class CsvReaderSpec extends Specification {
             result.size() == 1
             with(result.first()) {
                 radioStationName == 'Chilis - IFC Qatar - Retail Music International'
-                streamUrl == 'http://162.252.85.85:7548'
+                streamUrls == 'http://162.252.85.85:7548'
             }
     }
 
@@ -35,7 +35,7 @@ class CsvReaderSpec extends Specification {
             result.size() == 1
             with(result.first()) {
                 radioStationName == null
-                streamUrl == 'http://162.252.85.85:3000'
+                streamUrls == 'http://162.252.85.85:3000'
             }
     }
 
