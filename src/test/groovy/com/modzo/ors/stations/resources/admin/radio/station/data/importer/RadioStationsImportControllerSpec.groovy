@@ -1,4 +1,4 @@
-package com.modzo.ors.stations.resources.admin.radio.station.importer
+package com.modzo.ors.stations.resources.admin.radio.station.data.importer
 
 import com.modzo.ors.HttpEntityBuilder
 import com.modzo.ors.TestUsers
@@ -37,6 +37,8 @@ class RadioStationsImportControllerSpec extends IntegrationSpec {
             radioStations.findByTitle('Chilis - IFC Qatar - Retail Music International').isPresent()
         and:
             radioStationStreams.findByUrl('http://162.252.85.85:7548').isPresent()
+        and:
+            radioStationStreams.findByUrl('http://162.252.85.85:7547').isPresent()
     }
 
     private static InputStreamSource readClasspathResource() {

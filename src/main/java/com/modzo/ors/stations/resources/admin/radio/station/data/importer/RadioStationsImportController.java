@@ -1,4 +1,4 @@
-package com.modzo.ors.stations.resources.admin.radio.station.importer;
+package com.modzo.ors.stations.resources.admin.radio.station.data.importer;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +12,6 @@ import static org.springframework.http.ResponseEntity.ok;
 class RadioStationsImportController {
 
     private final ImporterService importerService;
-
 
     RadioStationsImportController(ImporterService importerService) {
         this.importerService = importerService;
