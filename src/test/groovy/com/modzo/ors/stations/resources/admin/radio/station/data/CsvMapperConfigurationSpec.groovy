@@ -9,10 +9,10 @@ import spock.lang.Unroll
 class CsvMapperConfigurationSpec extends Specification {
 
     @Shared
-    ObjectWriter WRITER = CsvMapperConfiguration.constructWriter()
+    ObjectWriter writer = CsvMapperConfiguration.constructWriter()
 
     @Shared
-    ObjectReader READER = CsvMapperConfiguration.constructReader()
+    ObjectReader reader = CsvMapperConfiguration.constructReader()
 
     @Unroll
     void 'should read created csv file'() {
@@ -20,11 +20,11 @@ class CsvMapperConfigurationSpec extends Specification {
             CsvData data = new CsvData(radioStationName: radioStationName, streamUrls: streamUrl)
             ByteArrayOutputStream output = new ByteArrayOutputStream()
         when:
-            WRITER.writeValue(output, [data])
+            writer.writeValue(output, [data])
         then:
             output.toByteArray().length > 0
         when:
-            List<CsvData> result = READER.readValues(output.toByteArray()).readAll()
+            List<CsvData> result = reader.readValues(output.toByteArray()).readAll()
         then:
             result.size() == 1
             with(result.first()) { entry ->

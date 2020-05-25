@@ -20,13 +20,13 @@ class RadioStationsExportController {
 
     @GetMapping("/admin/radio-stations/exporter")
     ResponseEntity<Resource> radioStationsExport(Pageable pageable) {
-        Resource resource = exporterService.export(pageable);
-
         HttpHeaders header = new HttpHeaders();
         header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName(pageable));
         header.add("Cache-Control", "no-cache, no-store, must-revalidate");
         header.add("Pragma", "no-cache");
         header.add("Expires", "0");
+
+        Resource resource = exporterService.export(pageable);
 
         return ResponseEntity.ok()
                 .headers(header)
