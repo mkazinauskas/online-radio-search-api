@@ -16,7 +16,9 @@ class CsvCreatorSpec extends Specification {
         when:
             String result = new String(testTarget.write(data))
         then:
-            result == 'radioStationName,streamUrls\n"first name",http://someurl\n"first, name","http://someurl.com?:,"\n'
+            result == 'radioStationName,streamUrls' +
+                    '\n"first name",http://someurl' +
+                    '\n"first, name","http://someurl.com?:,"\n'
     }
 
 }
