@@ -19,7 +19,7 @@ class RadioStationsImportControllerSpec extends IntegrationSpec {
     void 'admin should import radio stations from file'() {
         given:
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>()
-            body.add('file', readClasspathResource())
+            body.add('file', readClasspathResource('radio-stations'))
         when:
             ResponseEntity<String> response = restTemplate.exchange(
                     '/admin/radio-stations/importer',
@@ -41,7 +41,26 @@ class RadioStationsImportControllerSpec extends IntegrationSpec {
             radioStationStreams.findByUrl('http://162.252.85.85:7547').isPresent()
     }
 
-    private static InputStreamSource readClasspathResource() {
-        return new ClassPathResource('/radio-stations-importer/radio-stations.csv')
+    void 'admin should import radio stations from file with title longer that 100 symbols'() {
+        given:
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>()
+            body.add('file', readClasspathResource('radio-stations-too-long-title'))
+        when:
+            ResponseEntity<String> response = restTemplate.exchange(
+                    '/admin/radio-stations/importer',
+                    POST,
+                    HttpEntityBuilder.builder()
+                            .bearer(token(TestUsers.ADMIN))
+                            .header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE)
+                            .body(body)
+                            .build(),
+                    String
+            )
+        then:
+            response.statusCode == OK
+    }
+
+    private static InputStreamSource readClasspathResource(String name) {
+        return new ClassPathResource("/radio-stations-importer/${name}.csv")
     }
 }
