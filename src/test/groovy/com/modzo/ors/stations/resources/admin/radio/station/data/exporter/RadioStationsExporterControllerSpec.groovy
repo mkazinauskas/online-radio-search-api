@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 
+import static org.junit.platform.commons.util.StringUtils.isNotBlank
 import static org.springframework.http.HttpStatus.OK
 
 class RadioStationsExporterControllerSpec extends IntegrationSpec {
@@ -34,8 +35,10 @@ class RadioStationsExporterControllerSpec extends IntegrationSpec {
             data.size() == 1
             with(data.first()) {
                 radioStations.findByTitle(radioStationName).isPresent()
-                streamUrls?.split('\\|')?.each { url ->
-                    assert radioStationStreams.findByUrl(url).isPresent()
+                if (isNotBlank(streamUrls)) {
+                    streamUrls.split('\\|').each { url ->
+                        assert radioStationStreams.findByUrl(url).isPresent()
+                    }
                 }
             }
     }
