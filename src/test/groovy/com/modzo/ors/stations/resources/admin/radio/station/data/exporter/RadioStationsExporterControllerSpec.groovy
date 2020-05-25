@@ -34,7 +34,7 @@ class RadioStationsExporterControllerSpec extends IntegrationSpec {
             data.size() == 1
             with(data.first()) {
                 radioStations.findByTitle(radioStationName).isPresent()
-                streamUrls.split('\\|').each { url ->
+                streamUrls?.split('\\|')?.each { url ->
                     assert radioStationStreams.findByUrl(url).isPresent()
                 }
             }
