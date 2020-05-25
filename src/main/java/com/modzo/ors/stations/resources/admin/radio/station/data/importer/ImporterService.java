@@ -6,6 +6,7 @@ import com.modzo.ors.stations.domain.radio.station.commands.FindRadioStationByTi
 import com.modzo.ors.stations.domain.radio.station.stream.commands.CreateRadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.FindRadioStationStreamByUrl;
 import com.modzo.ors.stations.resources.admin.radio.station.data.CsvData;
+import liquibase.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -43,15 +44,17 @@ class ImporterService {
     }
 
     private void doImport(CsvData entry) {
+        String radioStationName = StringUtils.substring(entry.getRadioStationName(), 0, 99);
+
         Optional<RadioStation> existingStation = findRadioStationByTitleHandler.handle(
-                new FindRadioStationByTitle(entry.getRadioStationName())
+                new FindRadioStationByTitle(radioStationName)
         );
         if (existingStation.isPresent()) {
-            logger.warn("Radio station name `{}` already exists. Skipping creation.", entry.getRadioStationName());
+            logger.warn("Radio station name `{}` already exists. Skipping creation.", radioStationName);
             createStreamUrls(existingStation.get().getId(), entry.getStreamUrls());
         } else {
             CreateRadioStation.Result result = createRadioStationHandler.handle(
-                    new CreateRadioStation(entry.getRadioStationName())
+                    new CreateRadioStation(radioStationName)
             );
             createStreamUrls(result.id, entry.getStreamUrls());
         }
