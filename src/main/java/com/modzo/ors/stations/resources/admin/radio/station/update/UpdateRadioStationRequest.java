@@ -27,7 +27,6 @@ public class UpdateRadioStationRequest {
     @NotBlank
     private String title;
 
-    @NotBlank
     @URL
     private String website;
 
