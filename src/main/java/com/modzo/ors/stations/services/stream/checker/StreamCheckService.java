@@ -21,14 +21,18 @@ public class StreamCheckService {
 
     private final WebPageReader webPageReader;
 
+    private final RadioStationStatusUpdater radioStationStatusUpdater;
+
     StreamCheckService(GetRadioStationStream.Handler getRadioStationStreamHandler,
                        UpdateRadioStationStream.Handler updateRadioStationStreamHandler,
                        UpdateRadioStationStreamCheckedTime.Handler updateStreamCheckedTimeHandler,
-                       WebPageReader webPageReader) {
+                       WebPageReader webPageReader,
+                       RadioStationStatusUpdater radioStationStatusUpdater) {
         this.getRadioStationStreamHandler = getRadioStationStreamHandler;
         this.updateRadioStationStreamHandler = updateRadioStationStreamHandler;
         this.updateStreamCheckedTimeHandler = updateStreamCheckedTimeHandler;
         this.webPageReader = webPageReader;
+        this.radioStationStatusUpdater = radioStationStatusUpdater;
     }
 
     public void checkIfStreamWorks(long radioStationId, long streamId) {
@@ -51,6 +55,7 @@ public class StreamCheckService {
                 this.updateStream(stream, false);
             }
         }
+        this.radioStationStatusUpdater.update(stream);
     }
 
     private void updateSongCheckedTime(RadioStationStream stream) {

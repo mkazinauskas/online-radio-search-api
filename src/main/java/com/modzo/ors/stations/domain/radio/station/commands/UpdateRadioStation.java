@@ -108,6 +108,19 @@ public class UpdateRadioStation {
 
         private Set<Data.Genre> genres;
 
+        public DataBuilder fromCurrent(RadioStation radioStation) {
+            setTitle(radioStation.getTitle());
+            setWebsite(radioStation.getWebsite());
+            setEnabled(radioStation.isEnabled());
+
+            Set<UpdateRadioStation.Data.Genre> genres = radioStation.getGenres().stream()
+                    .map(genre -> new UpdateRadioStation.Data.Genre(genre.getId()))
+                    .collect(Collectors.toSet());
+            this.setGenres(genres);
+
+            return this;
+        }
+
         public DataBuilder setTitle(String title) {
             this.title = title;
             return this;
