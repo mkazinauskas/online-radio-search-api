@@ -9,6 +9,9 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
+import static com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream.Type.UNKNOWN;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class UpdateRadioStationStream {
@@ -130,11 +133,15 @@ public class UpdateRadioStationStream {
         @Transactional
         public void handle(UpdateRadioStationStream command) {
             validator.validate(command);
+
+            RadioStationStream.Type type = Optional.ofNullable(command.data.type)
+                    .orElse(UNKNOWN);
+
             RadioStationStream stream = radioStationStreams
                     .findByRadioStation_IdAndId(command.radioStationId, command.streamId).get();
 
             stream.setBitRate(command.data.bitRate);
-            stream.setType(command.data.type);
+            stream.setType(type);
             stream.setUrl(command.data.url);
             stream.setWorking(command.data.working);
             String radioStationUniqueId = radioStations.getOne(command.radioStationId).getUniqueId();
@@ -147,7 +154,7 @@ public class UpdateRadioStationStream {
                                     radioStationUniqueId,
                                     command.data.url,
                                     command.data.bitRate,
-                                    command.data.type.name(),
+                                    type.name(),
                                     command.data.working
                             )
                     )

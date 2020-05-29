@@ -52,4 +52,33 @@ class UpdateRadioStationControllerSpec extends IntegrationSpec {
             }
     }
 
+    void 'admin should update radio station with minimal data'() {
+        given:
+            RadioStation radioStation = testRadioStation.create()
+        and:
+            UpdateRadioStationRequest request = new UpdateRadioStationRequest(
+                    title: randomAlphanumeric(100),
+                    enabled: true
+            )
+        when:
+            ResponseEntity<String> response = restTemplate.exchange(
+                    "/admin/radio-stations/${radioStation.id}",
+                    PATCH,
+                    HttpEntityBuilder.builder()
+                            .bearer(token(TestUsers.ADMIN))
+                            .body(request)
+                            .build(),
+                    String
+            )
+        then:
+            response.statusCode == ACCEPTED
+        then:
+            with(radioStations.findById(radioStation.id).get()) {
+                title == request.title
+                website == null
+                enabled == request.enabled
+                genres.size() == 0
+            }
+    }
+
 }
