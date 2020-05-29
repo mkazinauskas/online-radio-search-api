@@ -21,7 +21,6 @@ abstract class StreamUrlGenerator {
 
     List<String> generateUrls(String url) {
         List<String> generatedUrls = new ArrayList<>();
-        generatedUrls.add(url);
         generatedUrls.addAll(urlsWithAppendedEndings(url));
         generatedUrls.addAll(urlsWithReplacedPathsToEndings(url));
         return generatedUrls;
