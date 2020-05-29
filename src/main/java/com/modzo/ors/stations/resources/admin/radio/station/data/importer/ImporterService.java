@@ -13,7 +13,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+
+import static java.util.stream.Collectors.toList;
 
 @Component
 class ImporterService {
@@ -46,23 +49,37 @@ class ImporterService {
     private void doImport(CsvData entry) {
         String radioStationName = StringUtils.substring(entry.getRadioStationName(), 0, 99);
 
+        List<String> streamUrls = toUrls(entry.getStreamUrls());
+        if (streamUrls.isEmpty()) {
+            logger.warn(
+                    "Radio station name `{}` does not have importable streams. Skipping creation.",
+                    radioStationName
+            );
+            return;
+        }
+
         Optional<RadioStation> existingStation = findRadioStationByTitleHandler.handle(
                 new FindRadioStationByTitle(radioStationName)
         );
         if (existingStation.isPresent()) {
             logger.warn("Radio station name `{}` already exists. Skipping creation.", radioStationName);
-            createStreamUrls(existingStation.get().getId(), entry.getStreamUrls());
+            createStreamUrls(existingStation.get().getId(), streamUrls);
         } else {
             CreateRadioStation.Result result = createRadioStationHandler.handle(
                     new CreateRadioStation(radioStationName)
             );
-            createStreamUrls(result.id, entry.getStreamUrls());
+            createStreamUrls(result.id, streamUrls);
         }
     }
 
-    private void createStreamUrls(Long id, String streamUrls) {
-        String[] urls = streamUrls.split("\\|");
-        Arrays.stream(urls).forEach(url -> createStreamUrl(id, url));
+    private List<String> toUrls(String streamUrls) {
+        return Arrays.stream(streamUrls.split("\\|"))
+                .filter(url -> url.length() <= 100)
+                .collect(toList());
+    }
+
+    private void createStreamUrls(Long id, List<String> streamUrls) {
+        streamUrls.forEach(url -> createStreamUrl(id, url));
     }
 
     private void createStreamUrl(Long id, String streamUrl) {

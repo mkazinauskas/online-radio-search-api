@@ -108,6 +108,10 @@ public class CreateRadioStationStream {
                 throw new DomainException("FIELD_URL_NOT_VALID", "Field url is not valid");
             }
 
+            if (StringUtils.length(command.url) > 100) {
+                throw new DomainException("FIELD_URL_TOO_LONG", "Field url cannot be longer than 100 characters");
+            }
+
             Optional<RadioStationStream> existing = radioStationStreams.findByRadioStation_IdAndUrl(
                     command.radioStationId,
                     command.url
