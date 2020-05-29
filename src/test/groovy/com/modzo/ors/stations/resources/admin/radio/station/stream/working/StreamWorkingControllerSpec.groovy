@@ -1,6 +1,7 @@
 package com.modzo.ors.stations.resources.admin.radio.station.stream.working
 
 import com.modzo.ors.HttpEntityBuilder
+import com.modzo.ors.stations.domain.radio.station.commands.GetRadioStation
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
 import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStream
 import com.modzo.ors.stations.domain.song.commands.GetSong
@@ -18,6 +19,9 @@ class StreamWorkingControllerSpec extends IntegrationSpec {
 
     @Autowired
     GetRadioStationStream.Handler radioStationStreamHandler
+
+    @Autowired
+    GetRadioStation.Handler radioStationHandler
 
     @Autowired
     GetSong.Handler getSongHandler
@@ -46,6 +50,8 @@ class StreamWorkingControllerSpec extends IntegrationSpec {
             )
             updatedStream.working
             updatedStream.checked
+        and:
+            radioStationHandler.handle(new GetRadioStation(stream.radioStationId)).enabled
         where:
             type << [
                     'audio/mp3',
@@ -77,6 +83,8 @@ class StreamWorkingControllerSpec extends IntegrationSpec {
             )
             !updatedStream.working
             updatedStream.checked
+        and:
+            !radioStationHandler.handle(new GetRadioStation(stream.radioStationId)).enabled
         where:
             type << [
                     'text/html',
@@ -107,6 +115,8 @@ class StreamWorkingControllerSpec extends IntegrationSpec {
             )
             !updatedStream.working
             updatedStream.checked
+        and:
+            !radioStationHandler.handle(new GetRadioStation(stream.radioStationId)).enabled
     }
 
     private void serverResponseExist(String url, String type) {
