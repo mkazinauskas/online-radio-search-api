@@ -21,16 +21,7 @@ class RadioStationsImportControllerSpec extends IntegrationSpec {
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>()
             body.add('file', readClasspathResource('radio-stations'))
         when:
-            ResponseEntity<String> response = restTemplate.exchange(
-                    '/admin/radio-stations/importer',
-                    POST,
-                    HttpEntityBuilder.builder()
-                            .bearer(token(TestUsers.ADMIN))
-                            .header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE)
-                            .body(body)
-                            .build(),
-                    String
-            )
+            ResponseEntity<String> response = doImport(body)
         then:
             response.statusCode == OK
         and:
@@ -46,18 +37,48 @@ class RadioStationsImportControllerSpec extends IntegrationSpec {
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>()
             body.add('file', readClasspathResource('radio-stations-too-long-title'))
         when:
-            ResponseEntity<String> response = restTemplate.exchange(
-                    '/admin/radio-stations/importer',
-                    POST,
-                    HttpEntityBuilder.builder()
-                            .bearer(token(TestUsers.ADMIN))
-                            .header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE)
-                            .body(body)
-                            .build(),
-                    String
-            )
+            ResponseEntity<String> response = doImport(body)
         then:
             response.statusCode == OK
+    }
+
+    void 'admin should skip import of radio stations from file with url longer that 100 symbols'() {
+        given:
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>()
+            body.add('file', readClasspathResource('radio-stations-too-long-url'))
+        when:
+            ResponseEntity<String> response = doImport(body)
+        then:
+            response.statusCode == OK
+        and:
+            radioStations.findByTitle('Simple Radio station 3500').isEmpty()
+    }
+
+    void 'admin should skip import of radio station url which is too long'() {
+        given:
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>()
+            body.add('file', readClasspathResource('radio-stations-one-too-long-url'))
+        when:
+            ResponseEntity<String> response = doImport(body)
+        then:
+            response.statusCode == OK
+        and:
+            radioStations.findByTitle('Simple Radio station 2001').isPresent()
+        and:
+            radioStationStreams.findByUrl('http://162.252.85.85:9876').isPresent()
+    }
+
+    private ResponseEntity<String> doImport(LinkedMultiValueMap<String, Object> body) {
+        restTemplate.exchange(
+                '/admin/radio-stations/importer',
+                POST,
+                HttpEntityBuilder.builder()
+                        .bearer(token(TestUsers.ADMIN))
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE)
+                        .body(body)
+                        .build(),
+                String
+        )
     }
 
     private static InputStreamSource readClasspathResource(String name) {

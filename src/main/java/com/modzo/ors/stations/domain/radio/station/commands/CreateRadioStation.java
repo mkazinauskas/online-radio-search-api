@@ -4,6 +4,7 @@ import com.modzo.ors.events.domain.RadioStationCreated;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,6 +68,9 @@ public class CreateRadioStation {
         void validate(CreateRadioStation command) {
             if (isBlank(command.title)) {
                 throw new DomainException("FIELD_TITLE_NOT_BLANK", "Field title cannot be blank");
+            }
+            if (StringUtils.length(command.title) > 100) {
+                throw new DomainException("FIELD_TITLE_TOO_LONG", "Field title cannot be longer than 100 characters");
             }
         }
     }
