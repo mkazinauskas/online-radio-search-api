@@ -5,6 +5,8 @@ import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStati
 import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateRadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateRadioStationStreamCheckedTime;
 import com.modzo.ors.stations.services.stream.WebPageReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
@@ -12,6 +14,8 @@ import java.util.Optional;
 
 @Component
 public class StreamCheckService {
+
+    private static final Logger log = LoggerFactory.getLogger(StreamCheckService.class);
 
     private final GetRadioStationStream.Handler getRadioStationStreamHandler;
 
@@ -36,6 +40,8 @@ public class StreamCheckService {
     }
 
     public void checkIfStreamWorks(long radioStationId, long streamId) {
+        log.info("Checking if radio station `{}` and stream `{}` is working", radioStationId, streamId);
+
         RadioStationStream stream = getRadioStationStreamHandler.handle(
                 new GetRadioStationStream(radioStationId, streamId)
         );
