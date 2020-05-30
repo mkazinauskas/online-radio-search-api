@@ -44,3 +44,4 @@ application:
   events.processor.enabled: false
   songs.updater.scheduler.enabled: false
   info.updater.scheduler.enabled: false
+  stream.checker.scheduler.enabled: false
