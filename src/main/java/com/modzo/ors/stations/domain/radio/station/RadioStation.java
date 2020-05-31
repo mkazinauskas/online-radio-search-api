@@ -129,8 +129,6 @@ public class RadioStation {
             radioStation = new RadioStation();
             radioStation.uniqueId = null;
             radioStation.created = null;
-            radioStation.genres = null;
-            radioStation.songs = null;
         }
 
         public ExampleBuilder withId(Long id) {
