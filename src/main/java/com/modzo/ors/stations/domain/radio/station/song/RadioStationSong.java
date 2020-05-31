@@ -10,7 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
 import java.time.ZonedDateTime;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -109,5 +108,6 @@ public class RadioStationSong {
     public void setPlayedTime(ZonedDateTime playedTime) {
         this.playedTime = playedTime;
     }
+
 }
 

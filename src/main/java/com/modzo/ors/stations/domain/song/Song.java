@@ -1,5 +1,8 @@
 package com.modzo.ors.stations.domain.song;
 
+import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong;
+import org.springframework.data.domain.Example;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -59,5 +62,25 @@ public class Song {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public static class ExampleBuilder {
+
+        private final Song song;
+
+        public ExampleBuilder() {
+            song = new Song();
+            song.uniqueId = null;
+            song.created = null;
+        }
+
+        public Song.ExampleBuilder withId(Long id) {
+            this.song.id = id;
+            return this;
+        }
+
+        public Example<Song> build() {
+            return Example.of(song);
+        }
     }
 }
