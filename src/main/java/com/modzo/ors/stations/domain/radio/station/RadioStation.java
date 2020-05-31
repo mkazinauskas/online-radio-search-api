@@ -2,6 +2,8 @@ package com.modzo.ors.stations.domain.radio.station;
 
 import com.modzo.ors.stations.domain.radio.station.genre.Genre;
 import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,6 +26,9 @@ import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.SEQUENCE;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.contains;
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.exact;
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.startsWith;
 
 @Entity
 @Table(name = "radio_stations")
@@ -115,4 +120,50 @@ public class RadioStation {
     public void setSongs(List<RadioStationSong> songs) {
         this.songs = songs;
     }
+
+    public static class ExampleBuilder {
+
+        private final RadioStation radioStation;
+
+        public ExampleBuilder() {
+            radioStation = new RadioStation();
+            radioStation.uniqueId = null;
+            radioStation.created = null;
+            radioStation.genres = null;
+            radioStation.songs = null;
+        }
+
+        public ExampleBuilder withId(Long id) {
+            this.radioStation.id = id;
+            return this;
+        }
+
+        public ExampleBuilder withUniqueId(String uniqueId) {
+            this.radioStation.uniqueId = uniqueId;
+            return this;
+        }
+
+        public ExampleBuilder withEnabled(Boolean enabled) {
+            if (enabled != null) {
+                this.radioStation.enabled = enabled;
+            }
+            return this;
+        }
+
+        public ExampleBuilder withTitle(String title) {
+            this.radioStation.title = title;
+            return this;
+        }
+
+        public Example<RadioStation> build() {
+            ExampleMatcher exampleMatcher = ExampleMatcher.matching()
+                    .withMatcher("id", exact())
+                    .withMatcher("uniqueId", exact())
+                    .withMatcher("enabled", exact())
+                    .withMatcher("title", contains()
+                    );
+            return Example.of(radioStation, exampleMatcher);
+        }
+    }
+
 }

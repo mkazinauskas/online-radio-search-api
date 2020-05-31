@@ -48,6 +48,40 @@ class RadioStationControllerSpec extends IntegrationSpec {
             }
     }
 
+    void 'anyone should retrieve filtered radio stations'() {
+        given:
+            RadioStation radioStation = testRadioStation.create()
+        and:
+            String filter = toRequestParams([
+                    'id'      : radioStation.id,
+                    'uniqueId': radioStation.uniqueId,
+                    'enabled' : radioStation.enabled,
+                    'title'   : radioStation.title
+            ])
+        when:
+            ResponseEntity<RadioStationsModel> result = restTemplate.exchange(
+                    "/radio-stations?${filter}",
+                    GET,
+                    HttpEntityBuilder.builder()
+                            .build(),
+                    RadioStationsModel
+            )
+        then:
+            result.statusCode == OK
+        and:
+            with(result.body) {
+                it.getMetadata().totalElements == 1
+                with(it.content.first()) {
+                    with(it.content) {
+                        it.id == radioStation.id
+                        it.uniqueId == radioStation.uniqueId
+                        it.enabled == radioStation.enabled
+                        it.title == radioStation.title
+                    }
+                }
+            }
+    }
+
     void 'anyone should retrieve radio station'() {
         given:
             Genre genre = testGenre.create()
@@ -85,5 +119,11 @@ class RadioStationControllerSpec extends IntegrationSpec {
                     it.href.endsWith(url)
                 }
             }
+    }
+
+    private static String toRequestParams(Map<String, Object> params) {
+        return params
+                .collect { entry -> "${entry.key}=${entry.value}" }
+                .join('&')
     }
 }

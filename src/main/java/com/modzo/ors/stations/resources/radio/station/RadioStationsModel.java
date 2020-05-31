@@ -21,7 +21,9 @@ class RadioStationsModel extends PagedModel<RadioStationModel> {
         super(content, metadata, links);
     }
 
-    static RadioStationsModel create(Page<RadioStation> radioStations, Pageable pageable) {
+    static RadioStationsModel create(RadioStationsFilter filter,
+                                     Page<RadioStation> radioStations,
+                                     Pageable pageable) {
         PageMetadata pageMetadata = new PageMetadata(
                 radioStations.getSize(),
                 radioStations.getNumber(),
@@ -34,7 +36,7 @@ class RadioStationsModel extends PagedModel<RadioStationModel> {
                 .collect(toList());
 
         Link link = linkTo(methodOn(RadioStationController.class)
-                .getRadioStations(pageable)).withSelfRel();
+                .getRadioStations(filter, pageable)).withSelfRel();
 
         return new RadioStationsModel(
                 resources,
@@ -43,7 +45,7 @@ class RadioStationsModel extends PagedModel<RadioStationModel> {
         );
     }
 
-    static RadioStationsModel create(Page<RadioStation> radioStations, long songId, Pageable pageable) {
+    static RadioStationsModel createForSongId(long songId, Page<RadioStation> radioStations, Pageable pageable) {
         PageMetadata pageMetadata = new PageMetadata(
                 radioStations.getSize(),
                 radioStations.getNumber(),
@@ -57,6 +59,28 @@ class RadioStationsModel extends PagedModel<RadioStationModel> {
 
         Link link = linkTo(methodOn(RadioStationController.class)
                 .getRadioStationBySongId(songId, pageable)).withSelfRel();
+
+        return new RadioStationsModel(
+                resources,
+                pageMetadata,
+                link
+        );
+    }
+
+    static RadioStationsModel createForGenreId(long genreId, Page<RadioStation> radioStations, Pageable pageable) {
+        PageMetadata pageMetadata = new PageMetadata(
+                radioStations.getSize(),
+                radioStations.getNumber(),
+                radioStations.getTotalElements(),
+                radioStations.getTotalPages()
+        );
+        Collection<RadioStationModel> resources = radioStations.getContent()
+                .stream()
+                .map(RadioStationModel::create)
+                .collect(toList());
+
+        Link link = linkTo(methodOn(RadioStationController.class)
+                .getRadioStationBySongId(genreId, pageable)).withSelfRel();
 
         return new RadioStationsModel(
                 resources,
