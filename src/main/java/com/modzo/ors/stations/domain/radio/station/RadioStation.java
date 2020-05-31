@@ -121,47 +121,4 @@ public class RadioStation {
         this.songs = songs;
     }
 
-    public static class ExampleBuilder {
-
-        private final RadioStation radioStation;
-
-        public ExampleBuilder() {
-            radioStation = new RadioStation();
-            radioStation.uniqueId = null;
-            radioStation.created = null;
-        }
-
-        public ExampleBuilder withId(Long id) {
-            this.radioStation.id = id;
-            return this;
-        }
-
-        public ExampleBuilder withUniqueId(String uniqueId) {
-            this.radioStation.uniqueId = uniqueId;
-            return this;
-        }
-
-        public ExampleBuilder withEnabled(Boolean enabled) {
-            if (enabled != null) {
-                this.radioStation.enabled = enabled;
-            }
-            return this;
-        }
-
-        public ExampleBuilder withTitle(String title) {
-            this.radioStation.title = title;
-            return this;
-        }
-
-        public Example<RadioStation> build() {
-            ExampleMatcher exampleMatcher = ExampleMatcher.matching()
-                    .withMatcher("id", exact())
-                    .withMatcher("uniqueId", exact())
-                    .withMatcher("enabled", exact())
-                    .withMatcher("title", contains()
-                    );
-            return Example.of(radioStation, exampleMatcher);
-        }
-    }
-
 }

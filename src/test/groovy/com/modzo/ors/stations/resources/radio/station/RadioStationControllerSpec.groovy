@@ -3,6 +3,7 @@ package com.modzo.ors.stations.resources.radio.station
 import com.modzo.ors.HttpEntityBuilder
 import com.modzo.ors.stations.domain.radio.station.RadioStation
 import com.modzo.ors.stations.domain.radio.station.genre.Genre
+import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
 
@@ -57,6 +58,72 @@ class RadioStationControllerSpec extends IntegrationSpec {
                     'uniqueId': radioStation.uniqueId,
                     'enabled' : radioStation.enabled,
                     'title'   : radioStation.title
+            ])
+        when:
+            ResponseEntity<RadioStationsModel> result = restTemplate.exchange(
+                    "/radio-stations?${filter}",
+                    GET,
+                    HttpEntityBuilder.builder()
+                            .build(),
+                    RadioStationsModel
+            )
+        then:
+            result.statusCode == OK
+        and:
+            with(result.body) {
+                it.getMetadata().totalElements == 1
+                with(it.content.first()) {
+                    with(it.content) {
+                        it.id == radioStation.id
+                        it.uniqueId == radioStation.uniqueId
+                        it.enabled == radioStation.enabled
+                        it.title == radioStation.title
+                    }
+                }
+            }
+    }
+
+    void 'anyone should retrieve filtered radio stations by song id'() {
+        given:
+            RadioStation radioStation = testRadioStation.create()
+        and:
+            RadioStationSong radioStationSong = testRadioStationSong.create(radioStation.id)
+        and:
+            String filter = toRequestParams([
+                    'songId': radioStationSong.songId,
+            ])
+        when:
+            ResponseEntity<RadioStationsModel> result = restTemplate.exchange(
+                    "/radio-stations?${filter}",
+                    GET,
+                    HttpEntityBuilder.builder()
+                            .build(),
+                    RadioStationsModel
+            )
+        then:
+            result.statusCode == OK
+        and:
+            with(result.body) {
+                it.getMetadata().totalElements == 1
+                with(it.content.first()) {
+                    with(it.content) {
+                        it.id == radioStation.id
+                        it.uniqueId == radioStation.uniqueId
+                        it.enabled == radioStation.enabled
+                        it.title == radioStation.title
+                    }
+                }
+            }
+    }
+
+    void 'anyone should retrieve filtered radio stations by genre id'() {
+        given:
+            Genre genre = testGenre.create()
+        and:
+            RadioStation radioStation = testRadioStation.create(genre)
+        and:
+            String filter = toRequestParams([
+                    'genreId': genre.id,
             ])
         when:
             ResponseEntity<RadioStationsModel> result = restTemplate.exchange(

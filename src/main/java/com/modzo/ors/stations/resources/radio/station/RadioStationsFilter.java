@@ -10,6 +10,10 @@ public class RadioStationsFilter {
 
     private String title;
 
+    private Long songId;
+
+    private Long genreId;
+
     public RadioStationsFilter() {
     }
 
@@ -43,5 +47,21 @@ public class RadioStationsFilter {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Long getSongId() {
+        return songId;
+    }
+
+    public void setSongId(Long songId) {
+        this.songId = songId;
+    }
+
+    public Long getGenreId() {
+        return genreId;
+    }
+
+    public void setGenreId(Long genreId) {
+        this.genreId = genreId;
     }
 }
