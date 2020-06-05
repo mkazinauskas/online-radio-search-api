@@ -89,10 +89,18 @@ public class DeleteRadioStationSong {
 
         void validate(DeleteRadioStationSong command) {
             if (radioStations.findById(command.radioStationId).isEmpty()) {
-                throw new DomainException("FIELD_RADIO_STATION_ID_INCORRECT", "Radio station by id was not found");
+                throw new DomainException(
+                        "FIELD_RADIO_STATION_ID_INCORRECT",
+                        "radioStationId",
+                        "Radio station by id was not found"
+                );
             }
             if (radioStationSongs.findById(command.songId).isEmpty()) {
-                throw new DomainException("FIELD_SONG_ID_INCORRECT", "Radio station song by id was not found");
+                throw new DomainException(
+                        "FIELD_SONG_ID_INCORRECT",
+                        "songId",
+                        "Radio station song by id was not found"
+                );
             }
         }
     }

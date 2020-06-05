@@ -64,13 +64,18 @@ public class DeleteRadioStation {
                     .orElseThrow(() -> radioStationWithIdDoesNotExist(command));
 
             if (command.id <= 0) {
-                throw new DomainException("FIELD_ID_SHOULD_BE_POSITIVE", "Field id must be positive");
+                throw new DomainException(
+                        "FIELD_ID_SHOULD_BE_POSITIVE",
+                        "id",
+                        "Field id must be positive"
+                );
             }
         }
 
         private DomainException radioStationWithIdDoesNotExist(DeleteRadioStation command) {
             return new DomainException(
                     "RADIO_STATION_WITH_ID_DOES_NOT_EXIST",
+                    "id",
                     String.format("Radio station with id = `%s` does not exist", command.id)
             );
         }

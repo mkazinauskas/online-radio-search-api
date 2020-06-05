@@ -10,7 +10,7 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler({DomainException.class})
     public final ResponseEntity<DomainApiError> handleDomainException(DomainException ex) {
-        DomainApiError domainApiError = new DomainApiError(ex.getId(), ex.getMessage());
+        DomainApiError domainApiError = new DomainApiError(ex.getId(), ex.getFields(), ex.getMessage());
         return ResponseEntity.badRequest().body(domainApiError);
     }
 }

@@ -2,7 +2,6 @@ package com.modzo.ors.stations.domain.song.commands;
 
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.events.domain.SongCreated;
-import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.song.Song;
 import com.modzo.ors.stations.domain.song.Songs;
 import org.springframework.context.ApplicationEventPublisher;
@@ -69,12 +68,17 @@ public class CreateSong {
 
         void validate(CreateSong command) {
             if (isBlank(command.title)) {
-                throw new DomainException("FIELD_TITLE_NOT_BLANK", "Field title cannot be blank");
+                throw new DomainException(
+                        "FIELD_TITLE_NOT_BLANK",
+                        "title",
+                        "Field title cannot be blank"
+                );
             }
 
             if(songs.findByTitle(command.title).isPresent()){
                 throw new DomainException(
                         "FIELD_TITLE_ALREADY_EXISTS",
+                        "title",
                         String.format("Title `%s` already exists in database", command.title)
                 );
             }

@@ -7,6 +7,8 @@ import com.modzo.ors.stations.domain.radio.station.song.RadioStationSongs;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
+
 public class GetRadioStationSongByid {
     private final long radioStationId;
 
@@ -34,7 +36,9 @@ public class GetRadioStationSongByid {
             return radioStationSongs.findByRadioStationIdAndId(command.radioStationId, command.id)
                     .orElseThrow(() -> new DomainException(
                             "RADIO_STATION_SONG_BY_ID_NOT_FOUND",
-                            "Radio station song by id was not found")
+                            Set.of("radioStationId", "id"),
+                            "Radio station song by id was not found"
+                            )
                     );
         }
     }
@@ -49,18 +53,26 @@ public class GetRadioStationSongByid {
 
         void validate(GetRadioStationSongByid command) {
             if (command.radioStationId <= 0) {
-                throw new DomainException("FIELD_RADIO_STATION_ID_IS_LESS_OR_EQUAL_TO_ZERO",
+                throw new DomainException(
+                        "FIELD_RADIO_STATION_ID_IS_LESS_OR_EQUAL_TO_ZERO",
+                        "radioStationId",
                         "Radio station id cannot be less or equal to zero");
             }
 
-            if (!radioStations.findById(command.radioStationId).isPresent()) {
-                throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT",
-                        "Radio station with id is not available");
+            if (radioStations.findById(command.radioStationId).isEmpty()) {
+                throw new DomainException(
+                        "FIELD_RADIO_STATION_ID_IS_INCORRECT",
+                        "radioStationId",
+                        "Radio station with id is not available"
+                );
             }
 
             if (command.id <= 0) {
-                throw new DomainException("FIELD_SONG_ID_IS_LESS_OR_EQUAL_TO_ZERO",
-                        "Radio station song id cannot be less or equal to zero");
+                throw new DomainException(
+                        "FIELD_SONG_ID_IS_LESS_OR_EQUAL_TO_ZERO",
+                        "id",
+                        "Radio station song id cannot be less or equal to zero"
+                );
             }
         }
     }

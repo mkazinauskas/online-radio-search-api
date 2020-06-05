@@ -107,13 +107,24 @@ public class CreateRadioStationSong {
 
         void validate(CreateRadioStationSong command) {
             if (!radioStations.findById(command.radioStationId).isPresent()) {
-                throw new DomainException("FIELD_RADIO_STATION_ID_INCORRECT", "Radio station by id was not found");
+                throw new DomainException(
+                        "FIELD_RADIO_STATION_ID_INCORRECT",
+                        "radioStationId",
+                        "Radio station by id was not found"
+                );
             }
-            if (!songs.findById(command.songId).isPresent()) {
-                throw new DomainException("FIELD_SONG_ID_INCORRECT", "Song by id was not found");
+            if (songs.findById(command.songId).isEmpty()) {
+                throw new DomainException(
+                        "FIELD_SONG_ID_INCORRECT",
+                        "songId",
+                        "Song by id was not found"
+                );
             }
             if (command.playedTime == null) {
-                throw new DomainException("FIELD_PLAYED_TIME_IS_NULL", "Field played time cannot be blank");
+                throw new DomainException("FIELD_PLAYED_TIME_IS_NULL",
+                        "playedTime",
+                        "Field played time cannot be blank"
+                );
             }
         }
     }

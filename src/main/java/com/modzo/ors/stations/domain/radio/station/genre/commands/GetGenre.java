@@ -27,7 +27,9 @@ public class GetGenre {
             return genres.findById(command.id)
                     .orElseThrow(() -> new DomainException(
                     "GENRE_BY_ID_NOT_FOUND",
-                    "Genre by id was not found")
+                    "id",
+                    "Genre by id was not found"
+                    )
             );
         }
     }

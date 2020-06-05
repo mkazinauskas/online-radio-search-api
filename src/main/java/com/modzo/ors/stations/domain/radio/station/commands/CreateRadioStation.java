@@ -67,10 +67,10 @@ public class CreateRadioStation {
     private static class Validator {
         void validate(CreateRadioStation command) {
             if (isBlank(command.title)) {
-                throw new DomainException("FIELD_TITLE_NOT_BLANK", "Field title cannot be blank");
+                throw new DomainException("FIELD_TITLE_NOT_BLANK", "title", "Field title cannot be blank");
             }
             if (StringUtils.length(command.title) > 100) {
-                throw new DomainException("FIELD_TITLE_TOO_LONG", "Field title cannot be longer than 100 characters");
+                throw new DomainException("FIELD_TITLE_TOO_LONG", "title", "Field title cannot be longer than 100 characters");
             }
         }
     }

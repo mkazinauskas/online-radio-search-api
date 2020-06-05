@@ -123,6 +123,7 @@ public class CreateRadioStationStreamUrl {
             if (isNull(command.type)) {
                 throw new DomainException(
                         "FIELD_TYPE_CANNOT_BE_NULL",
+                        "type",
                         String.format(
                                 "Radio station stream with id = `%s` for radio station with id = `%s` "
                                         + "type cannot be null",
@@ -135,6 +136,7 @@ public class CreateRadioStationStreamUrl {
             if (Urls.isNotValid(command.url)) {
                 throw new DomainException(
                         "FIELD_URL_IS_NOT_VALID",
+                        "url",
                         String.format(
                                 "Radio station stream with id = `%s` for radio station with id = `%s` url is not valid",
                                 command.streamId,
@@ -153,6 +155,7 @@ public class CreateRadioStationStreamUrl {
         private DomainException radioStationWithIdDoesNotExist(CreateRadioStationStreamUrl command) {
             return new DomainException(
                     "RADIO_STATION_WITH_ID_DOES_NOT_EXIST",
+                    "radioStationId",
                     String.format("Radio station with id = `%s` does not exist", command.radioStationId)
             );
         }
@@ -160,6 +163,7 @@ public class CreateRadioStationStreamUrl {
         private DomainException radioStationStreamWithIdDoesNotExist(CreateRadioStationStreamUrl command) {
             return new DomainException(
                     "RADIO_STATION_STREAM_FOR_RADIO_STATION_DOES_NOT_EXIST",
+                    "streamId",
                     String.format(
                             "Radio station stream with id = `%s` does not exist for radio station with id = `%s`",
                             command.streamId,

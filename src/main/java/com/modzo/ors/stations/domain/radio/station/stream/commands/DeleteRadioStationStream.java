@@ -89,6 +89,7 @@ public class DeleteRadioStationStream {
         private DomainException radioStationWithIdDoesNotExist(DeleteRadioStationStream command) {
             return new DomainException(
                     "RADIO_STATION_WITH_ID_DOES_NOT_EXIST",
+                    "radioStationId",
                     String.format("Radio station with id = `%s` does not exist", command.radioStationId)
             );
         }
@@ -96,6 +97,7 @@ public class DeleteRadioStationStream {
         private DomainException radioStationStreamWithIdDoesNotExist(DeleteRadioStationStream command) {
             return new DomainException(
                     "RADIO_STATION_STREAM_FOR_RADIO_STATION_DOES_NOT_EXIST",
+                    "radioStationId",
                     String.format(
                             "Radio station stream with id = `%s` does not exist for radio station with id = `%s`",
                             command.streamId,
