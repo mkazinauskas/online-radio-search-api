@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -224,7 +225,9 @@ public class UpdateRadioStation {
                 throw new DomainException("FIELD_TITLE_NOT_BLANK", "title", "Field title cannot be blank");
             }
 
-            if (radioStations.findByTitle(command.data.title).isPresent()) {
+            RadioStation currentRadioStation = radioStations.getOne(command.radioStationId);
+            if (radioStations.findByTitle(command.data.title).isPresent()
+                    && !currentRadioStation.getTitle().equals(command.data.title)) {
                 throw new DomainException(
                         "FIELD_TITLE_EXISTS",
                         "title",
