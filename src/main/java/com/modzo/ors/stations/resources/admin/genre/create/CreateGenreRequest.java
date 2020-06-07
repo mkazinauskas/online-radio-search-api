@@ -1,17 +1,17 @@
-package com.modzo.ors.stations.resources.admin.song.create;
+package com.modzo.ors.stations.resources.admin.genre.create;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotBlank;
 
-class CreateSongRequest {
+class CreateGenreRequest {
 
     @NotBlank
     private final String title;
 
     @JsonCreator
-    CreateSongRequest(@JsonProperty("title") String title) {
+    CreateGenreRequest(@JsonProperty("title") String title) {
         this.title = title;
     }
 

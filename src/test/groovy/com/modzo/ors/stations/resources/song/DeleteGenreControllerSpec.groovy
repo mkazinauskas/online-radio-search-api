@@ -9,7 +9,7 @@ import static com.modzo.ors.TestUsers.ADMIN
 import static org.springframework.http.HttpMethod.DELETE
 import static org.springframework.http.HttpStatus.OK
 
-class DeleteSongControllerSpec extends IntegrationSpec {
+class DeleteGenreControllerSpec extends IntegrationSpec {
 
     void 'admin should delete song'() {
         given:

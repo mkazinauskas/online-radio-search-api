@@ -1,12 +1,13 @@
 package com.modzo.ors.stations.resources.admin.radio.station.data.importer;
 
+import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.commands.CreateRadioStation;
 import com.modzo.ors.stations.domain.radio.station.commands.FindRadioStationByTitle;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.CreateRadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.FindRadioStationStreamByUrl;
 import com.modzo.ors.stations.resources.admin.radio.station.data.CsvData;
-import liquibase.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Component
 class ImporterService {
@@ -42,8 +44,17 @@ class ImporterService {
     }
 
     void run(MultipartFile file) {
-        CsvReader.read(file)
-                .forEach(this::doImport);
+        try {
+            CsvReader.read(file)
+                    .forEach(this::doImport);
+        } catch (Exception exception){
+            logger.error("Failed to import radio stations", exception);
+            throw new DomainException(
+                    "FAILED_TO_IMPORT_RADIO_STATIONS",
+                    "file",
+                    exception.getMessage()
+            );
+        }
     }
 
     private void doImport(CsvData entry) {
@@ -73,7 +84,11 @@ class ImporterService {
     }
 
     private List<String> toUrls(String streamUrls) {
+        if (isBlank(streamUrls)) {
+            return List.of();
+        }
         return Arrays.stream(streamUrls.split("\\|"))
+                .filter(StringUtils::isNotBlank)
                 .filter(url -> url.length() <= 100)
                 .collect(toList());
     }
