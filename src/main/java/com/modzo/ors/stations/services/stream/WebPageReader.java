@@ -1,6 +1,7 @@
 package com.modzo.ors.stations.services.stream;
 
 import com.nimbusds.oauth2.sdk.util.CollectionUtils;
+import com.rainerhahnekamp.sneakythrow.Sneaky;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,11 +10,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -38,8 +47,37 @@ public class WebPageReader {
             MediaType.APPLICATION_XHTML_XML
     );
 
+    @PostConstruct
+    public void init() {
+        TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
+
+            public void checkClientTrusted(X509Certificate[] certs, String authType) {
+            }
+
+            public void checkServerTrusted(X509Certificate[] certs, String authType) {
+            }
+        }
+        };
+
+        SSLContext sc = Sneaky.sneak(() -> SSLContext.getInstance("SSL"));
+        Sneaky.sneaked(() -> sc.init(null, trustAllCerts, new java.security.SecureRandom())).run();
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+        HostnameVerifier allHostsValid = new HostnameVerifier() {
+            public boolean verify(String hostname, SSLSession session) {
+                return true;
+            }
+        };
+
+        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+    }
+
     public Optional<Response> read(String url) {
         log.info(String.format("Loading url = `%s`", url));
+
         HttpURLConnection connection = null;
         try {
             URL parsedUrl = new URL(url);
