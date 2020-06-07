@@ -1,7 +1,7 @@
 package com.modzo.ors.stations.domain.song.commands;
 
-import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.events.domain.SongCreated;
+import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.song.Song;
 import com.modzo.ors.stations.domain.song.Songs;
 import org.springframework.context.ApplicationEventPublisher;
@@ -75,7 +75,7 @@ public class CreateSong {
                 );
             }
 
-            if(songs.findByTitle(command.title).isPresent()){
+            if (songs.findByTitle(command.title).isPresent()) {
                 throw new DomainException(
                         "FIELD_TITLE_ALREADY_EXISTS",
                         "title",

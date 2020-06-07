@@ -47,7 +47,7 @@ class ImporterService {
         try {
             CsvReader.read(file)
                     .forEach(this::doImport);
-        } catch (Exception exception){
+        } catch (Exception exception) {
             logger.error("Failed to import radio stations", exception);
             throw new DomainException(
                     "FAILED_TO_IMPORT_RADIO_STATIONS",

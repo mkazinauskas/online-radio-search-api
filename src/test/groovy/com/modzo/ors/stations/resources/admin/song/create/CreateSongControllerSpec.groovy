@@ -1,7 +1,6 @@
 package com.modzo.ors.stations.resources.admin.song.create
 
 import com.modzo.ors.HttpEntityBuilder
-import com.modzo.ors.stations.domain.song.commands.CreateSong
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.apache.commons.lang3.RandomStringUtils
 import org.springframework.http.HttpStatus
