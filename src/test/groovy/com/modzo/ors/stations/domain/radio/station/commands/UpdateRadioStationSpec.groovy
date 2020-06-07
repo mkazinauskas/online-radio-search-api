@@ -27,7 +27,7 @@ class UpdateRadioStationSpec extends IntegrationSpec {
 
     void 'should update radio station'() {
         given:
-            RadioStation radioStation = testRadioStation.create()
+            RadioStation radioStation = testRadioStation.create(testGenre.create())
         and:
             Genre genre = testGenre.create()
         and:

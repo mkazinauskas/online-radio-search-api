@@ -178,6 +178,7 @@ public class UpdateRadioStation {
             radioStation.setEnabled(command.data.enabled);
 
             List<Genre> foundGenres = genres.findAllById(command.data.getGenreIds());
+            radioStation.getGenres().clear();
             radioStation.getGenres().addAll(foundGenres);
 
             RadioStationUpdated.Data eventData = new RadioStationUpdated.Data(
