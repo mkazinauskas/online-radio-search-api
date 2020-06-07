@@ -5,6 +5,7 @@ import com.modzo.ors.last.searches.domain.commands.CreateSearchedQuery;
 import com.modzo.ors.search.domain.SongDocument;
 import com.modzo.ors.search.domain.SongsRepository;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.MatchPhrasePrefixQueryBuilder;
 import org.elasticsearch.search.sort.ScoreSortBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.stereotype.Component;
 
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
+import static org.elasticsearch.index.query.QueryBuilders.matchPhrasePrefixQuery;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 public class SearchSongsByTitle {
@@ -53,8 +55,8 @@ public class SearchSongsByTitle {
             return result;
         }
 
-        private BoolQueryBuilder searchInTitle(SearchSongsByTitle command) {
-            return boolQuery().should(queryStringQuery(command.title).field("title"));
+        private MatchPhrasePrefixQueryBuilder searchInTitle(SearchSongsByTitle command) {
+            return matchPhrasePrefixQuery("title", command.title);
         }
 
         private ScoreSortBuilder sortByRelevance() {
