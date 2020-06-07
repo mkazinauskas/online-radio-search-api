@@ -45,7 +45,7 @@ public class StreamCheckService {
         RadioStationStream stream = getRadioStationStreamHandler.handle(
                 new GetRadioStationStream(radioStationId, streamId)
         );
-        updateSongCheckedTime(stream);
+        updateStreamCheckedTime(stream);
         String url = stream.getUrl();
         Optional<WebPageReader.Response> response = webPageReader.read(url);
         var isWorkingStream = response.isPresent()
@@ -64,7 +64,7 @@ public class StreamCheckService {
         this.radioStationStatusUpdater.update(stream);
     }
 
-    private void updateSongCheckedTime(RadioStationStream stream) {
+    private void updateStreamCheckedTime(RadioStationStream stream) {
         updateStreamCheckedTimeHandler.handle(new UpdateRadioStationStreamCheckedTime(
                 stream.getId(), ZonedDateTime.now()
         ));
