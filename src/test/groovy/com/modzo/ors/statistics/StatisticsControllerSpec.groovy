@@ -13,10 +13,9 @@ class StatisticsControllerSpec extends IntegrationSpec {
     void 'admin should retrieve statistics'() {
         when:
             ResponseEntity<StatisticsResponse> result = restTemplate.exchange(
-                    '/admin/statistics',
+                    '/statistics',
                     GET,
                     HttpEntityBuilder.builder()
-                            .bearer(token(ADMIN))
                             .build(),
                     StatisticsResponse
             )

@@ -15,7 +15,7 @@ class StatisticsController {
         this.statisticsService = statisticsService;
     }
 
-    @GetMapping("/admin/statistics")
+    @GetMapping("/statistics")
     ResponseEntity<StatisticsResponse> createGenre() {
         Map<StatisticProvider.Type, Map<StatisticProvider.Subtype, String>> statistics = statisticsService.get();
         return ResponseEntity.ok(new StatisticsResponse(statistics));
