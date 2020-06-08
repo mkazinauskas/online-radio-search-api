@@ -66,11 +66,7 @@ public class WebPageReader {
         Sneaky.sneaked(() -> sc.init(null, trustAllCerts, new java.security.SecureRandom())).run();
         HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
 
-        HostnameVerifier allHostsValid = new HostnameVerifier() {
-            public boolean verify(String hostname, SSLSession session) {
-                return true;
-            }
-        };
+        HostnameVerifier allHostsValid = (hostname, session) -> true;
 
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
     }
