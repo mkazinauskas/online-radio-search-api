@@ -1,6 +1,5 @@
 package com.modzo.ors.search.domain.commands
 
-
 import com.modzo.ors.search.domain.SongDocument
 import com.modzo.ors.stations.domain.song.Song
 import com.modzo.ors.stations.resources.IntegrationSpec
@@ -30,10 +29,10 @@ class SearchSongsBySongNameSpec extends IntegrationSpec {
             result.content.find { song -> song.id == savedSong.id }
         where:
             title                   | searchTerm
-            "Power Hit Radio"       | "Power"
-            "Be together ever"      | "ever"
-            "Stealmentezo"          | "Steal"
-            "Bebikinikini"          | "kini"
-            "Go deep into the trap" | "Go trap"
+            'Power Hit Radio'       | 'Power'
+            'Be together ever'      | 'ever'
+            'Stealmentezo'          | 'Steal'
+            'Bebikinikini'          | 'kini'
+            'Go deep into the trap' | 'Go trap'
     }
 }

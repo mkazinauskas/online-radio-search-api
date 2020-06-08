@@ -1,6 +1,5 @@
 package com.modzo.ors.search.domain.commands
 
-
 import com.modzo.ors.search.domain.RadioStationDocument
 import com.modzo.ors.stations.domain.radio.station.RadioStation
 import com.modzo.ors.stations.resources.IntegrationSpec
@@ -43,11 +42,11 @@ class SearchRadioStationsByTitleSpec extends IntegrationSpec {
             result.content.find { station -> station.id == radioStation.id }
         where:
             title                   | searchTerm
-            "Power Hit Radio"       | "Power"
-            "Be together ever"      | "ever"
-            "Stealmentezo"          | "Steal"
-            "Bebikinikini"          | "kini"
-            "Go deep into the trap" | "Go trap"
+            'Power Hit Radio'       | 'Power'
+            'Be together ever'      | 'ever'
+            'Stealmentezo'          | 'Steal'
+            'Bebikinikini'          | 'kini'
+            'Go deep into the trap' | 'Go trap'
     }
 
     private static boolean radioStationExist(Page<RadioStationDocument> radioStations, RadioStationDocument station) {

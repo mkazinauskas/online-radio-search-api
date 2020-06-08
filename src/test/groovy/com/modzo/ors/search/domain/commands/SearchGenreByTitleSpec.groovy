@@ -26,10 +26,10 @@ class SearchGenreByTitleSpec extends IntegrationSpec {
             result.content.find { genre -> genre.id == savedGenre.id }
         where:
             title             | searchTerm
-            "Rock & Pop"      | "Rock"
-            "Jazz & Electro"  | "Electro"
-            "Santropezo"      | "Sant"
-            "Barkendiki"      | "diki"
-            "Power deep dive" | "Power dive"
+            'Rock & Pop'      | 'Rock'
+            'Jazz & Electro'  | 'Electro'
+            'Santropezo'      | 'Sant'
+            'Barkendiki'      | 'diki'
+            'Power deep dive' | 'Power dive'
     }
 }
