@@ -4,8 +4,6 @@ import com.modzo.ors.last.searches.domain.SearchedQueries;
 import com.modzo.ors.last.searches.domain.SearchedQuery;
 import com.modzo.ors.last.searches.domain.commands.GetLastSearchQueries;
 import com.modzo.ors.statistics.StatisticProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +12,6 @@ import java.util.Map;
 
 @Component
 class SearchedQueriesStatsProvider implements StatisticProvider {
-
-    private static final Logger log = LoggerFactory.getLogger(SearchedQueriesStatsProvider.class);
 
     private final SearchedQueries searchedQueries;
 
@@ -42,18 +38,13 @@ class SearchedQueriesStatsProvider implements StatisticProvider {
     }
 
     private String latestSearchQueryDate() {
-        try {
-            GetLastSearchQueries request = new GetLastSearchQueries(PageRequest.of(0, 1));
-            return lastSearchQueriesHandler.handle(request)
-                    .getContent()
-                    .stream()
-                    .findFirst()
-                    .map(SearchedQuery::getCreated)
-                    .map(ZonedDateTime::toString)
-                    .orElse("none");
-        } catch (Exception ex) {
-            log.error("Failed to retrieve latest search query date", ex);
-            return "none";
-        }
+        GetLastSearchQueries request = new GetLastSearchQueries(PageRequest.of(0, 1));
+        return lastSearchQueriesHandler.handle(request)
+                .getContent()
+                .stream()
+                .findFirst()
+                .map(SearchedQuery::getCreated)
+                .map(ZonedDateTime::toString)
+                .orElse("none");
     }
 }

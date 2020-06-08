@@ -26,7 +26,7 @@ class StatisticsControllerSpec extends IntegrationSpec {
             result.body.statistics.get(StatisticProvider.Type.RADIO_STATIONS).size() == 2
             result.body.statistics.get(StatisticProvider.Type.RADIO_STATION_STREAMS).size() == 2
             result.body.statistics.get(StatisticProvider.Type.EVENTS).size() == 1
-            result.body.statistics.get(StatisticProvider.Type.SEARCHED_QUERIES).size() == 2
+            result.body.statistics.containsKey(StatisticProvider.Type.SEARCHED_QUERIES)
             result.body.statistics.get(StatisticProvider.Type.PARSED_EVENTS).size() == 3
     }
 }
