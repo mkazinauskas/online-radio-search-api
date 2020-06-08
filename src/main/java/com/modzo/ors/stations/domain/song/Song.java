@@ -1,6 +1,5 @@
 package com.modzo.ors.stations.domain.song;
 
-import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong;
 import org.springframework.data.domain.Example;
 
 import javax.persistence.Column;
@@ -9,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
 import java.time.ZonedDateTime;
 
 import static javax.persistence.GenerationType.SEQUENCE;

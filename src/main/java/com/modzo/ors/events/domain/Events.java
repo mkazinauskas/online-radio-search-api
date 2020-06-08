@@ -10,8 +10,6 @@ public interface Events extends JpaRepository<Event, Long> {
 
     Page<Event> findAllByType(Event.Type type, Pageable pageable);
 
-    Page<Event> findAllByTypeAndEntityUniqueId(Event.Type type, String entityUniqueId, Pageable pageable);
-
     Optional<Event> findTop1ByIdGreaterThanOrderByIdAsc(Long id);
 
 }

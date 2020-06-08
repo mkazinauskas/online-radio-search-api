@@ -18,4 +18,6 @@ public interface RadioStationStreams extends CrudRepository<RadioStationStream, 
     Optional<RadioStationStream> findTop1ByCheckedBeforeOrCheckedIsNull(ZonedDateTime checked);
 
     Optional<RadioStationStream> findByUrl(String url);
+
+    Long countAllByWorkingTrue();
 }

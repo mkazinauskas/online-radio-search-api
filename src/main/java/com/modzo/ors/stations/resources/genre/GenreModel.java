@@ -1,7 +1,6 @@
 package com.modzo.ors.stations.resources.genre;
 
 import com.modzo.ors.stations.domain.radio.station.genre.Genre;
-import com.modzo.ors.stations.domain.song.Song;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 

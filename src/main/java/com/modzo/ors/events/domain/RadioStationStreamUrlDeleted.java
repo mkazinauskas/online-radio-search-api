@@ -3,7 +3,6 @@ package com.modzo.ors.events.domain;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import static com.modzo.ors.events.domain.Event.Type.RADIO_STATION_STREAM_DELETED;
 import static com.modzo.ors.events.domain.Event.Type.RADIO_STATION_STREAM_URL_DELETED;
 
 public class RadioStationStreamUrlDeleted extends DomainEvent {
