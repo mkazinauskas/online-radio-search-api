@@ -1,7 +1,6 @@
 package com.modzo.ors.stations.resources.admin.genre.create;
 
 import com.modzo.ors.stations.domain.radio.station.genre.commands.CreateGenre;
-import com.modzo.ors.stations.domain.song.commands.CreateSong;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

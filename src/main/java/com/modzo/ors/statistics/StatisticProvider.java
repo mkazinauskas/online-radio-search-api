@@ -9,11 +9,18 @@ public interface StatisticProvider {
     Map<Subtype, String> values();
 
     enum Type {
-        RADIO_STATION;
+        RADIO_STATIONS,
+        RADIO_STATION_STREAMS,
+        EVENTS,
+        PARSED_EVENTS,
+        SEARCHED_QUERIES;
     }
 
-    enum Subtype{
+    enum Subtype {
         COUNT,
-        ENABLED_COUNT
+        WORKING_COUNT,
+        ENABLED_COUNT,
+        LATEST_ENTRY_DATE,
+        LATEST_ENTRY_ID;
     }
 }

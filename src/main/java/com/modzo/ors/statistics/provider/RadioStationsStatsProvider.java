@@ -17,7 +17,7 @@ class RadioStationsStatsProvider implements StatisticProvider {
 
     @Override
     public Type type() {
-        return Type.RADIO_STATION;
+        return Type.RADIO_STATIONS;
     }
 
     @Override

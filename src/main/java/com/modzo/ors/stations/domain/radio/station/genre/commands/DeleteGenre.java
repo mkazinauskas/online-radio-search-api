@@ -1,12 +1,9 @@
 package com.modzo.ors.stations.domain.radio.station.genre.commands;
 
 import com.modzo.ors.events.domain.GenreDeleted;
-import com.modzo.ors.events.domain.SongDeleted;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.genre.Genre;
 import com.modzo.ors.stations.domain.radio.station.genre.Genres;
-import com.modzo.ors.stations.domain.song.Song;
-import com.modzo.ors.stations.domain.song.Songs;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

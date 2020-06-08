@@ -2,9 +2,7 @@ package com.modzo.ors.search.domain.events.reader.parser;
 
 import com.modzo.ors.events.domain.DomainEvent;
 import com.modzo.ors.events.domain.Event;
-import com.modzo.ors.events.domain.GenreCreated;
 import com.modzo.ors.events.domain.GenreDeleted;
-import com.modzo.ors.search.domain.GenreDocument;
 import com.modzo.ors.search.domain.GenresRepository;
 import org.springframework.stereotype.Component;
 

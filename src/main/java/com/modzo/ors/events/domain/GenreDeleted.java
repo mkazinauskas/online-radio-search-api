@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import static com.modzo.ors.events.domain.Event.Type.GENRE_DELETED;
-import static com.modzo.ors.events.domain.Event.Type.SONG_DELETED;
 
 public class GenreDeleted extends DomainEvent {
 
