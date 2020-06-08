@@ -17,8 +17,8 @@ class TestSong {
     @Autowired
     private GetSong.Handler getSongHandler
 
-    Song create() {
-        CreateSong createSong = new CreateSong(randomAlphanumeric(100))
+    Song create(String title = randomAlphanumeric(100)) {
+        CreateSong createSong = new CreateSong(title)
         long newSongId = createSongHandler.handle(createSong).id
 
         return getSongHandler.handle(new GetSong(newSongId))

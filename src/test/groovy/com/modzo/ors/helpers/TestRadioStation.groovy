@@ -22,8 +22,8 @@ class TestRadioStation {
     @Autowired
     private UpdateRadioStation.Handler updateRadioStationHandler
 
-    RadioStation create() {
-        CreateRadioStation createRadioStation = new CreateRadioStation(randomWebsite())
+    RadioStation create(String title = randomTitle()) {
+        CreateRadioStation createRadioStation = new CreateRadioStation(title)
         long newStationId = createRadioStationHandler.handle(createRadioStation).id
         return getRadioStationHandler.handle(new GetRadioStation(newStationId))
     }
