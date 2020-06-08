@@ -26,7 +26,7 @@ class DeleteGenreControllerSpec extends IntegrationSpec {
         then:
             result.statusCode == OK
         and:
-            songs.findById(genre.id).isEmpty()
+            genres.findById(genre.id).isEmpty()
     }
 
 }
