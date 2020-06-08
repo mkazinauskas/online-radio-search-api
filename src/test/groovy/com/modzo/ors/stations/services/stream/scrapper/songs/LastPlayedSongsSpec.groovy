@@ -1,6 +1,6 @@
 package com.modzo.ors.stations.services.stream.scrapper.songs
 
-import com.modzo.ors.stations.services.stream.WebPageReader
+import com.modzo.ors.stations.services.stream.reader.WebPageReader
 import spock.lang.Specification
 
 import java.time.LocalDate

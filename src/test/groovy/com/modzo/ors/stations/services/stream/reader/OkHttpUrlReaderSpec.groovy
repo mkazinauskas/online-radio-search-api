@@ -1,4 +1,4 @@
-package com.modzo.ors.stations.services.stream
+package com.modzo.ors.stations.services.stream.reader
 
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.apache.commons.lang3.RandomStringUtils
@@ -8,10 +8,10 @@ import spock.lang.Unroll
 
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE
 
-class WebPageReaderSpec extends IntegrationSpec {
+class OkHttpUrlReaderSpec extends IntegrationSpec {
 
     @Autowired
-    WebPageReader testTarget
+    OkHttpUrlReader testTarget
 
     void 'should return no response when page is not found'() {
         given:
@@ -29,9 +29,7 @@ class WebPageReaderSpec extends IntegrationSpec {
         when:
             WebPageReader.Response result = testTarget.read(requestUrl).get()
         then:
-            Map<String, String> resultedHeaders = result.headers
-            resultedHeaders
-            resultedHeaders.get(CONTENT_TYPE) == contentType
+            result.findHeader(CONTENT_TYPE).get().equalsIgnoreCase(contentType)
         and:
             result.body.get() == body
         where:
@@ -43,6 +41,16 @@ class WebPageReaderSpec extends IntegrationSpec {
     }
 
     @Unroll
+    void 'should return page header and body of https url'() {
+        when:
+            WebPageReader.Response result = testTarget.read('https://letsencrypt.org').get()
+        then:
+            result.headers.size() > 0
+        and:
+            result.body.isPresent()
+    }
+
+    @Unroll
     void 'should return page header without body when page is of content type #contentType'() {
         given:
             Map<String, String> headers = [(CONTENT_TYPE): contentType]
@@ -51,9 +59,7 @@ class WebPageReaderSpec extends IntegrationSpec {
         when:
             WebPageReader.Response result = testTarget.read(requestUrl).get()
         then:
-            Map<String, String> resultedHeaders = result.headers
-            resultedHeaders
-            resultedHeaders.get(CONTENT_TYPE) == contentType
+            result.findHeader(CONTENT_TYPE).get().equalsIgnoreCase(contentType)
         and:
             result.body.empty
         where:
@@ -72,4 +78,5 @@ class WebPageReaderSpec extends IntegrationSpec {
         String path = '/' + RandomStringUtils.randomAlphanumeric(10)
         return wireMockTestHelper.notFoundResponse(path)
     }
+
 }

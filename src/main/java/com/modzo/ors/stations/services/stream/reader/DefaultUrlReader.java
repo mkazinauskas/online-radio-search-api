@@ -1,10 +1,9 @@
-package com.modzo.ors.stations.services.stream;
+package com.modzo.ors.stations.services.stream.reader;
 
-import com.nimbusds.oauth2.sdk.util.CollectionUtils;
 import com.rainerhahnekamp.sneakythrow.Sneaky;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,7 +13,6 @@ import javax.annotation.PostConstruct;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
@@ -28,16 +26,15 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Component
-public class WebPageReader {
+@Order
+class DefaultUrlReader implements UrlReader {
 
-    private static final Logger log = LoggerFactory.getLogger(WebPageReader.class);
+    private static final Logger log = LoggerFactory.getLogger(DefaultUrlReader.class);
 
     private static final Set<MediaType> ALLOWED_MEDIA_TYPES = Set.of(
             MediaType.TEXT_PLAIN,
@@ -71,9 +68,8 @@ public class WebPageReader {
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
     }
 
-    public Optional<Response> read(String url) {
-        log.info(String.format("Loading url = `%s`", url));
-
+    @Override
+    public Optional<WebPageReader.Response> read(String url) {
         HttpURLConnection connection = null;
         try {
             URL parsedUrl = new URL(url);
@@ -105,11 +101,11 @@ public class WebPageReader {
                 log.error(
                         String.format("Url = `%s` is not acceptable content type = `%s`", url, contentType.orElse(EMPTY))
                 );
-                return Optional.of(new Response(url, headerFields));
+                return Optional.of(new WebPageReader.Response(url, headerFields));
             }
 
             String body = new String(((InputStream) connection.getContent()).readAllBytes(), StandardCharsets.UTF_8);
-            return Optional.of(new Response(url, headerFields, body));
+            return Optional.of(new WebPageReader.Response(url, headerFields, body));
         } catch (Exception exception) {
             log.error(String.format("Failed to establish connection to url = `%s`", url), exception);
             return Optional.empty();
@@ -131,60 +127,6 @@ public class WebPageReader {
                     exception
             );
             return false;
-        }
-    }
-
-    public static class Response {
-
-        private final String url;
-
-        private final Map<String, List<String>> headers;
-
-        private final String body;
-
-        public Response(String url, Map<String, List<String>> headers, String body) {
-            this.url = url;
-            this.headers = headers;
-            this.body = body;
-        }
-
-        public Response(String url, Map<String, List<String>> headers) {
-            this.url = url;
-            this.headers = headers;
-            this.body = null;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public Map<String, String> getHeaders() {
-            if (Objects.isNull(this.headers)) {
-                return Map.of();
-            }
-            return this.headers.entrySet()
-                    .stream()
-                    .filter(item -> StringUtils.isNotEmpty(item.getKey()))
-                    .filter(item -> CollectionUtils.isNotEmpty(item.getValue()))
-                    .map(item -> Map.entry(item.getKey(), StringUtils.join(item.getValue(), ";")))
-                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        }
-
-        public Optional<String> findHeader(String headerName) {
-            return getHeaders().entrySet().stream()
-                    .filter(entry -> StringUtils.equalsIgnoreCase(entry.getKey(), headerName))
-                    .findFirst()
-                    .map(Map.Entry::getValue);
-        }
-
-        public Optional<String> getBody() {
-            return ofNullable(body);
-        }
-
-        public boolean hasAudioContentTypeHeader() {
-            return findHeader(HttpHeaders.CONTENT_TYPE)
-                    .filter(type -> StringUtils.contains(type, "audio"))
-                    .isPresent();
         }
     }
 }

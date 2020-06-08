@@ -4,7 +4,7 @@ import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateRadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateRadioStationStreamCheckedTime;
-import com.modzo.ors.stations.services.stream.WebPageReader;
+import com.modzo.ors.stations.services.stream.reader.WebPageReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
