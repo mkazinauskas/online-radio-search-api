@@ -41,6 +41,16 @@ class OkHttpUrlReaderSpec extends IntegrationSpec {
     }
 
     @Unroll
+    void 'should return page header and body of https url'() {
+        when:
+            WebPageReader.Response result = testTarget.read('https://letsencrypt.org').get()
+        then:
+            result.headers.size() > 0
+        and:
+            result.body.isPresent()
+    }
+
+    @Unroll
     void 'should return page header without body when page is of content type #contentType'() {
         given:
             Map<String, String> headers = [(CONTENT_TYPE): contentType]

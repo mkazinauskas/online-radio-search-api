@@ -29,9 +29,7 @@ class DefaultUrlReaderSpec extends IntegrationSpec {
         when:
             WebPageReader.Response result = testTarget.read(requestUrl).get()
         then:
-            Map<String, String> resultedHeaders = result.headers
-            resultedHeaders
-            resultedHeaders.get(CONTENT_TYPE) == contentType
+            result.findHeader(CONTENT_TYPE).get().equalsIgnoreCase(contentType)
         and:
             result.body.get() == body
         where:
@@ -59,6 +57,16 @@ class DefaultUrlReaderSpec extends IntegrationSpec {
                     'audio/mpeg',
                     'audio/mp3'
             ]
+    }
+
+    @Unroll
+    void 'should return page header and body of https url'() {
+        when:
+            WebPageReader.Response result = testTarget.read('https://letsencrypt.org').get()
+        then:
+            result.headers.size() > 0
+        and:
+            result.body.isPresent()
     }
 
     private String mockUrl(Map<String, String> headers, String body = null) {
