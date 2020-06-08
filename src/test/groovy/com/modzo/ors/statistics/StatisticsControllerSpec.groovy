@@ -4,7 +4,6 @@ import com.modzo.ors.HttpEntityBuilder
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
 
-import static com.modzo.ors.TestUsers.ADMIN
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpStatus.OK
 
