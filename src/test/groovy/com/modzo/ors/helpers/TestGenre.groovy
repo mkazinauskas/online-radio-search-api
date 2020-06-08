@@ -17,8 +17,8 @@ class TestGenre {
     @Autowired
     private GetGenre.Handler getGenreHandler
 
-    Genre create() {
-        CreateGenre createGenre = new CreateGenre(randomAlphanumeric(100))
+    Genre create(String title = randomAlphanumeric(100)) {
+        CreateGenre createGenre = new CreateGenre(title)
         long newGenreId = createGenreHandler.handle(createGenre).id
         return getGenreHandler.handle(new GetGenre(newGenreId))
     }
