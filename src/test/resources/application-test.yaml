@@ -20,7 +20,7 @@ test:
     password: password
     realmJsonPath: /online-radio-search-realm.json
   wiremock:
-    port: 8885
+    httpPort: 8885
   elastic.search:
     port: 9200
     apiPort: 9300

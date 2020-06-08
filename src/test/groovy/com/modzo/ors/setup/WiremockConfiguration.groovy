@@ -8,6 +8,8 @@ import javax.validation.constraints.Min
 @Component
 @ConfigurationProperties(prefix = 'test.wiremock')
 class WiremockConfiguration {
+
     @Min(1L)
-    int port
+    int httpPort
+
 }

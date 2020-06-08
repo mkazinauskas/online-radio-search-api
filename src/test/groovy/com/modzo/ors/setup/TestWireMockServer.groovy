@@ -10,7 +10,7 @@ class TestWireMockServer implements DisposableBean {
     private final WireMockServer wireMockServer
 
     TestWireMockServer(WiremockConfiguration wiremockConfiguration) {
-        this.wireMockServer = new WireMockServer(wiremockConfiguration.port)
+        this.wireMockServer = new WireMockServer(wiremockConfiguration.httpPort)
     }
 
     WireMockServer server() {

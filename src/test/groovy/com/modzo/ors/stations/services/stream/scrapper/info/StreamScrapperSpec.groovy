@@ -1,6 +1,6 @@
 package com.modzo.ors.stations.services.stream.scrapper.info
 
-import com.modzo.ors.stations.services.stream.WebPageReader
+import com.modzo.ors.stations.services.stream.reader.WebPageReader
 import spock.lang.Shared
 import spock.lang.Specification
 

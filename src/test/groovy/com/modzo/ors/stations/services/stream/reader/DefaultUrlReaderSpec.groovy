@@ -1,4 +1,4 @@
-package com.modzo.ors.stations.services.stream
+package com.modzo.ors.stations.services.stream.reader
 
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.apache.commons.lang3.RandomStringUtils
@@ -8,7 +8,7 @@ import spock.lang.Unroll
 
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE
 
-class WebPageReaderSpec extends IntegrationSpec {
+class DefaultUrlReaderSpec extends IntegrationSpec {
 
     @Autowired
     WebPageReader testTarget
@@ -51,9 +51,7 @@ class WebPageReaderSpec extends IntegrationSpec {
         when:
             WebPageReader.Response result = testTarget.read(requestUrl).get()
         then:
-            Map<String, String> resultedHeaders = result.headers
-            resultedHeaders
-            resultedHeaders.get(CONTENT_TYPE) == contentType
+            result.findHeader(CONTENT_TYPE).get().equalsIgnoreCase(contentType)
         and:
             result.body.empty
         where:

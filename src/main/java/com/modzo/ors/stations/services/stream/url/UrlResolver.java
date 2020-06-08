@@ -4,7 +4,7 @@ import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.CreateRadioStationStreamUrl;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStream;
-import com.modzo.ors.stations.services.stream.WebPageReader;
+import com.modzo.ors.stations.services.stream.reader.WebPageReader;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.modzo.ors.stations.services.stream.scrapper.songs;
 
-import com.modzo.ors.stations.services.stream.WebPageReader;
+import com.modzo.ors.stations.services.stream.reader.WebPageReader;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
