@@ -61,16 +61,21 @@ public class DeleteSong {
 
         void validate(DeleteSong command) {
             songs.findById(command.id)
-                    .orElseThrow(() -> radioStationWithIdDoesNotExist(command));
+                    .orElseThrow(() -> songWithIdDoesNotExist(command));
 
             if (command.id <= 0) {
-                throw new DomainException("FIELD_ID_SHOULD_BE_POSITIVE", "Field id must be positive");
+                throw new DomainException(
+                        "FIELD_ID_SHOULD_BE_POSITIVE",
+                        "id",
+                        "Field id must be positive"
+                );
             }
         }
 
-        private DomainException radioStationWithIdDoesNotExist(DeleteSong command) {
+        private DomainException songWithIdDoesNotExist(DeleteSong command) {
             return new DomainException(
                     "SONG_WITH_ID_DOES_NOT_EXIST",
+                    "id",
                     String.format("Song with id = `%s` does not exist", command.id)
             );
         }

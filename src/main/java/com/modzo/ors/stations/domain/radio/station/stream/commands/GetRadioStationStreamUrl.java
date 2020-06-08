@@ -63,28 +63,43 @@ public class GetRadioStationStreamUrl {
 
         void validate(GetRadioStationStreamUrl command) {
             if (command.radioStationId <= 0) {
-                throw new DomainException("FIELD_RADIO_STATION_ID_IS_LESS_OR_EQUAL_TO_ZERO",
-                        "Radio station id cannot be less or equal to zero");
+                throw new DomainException(
+                        "FIELD_RADIO_STATION_ID_IS_LESS_OR_EQUAL_TO_ZERO",
+                        "radioStationId",
+                        "Radio station id cannot be less or equal to zero"
+                );
             }
 
             if (radioStations.findById(command.radioStationId).isEmpty()) {
-                throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT",
-                        "Radio station with id is not available");
+                throw new DomainException(
+                        "FIELD_RADIO_STATION_ID_IS_INCORRECT",
+                        "radioStationId",
+                        "Radio station with id is not available"
+                );
             }
 
             if (command.streamId <= 0) {
-                throw new DomainException("FIELD_STREAM_ID_IS_LESS_OR_EQUAL_TO_ZERO",
-                        "Radio station stream id cannot be less or equal to zero");
+                throw new DomainException(
+                        "FIELD_STREAM_ID_IS_LESS_OR_EQUAL_TO_ZERO",
+                        "streamId",
+                        "Radio station stream id cannot be less or equal to zero"
+                );
             }
 
             if (streams.findById(command.streamId).isEmpty()) {
-                throw new DomainException("FIELD_RADIO_STATION_STREAM_ID_IS_INCORRECT",
-                        "Radio station stream with id is not available");
+                throw new DomainException(
+                        "FIELD_RADIO_STATION_STREAM_ID_IS_INCORRECT",
+                        "streamId",
+                        "Radio station stream with id is not available"
+                );
             }
 
             if (urls.findById(command.urlId).isEmpty()) {
-                throw new DomainException("FIELD_RADIO_STATION_STREAM_URL_ID_IS_INCORRECT",
-                        "Radio station stream url with id is not available");
+                throw new DomainException(
+                        "FIELD_RADIO_STATION_STREAM_URL_ID_IS_INCORRECT",
+                        "urlId",
+                        "Radio station stream url with id is not available"
+                );
             }
         }
     }

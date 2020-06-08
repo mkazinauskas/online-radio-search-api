@@ -173,15 +173,24 @@ public class UpdateRadioStationStream {
 
         void validate(UpdateRadioStationStream command) {
             if (command.radioStationId <= 0) {
-                throw new DomainException("FIELD_RADIO_STATION_ID_IS_NOT_POSITIVE",
+                throw new DomainException(
+                        "FIELD_RADIO_STATION_ID_IS_NOT_POSITIVE",
+                        "radioStationId",
                         "Field radio station id should be positive");
             }
             if (radioStations.findById(command.radioStationId).isEmpty()) {
-                throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT",
-                        "Radio station with id is not available");
+                throw new DomainException(
+                        "FIELD_RADIO_STATION_ID_IS_INCORRECT",
+                        "radioStationId",
+                        "Radio station with id is not available"
+                );
             }
             if (isBlank(command.data.url)) {
-                throw new DomainException("FIELD_URL_NOT_BLANK", "Field data url cannot be blank");
+                throw new DomainException(
+                        "FIELD_URL_NOT_BLANK",
+                        "url",
+                        "Field data url cannot be blank"
+                );
             }
         }
     }

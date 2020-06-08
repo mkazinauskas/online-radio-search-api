@@ -8,4 +8,6 @@ public interface GenresRepository extends ElasticsearchRepository<GenreDocument,
 
     Optional<GenreDocument> findByUniqueId(String uniqueId);
 
+    void deleteByUniqueId(String uniqueId);
+
 }

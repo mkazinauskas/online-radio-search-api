@@ -2,8 +2,6 @@ package com.modzo.ors.stations.domain.radio.station;
 
 import com.modzo.ors.stations.domain.radio.station.genre.Genre;
 import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,22 +11,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import static javax.persistence.CascadeType.REFRESH;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.SEQUENCE;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.contains;
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.exact;
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.startsWith;
 
 @Entity
 @Table(name = "radio_stations")
@@ -60,7 +56,8 @@ public class RadioStation {
             joinColumns = {@JoinColumn(name = "radio_station_id")},
             inverseJoinColumns = {@JoinColumn(name = "genre_id")}
     )
-    private Set<Genre> genres = new HashSet<>();
+    @OrderBy("id ASC")
+    private Set<Genre> genres = new TreeSet<>();
 
     @OneToMany(cascade = REFRESH, fetch = LAZY)
     @JoinColumn(name = "radio_station_id")

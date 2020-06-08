@@ -41,7 +41,9 @@ public class FindOldestCheckedRadioStationStream {
 
         void validate(FindOldestCheckedRadioStationStream command) {
             if (command.before == null) {
-                throw new DomainException("FIELD_BEFORE_IS_NOT_SET",
+                throw new DomainException(
+                        "FIELD_BEFORE_IS_NOT_SET",
+                        "before",
                         "Radio station stream field before is not set");
             }
         }

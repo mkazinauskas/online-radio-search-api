@@ -48,18 +48,26 @@ public class FindRadioStationSongByPlayingTime {
 
         void validate(FindRadioStationSongByPlayingTime command) {
             if (command.radioStationId <= 0) {
-                throw new DomainException("FIELD_RADIO_STATION_ID_IS_LESS_OR_EQUAL_TO_ZERO",
+                throw new DomainException(
+                        "FIELD_RADIO_STATION_ID_IS_LESS_OR_EQUAL_TO_ZERO",
+                        "radioStationId",
                         "Radio station id cannot be less or equal to zero");
             }
 
             if (!radioStations.findById(command.radioStationId).isPresent()) {
-                throw new DomainException("FIELD_RADIO_STATION_ID_IS_INCORRECT",
-                        "Radio station with id is not available");
+                throw new DomainException(
+                        "FIELD_RADIO_STATION_ID_IS_INCORRECT",
+                        "radioStationId",
+                        "Radio station with id is not available"
+                );
             }
 
             if (command.playedTime == null) {
-                throw new DomainException("FIELD_PLAYED_TIME_CANNOT_BE_NULL",
-                        "Song played time cannot be null");
+                throw new DomainException(
+                        "FIELD_PLAYED_TIME_CANNOT_BE_NULL",
+                        "playedTime",
+                        "Song played time cannot be null"
+                );
             }
         }
     }

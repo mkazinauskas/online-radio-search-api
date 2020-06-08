@@ -9,6 +9,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
+
 public class DeleteRadioStationStreamUrl {
 
     private final long radioStationId;
@@ -100,6 +102,7 @@ public class DeleteRadioStationStreamUrl {
         private DomainException radioStationWithIdDoesNotExist(DeleteRadioStationStreamUrl command) {
             return new DomainException(
                     "RADIO_STATION_WITH_ID_DOES_NOT_EXIST",
+                    "radioStationId",
                     String.format("Radio station with id = `%s` does not exist", command.radioStationId)
             );
         }
@@ -107,6 +110,7 @@ public class DeleteRadioStationStreamUrl {
         private DomainException radioStationStreamWithIdDoesNotExist(DeleteRadioStationStreamUrl command) {
             return new DomainException(
                     "RADIO_STATION_STREAM_FOR_RADIO_STATION_DOES_NOT_EXIST",
+                    Set.of("streamId", "radioStationId"),
                     String.format(
                             "Radio station stream with id = `%s` does not exist for radio station with id = `%s`",
                             command.streamId,
@@ -118,6 +122,7 @@ public class DeleteRadioStationStreamUrl {
         private DomainException radioStationStreamUrlWithIdDoesNotExist(DeleteRadioStationStreamUrl command) {
             return new DomainException(
                     "RADIO_STATION_STREAM_URL_FOR_RADIO_STATION_DOES_NOT_EXIST",
+                    "streamUrlId",
                     String.format(
                             "Radio station stream url with id = `%s` does not exist "
                                     + "for radio station stream with id = `%s` "

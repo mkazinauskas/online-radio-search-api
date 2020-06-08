@@ -79,12 +79,16 @@ public class UpdateStreamUrlCheckedTime {
 
         void validate(UpdateStreamUrlCheckedTime command) {
             if (streamUrls.findById(command.urlId).isEmpty()) {
-                throw new DomainException("FIELD_URL_ID_IS_INCORRECT",
-                        "Radio station stream URL id is not available");
+                throw new DomainException(
+                        "FIELD_URL_ID_IS_INCORRECT",
+                        "urlId",
+                        "Radio station stream URL id is not available"
+                );
             }
             if (isNull(command.checkedTime)) {
                 throw new DomainException(
                         "FIELD_CHECKED_TIME_IS_NULL",
+                        "checkedTime",
                         "Field checked time should not be null"
                 );
             }

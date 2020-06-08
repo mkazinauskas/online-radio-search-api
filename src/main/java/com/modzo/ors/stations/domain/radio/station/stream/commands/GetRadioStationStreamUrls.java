@@ -1,7 +1,6 @@
 package com.modzo.ors.stations.domain.radio.station.stream.commands;
 
 import com.modzo.ors.stations.domain.DomainException;
-import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams;
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl;
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrls;
@@ -53,13 +52,19 @@ public class GetRadioStationStreamUrls {
 
         void validate(GetRadioStationStreamUrls command) {
             if (command.streamId <= 0) {
-                throw new DomainException("FIELD_RADIO_STATION_STEAM_ID_IS_LESS_OR_EQUAL_TO_ZERO",
-                        "Radio station stream id cannot be less or equal to zero");
+                throw new DomainException(
+                        "FIELD_RADIO_STATION_STEAM_ID_IS_LESS_OR_EQUAL_TO_ZERO",
+                        "streamId",
+                        "Radio station stream id cannot be less or equal to zero"
+                );
             }
 
             if (streams.findById(command.streamId).isEmpty()) {
-                throw new DomainException("FIELD_RADIO_STATION_STREAM_ID_IS_INCORRECT",
-                        "Radio station stream with id is not available");
+                throw new DomainException(
+                        "FIELD_RADIO_STATION_STREAM_ID_IS_INCORRECT",
+                        "streamId",
+                        "Radio station stream with id is not available"
+                );
             }
         }
     }

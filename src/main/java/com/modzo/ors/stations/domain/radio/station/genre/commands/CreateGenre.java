@@ -62,9 +62,19 @@ public class CreateGenre {
     @Component
     private static class Validator {
 
+        private final Genres genres;
+
+        public Validator(Genres genres) {
+            this.genres = genres;
+        }
+
         void validate(CreateGenre command) {
             if (isBlank(command.title)) {
-                throw new DomainException("FIELD_TITLE_NOT_BLANK", "Field title cannot be blank");
+                throw new DomainException("FIELD_TITLE_NOT_BLANK", "title", "Field title cannot be blank");
+            }
+
+            if (genres.findByTitle(command.title).isPresent()) {
+                throw new DomainException("FIELD_TITLE_EXISTS", "title", "Genre with title exists");
             }
         }
     }

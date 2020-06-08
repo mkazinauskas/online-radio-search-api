@@ -40,8 +40,11 @@ public class FindGenre {
     private static class Validator {
         void validate(FindGenre command) {
             if (isBlank(command.title)) {
-                throw new DomainException("FIELD_GENRE_TITLE_CANNOT_BE_BLANK",
-                        "Genre title cannot be blank");
+                throw new DomainException(
+                        "FIELD_GENRE_TITLE_CANNOT_BE_BLANK",
+                        "title",
+                        "Genre title cannot be blank"
+                );
             }
         }
     }

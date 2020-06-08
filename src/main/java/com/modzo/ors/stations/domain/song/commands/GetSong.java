@@ -30,7 +30,9 @@ public class GetSong {
             return songs.findById(command.songId)
                     .orElseThrow(() -> new DomainException(
                             "SONG_BY_ID_NOT_FOUND",
-                            "Song by id was not found")
+                            "songId",
+                            "Song by id was not found"
+                            )
                     );
         }
     }
@@ -45,13 +47,19 @@ public class GetSong {
 
         void validate(GetSong command) {
             songs.findById(command.songId)
-                    .orElseThrow(() -> new DomainException("SONG_WITH_ID_DOES_NOT_EXIST",
-                            String.format("Song with id = %s does not exist", command.songId)));
+                    .orElseThrow(() -> new DomainException(
+                            "SONG_WITH_ID_DOES_NOT_EXIST",
+                            "songId",
+                            String.format("Song with id = %s does not exist", command.songId)
+                    ));
 
 
             if (command.songId <= 0) {
-                throw new DomainException("FIELD_SONG_ID_IS_LESS_OR_EQUAL_TO_ZERO",
-                        "Song id cannot be less or equal to zero");
+                throw new DomainException(
+                        "FIELD_SONG_ID_IS_LESS_OR_EQUAL_TO_ZERO",
+                        "songId",
+                        "Song id cannot be less or equal to zero"
+                );
             }
         }
     }

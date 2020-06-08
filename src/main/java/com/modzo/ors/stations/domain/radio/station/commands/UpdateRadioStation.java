@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -177,6 +178,7 @@ public class UpdateRadioStation {
             radioStation.setEnabled(command.data.enabled);
 
             List<Genre> foundGenres = genres.findAllById(command.data.getGenreIds());
+            radioStation.getGenres().clear();
             radioStation.getGenres().addAll(foundGenres);
 
             RadioStationUpdated.Data eventData = new RadioStationUpdated.Data(
@@ -216,11 +218,22 @@ public class UpdateRadioStation {
         void validate(UpdateRadioStation command) {
             if (radioStations.findById(command.radioStationId).isEmpty()) {
                 throw new DomainException("FIELD_RADIO_STATION_HAS_INCORRECT_DATA",
+                        "radioStationId",
                         format("Radio station id `%s` was not found", command.radioStationId)
                 );
             }
             if (isBlank(command.data.title)) {
-                throw new DomainException("FIELD_TITLE_NOT_BLANK", "Field title cannot be blank");
+                throw new DomainException("FIELD_TITLE_NOT_BLANK", "title", "Field title cannot be blank");
+            }
+
+            RadioStation currentRadioStation = radioStations.getOne(command.radioStationId);
+            if (radioStations.findByTitle(command.data.title).isPresent()
+                    && !currentRadioStation.getTitle().equals(command.data.title)) {
+                throw new DomainException(
+                        "FIELD_TITLE_EXISTS",
+                        "title",
+                        String.format("Title `%s` already exists", command.data.title)
+                );
             }
 
             List<Long> genreIds = command.getData().getGenres()
@@ -237,6 +250,7 @@ public class UpdateRadioStation {
         private DomainException genreWasNotFound(long genreId) {
             return new DomainException(
                     "GENRE_WAS_NOT_FOUND",
+                    "genres",
                     format("Genre by id `%s` was not found", genreId)
             );
         }

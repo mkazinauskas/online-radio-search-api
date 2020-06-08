@@ -5,7 +5,7 @@ import com.modzo.ors.last.searches.domain.commands.CreateSearchedQuery;
 import com.modzo.ors.search.domain.RadioStationDocument;
 import com.modzo.ors.search.domain.RadioStationsRepository;
 import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.index.query.MatchPhrasePrefixQueryBuilder;
 import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.sort.ScoreSortBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
@@ -15,7 +15,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.stereotype.Component;
 
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.elasticsearch.index.query.QueryBuilders.matchPhrasePrefixQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
 public class SearchRadioStationByTitle {
@@ -59,7 +59,7 @@ public class SearchRadioStationByTitle {
         }
 
         private BoolQueryBuilder searchInTitle(SearchRadioStationByTitle command) {
-            QueryStringQueryBuilder findTitle = queryStringQuery(command.title).field("title");
+            MatchPhrasePrefixQueryBuilder findTitle = matchPhrasePrefixQuery("title", command.title);
             TermQueryBuilder disabledStation = termQuery("enabled", false);
             return boolQuery()
                     .should(findTitle)

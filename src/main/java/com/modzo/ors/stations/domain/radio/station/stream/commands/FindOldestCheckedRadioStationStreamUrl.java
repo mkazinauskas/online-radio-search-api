@@ -46,12 +46,17 @@ public class FindOldestCheckedRadioStationStreamUrl {
         void validate(FindOldestCheckedRadioStationStreamUrl command) {
             if (command.type == null) {
                 throw new DomainException("FIELD_TYPE_IS_NOT_SET",
-                        "Radio station stream url type is not set");
+                        "type",
+                        "Radio station stream url type is not set"
+                );
             }
 
             if (command.before == null) {
-                throw new DomainException("FIELD_BEFORE_IS_NOT_SET",
-                        "Radio station stream url field before is not set");
+                throw new DomainException(
+                        "FIELD_BEFORE_IS_NOT_SET",
+                        "title",
+                        "Radio station stream url field before is not set"
+                );
             }
         }
     }

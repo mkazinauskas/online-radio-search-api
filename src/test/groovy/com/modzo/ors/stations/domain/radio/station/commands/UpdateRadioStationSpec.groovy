@@ -27,7 +27,7 @@ class UpdateRadioStationSpec extends IntegrationSpec {
 
     void 'should update radio station'() {
         given:
-            RadioStation radioStation = testRadioStation.create()
+            RadioStation radioStation = testRadioStation.create(testGenre.create())
         and:
             Genre genre = testGenre.create()
         and:
@@ -53,7 +53,8 @@ class UpdateRadioStationSpec extends IntegrationSpec {
         and:
             Data foundEvent = events.content
                     .collect { deserialize(it.body, it.type.eventClass) }
-                    .find { Data data -> data.uniqueId == savedRadioStation.uniqueId }
+                    .findAll { Data data -> data.uniqueId == savedRadioStation.uniqueId }
+                    .last()
             foundEvent.title == command.data.title
             foundEvent.website == command.data.website
             foundEvent.enabled == command.data.enabled

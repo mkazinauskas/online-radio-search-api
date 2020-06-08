@@ -1,7 +1,7 @@
-package com.modzo.ors.stations.resources.song
+package com.modzo.ors.stations.resources.admin.genre.delete
 
 import com.modzo.ors.HttpEntityBuilder
-import com.modzo.ors.stations.domain.song.Song
+import com.modzo.ors.stations.domain.radio.station.genre.Genre
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
 
@@ -9,14 +9,14 @@ import static com.modzo.ors.TestUsers.ADMIN
 import static org.springframework.http.HttpMethod.DELETE
 import static org.springframework.http.HttpStatus.OK
 
-class DeleteSongControllerSpec extends IntegrationSpec {
+class DeleteGenreControllerSpec extends IntegrationSpec {
 
-    void 'admin should delete song'() {
+    void 'admin should delete genre'() {
         given:
-            Song song = testSong.create()
+            Genre genre = testGenre.create()
         when:
-            ResponseEntity<String> response = restTemplate.exchange(
-                    "/admin/songs/${song.id}",
+            ResponseEntity<String> result = restTemplate.exchange(
+                    "/admin/genres/${genre.id}",
                     DELETE,
                     HttpEntityBuilder.builder()
                             .bearer(token(ADMIN))
@@ -24,6 +24,9 @@ class DeleteSongControllerSpec extends IntegrationSpec {
                     String
             )
         then:
-            response.statusCode == OK
+            result.statusCode == OK
+        and:
+            genres.findById(genre.id).isEmpty()
     }
+
 }

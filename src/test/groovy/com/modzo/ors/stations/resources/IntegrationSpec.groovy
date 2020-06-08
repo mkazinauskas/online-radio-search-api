@@ -13,8 +13,10 @@ import com.modzo.ors.search.TestRadioStationDocument
 import com.modzo.ors.search.TestSongDocument
 import com.modzo.ors.search.domain.events.reader.parser.EventsProcessor
 import com.modzo.ors.stations.domain.radio.station.RadioStations
+import com.modzo.ors.stations.domain.radio.station.genre.Genres
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrls
+import com.modzo.ors.stations.domain.song.Songs
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -71,6 +73,12 @@ class IntegrationSpec extends Specification {
 
     @Autowired
     StreamUrls streamUrls
+
+    @Autowired
+    Songs songs
+
+    @Autowired
+    Genres genres
 
     @Autowired
     Events events

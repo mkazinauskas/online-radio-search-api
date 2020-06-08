@@ -52,7 +52,7 @@ public class CreateSearchedQuery {
 
         void validate(CreateSearchedQuery command) {
             if (StringUtil.isBlank(command.query)) {
-                throw new DomainException("SEARCH_QUERY_NOT_BLANK", "Searched query was blank");
+                throw new DomainException("SEARCH_QUERY_NOT_BLANK", "query", "Searched query was blank");
             }
         }
     }

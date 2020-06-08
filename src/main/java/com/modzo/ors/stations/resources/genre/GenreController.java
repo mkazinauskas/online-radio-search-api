@@ -17,16 +17,16 @@ class GenreController {
 
     private final GetGenre.Handler getGenreHandler;
 
-    private final GetGenres.Handler getGenersHandler;
+    private final GetGenres.Handler getGenresHandler;
 
-    GenreController(GetGenre.Handler getGenreHandler, GetGenres.Handler getGenersHandler) {
+    GenreController(GetGenre.Handler getGenreHandler, GetGenres.Handler getGenresHandler) {
         this.getGenreHandler = getGenreHandler;
-        this.getGenersHandler = getGenersHandler;
+        this.getGenresHandler = getGenresHandler;
     }
 
     @GetMapping("/genres")
     ResponseEntity<GenresModel> getGenres(Pageable pageable) {
-        Page<Genre> foundGenres = getGenersHandler.handle(new GetGenres(pageable));
+        Page<Genre> foundGenres = getGenresHandler.handle(new GetGenres(pageable));
         return ok(GenresModel.create(foundGenres, pageable));
     }
 

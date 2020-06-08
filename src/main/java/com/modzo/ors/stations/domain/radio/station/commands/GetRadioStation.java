@@ -28,7 +28,9 @@ public class GetRadioStation {
             return radioStations.findById(command.id)
                     .orElseThrow(() -> new DomainException(
                             "RADIO_STATION_BY_ID_NOT_FOUND",
-                            "Radio station by id was not found")
+                            "id",
+                            "Radio station by id was not found"
+                            )
                     );
         }
     }
@@ -37,8 +39,11 @@ public class GetRadioStation {
     private static class Validator {
         void validate(GetRadioStation command) {
             if (command.id <= 0) {
-                throw new DomainException("FIELD_ID_IS_LESS_OR_EQUAL_TO_ZERO",
-                        "Radio station id cannot be less or equal to zero");
+                throw new DomainException(
+                        "FIELD_ID_IS_LESS_OR_EQUAL_TO_ZERO",
+                        "id",
+                        "Radio station id cannot be less or equal to zero"
+                );
             }
         }
     }

@@ -30,9 +30,9 @@ class UrlGeneratorResolver {
         public UrlResolverNotFound(StreamUrl.Type type) {
             super(
                     "URL_TYPE_RESOLVER_NOT_FOUND",
+                    "type",
                     String.format("Url resolver by type = `%s` was not found", type.toString())
             );
         }
-
     }
 }

@@ -14,10 +14,12 @@ import com.modzo.ors.search.domain.events.reader.parser.EventsProcessor
 import com.modzo.ors.stations.domain.radio.station.RadioStation
 import com.modzo.ors.stations.domain.radio.station.commands.UpdateRadioStation
 import com.modzo.ors.stations.domain.radio.station.genre.Genre
+import com.modzo.ors.stations.domain.radio.station.genre.commands.DeleteGenre
 import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
 import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateRadioStationStream
 import com.modzo.ors.stations.domain.song.Song
+import com.modzo.ors.stations.domain.song.commands.DeleteSong
 import com.modzo.ors.stations.resources.IntegrationSpec
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
@@ -42,6 +44,12 @@ class EventsParserSpec extends IntegrationSpec {
 
     @Autowired
     private UpdateRadioStation.Handler updateRadioStationHandler
+
+    @Autowired
+    private DeleteSong.Handler deleteSongHandler
+
+    @Autowired
+    private DeleteGenre.Handler deleteGenreHandler
 
     @Autowired
     private GenresRepository genresRepository
@@ -76,6 +84,17 @@ class EventsParserSpec extends IntegrationSpec {
             GenreDocument genreDocument = genresRepository.findByUniqueId(genre.uniqueId).get()
             genreDocument.uniqueId == genre.uniqueId
             genreDocument.title == genre.title
+    }
+
+    void 'should process deleted genre'() {
+        given:
+            Genre genre = testGenre.create()
+        and:
+            deleteGenreHandler.handle(new DeleteGenre(genre.id))
+        when:
+            eventsProcessor.process()
+        then:
+            genresRepository.findByUniqueId(genre.uniqueId).isEmpty()
     }
 
     void 'should process updated radio station'() {
@@ -174,6 +193,17 @@ class EventsParserSpec extends IntegrationSpec {
         then:
             SongDocument songDocument = songsRepository.findByUniqueId(song.uniqueId).get()
             songDocument.title == song.title
+    }
+
+    void 'should process deleted song'() {
+        given:
+            Song song = testSong.create()
+        and:
+            deleteSongHandler.handle(new DeleteSong(song.id))
+        when:
+            eventsProcessor.process()
+        then:
+            songsRepository.findByUniqueId(song.uniqueId).isEmpty()
     }
 
     void 'should process radio station song'() {
