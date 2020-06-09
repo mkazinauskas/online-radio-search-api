@@ -3,15 +3,6 @@ package com.modzo.ors.search.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Document(indexName = "online_radio_search_radio_stations")
 public class RadioStationDocument {
@@ -28,18 +19,6 @@ public class RadioStationDocument {
 
     @JsonProperty("website")
     private String website;
-
-    @Field(type = FieldType.Nested)
-    @JsonProperty("streams")
-    private List<RadioStationStreamDocument> streams = new ArrayList<>();
-
-    @Field(type = FieldType.Nested)
-    @JsonProperty("songs")
-    private List<RadioStationSongDocument> songs = new ArrayList<>();
-
-    @Field(type = FieldType.Nested)
-    @JsonProperty("genres")
-    private Set<GenreDocument> genres = new LinkedHashSet<>();
 
     @JsonProperty("enabled")
     private boolean enabled;
@@ -78,36 +57,12 @@ public class RadioStationDocument {
         this.title = title;
     }
 
-    public List<RadioStationStreamDocument> getStreams() {
-        return streams;
-    }
-
-    public void setStreams(List<RadioStationStreamDocument> streams) {
-        this.streams = streams;
-    }
-
-    public List<RadioStationSongDocument> getSongs() {
-        return songs;
-    }
-
-    public void setSongs(List<RadioStationSongDocument> songs) {
-        this.songs = songs;
-    }
-
     public String getWebsite() {
         return website;
     }
 
     public void setWebsite(String website) {
         this.website = website;
-    }
-
-    public Set<GenreDocument> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(Set<GenreDocument> genres) {
-        this.genres = new LinkedHashSet<>(genres);
     }
 
     public boolean isEnabled() {
@@ -118,17 +73,4 @@ public class RadioStationDocument {
         this.enabled = enabled;
     }
 
-    public Optional<RadioStationStreamDocument> findStream(String uniqueId) {
-        return streams.stream()
-                .filter(stream -> StringUtils.pathEquals(stream.getUniqueId(), uniqueId))
-                .findFirst();
-    }
-
-    public void removeStream(String streamId) {
-        streams.removeIf(stream -> stream.getUniqueId().equals(streamId));
-    }
-
-    public void removeSong(String songUniqueId) {
-        songs.removeIf(song -> song.getUniqueId().equals(songUniqueId));
-    }
 }
