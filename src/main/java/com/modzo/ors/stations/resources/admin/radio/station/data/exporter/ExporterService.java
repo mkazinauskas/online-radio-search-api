@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -40,13 +41,20 @@ class ExporterService {
     }
 
     private CsvData map(RadioStation station) {
-        String streams = getRadioStationStreamsHandler
+        List<RadioStationStream> radioStationStreams = getRadioStationStreamsHandler
                 .handle(new GetRadioStationStreams(station.getId(), Pageable.unpaged()))
-                .getContent().stream()
+                .getContent();
+
+        String streams = radioStationStreams.stream()
                 .map(RadioStationStream::getUrl)
                 .collect(Collectors.joining("|"));
 
-        return new CsvData(station.getTitle(), streams);
+        String isWorking = radioStationStreams.stream()
+                .map(RadioStationStream::isWorking)
+                .map(String::valueOf)
+                .collect(Collectors.joining("|"));
+
+        return new CsvData(station.getUniqueId(), station.getTitle(), station.isEnabled(), streams, isWorking);
     }
 
 }

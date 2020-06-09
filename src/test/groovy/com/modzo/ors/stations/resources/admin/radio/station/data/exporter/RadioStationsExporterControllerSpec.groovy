@@ -2,6 +2,7 @@ package com.modzo.ors.stations.resources.admin.radio.station.data.exporter
 
 import com.modzo.ors.HttpEntityBuilder
 import com.modzo.ors.TestUsers
+import com.modzo.ors.stations.domain.radio.station.RadioStation
 import com.modzo.ors.stations.resources.IntegrationSpec
 import com.modzo.ors.stations.resources.admin.radio.station.data.CsvData
 import com.modzo.ors.stations.resources.admin.radio.station.data.CsvMapperConfiguration
@@ -34,7 +35,9 @@ class RadioStationsExporterControllerSpec extends IntegrationSpec {
             List<CsvData> data = CsvMapperConfiguration.constructReader().readValues(response.body).readAll()
             data.size() == 1
             with(data.first()) {
-                radioStations.findByTitle(radioStationName).isPresent()
+                Optional<RadioStation> radioStation = radioStations.findByTitle(radioStationName)
+                radioStation.isPresent()
+                radioStation.get().uniqueId == radioStationUniqueId
                 if (isNotBlank(streamUrls)) {
                     streamUrls.split('\\|').each { url ->
                         assert radioStationStreams.findByUrl(url).isPresent()

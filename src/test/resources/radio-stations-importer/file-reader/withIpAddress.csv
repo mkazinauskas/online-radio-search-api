@@ -1,2 +1,2 @@
-radioStationName,streamUrls
-Chilis - IFC Qatar - Retail Music International,http://162.252.85.85:7548
+radioStationEnabled,radioStationName,radioStationUniqueId,streamIsWorking,streamUrls
+false,Chilis - IFC Qatar - Retail Music International,UUID1,true,http://162.252.85.85:7548

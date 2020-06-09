@@ -20,7 +20,10 @@ class CsvReaderSpec extends Specification {
         then:
             result.size() == 1
             with(result.first()) {
+                !radioStationEnabled
+                radioStationUniqueId == 'UUID1'
                 radioStationName == 'Chilis - IFC Qatar - Retail Music International'
+                streamIsWorking == 'true'
                 streamUrls == 'http://162.252.85.85:7548'
             }
     }
@@ -33,7 +36,10 @@ class CsvReaderSpec extends Specification {
         then:
             result.size() == 1
             with(result.first()) {
+                radioStationEnabled
+                radioStationUniqueId == 'UUID1'
                 radioStationName == null
+                streamIsWorking == 'true'
                 streamUrls == 'http://162.252.85.85:3000'
             }
     }
@@ -45,7 +51,7 @@ class CsvReaderSpec extends Specification {
             testTarget.read(file)
         then:
             CsvMappingException ex = thrown()
-            ex.message.startsWith('Not enough column values: expected 2, found 1')
+            ex.message.startsWith('Not enough column values: expected 5, found 4')
     }
 
     void 'should fail when file is with additional column'() {
@@ -55,7 +61,7 @@ class CsvReaderSpec extends Specification {
             testTarget.read(file)
         then:
             CsvMappingException ex = thrown()
-            String expected = 'Too many entries: expected at most 2 (value #2 (25 chars) "http://162.252.85.85:3000")'
+            String expected = 'Too many entries: expected at most 5 (value #5 (10 chars) "additional")'
             ex.message.startsWith expected
     }
 
