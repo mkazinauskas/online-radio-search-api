@@ -9,13 +9,23 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CreateRadioStation {
 
+    private final String uniqueId;
+
     private final String title;
 
     public CreateRadioStation(String title) {
+        this.uniqueId = null;
+        this.title = title;
+    }
+
+    public CreateRadioStation(String uniqueId, String title) {
+        this.uniqueId = uniqueId;
         this.title = title;
     }
 
@@ -24,7 +34,11 @@ public class CreateRadioStation {
     }
 
     private RadioStation toRadioStation() {
-        return new RadioStation(this.title);
+        if (Objects.isNull(uniqueId)) {
+            return new RadioStation(this.title);
+        } else {
+            return new RadioStation(this.uniqueId, this.title);
+        }
     }
 
     @Component

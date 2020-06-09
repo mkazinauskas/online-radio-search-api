@@ -1,2 +1,2 @@
-radioStationName,streamUrls
-Simple Radio station 2001,http://162.252.85.85:9876|http://162.252.85.85:9876/aaaaaaaaaaaaasdas-asdasdas-dasadas-dasdasd/asdasda/sdasdasd/asdsasdas/adsdasdasd/asdssssssssssssssssssssddddddddddddddddddddddddddddddddddddddd
+radioStationEnabled,radioStationUniqueId,streamIsWorking,radioStationName,streamUrls
+"true","STfTz3JPxxO3asdkUpBf","true|true","Simple Radio station 2001","http://162.252.85.85:9876|http://162.252.85.85:9876/aaaaaaaaaaaaasdas-asdasdas-dasadas-dasdasd/asdasda/sdasdasd/asdsasdas/adsdasdasd/asdssssssssssssssssssssddddddddddddddddddddddddddddddddddddddd"

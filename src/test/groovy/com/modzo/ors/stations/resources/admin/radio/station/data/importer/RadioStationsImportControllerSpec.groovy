@@ -2,6 +2,8 @@ package com.modzo.ors.stations.resources.admin.radio.station.data.importer
 
 import com.modzo.ors.HttpEntityBuilder
 import com.modzo.ors.TestUsers
+import com.modzo.ors.stations.domain.radio.station.RadioStation
+import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.InputStreamSource
@@ -25,11 +27,16 @@ class RadioStationsImportControllerSpec extends IntegrationSpec {
         then:
             response.statusCode == OK
         and:
-            radioStations.findByTitle('Chilis - IFC Qatar - Retail Music International').isPresent()
+            RadioStation foundStation = radioStations
+                    .findByTitle('Chilis - IFC Qatar - Retail Music International').get()
+            foundStation.enabled
+            foundStation.uniqueId == 'STfTz3JPxxO3EDnkUpBf'
         and:
-            radioStationStreams.findByUrl('http://162.252.85.85:7548').isPresent()
+            RadioStationStream stream1 = radioStationStreams.findByUrl('http://162.252.85.85:7548').get()
+            !stream1.working
         and:
-            radioStationStreams.findByUrl('http://162.252.85.85:7547').isPresent()
+            RadioStationStream stream2 = radioStationStreams.findByUrl('http://162.252.85.85:7547').get()
+            !stream2.working
     }
 
     void 'admin should import radio stations from file with title longer that 100 symbols'() {
