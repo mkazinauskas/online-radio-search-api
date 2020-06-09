@@ -1,9 +1,9 @@
 package com.modzo.ors.stations.domain.song.commands;
 
-import com.modzo.ors.events.domain.SongCreated;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.song.Song;
 import com.modzo.ors.stations.domain.song.Songs;
+import com.modzo.ors.stations.events.StationsDomainEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,14 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CreateSong {
+
     private final String title;
 
     public CreateSong(String title) {
         this.title = title;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     private Song toSong() {
@@ -44,14 +41,12 @@ public class CreateSong {
             validator.validate(command);
             Song song = songs.save(command.toSong());
             applicationEventPublisher.publishEvent(
-                    new SongCreated(
+                    new StationsDomainEvent(
                             song,
-                            new SongCreated.Data(
-                                    song.getId(),
-                                    song.getUniqueId(),
-                                    song.getCreated(),
-                                    song.getTitle()
-                            ))
+                            StationsDomainEvent.Action.CREATED,
+                            StationsDomainEvent.Type.SONG,
+                            song.getId()
+                    )
             );
             return new Result(song.getId());
         }

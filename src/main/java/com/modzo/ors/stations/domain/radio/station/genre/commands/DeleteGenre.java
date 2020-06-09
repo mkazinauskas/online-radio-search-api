@@ -1,9 +1,9 @@
 package com.modzo.ors.stations.domain.radio.station.genre.commands;
 
-import com.modzo.ors.events.domain.GenreDeleted;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.genre.Genre;
 import com.modzo.ors.stations.domain.radio.station.genre.Genres;
+import com.modzo.ors.stations.events.StationsDomainEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,12 +43,11 @@ public class DeleteGenre {
             genres.delete(genre);
 
             applicationEventPublisher.publishEvent(
-                    new GenreDeleted(
+                    new StationsDomainEvent(
                             genre,
-                            new GenreDeleted.Data(
-                                    genre.getId(),
-                                    genre.getUniqueId()
-                            )
+                            StationsDomainEvent.Action.DELETED,
+                            StationsDomainEvent.Type.GENRE,
+                            genre.getId()
                     )
             );
         }

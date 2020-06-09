@@ -1,11 +1,9 @@
 package com.modzo.ors.stations.domain.radio.station.stream.commands;
 
-import com.modzo.ors.events.domain.RadioStationStreamUpdated;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -118,16 +116,12 @@ public class UpdateRadioStationStream {
 
         private final Validator validator;
 
-        private final ApplicationEventPublisher applicationEventPublisher;
-
         public Handler(RadioStationStreams radioStationStreams,
                        RadioStations radioStations,
-                       Validator validator,
-                       ApplicationEventPublisher applicationEventPublisher) {
+                       Validator validator) {
             this.radioStationStreams = radioStationStreams;
             this.radioStations = radioStations;
             this.validator = validator;
-            this.applicationEventPublisher = applicationEventPublisher;
         }
 
         @Transactional
@@ -144,21 +138,6 @@ public class UpdateRadioStationStream {
             stream.setType(type);
             stream.setUrl(command.data.url);
             stream.setWorking(command.data.working);
-            String radioStationUniqueId = radioStations.getOne(command.radioStationId).getUniqueId();
-
-            applicationEventPublisher.publishEvent(
-                    new RadioStationStreamUpdated(stream,
-                            new RadioStationStreamUpdated.Data(
-                                    stream.getId(),
-                                    stream.getUniqueId(),
-                                    radioStationUniqueId,
-                                    command.data.url,
-                                    command.data.bitRate,
-                                    type.name(),
-                                    command.data.working
-                            )
-                    )
-            );
         }
     }
 

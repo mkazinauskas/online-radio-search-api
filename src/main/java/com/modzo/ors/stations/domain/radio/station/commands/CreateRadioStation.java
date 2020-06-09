@@ -1,9 +1,9 @@
 package com.modzo.ors.stations.domain.radio.station.commands;
 
-import com.modzo.ors.events.domain.RadioStationCreated;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
+import com.modzo.ors.stations.events.StationsDomainEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
@@ -29,6 +29,7 @@ public class CreateRadioStation {
 
     @Component
     public static class Handler {
+
         private final RadioStations radioStations;
 
         private final Validator validator;
@@ -48,19 +49,16 @@ public class CreateRadioStation {
             validator.validate(command);
             RadioStation radioStation = radioStations.save(command.toRadioStation());
             applicationEventPublisher.publishEvent(
-                    new RadioStationCreated(
+                    new StationsDomainEvent(
                             radioStation,
-                            new RadioStationCreated.Data(
-                                    radioStation.getId(),
-                                    radioStation.getUniqueId(),
-                                    radioStation.getCreated(),
-                                    radioStation.getTitle(),
-                                    radioStation.isEnabled()
-                            )
+                            StationsDomainEvent.Action.CREATED,
+                            StationsDomainEvent.Type.RADIO_STATION,
+                            radioStation.getId()
                     )
             );
             return new Result(radioStation.getId());
         }
+
     }
 
     @Component

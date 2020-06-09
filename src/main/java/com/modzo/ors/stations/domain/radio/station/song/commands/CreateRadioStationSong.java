@@ -1,14 +1,10 @@
 package com.modzo.ors.stations.domain.radio.station.song.commands;
 
-import com.modzo.ors.events.domain.RadioStationSongCreated;
 import com.modzo.ors.stations.domain.DomainException;
-import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong;
 import com.modzo.ors.stations.domain.radio.station.song.RadioStationSongs;
-import com.modzo.ors.stations.domain.song.Song;
 import com.modzo.ors.stations.domain.song.Songs;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,56 +42,30 @@ public class CreateRadioStationSong {
 
     @Component
     public static class Handler {
+
         private final RadioStationSongs radioStationSongs;
 
         private final Validator validator;
 
-        private final ApplicationEventPublisher applicationEventPublisher;
-
-        private final Songs songs;
-
-        private final RadioStations radioStations;
-
         public Handler(RadioStationSongs radioStationSongs,
-                       Validator validator,
-                       ApplicationEventPublisher applicationEventPublisher,
-                       Songs songs,
-                       RadioStations radioStations) {
+                       Validator validator) {
             this.radioStationSongs = radioStationSongs;
             this.validator = validator;
-            this.applicationEventPublisher = applicationEventPublisher;
-            this.songs = songs;
-            this.radioStations = radioStations;
         }
 
         @Transactional
         public Result handle(CreateRadioStationSong command) {
             validator.validate(command);
+
             RadioStationSong radioStationSong = radioStationSongs.save(command.toRadioStationSong());
 
-            RadioStation radioStation = radioStations.getOne(radioStationSong.getRadioStationId());
-
-            Song song = songs.findById(command.songId).get();
-            applicationEventPublisher.publishEvent(
-                    new RadioStationSongCreated(
-                            radioStationSong,
-                            new RadioStationSongCreated.Data(
-                                    radioStationSong.getId(),
-                                    radioStationSong.getUniqueId(),
-                                    radioStationSong.getCreated(),
-                                    song.getId(),
-                                    song.getUniqueId(),
-                                    radioStation.getId(),
-                                    radioStation.getUniqueId(),
-                                    radioStationSong.getPlayedTime()
-                            ))
-            );
             return new Result(radioStationSong.getId());
         }
     }
 
     @Component
     private static class Validator {
+
         private final RadioStations radioStations;
 
         private final Songs songs;

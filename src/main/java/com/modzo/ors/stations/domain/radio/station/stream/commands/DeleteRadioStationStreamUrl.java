@@ -1,11 +1,9 @@
 package com.modzo.ors.stations.domain.radio.station.stream.commands;
 
-import com.modzo.ors.events.domain.RadioStationStreamUrlDeleted;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams;
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrls;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,14 +30,10 @@ public class DeleteRadioStationStreamUrl {
 
         private final Validator validator;
 
-        private final ApplicationEventPublisher applicationEventPublisher;
-
         Handler(RadioStationStreams streams,
-                Validator validator,
-                ApplicationEventPublisher applicationEventPublisher) {
+                Validator validator) {
             this.streams = streams;
             this.validator = validator;
-            this.applicationEventPublisher = applicationEventPublisher;
         }
 
         @Transactional
@@ -54,18 +48,6 @@ public class DeleteRadioStationStreamUrl {
 
             stream.getUrls()
                     .remove(urlToRemove.getType());
-
-            applicationEventPublisher.publishEvent(
-                    new RadioStationStreamUrlDeleted(
-                            urlToRemove,
-                            new RadioStationStreamUrlDeleted.Data(
-                                    urlToRemove.getId(),
-                                    urlToRemove.getUniqueId(),
-                                    stream.getId(),
-                                    stream.getUniqueId()
-                            )
-                    )
-            );
         }
     }
 

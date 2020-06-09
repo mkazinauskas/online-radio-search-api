@@ -1,10 +1,8 @@
 package com.modzo.ors.stations.domain.radio.station.stream.commands;
 
-import com.modzo.ors.events.domain.StreamUrlCheckedTimeUpdated;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl;
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrls;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,14 +21,6 @@ public class UpdateStreamUrlCheckedTime {
         this.checkedTime = checkedTime;
     }
 
-    public long getUrlId() {
-        return urlId;
-    }
-
-    public ZonedDateTime getCheckedTime() {
-        return checkedTime;
-    }
-
     @Component
     public static class Handler {
 
@@ -38,14 +28,10 @@ public class UpdateStreamUrlCheckedTime {
 
         private final UpdateStreamUrlCheckedTime.Validator validator;
 
-        private final ApplicationEventPublisher applicationEventPublisher;
-
         public Handler(StreamUrls streamUrls,
-                       Validator validator,
-                       ApplicationEventPublisher applicationEventPublisher) {
+                       Validator validator) {
             this.streamUrls = streamUrls;
             this.validator = validator;
-            this.applicationEventPublisher = applicationEventPublisher;
         }
 
         @Transactional
@@ -54,17 +40,6 @@ public class UpdateStreamUrlCheckedTime {
 
             StreamUrl url = streamUrls.findById(command.urlId).get();
             url.setChecked(command.checkedTime);
-
-            applicationEventPublisher.publishEvent(
-                    new StreamUrlCheckedTimeUpdated(
-                            url,
-                            new StreamUrlCheckedTimeUpdated.Data(
-                                    url.getId(),
-                                    url.getUniqueId(),
-                                    url.getChecked()
-                            )
-                    )
-            );
         }
     }
 

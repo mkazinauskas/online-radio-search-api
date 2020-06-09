@@ -15,8 +15,6 @@ class SearchSongSpec extends IntegrationSpec {
         given:
             Song song = testSong.create()
         and:
-            eventsProcessor.process()
-        and:
             String url = '/search/song'
         when:
             ResponseEntity<SearchSongResultsModel> result = restTemplate.exchange(

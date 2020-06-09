@@ -15,8 +15,6 @@ class SearchRadioStationSpec extends IntegrationSpec {
         given:
             RadioStation radioStation = testRadioStation.create()
         and:
-            eventsProcessor.process()
-        and:
             String url = '/search/radio-station'
         when:
             ResponseEntity<SearchRadioStationResultsModel> result = restTemplate.exchange(

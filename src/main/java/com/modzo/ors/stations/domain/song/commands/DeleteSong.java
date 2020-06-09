@@ -1,14 +1,15 @@
 package com.modzo.ors.stations.domain.song.commands;
 
-import com.modzo.ors.events.domain.SongDeleted;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.song.Song;
 import com.modzo.ors.stations.domain.song.Songs;
+import com.modzo.ors.stations.events.StationsDomainEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 public class DeleteSong {
+
     private final long id;
 
     public DeleteSong(long id) {
@@ -17,6 +18,7 @@ public class DeleteSong {
 
     @Component
     public static class Handler {
+
         private final Songs songs;
 
         private final Validator validator;
@@ -40,12 +42,11 @@ public class DeleteSong {
             songs.delete(song);
 
             applicationEventPublisher.publishEvent(
-                    new SongDeleted(
+                    new StationsDomainEvent(
                             song,
-                            new SongDeleted.Data(
-                                    song.getId(),
-                                    song.getUniqueId()
-                            )
+                            StationsDomainEvent.Action.DELETED,
+                            StationsDomainEvent.Type.SONG,
+                            song.getId()
                     )
             );
         }

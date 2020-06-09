@@ -19,8 +19,6 @@ class SearchSongsBySongNameSpec extends IntegrationSpec {
     void 'should search for `#searchTerm` in song `#title`'() {
         given:
             Song savedSong = testSong.create("$title ${randomAlphanumeric(5)}")
-        and:
-            eventsProcessor.process()
         when:
             Page<SongDocument> result = testTarget.handle(
                     new SearchSongsByTitle(searchTerm, Pageable.unpaged())

@@ -1,13 +1,11 @@
 package com.modzo.ors.stations.domain.radio.station.stream.commands;
 
 import com.modzo.ors.commons.Urls;
-import com.modzo.ors.events.domain.RadioStationStreamUrlCreated;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams;
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl;
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrls;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,16 +57,12 @@ public class CreateRadioStationStreamUrl {
 
         private final StreamUrls streamUrls;
 
-        private final ApplicationEventPublisher applicationEventPublisher;
-
         public Handler(RadioStationStreams radioStationStreams,
                        Validator validator,
-                       StreamUrls streamUrls,
-                       ApplicationEventPublisher applicationEventPublisher) {
+                       StreamUrls streamUrls) {
             this.radioStationStreams = radioStationStreams;
             this.validator = validator;
             this.streamUrls = streamUrls;
-            this.applicationEventPublisher = applicationEventPublisher;
         }
 
         @Transactional
@@ -87,20 +81,6 @@ public class CreateRadioStationStreamUrl {
 
             radioStationStream.getUrls().put(command.type, savedUrl);
 
-            applicationEventPublisher.publishEvent(
-                    new RadioStationStreamUrlCreated(
-                            savedUrl,
-                            new RadioStationStreamUrlCreated.Data(
-                                    savedUrl.getId(),
-                                    savedUrl.getUniqueId(),
-                                    savedUrl.getCreated(),
-                                    savedUrl.getStream().getId(),
-                                    savedUrl.getStream().getUniqueId(),
-                                    savedUrl.getUrl(),
-                                    savedUrl.getType()
-                            )
-                    )
-            );
             return new CreateRadioStationStreamUrl.Result(savedUrl.getId());
         }
     }

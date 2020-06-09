@@ -1,10 +1,8 @@
 package com.modzo.ors.stations.domain.radio.station.stream.commands;
 
-import com.modzo.ors.events.domain.RadioStationStreamCheckedTimeUpdated;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,14 +21,6 @@ public class UpdateRadioStationStreamCheckedTime {
         this.checkedTime = checkedTime;
     }
 
-    public long getStreamId() {
-        return streamId;
-    }
-
-    public ZonedDateTime getCheckedTime() {
-        return checkedTime;
-    }
-
     @Component
     public static class Handler {
 
@@ -38,14 +28,10 @@ public class UpdateRadioStationStreamCheckedTime {
 
         private final UpdateRadioStationStreamCheckedTime.Validator validator;
 
-        private final ApplicationEventPublisher applicationEventPublisher;
-
         public Handler(RadioStationStreams streams,
-                       Validator validator,
-                       ApplicationEventPublisher applicationEventPublisher) {
+                       Validator validator) {
             this.streams = streams;
             this.validator = validator;
-            this.applicationEventPublisher = applicationEventPublisher;
         }
 
         @Transactional
@@ -54,17 +40,6 @@ public class UpdateRadioStationStreamCheckedTime {
 
             RadioStationStream stream = streams.findById(command.streamId).get();
             stream.setChecked(command.checkedTime);
-
-            applicationEventPublisher.publishEvent(
-                    new RadioStationStreamCheckedTimeUpdated(
-                            stream,
-                            new RadioStationStreamCheckedTimeUpdated.Data(
-                                    stream.getId(),
-                                    stream.getUniqueId(),
-                                    stream.getChecked()
-                            )
-                    )
-            );
         }
     }
 

@@ -2,7 +2,6 @@ package com.modzo.ors.stations.resources
 
 import com.modzo.ors.TestUsers
 import com.modzo.ors.TokenProvider
-import com.modzo.ors.events.domain.Events
 import com.modzo.ors.helpers.TestGenre
 import com.modzo.ors.helpers.TestRadioStation
 import com.modzo.ors.helpers.TestRadioStationSong
@@ -11,9 +10,9 @@ import com.modzo.ors.helpers.TestRadioStationStreamUrl
 import com.modzo.ors.helpers.TestSong
 import com.modzo.ors.search.TestRadioStationDocument
 import com.modzo.ors.search.TestSongDocument
-import com.modzo.ors.search.domain.events.reader.parser.EventsProcessor
 import com.modzo.ors.stations.domain.radio.station.RadioStations
 import com.modzo.ors.stations.domain.radio.station.genre.Genres
+import com.modzo.ors.stations.domain.radio.station.song.RadioStationSongs
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrls
 import com.modzo.ors.stations.domain.song.Songs
@@ -63,13 +62,13 @@ class IntegrationSpec extends Specification {
     TokenProvider tokenProvider
 
     @Autowired
-    EventsProcessor eventsProcessor
-
-    @Autowired
     RadioStationStreams radioStationStreams
 
     @Autowired
     RadioStations radioStations
+
+    @Autowired
+    RadioStationSongs radioStationSongs
 
     @Autowired
     StreamUrls streamUrls
@@ -79,9 +78,6 @@ class IntegrationSpec extends Specification {
 
     @Autowired
     Genres genres
-
-    @Autowired
-    Events events
 
     String token(TestUsers.TestUser user) {
         tokenProvider.token(user.username, user.password)
