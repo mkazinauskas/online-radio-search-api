@@ -3,31 +3,22 @@ package com.modzo.ors.search.domain.events.reader.parser;
 import com.modzo.ors.events.domain.DomainEvent;
 import com.modzo.ors.events.domain.Event;
 import com.modzo.ors.events.domain.RadioStationUpdated;
-import com.modzo.ors.search.domain.GenreDocument;
 import com.modzo.ors.search.domain.RadioStationDocument;
 import com.modzo.ors.search.domain.RadioStationsRepository;
-import com.modzo.ors.search.domain.commands.FindGenreByUniqueId;
 import com.modzo.ors.search.domain.commands.FindRadioStationByUniqueId;
 import org.springframework.stereotype.Component;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 class RadioStationUpdatedEventParser implements EventParser {
 
     private final FindRadioStationByUniqueId.Handler findRadioStationByUniqueId;
 
-    private final FindGenreByUniqueId.Handler findGenreByUniqueId;
-
     private final RadioStationsRepository radioStationsRepository;
 
     public RadioStationUpdatedEventParser(
             FindRadioStationByUniqueId.Handler findRadioStationByUniqueId,
-            FindGenreByUniqueId.Handler findGenreByUniqueId,
             RadioStationsRepository radioStationsRepository) {
         this.findRadioStationByUniqueId = findRadioStationByUniqueId;
-        this.findGenreByUniqueId = findGenreByUniqueId;
         this.radioStationsRepository = radioStationsRepository;
     }
 
@@ -46,18 +37,8 @@ class RadioStationUpdatedEventParser implements EventParser {
 
         radioStationDocument.setTitle(data.getTitle());
         radioStationDocument.setWebsite(data.getWebsite());
-        radioStationDocument.setGenres(genres(data.getGenres()));
         radioStationDocument.setEnabled(data.isEnabled());
         radioStationsRepository.save(radioStationDocument);
     }
 
-    private Set<GenreDocument> genres(Set<RadioStationUpdated.Data.Genre> genres) {
-        return genres.stream()
-                .map(this::findGenres)
-                .collect(Collectors.toSet());
-    }
-
-    private GenreDocument findGenres(RadioStationUpdated.Data.Genre genre) {
-        return findGenreByUniqueId.handle(new FindGenreByUniqueId(genre.getUniqueId()));
-    }
 }
