@@ -75,7 +75,7 @@ class RadioStationsImportControllerSpec extends IntegrationSpec {
             response.statusCode == BAD_REQUEST
             response.body.id == 'FAILED_TO_IMPORT_RADIO_STATIONS'
             response.body.fields.first() == 'file'
-            response.body.message == 'Field title cannot be longer than 100 characters'
+            response.body.message == 'com.modzo.ors.stations.domain.DomainException: Field title cannot be longer than 100 characters'
     }
 
     void 'admin should skip import of radio stations from file with url longer that 100 symbols'() {
@@ -89,7 +89,7 @@ class RadioStationsImportControllerSpec extends IntegrationSpec {
             response.statusCode == BAD_REQUEST
             response.body.id == 'FAILED_TO_IMPORT_RADIO_STATIONS'
             response.body.fields.first() == 'file'
-            response.body.message == 'Field url cannot be longer than 100 characters'
+            response.body.message == 'com.modzo.ors.stations.domain.DomainException: Field url cannot be longer than 100 characters'
     }
 
     private ResponseEntity<String> doImport(LinkedMultiValueMap<String, Object> body) {
