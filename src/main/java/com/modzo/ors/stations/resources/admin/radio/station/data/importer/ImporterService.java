@@ -61,7 +61,9 @@ class ImporterService {
 
             List<BackupData> data = JsonReader.read(file);
             ForkJoinPool customThreadPool = new ForkJoinPool(4);
-            customThreadPool.submit(() -> data.parallelStream().forEach(entry -> doImport(entry, importUniqueIds)));
+            customThreadPool
+                    .submit(() -> data.parallelStream().forEach(entry -> doImport(entry, importUniqueIds)))
+                    .get();
         } catch (Exception exception) {
             logger.error("Failed to import radio stations", exception);
             throw new DomainException(
