@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ForkJoinPool;
 
 @Component
 class ImporterService {
@@ -57,8 +58,10 @@ class ImporterService {
 
     void run(MultipartFile file, boolean importUniqueIds) {
         try {
-            JsonReader.read(file)
-                    .forEach(line -> doImport(line, importUniqueIds));
+
+            List<BackupData> data = JsonReader.read(file);
+            ForkJoinPool customThreadPool = new ForkJoinPool(4);
+            customThreadPool.submit(() -> data.parallelStream().forEach(entry -> doImport(entry, importUniqueIds)));
         } catch (Exception exception) {
             logger.error("Failed to import radio stations", exception);
             throw new DomainException(
