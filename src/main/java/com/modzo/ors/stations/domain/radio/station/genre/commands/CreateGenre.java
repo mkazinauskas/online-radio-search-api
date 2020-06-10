@@ -49,7 +49,7 @@ public class CreateGenre {
             applicationEventPublisher.publishEvent(
                     new StationsDomainEvent(
                             genre,
-                            StationsDomainEvent.Action.CREATED,
+                            StationsDomainEvent.Action.REFRESHED,
                             StationsDomainEvent.Type.GENRE,
                             genre.getId()
                     )

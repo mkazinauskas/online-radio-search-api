@@ -182,7 +182,7 @@ public class UpdateRadioStation {
             applicationEventPublisher.publishEvent(
                     new StationsDomainEvent(
                             radioStation,
-                            StationsDomainEvent.Action.UPDATED,
+                            StationsDomainEvent.Action.REFRESHED,
                             StationsDomainEvent.Type.RADIO_STATION,
                             radioStation.getId()
                     )

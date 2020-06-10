@@ -7,8 +7,7 @@ import java.util.Objects;
 public class StationsDomainEvent extends ApplicationEvent {
 
     public enum Action {
-        CREATED,
-        UPDATED,
+        REFRESHED,
         DELETED
     }
 

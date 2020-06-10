@@ -43,7 +43,7 @@ public class CreateSong {
             applicationEventPublisher.publishEvent(
                     new StationsDomainEvent(
                             song,
-                            StationsDomainEvent.Action.CREATED,
+                            StationsDomainEvent.Action.REFRESHED,
                             StationsDomainEvent.Type.SONG,
                             song.getId()
                     )

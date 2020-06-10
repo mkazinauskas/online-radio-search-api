@@ -65,7 +65,7 @@ public class CreateRadioStation {
             applicationEventPublisher.publishEvent(
                     new StationsDomainEvent(
                             radioStation,
-                            StationsDomainEvent.Action.CREATED,
+                            StationsDomainEvent.Action.REFRESHED,
                             StationsDomainEvent.Type.RADIO_STATION,
                             radioStation.getId()
                     )
