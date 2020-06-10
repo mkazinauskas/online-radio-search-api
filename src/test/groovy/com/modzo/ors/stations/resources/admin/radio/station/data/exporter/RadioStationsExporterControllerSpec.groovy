@@ -37,7 +37,7 @@ class RadioStationsExporterControllerSpec extends IntegrationSpec {
             with(data.first()) {
                 Optional<RadioStation> radioStation = radioStations.findByTitle(title)
                 radioStation.isPresent()
-                radioStation.get().uniqueId == uniqueId
+                radioStation.get().uniqueId == UUID.fromString(uniqueId)
                 if (streams) {
                     streams.each { stream ->
                         RadioStationStream savedStream = radioStationStreams.findByUrl(stream.url).get()

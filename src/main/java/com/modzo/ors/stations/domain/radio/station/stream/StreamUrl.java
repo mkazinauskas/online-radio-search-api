@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
@@ -35,8 +36,8 @@ public class StreamUrl {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "unique_id", length = 20, unique = true, nullable = false)
-    private String uniqueId = randomAlphanumeric(20);
+    @Column(name = "unique_id", unique = true, nullable = false)
+    private UUID uniqueId = UUID.randomUUID();
 
     @Column(name = "created", nullable = false)
     private ZonedDateTime created = ZonedDateTime.now();
@@ -71,11 +72,11 @@ public class StreamUrl {
         this.id = id;
     }
 
-    public String getUniqueId() {
+    public UUID getUniqueId() {
         return uniqueId;
     }
 
-    public void setUniqueId(String uniqueId) {
+    public void setUniqueId(UUID uniqueId) {
         this.uniqueId = uniqueId;
     }
 

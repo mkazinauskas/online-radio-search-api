@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.modzo.ors.search.domain.RadioStationDocument;
 
+import java.util.UUID;
+
 public class SearchRadioStationResultResponse {
 
     private final long id;
 
-    private final String uniqueId;
+    private final UUID uniqueId;
 
     private final String title;
 
@@ -16,7 +18,7 @@ public class SearchRadioStationResultResponse {
 
     @JsonCreator
     private SearchRadioStationResultResponse(@JsonProperty("id") long id,
-                                             @JsonProperty("uniqueId") String uniqueId,
+                                             @JsonProperty("uniqueId") UUID uniqueId,
                                              @JsonProperty("title") String title,
                                              @JsonProperty("website") String website) {
         this.id = id;
@@ -38,7 +40,7 @@ public class SearchRadioStationResultResponse {
         return id;
     }
 
-    public String getUniqueId() {
+    public UUID getUniqueId() {
         return uniqueId;
     }
 

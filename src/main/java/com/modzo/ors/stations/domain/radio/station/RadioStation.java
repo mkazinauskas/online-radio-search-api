@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.UUID;
 
 import static javax.persistence.CascadeType.REFRESH;
 import static javax.persistence.FetchType.EAGER;
@@ -35,8 +36,8 @@ public class RadioStation {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "unique_id", length = 20, unique = true, nullable = false)
-    private String uniqueId = randomAlphanumeric(20);
+    @Column(name = "unique_id", unique = true, nullable = false)
+    private UUID uniqueId = UUID.randomUUID();
 
     @Column(name = "created", nullable = false)
     private ZonedDateTime created = ZonedDateTime.now();
@@ -70,7 +71,7 @@ public class RadioStation {
         this.title = title;
     }
 
-    public RadioStation(String uniqueId, String title) {
+    public RadioStation(UUID uniqueId, String title) {
         this.uniqueId = uniqueId;
         this.title = title;
     }
@@ -79,7 +80,7 @@ public class RadioStation {
         return id;
     }
 
-    public String getUniqueId() {
+    public UUID getUniqueId() {
         return uniqueId;
     }
 

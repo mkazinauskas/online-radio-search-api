@@ -5,12 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.modzo.ors.stations.domain.radio.station.genre.Genre;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 class GenreResponse {
 
     private final long id;
 
-    private final String uniqueId;
+    private final UUID uniqueId;
 
     private final ZonedDateTime created;
 
@@ -18,7 +19,7 @@ class GenreResponse {
 
     @JsonCreator
     private GenreResponse(@JsonProperty("id") long id,
-                          @JsonProperty("uniqueId") String uniqueId,
+                          @JsonProperty("uniqueId") UUID uniqueId,
                           @JsonProperty("created") ZonedDateTime created,
                           @JsonProperty("title") String title) {
         this.id = id;
@@ -35,7 +36,7 @@ class GenreResponse {
         return id;
     }
 
-    public String getUniqueId() {
+    public UUID getUniqueId() {
         return uniqueId;
     }
 

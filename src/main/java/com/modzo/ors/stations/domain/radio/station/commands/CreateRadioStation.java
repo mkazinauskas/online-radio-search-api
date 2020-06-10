@@ -10,12 +10,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CreateRadioStation {
 
-    private final String uniqueId;
+    private final UUID uniqueId;
 
     private final String title;
 
@@ -24,7 +25,7 @@ public class CreateRadioStation {
         this.title = title;
     }
 
-    public CreateRadioStation(String uniqueId, String title) {
+    public CreateRadioStation(UUID uniqueId, String title) {
         this.uniqueId = uniqueId;
         this.title = title;
     }
