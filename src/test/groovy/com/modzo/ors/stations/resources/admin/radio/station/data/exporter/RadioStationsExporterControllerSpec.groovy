@@ -3,15 +3,15 @@ package com.modzo.ors.stations.resources.admin.radio.station.data.exporter
 import com.modzo.ors.HttpEntityBuilder
 import com.modzo.ors.TestUsers
 import com.modzo.ors.stations.domain.radio.station.RadioStation
+import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream
 import com.modzo.ors.stations.resources.IntegrationSpec
-import com.modzo.ors.stations.resources.admin.radio.station.data.CsvData
-import com.modzo.ors.stations.resources.admin.radio.station.data.CsvMapperConfiguration
+import com.modzo.ors.stations.resources.admin.radio.station.data.BackupData
+import com.modzo.ors.stations.resources.admin.radio.station.data.BackupMapperConfiguration
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 
-import static org.junit.platform.commons.util.StringUtils.isNotBlank
 import static org.springframework.http.HttpStatus.OK
 
 class RadioStationsExporterControllerSpec extends IntegrationSpec {
@@ -32,17 +32,20 @@ class RadioStationsExporterControllerSpec extends IntegrationSpec {
         then:
             response.statusCode == OK
         and:
-            List<CsvData> data = CsvMapperConfiguration.constructReader().readValues(response.body).readAll()
+            List<BackupData> data = BackupMapperConfiguration.constructReader().readValues(response.body).readAll()
             data.size() == 1
             with(data.first()) {
-                Optional<RadioStation> radioStation = radioStations.findByTitle(radioStationName)
+                Optional<RadioStation> radioStation = radioStations.findByTitle(title)
                 radioStation.isPresent()
-                radioStation.get().uniqueId == radioStationUniqueId
-                if (isNotBlank(streamUrls)) {
-                    streamUrls.split('\\|').each { url ->
-                        assert radioStationStreams.findByUrl(url).isPresent()
+                radioStation.get().uniqueId == uniqueId
+                if (streams) {
+                    streams.each { stream ->
+                        RadioStationStream savedStream = radioStationStreams.findByUrl(stream.url).get()
+                        savedStream.working == stream.working
+                        true
                     }
                 }
             }
     }
+
 }

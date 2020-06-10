@@ -1,0 +1,28 @@
+[
+  {
+    "uniqueId": "uuid1",
+    "title": "first name",
+    "enabled": true,
+    "streams": [
+      {
+        "url": "http://someurl.com?:,",
+        "working": true
+      },
+      {
+        "url": "http://someurl.com},",
+        "working": false
+      }
+    ]
+  },
+  {
+    "uniqueId": "uuid2",
+    "title": "first, name",
+    "enabled": false,
+    "streams": [
+      {
+        "url": "http://someurl2.com?:,",
+        "working": false
+      }
+    ]
+  }
+]

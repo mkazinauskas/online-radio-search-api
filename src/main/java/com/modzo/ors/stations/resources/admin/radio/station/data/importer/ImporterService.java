@@ -10,7 +10,7 @@ import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.CreateRadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.FindRadioStationStreamByUrl;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateRadioStationStream;
-import com.modzo.ors.stations.resources.admin.radio.station.data.CsvData;
+import com.modzo.ors.stations.resources.admin.radio.station.data.BackupData;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -62,7 +61,7 @@ class ImporterService {
 
     void run(MultipartFile file) {
         try {
-            CsvReader.read(file)
+            JsonReader.read(file)
                     .forEach(this::doImport);
         } catch (Exception exception) {
             logger.error("Failed to import radio stations", exception);
@@ -74,11 +73,10 @@ class ImporterService {
         }
     }
 
-    private void doImport(CsvData entry) {
-        String radioStationName = StringUtils.substring(entry.getRadioStationName(), 0, 99);
+    private void doImport(BackupData entry) {
+        String radioStationName = entry.getTitle();
 
-        List<String> streamUrls = toUrls(entry.getStreamUrls());
-        if (streamUrls.isEmpty()) {
+        if (entry.getStreams().isEmpty()) {
             logger.warn(
                     "Radio station name `{}` does not have importable streams. Skipping creation.",
                     radioStationName
@@ -86,20 +84,10 @@ class ImporterService {
             return;
         }
 
-        List<Boolean> isWorkingFlag = toWorkingFlags(entry.getStreamIsWorking());
-        if (isWorkingFlag.size() < streamUrls.size()) {
-            logger.warn(
-                    "Radio station name `{}` does not have the same amount of enabled streams flags. " +
-                            "Skipping creation.",
-                    radioStationName
-            );
-            return;
-        }
-
-        Optional<RadioStation> existingStationByUniqueId = radioStations.findByUniqueId(entry.getRadioStationUniqueId());
+        Optional<RadioStation> existingStationByUniqueId = radioStations.findByUniqueId(entry.getUniqueId());
         if (existingStationByUniqueId.isPresent()) {
-            logger.warn("Radio station uuid `{}` already exists. Skipping creation.", entry.getRadioStationUniqueId());
-            createStreamUrls(existingStationByUniqueId.get().getId(), streamUrls, isWorkingFlag);
+            logger.warn("Radio station uuid `{}` already exists. Skipping creation.", entry.getUniqueId());
+            createStreamUrls(existingStationByUniqueId.get().getId(), entry.getStreams());
             return;
         }
 
@@ -109,18 +97,18 @@ class ImporterService {
 
         if (existingStationByTitle.isPresent()) {
             logger.warn("Radio station name `{}` already exists. Skipping creation.", radioStationName);
-            createStreamUrls(existingStationByTitle.get().getId(), streamUrls, isWorkingFlag);
+            createStreamUrls(existingStationByTitle.get().getId(), entry.getStreams());
         } else {
             CreateRadioStation.Result result = createRadioStationHandler.handle(
-                    new CreateRadioStation(entry.getRadioStationUniqueId(), radioStationName)
+                    new CreateRadioStation(entry.getUniqueId(), radioStationName)
             );
-            createStreamUrls(result.id, streamUrls, isWorkingFlag);
+            createStreamUrls(result.id, entry.getStreams());
 
             RadioStation currentRadioStation = radioStations.findById(result.id).get();
 
             updateRadioStationHandler.handle(new UpdateRadioStation(result.id, new UpdateRadioStation.DataBuilder()
                     .fromCurrent(currentRadioStation)
-                    .setEnabled(entry.isRadioStationEnabled())
+                    .setEnabled(entry.isEnabled())
                     .build())
             );
         }
@@ -146,9 +134,8 @@ class ImporterService {
                 .collect(toList());
     }
 
-    private void createStreamUrls(Long id, List<String> streamUrls, List<Boolean> isWorkingFlags) {
-        IntStream.range(0, streamUrls.size())
-                .forEach(index -> createStreamUrl(id, streamUrls.get(index), isWorkingFlags.get(index)));
+    private void createStreamUrls(Long radioStationId, List<BackupData.Stream> streams) {
+        streams.forEach(stream -> createStreamUrl(radioStationId, stream.getUrl(), stream.isWorking()));
     }
 
     private void createStreamUrl(Long radioStationId, String streamUrl, boolean isWorking) {
