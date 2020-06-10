@@ -49,7 +49,7 @@ class TestElasticSearchSetup implements ParallelInitializationBean, DisposableBe
 
         ElasticSearchContainer(int port, int apiPort, String clusterName) {
             this.container = new FixedHostPortGenericContainer(
-                    'elasticsearch:6.4.1'
+                    'elasticsearch:7.7.1'
             )
                     .withFixedExposedPort(port, ELASTIC_SEARCH_PORT)
                     .withFixedExposedPort(apiPort, ELASTIC_SEARCH_API_PORT)
