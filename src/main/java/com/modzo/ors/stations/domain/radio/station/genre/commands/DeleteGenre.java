@@ -58,7 +58,7 @@ public class DeleteGenre {
 
         private final Genres genres;
 
-        public Validator(Genres genres) {
+        Validator(Genres genres) {
             this.genres = genres;
         }
 

@@ -29,7 +29,7 @@ public class Genre {
     @Column(name = "title", length = 100, unique = true, nullable = false)
     private String title;
 
-    Genre() {
+    protected Genre() {
     }
 
     public Genre(String title) {

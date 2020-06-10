@@ -11,11 +11,11 @@ import javax.validation.constraints.NotNull;
 class CreateStreamUrlRequest {
 
     @NotNull
-    private StreamUrl.Type type;
+    private final StreamUrl.Type type;
 
     @NotBlank
     @URL
-    private String url;
+    private final String url;
 
     @JsonCreator
     CreateStreamUrlRequest(@JsonProperty("type") StreamUrl.Type type,
@@ -28,15 +28,9 @@ class CreateStreamUrlRequest {
         return type;
     }
 
-    public void setType(StreamUrl.Type type) {
-        this.type = type;
-    }
 
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
 }

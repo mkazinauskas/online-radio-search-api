@@ -24,14 +24,6 @@ public class CreateRadioStationSong {
         this.playedTime = playedTime;
     }
 
-    public long getSongId() {
-        return songId;
-    }
-
-    public long getRadioStationId() {
-        return radioStationId;
-    }
-
     public ZonedDateTime getPlayedTime() {
         return playedTime;
     }
@@ -70,7 +62,7 @@ public class CreateRadioStationSong {
 
         private final Songs songs;
 
-        public Validator(RadioStations radioStations, Songs songs) {
+        Validator(RadioStations radioStations, Songs songs) {
             this.radioStations = radioStations;
             this.songs = songs;
         }

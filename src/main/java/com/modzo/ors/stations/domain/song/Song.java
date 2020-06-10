@@ -29,7 +29,7 @@ public class Song {
     @Column(name = "title", length = 100)
     private String title;
 
-    Song() {
+    protected Song() {
     }
 
     public Song(String title) {

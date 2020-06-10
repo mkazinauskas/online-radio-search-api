@@ -56,7 +56,7 @@ public class DeleteSong {
     private static class Validator {
         private final Songs songs;
 
-        public Validator(Songs songs) {
+        Validator(Songs songs) {
             this.songs = songs;
         }
 

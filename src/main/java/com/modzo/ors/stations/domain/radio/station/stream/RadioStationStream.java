@@ -73,7 +73,7 @@ public class RadioStationStream {
     @MapKeyEnumerated(EnumType.STRING)
     private Map<StreamUrl.Type, StreamUrl> urls;
 
-    RadioStationStream() {
+    protected RadioStationStream() {
     }
 
     public RadioStationStream(RadioStation radioStation, String url) {

@@ -47,7 +47,7 @@ public class GetRadioStationSongByid {
     private static class Validator {
         private final RadioStations radioStations;
 
-        public Validator(RadioStations radioStations) {
+        Validator(RadioStations radioStations) {
             this.radioStations = radioStations;
         }
 

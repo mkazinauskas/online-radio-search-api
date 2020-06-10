@@ -32,18 +32,6 @@ public class CreateRadioStationStreamUrl {
         this.url = url;
     }
 
-    public long getRadioStationId() {
-        return radioStationId;
-    }
-
-    public long getStreamId() {
-        return streamId;
-    }
-
-    public StreamUrl.Type getType() {
-        return type;
-    }
-
     public String getUrl() {
         return url;
     }
@@ -93,7 +81,7 @@ public class CreateRadioStationStreamUrl {
 
         private final RadioStationStreams radioStationStreams;
 
-        public Validator(RadioStations radioStations, RadioStationStreams radioStationStreams) {
+        Validator(RadioStations radioStations, RadioStationStreams radioStationStreams) {
             this.radioStations = radioStations;
             this.radioStationStreams = radioStationStreams;
         }

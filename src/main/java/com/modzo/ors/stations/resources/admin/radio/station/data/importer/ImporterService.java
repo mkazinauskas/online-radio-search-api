@@ -11,19 +11,14 @@ import com.modzo.ors.stations.domain.radio.station.stream.commands.CreateRadioSt
 import com.modzo.ors.stations.domain.radio.station.stream.commands.FindRadioStationStreamByUrl;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateRadioStationStream;
 import com.modzo.ors.stations.resources.admin.radio.station.data.BackupData;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import static java.util.stream.Collectors.toList;
-import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Component
 class ImporterService {
@@ -118,26 +113,6 @@ class ImporterService {
                     .build())
             );
         }
-    }
-
-    private List<String> toUrls(String streamUrls) {
-        if (isBlank(streamUrls)) {
-            return List.of();
-        }
-        return Arrays.stream(streamUrls.split("\\|"))
-                .filter(StringUtils::isNotBlank)
-                .filter(url -> url.length() <= 100)
-                .collect(toList());
-    }
-
-    private List<Boolean> toWorkingFlags(String workingChecks) {
-        if (isBlank(workingChecks)) {
-            return List.of();
-        }
-        return Arrays.stream(workingChecks.split("\\|"))
-                .filter(StringUtils::isNotBlank)
-                .map(Boolean::valueOf)
-                .collect(toList());
     }
 
     private void createStreamUrls(Long radioStationId, List<BackupData.Stream> streams) {

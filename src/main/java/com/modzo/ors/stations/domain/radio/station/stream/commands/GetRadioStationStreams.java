@@ -43,7 +43,7 @@ public class GetRadioStationStreams {
     private static class Validator {
         private final RadioStations radioStations;
 
-        public Validator(RadioStations radioStations) {
+        Validator(RadioStations radioStations) {
             this.radioStations = radioStations;
         }
 

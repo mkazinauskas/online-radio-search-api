@@ -60,7 +60,7 @@ public class DeleteRadioStationStreamUrl {
 
         private final StreamUrls streamUrls;
 
-        public Validator(RadioStations radioStations,
+        Validator(RadioStations radioStations,
                          RadioStationStreams radioStationStreams,
                          StreamUrls streamUrls) {
             this.radioStations = radioStations;

@@ -48,7 +48,7 @@ public class RadioStationSong {
     @Column(name = "playing_time")
     private ZonedDateTime playedTime;
 
-    RadioStationSong() {
+    protected RadioStationSong() {
     }
 
     public RadioStationSong(long radioStationId, long songId, ZonedDateTime playedTime) {

@@ -63,7 +63,7 @@ public class RadioStation {
     @JoinColumn(name = "radio_station_id")
     private List<RadioStationSong> songs = new ArrayList<>();
 
-    RadioStation() {
+    protected RadioStation() {
     }
 
     public RadioStation(String title) {

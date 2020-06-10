@@ -7,7 +7,6 @@ import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,19 +40,11 @@ public class CreateRadioStationStream {
 
         private final Validator validator;
 
-        private final ApplicationEventPublisher applicationEventPublisher;
-
-        private final RadioStations radioStations;
-
         public Handler(RadioStations stations, RadioStationStreams radioStationStreams,
-                       Validator validator,
-                       ApplicationEventPublisher applicationEventPublisher,
-                       RadioStations radioStations) {
+                       Validator validator) {
             this.stations = stations;
             this.radioStationStreams = radioStationStreams;
             this.validator = validator;
-            this.applicationEventPublisher = applicationEventPublisher;
-            this.radioStations = radioStations;
         }
 
         @Transactional
@@ -77,7 +68,7 @@ public class CreateRadioStationStream {
 
         private final RadioStationStreams radioStationStreams;
 
-        public Validator(RadioStations radioStations, RadioStationStreams radioStationStreams) {
+        Validator(RadioStations radioStations, RadioStationStreams radioStationStreams) {
             this.radioStations = radioStations;
             this.radioStationStreams = radioStationStreams;
         }

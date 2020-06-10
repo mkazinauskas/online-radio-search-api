@@ -55,7 +55,7 @@ public class StreamUrl {
     @Column(name = "checked")
     private ZonedDateTime checked;
 
-    private StreamUrl() {
+    protected StreamUrl() {
     }
 
     public StreamUrl(Type type, String url) {

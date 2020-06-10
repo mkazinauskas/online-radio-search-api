@@ -10,7 +10,7 @@ public class CreateRadioStationStreamRequest {
 
     @NotBlank
     @URL
-    private String url;
+    private final String url;
 
     @JsonCreator
     public CreateRadioStationStreamRequest(@JsonProperty("url") String url) {
@@ -19,9 +19,5 @@ public class CreateRadioStationStreamRequest {
 
     public String getUrl() {
         return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 }
