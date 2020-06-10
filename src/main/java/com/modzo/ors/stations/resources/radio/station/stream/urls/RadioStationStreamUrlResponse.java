@@ -5,12 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 public class RadioStationStreamUrlResponse {
 
     private final long id;
 
-    private final String uniqueId;
+    private final UUID uniqueId;
 
     private final ZonedDateTime created;
 
@@ -22,7 +23,7 @@ public class RadioStationStreamUrlResponse {
 
     @JsonCreator
     private RadioStationStreamUrlResponse(@JsonProperty("id") long id,
-                                          @JsonProperty("uniqueId") String uniqueId,
+                                          @JsonProperty("uniqueId") UUID uniqueId,
                                           @JsonProperty("created") ZonedDateTime created,
                                           @JsonProperty("type") StreamUrl.Type type,
                                           @JsonProperty("url") String url,
@@ -50,7 +51,7 @@ public class RadioStationStreamUrlResponse {
         return id;
     }
 
-    public String getUniqueId() {
+    public UUID getUniqueId() {
         return uniqueId;
     }
 

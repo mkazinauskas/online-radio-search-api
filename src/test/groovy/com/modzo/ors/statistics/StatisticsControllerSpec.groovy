@@ -22,7 +22,10 @@ class StatisticsControllerSpec extends IntegrationSpec {
             result.statusCode == OK
         and:
             result.body.statistics.get(StatisticProvider.Type.RADIO_STATIONS).size() == 2
+            result.body.statistics.get(StatisticProvider.Type.RADIO_STATIONS_DOCUMENTS).size() == 1
+            result.body.statistics.get(StatisticProvider.Type.GENRES_DOCUMENTS).size() == 1
+            result.body.statistics.get(StatisticProvider.Type.SONGS_DOCUMENTS).size() == 1
             result.body.statistics.get(StatisticProvider.Type.RADIO_STATION_STREAMS).size() == 2
-            result.body.statistics.containsKey(StatisticProvider.Type.SEARCHED_QUERIES)
+            result.body.statistics.get(StatisticProvider.Type.SEARCHED_QUERIES).size() == 2
     }
 }

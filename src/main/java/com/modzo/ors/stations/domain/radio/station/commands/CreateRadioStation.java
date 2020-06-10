@@ -10,12 +10,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CreateRadioStation {
 
-    private final String uniqueId;
+    private final UUID uniqueId;
 
     private final String title;
 
@@ -24,7 +25,7 @@ public class CreateRadioStation {
         this.title = title;
     }
 
-    public CreateRadioStation(String uniqueId, String title) {
+    public CreateRadioStation(UUID uniqueId, String title) {
         this.uniqueId = uniqueId;
         this.title = title;
     }
@@ -65,7 +66,7 @@ public class CreateRadioStation {
             applicationEventPublisher.publishEvent(
                     new StationsDomainEvent(
                             radioStation,
-                            StationsDomainEvent.Action.CREATED,
+                            StationsDomainEvent.Action.REFRESHED,
                             StationsDomainEvent.Type.RADIO_STATION,
                             radioStation.getId()
                     )
@@ -80,7 +81,7 @@ public class CreateRadioStation {
 
         private final RadioStations radioStations;
 
-        public Validator(RadioStations radioStations) {
+        Validator(RadioStations radioStations) {
             this.radioStations = radioStations;
         }
 

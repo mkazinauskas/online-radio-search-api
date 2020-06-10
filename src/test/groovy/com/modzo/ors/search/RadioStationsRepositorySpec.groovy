@@ -15,7 +15,7 @@ class RadioStationsRepositorySpec extends IntegrationSpec {
             RadioStationDocument document = repository.save(
                     new RadioStationDocument(
                             RandomStringUtils.randomNumeric(10) as long,
-                            RandomStringUtils.randomAlphanumeric(40),
+                            UUID.randomUUID(),
                             RandomStringUtils.randomAlphanumeric(10),
                             true
                     )

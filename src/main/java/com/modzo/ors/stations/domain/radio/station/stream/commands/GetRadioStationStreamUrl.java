@@ -53,7 +53,7 @@ public class GetRadioStationStreamUrl {
 
         private final StreamUrls urls;
 
-        public Validator(RadioStations radioStations,
+        Validator(RadioStations radioStations,
                          RadioStationStreams streams,
                          StreamUrls urls) {
             this.radioStations = radioStations;

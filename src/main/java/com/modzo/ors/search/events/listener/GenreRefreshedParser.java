@@ -7,14 +7,16 @@ import com.modzo.ors.stations.domain.radio.station.genre.Genres;
 import com.modzo.ors.stations.events.StationsDomainEvent;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
-public class GenreCreatedParser implements EventParser {
+public class GenreRefreshedParser implements EventParser {
 
     private final GenresRepository genresRepository;
 
     private final Genres genres;
 
-    public GenreCreatedParser(GenresRepository genresRepository, Genres genres) {
+    public GenreRefreshedParser(GenresRepository genresRepository, Genres genres) {
         this.genresRepository = genresRepository;
         this.genres = genres;
     }
@@ -26,19 +28,26 @@ public class GenreCreatedParser implements EventParser {
 
     @Override
     public StationsDomainEvent.Action action() {
-        return StationsDomainEvent.Action.CREATED;
+        return StationsDomainEvent.Action.REFRESHED;
     }
 
     @Override
     public void process(StationsDomainEvent domainEvent) {
         Genre savedGenre = genres.findById(domainEvent.getId()).get();
 
-        GenreDocument genreDocument = new GenreDocument(
-                savedGenre.getId(),
-                savedGenre.getUniqueId(),
-                savedGenre.getTitle()
-        );
-        genresRepository.save(genreDocument);
+        Optional<GenreDocument> document = genresRepository.findById(domainEvent.getId());
+        if (document.isPresent()) {
+            GenreDocument existingDocument = document.get();
+            existingDocument.setTitle(savedGenre.getTitle());
+            genresRepository.save(existingDocument);
+        } else {
+            GenreDocument genreDocument = new GenreDocument(
+                    savedGenre.getId(),
+                    savedGenre.getUniqueId(),
+                    savedGenre.getTitle()
+            );
+            genresRepository.save(genreDocument);
+        }
     }
 
 }

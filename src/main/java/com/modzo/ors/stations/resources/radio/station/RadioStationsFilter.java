@@ -1,10 +1,12 @@
 package com.modzo.ors.stations.resources.radio.station;
 
+import java.util.UUID;
+
 public class RadioStationsFilter {
 
     private Long id;
 
-    private String uniqueId;
+    private UUID uniqueId;
 
     private Boolean enabled;
 
@@ -25,11 +27,11 @@ public class RadioStationsFilter {
         this.id = id;
     }
 
-    public String getUniqueId() {
+    public UUID getUniqueId() {
         return uniqueId;
     }
 
-    public void setUniqueId(String uniqueId) {
+    public void setUniqueId(UUID uniqueId) {
         this.uniqueId = uniqueId;
     }
 

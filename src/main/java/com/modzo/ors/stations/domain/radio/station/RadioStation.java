@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.UUID;
 
 import static javax.persistence.CascadeType.REFRESH;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.SEQUENCE;
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
 @Entity
 @Table(name = "radio_stations")
@@ -35,8 +35,8 @@ public class RadioStation {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "unique_id", length = 20, unique = true, nullable = false)
-    private String uniqueId = randomAlphanumeric(20);
+    @Column(name = "unique_id", unique = true, nullable = false)
+    private UUID uniqueId = UUID.randomUUID();
 
     @Column(name = "created", nullable = false)
     private ZonedDateTime created = ZonedDateTime.now();
@@ -63,14 +63,14 @@ public class RadioStation {
     @JoinColumn(name = "radio_station_id")
     private List<RadioStationSong> songs = new ArrayList<>();
 
-    RadioStation() {
+    protected RadioStation() {
     }
 
     public RadioStation(String title) {
         this.title = title;
     }
 
-    public RadioStation(String uniqueId, String title) {
+    public RadioStation(UUID uniqueId, String title) {
         this.uniqueId = uniqueId;
         this.title = title;
     }
@@ -79,7 +79,7 @@ public class RadioStation {
         return id;
     }
 
-    public String getUniqueId() {
+    public UUID getUniqueId() {
         return uniqueId;
     }
 

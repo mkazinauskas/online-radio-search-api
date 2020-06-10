@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;
 
@@ -21,7 +22,7 @@ public class GetRadioStations {
 
         private final Long id;
 
-        private final String uniqueId;
+        private final UUID uniqueId;
 
         private final Boolean enabled;
 
@@ -31,7 +32,7 @@ public class GetRadioStations {
 
         private final Long genreId;
 
-        public Filter(Long id, String uniqueId, Boolean enabled, String title, Long songId, Long genreId) {
+        public Filter(Long id, UUID uniqueId, Boolean enabled, String title, Long songId, Long genreId) {
             this.id = id;
             this.uniqueId = uniqueId;
             this.enabled = enabled;
@@ -101,7 +102,7 @@ public class GetRadioStations {
                 return this;
             }
 
-            SpecificationBuilder withUniqueId(String uniqueId) {
+            SpecificationBuilder withUniqueId(UUID uniqueId) {
                 if (!Objects.isNull(uniqueId)) {
                     specifications.add((root, query, cb) -> cb.equal(root.get("uniqueId"), uniqueId));
                 }

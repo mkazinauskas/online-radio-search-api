@@ -46,7 +46,7 @@ public class GetRadioStationStreamUrls {
 
         private final RadioStationStreams streams;
 
-        public Validator(RadioStationStreams streams) {
+        Validator(RadioStationStreams streams) {
             this.streams = streams;
         }
 

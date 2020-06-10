@@ -90,11 +90,11 @@ public class SongsUpdaterService {
         );
         if (foundSong.isEmpty()) {
             Optional<Song> song = findOrCreateSong(playedSong.getName());
-            song.ifPresent(existingSong -> {
+            song.ifPresent(existingSong ->
                 createRadioStationSong.handle(
                         new CreateRadioStationSong(existingSong.getId(), radioStationId, playedSong.getPlayedTime())
-                );
-            });
+                )
+            );
         }
     }
 

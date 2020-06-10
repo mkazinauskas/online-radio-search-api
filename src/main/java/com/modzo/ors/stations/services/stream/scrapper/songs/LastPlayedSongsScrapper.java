@@ -94,9 +94,6 @@ class LastPlayedSongsScrapper {
             this.url = url;
         }
 
-        public String getUrl() {
-            return url;
-        }
     }
 
     public static class Response {

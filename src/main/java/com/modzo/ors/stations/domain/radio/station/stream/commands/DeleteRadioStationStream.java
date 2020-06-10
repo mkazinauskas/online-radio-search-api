@@ -50,7 +50,7 @@ public class DeleteRadioStationStream {
 
         private final RadioStationStreams radioStationStreams;
 
-        public Validator(RadioStations radioStations, RadioStationStreams radioStationStreams) {
+        Validator(RadioStations radioStations, RadioStationStreams radioStationStreams) {
             this.radioStations = radioStations;
             this.radioStationStreams = radioStationStreams;
         }

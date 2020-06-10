@@ -15,7 +15,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: unique_id
-                  type: varchar(20)
+                  type: uuid
                   constraints:
                     nullable: false
                     unique: true
@@ -61,7 +61,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: unique_id
-                  type: varchar(20)
+                  type: uuid
                   constraints:
                     nullable: false
                     unique: true
@@ -135,7 +135,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: unique_id
-                  type: varchar(20)
+                  type: uuid
                   constraints:
                     nullable: false
                     unique: true
@@ -189,7 +189,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: unique_id
-                  type: varchar(40)
+                  type: uuid
                   constraints:
                     nullable: false
                     unique: true
@@ -225,7 +225,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: unique_id
-                  type: varchar(40)
+                  type: uuid
                   constraints:
                     nullable: false
                     unique: true
@@ -290,7 +290,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: unique_id
-                  type: varchar(20)
+                  type: uuid
                   constraints:
                     nullable: false
                     unique: true
@@ -347,50 +347,3 @@ databaseChangeLog:
             onUpdate: RESTRICT
             referencedColumnNames: id
             referencedTableName: genres
-  - changeSet:
-      id: 1-events
-      author: modestukasai
-      changes:
-        - createTable:
-            tableName: events
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: entity_unique_id
-                  type: varchar(40)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: created
-                  type: timestamp
-                  constraints:
-                    nullable: false
-              - column:
-                  name: type
-                  type: varchar(100)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: body
-                  type: clob
-                  constraints:
-                    nullable: false
-        - createSequence:
-            schemaName: public
-            sequenceName: events_sequence
-            incrementBy: 1
-            startValue: 1
-        - createIndex:
-            columns:
-              - column:
-                  name: entity_unique_id
-                  type: varchar(40)
-            indexName: idx_entity_unique_id
-            schemaName: public
-            tableName: events

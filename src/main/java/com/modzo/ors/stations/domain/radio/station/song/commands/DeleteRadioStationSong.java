@@ -18,14 +18,6 @@ public class DeleteRadioStationSong {
         this.songId = songId;
     }
 
-    public long getRadioStationId() {
-        return radioStationId;
-    }
-
-    public long getSongId() {
-        return songId;
-    }
-
     @Component
     public static class Handler {
         private final RadioStationSongs radioStationSongs;
@@ -59,7 +51,7 @@ public class DeleteRadioStationSong {
 
         private final RadioStationSongs radioStationSongs;
 
-        public Validator(RadioStations radioStations, RadioStationSongs radioStationSongs) {
+        Validator(RadioStations radioStations, RadioStationSongs radioStationSongs) {
             this.radioStations = radioStations;
             this.radioStationSongs = radioStationSongs;
         }

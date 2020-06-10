@@ -29,7 +29,7 @@ class CreateRadioStationSongSpec extends IntegrationSpec {
         then:
             RadioStationSong radioStationSong = radioStationSongs.findById(result.id).get()
             radioStationSong.songId == song.id
-            radioStationSong.uniqueId.size() == 40
+            radioStationSong.uniqueId
             radioStationSong.playedTime == command.playedTime
     }
 }

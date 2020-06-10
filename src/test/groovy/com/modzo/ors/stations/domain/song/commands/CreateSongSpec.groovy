@@ -20,6 +20,6 @@ class CreateSongSpec extends IntegrationSpec {
         then:
             Song song = songs.findById(result.id).get()
             song.title == command.title
-            song.uniqueId.size() == 40
+            song.uniqueId
     }
 }

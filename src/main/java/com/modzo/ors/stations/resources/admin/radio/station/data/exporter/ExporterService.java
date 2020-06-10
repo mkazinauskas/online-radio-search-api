@@ -45,7 +45,7 @@ class ExporterService {
                 .map(stream -> new BackupData.Stream(stream.getUrl(), stream.isWorking()))
                 .collect(Collectors.toList());
 
-        return new BackupData(station.getUniqueId(), station.getTitle(), station.isEnabled(), streams);
+        return new BackupData(station.getUniqueId().toString(), station.getTitle(), station.isEnabled(), streams);
     }
 
 }

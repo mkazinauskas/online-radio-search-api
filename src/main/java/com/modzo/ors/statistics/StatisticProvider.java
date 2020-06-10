@@ -10,9 +10,10 @@ public interface StatisticProvider {
 
     enum Type {
         RADIO_STATIONS,
+        RADIO_STATIONS_DOCUMENTS,
         RADIO_STATION_STREAMS,
-        EVENTS,
-        PARSED_EVENTS,
+        GENRES_DOCUMENTS,
+        SONGS_DOCUMENTS,
         SEARCHED_QUERIES;
     }
 
@@ -20,7 +21,6 @@ public interface StatisticProvider {
         COUNT,
         WORKING_COUNT,
         ENABLED_COUNT,
-        LATEST_ENTRY_DATE,
-        LATEST_ENTRY_ID;
+        LATEST_ENTRY_DATE;
     }
 }

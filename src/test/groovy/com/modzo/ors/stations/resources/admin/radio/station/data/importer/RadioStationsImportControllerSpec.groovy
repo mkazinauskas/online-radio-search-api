@@ -33,7 +33,7 @@ class RadioStationsImportControllerSpec extends IntegrationSpec {
             RadioStation foundStation = radioStations
                     .findByTitle('Chilis - IFC Qatar - Retail Music International').get()
             foundStation.enabled
-            foundStation.uniqueId == 'STfTz3JPxxO3EDnkUpBf'
+            foundStation.uniqueId == UUID.fromString('baac3ed6-4dc0-4752-b4fa-dbf3f9303a2b')
         and:
             RadioStationStream stream1 = radioStationStreams.findByUrl('http://162.252.85.85:7548').get()
             !stream1.working
@@ -55,7 +55,7 @@ class RadioStationsImportControllerSpec extends IntegrationSpec {
             RadioStation foundStation = radioStations
                     .findByTitle('Chilis - IFC Qatar - Retail Music International NO UUID').get()
             foundStation.enabled
-            foundStation.uniqueId != 'DONOTIMPORT'
+            foundStation.uniqueId.toString() != 'DONOTIMPORT'
         and:
             RadioStationStream stream1 = radioStationStreams.findByUrl('http://162.252.85.85:9999').get()
             !stream1.working

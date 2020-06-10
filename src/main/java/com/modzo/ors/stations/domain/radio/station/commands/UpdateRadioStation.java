@@ -31,10 +31,6 @@ public class UpdateRadioStation {
         this.data = data;
     }
 
-    public long getRadioStationId() {
-        return radioStationId;
-    }
-
     public UpdateRadioStation.Data getData() {
         return data;
     }
@@ -182,7 +178,7 @@ public class UpdateRadioStation {
             applicationEventPublisher.publishEvent(
                     new StationsDomainEvent(
                             radioStation,
-                            StationsDomainEvent.Action.UPDATED,
+                            StationsDomainEvent.Action.REFRESHED,
                             StationsDomainEvent.Type.RADIO_STATION,
                             radioStation.getId()
                     )
@@ -197,7 +193,7 @@ public class UpdateRadioStation {
 
         private final Genres genres;
 
-        public Validator(RadioStations radioStations, Genres genres) {
+        Validator(RadioStations radioStations, Genres genres) {
             this.radioStations = radioStations;
             this.genres = genres;
         }

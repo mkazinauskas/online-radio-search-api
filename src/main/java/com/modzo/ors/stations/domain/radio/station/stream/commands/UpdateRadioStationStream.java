@@ -26,14 +26,6 @@ public class UpdateRadioStationStream {
         this.data = data;
     }
 
-    public long getRadioStationId() {
-        return radioStationId;
-    }
-
-    public long getStreamId() {
-        return streamId;
-    }
-
     public Data getData() {
         return data;
     }
@@ -67,9 +59,6 @@ public class UpdateRadioStationStream {
             return type;
         }
 
-        public boolean isWorking() {
-            return working;
-        }
     }
 
     public static class DataBuilder {
@@ -112,15 +101,11 @@ public class UpdateRadioStationStream {
 
         private final RadioStationStreams radioStationStreams;
 
-        private final RadioStations radioStations;
-
         private final Validator validator;
 
         public Handler(RadioStationStreams radioStationStreams,
-                       RadioStations radioStations,
                        Validator validator) {
             this.radioStationStreams = radioStationStreams;
-            this.radioStations = radioStations;
             this.validator = validator;
         }
 

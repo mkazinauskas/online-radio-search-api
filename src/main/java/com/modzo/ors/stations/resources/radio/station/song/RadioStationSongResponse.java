@@ -5,18 +5,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 class RadioStationSongResponse {
 
     private final long id;
 
-    private final String uniqueId;
+    private final UUID uniqueId;
 
     private final ZonedDateTime created;
 
     private final long songId;
 
-    private final String songUniqueId;
+    private final UUID songUniqueId;
 
     private final String title;
 
@@ -24,10 +25,10 @@ class RadioStationSongResponse {
 
     @JsonCreator
     private RadioStationSongResponse(@JsonProperty("id") long id,
-                                     @JsonProperty("uniqueId") String uniqueId,
+                                     @JsonProperty("uniqueId") UUID uniqueId,
                                      @JsonProperty("created") ZonedDateTime created,
                                      @JsonProperty("songId") long songId,
-                                     @JsonProperty("songUniqueId") String songUniqueId,
+                                     @JsonProperty("songUniqueId") UUID songUniqueId,
                                      @JsonProperty("title") String title,
                                      @JsonProperty("playedTime") ZonedDateTime playedTime) {
         this.id = id;
@@ -55,7 +56,7 @@ class RadioStationSongResponse {
         return id;
     }
 
-    public String getUniqueId() {
+    public UUID getUniqueId() {
         return uniqueId;
     }
 
@@ -67,7 +68,7 @@ class RadioStationSongResponse {
         return songId;
     }
 
-    public String getSongUniqueId() {
+    public UUID getSongUniqueId() {
         return songUniqueId;
     }
 

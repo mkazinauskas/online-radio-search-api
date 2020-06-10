@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils
 
 class CreateGenreSpec extends IntegrationSpec {
+
     @Autowired
     private CreateGenre.Handler testTarget
 
@@ -19,6 +20,6 @@ class CreateGenreSpec extends IntegrationSpec {
         then:
             Genre genre = genres.findById(result.id).get()
             genre.title == command.title
-            genre.uniqueId.size() == 20
+            genre.uniqueId
     }
 }

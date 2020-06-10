@@ -7,13 +7,14 @@ import com.modzo.ors.stations.domain.radio.station.genre.Genre;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 class RadioStationResponse {
 
     private final long id;
 
-    private final String uniqueId;
+    private final UUID uniqueId;
 
     private final ZonedDateTime created;
 
@@ -27,7 +28,7 @@ class RadioStationResponse {
 
     @JsonCreator
     private RadioStationResponse(@JsonProperty("id") long id,
-                                 @JsonProperty("uniqueId") String uniqueId,
+                                 @JsonProperty("uniqueId") UUID uniqueId,
                                  @JsonProperty("created") ZonedDateTime created,
                                  @JsonProperty("title") String title,
                                  @JsonProperty("website") String website,
@@ -60,7 +61,7 @@ class RadioStationResponse {
         return id;
     }
 
-    public String getUniqueId() {
+    public UUID getUniqueId() {
         return uniqueId;
     }
 
@@ -88,11 +89,11 @@ class RadioStationResponse {
 
         private final long id;
 
-        private final String uniqueId;
+        private final UUID uniqueId;
 
         private final String title;
 
-        public GenreResponse(long id, String uniqueId, String title) {
+        public GenreResponse(long id, UUID uniqueId, String title) {
             this.id = id;
             this.uniqueId = uniqueId;
             this.title = title;
@@ -110,7 +111,7 @@ class RadioStationResponse {
             return id;
         }
 
-        public String getUniqueId() {
+        public UUID getUniqueId() {
             return uniqueId;
         }
 

@@ -49,7 +49,7 @@ public class CreateGenre {
             applicationEventPublisher.publishEvent(
                     new StationsDomainEvent(
                             genre,
-                            StationsDomainEvent.Action.CREATED,
+                            StationsDomainEvent.Action.REFRESHED,
                             StationsDomainEvent.Type.GENRE,
                             genre.getId()
                     )
@@ -63,7 +63,7 @@ public class CreateGenre {
 
         private final Genres genres;
 
-        public Validator(Genres genres) {
+        Validator(Genres genres) {
             this.genres = genres;
         }
 
