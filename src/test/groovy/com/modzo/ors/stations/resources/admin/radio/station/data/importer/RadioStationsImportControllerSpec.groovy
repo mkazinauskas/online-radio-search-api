@@ -24,6 +24,7 @@ class RadioStationsImportControllerSpec extends IntegrationSpec {
         given:
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>()
             body.add('file', readClasspathResource('radio-stations'))
+            body.add('importUniqueIds', true)
         when:
             ResponseEntity<String> response = doImport(body)
         then:
@@ -41,10 +42,33 @@ class RadioStationsImportControllerSpec extends IntegrationSpec {
             !stream2.working
     }
 
+    void 'admin should import radio stations from file with no UUID'() {
+        given:
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>()
+            body.add('file', readClasspathResource('radio-stations-no-uuid-import'))
+            body.add('importUniqueIds', false)
+        when:
+            ResponseEntity<String> response = doImport(body)
+        then:
+            response.statusCode == OK
+        and:
+            RadioStation foundStation = radioStations
+                    .findByTitle('Chilis - IFC Qatar - Retail Music International NO UUID').get()
+            foundStation.enabled
+            foundStation.uniqueId != 'DONOTIMPORT'
+        and:
+            RadioStationStream stream1 = radioStationStreams.findByUrl('http://162.252.85.85:9999').get()
+            !stream1.working
+        and:
+            RadioStationStream stream2 = radioStationStreams.findByUrl('http://162.252.85.85:9998').get()
+            !stream2.working
+    }
+
     void 'admin should import radio stations from file with title longer that 100 symbols'() {
         given:
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>()
             body.add('file', readClasspathResource('radio-stations-too-long-title'))
+            body.add('importUniqueIds', true)
         when:
             ResponseEntity<DomainApiError> response = doImportWithError(body)
         then:
@@ -58,6 +82,7 @@ class RadioStationsImportControllerSpec extends IntegrationSpec {
         given:
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>()
             body.add('file', readClasspathResource('radio-stations-too-long-url'))
+            body.add('importUniqueIds', true)
         when:
             ResponseEntity<DomainApiError> response = doImportWithError(body)
         then:

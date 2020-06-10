@@ -18,8 +18,9 @@ class RadioStationsImportController {
     }
 
     @PostMapping("/admin/radio-stations/importer")
-    ResponseEntity<String> radioStationsImport(@RequestParam("file") MultipartFile file) {
-        importerService.run(file);
+    ResponseEntity<String> radioStationsImport(@RequestParam("file") MultipartFile file,
+                                               @RequestParam("importUniqueIds") boolean importUniqueIds) {
+        importerService.run(file, importUniqueIds);
         return ok().build();
     }
 }

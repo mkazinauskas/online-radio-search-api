@@ -59,10 +59,10 @@ class ImporterService {
         this.radioStations = radioStations;
     }
 
-    void run(MultipartFile file) {
+    void run(MultipartFile file, boolean importUniqueIds) {
         try {
             JsonReader.read(file)
-                    .forEach(this::doImport);
+                    .forEach(line -> doImport(line, importUniqueIds));
         } catch (Exception exception) {
             logger.error("Failed to import radio stations", exception);
             throw new DomainException(
@@ -73,7 +73,7 @@ class ImporterService {
         }
     }
 
-    private void doImport(BackupData entry) {
+    private void doImport(BackupData entry, boolean importUniqueIds) {
         String radioStationName = entry.getTitle();
 
         if (entry.getStreams().isEmpty()) {
@@ -100,7 +100,9 @@ class ImporterService {
             createStreamUrls(existingStationByTitle.get().getId(), entry.getStreams());
         } else {
             CreateRadioStation.Result result = createRadioStationHandler.handle(
-                    new CreateRadioStation(entry.getUniqueId(), radioStationName)
+                    importUniqueIds
+                            ? new CreateRadioStation(entry.getUniqueId(), radioStationName)
+                            : new CreateRadioStation(radioStationName)
             );
             createStreamUrls(result.id, entry.getStreams());
 
