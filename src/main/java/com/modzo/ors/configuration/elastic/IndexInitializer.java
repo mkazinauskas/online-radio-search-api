@@ -19,7 +19,7 @@ class IndexInitializer implements CommandLineRunner {
 
     private static final Logger LOG = LoggerFactory.getLogger(IndexInitializer.class);
 
-    final Client client;
+    private final Client client;
 
     public IndexInitializer(Client client) {
         this.client = client;
