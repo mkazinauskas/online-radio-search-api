@@ -6,7 +6,7 @@ spring:
     show-sql: true
   datasource:
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
-    url: jdbc:tc:postgresql:10://hostname/databasename
+    url: jdbc:tc:postgresql:12://hostname/databasename
 
 elasticsearch:
   host: localhost
