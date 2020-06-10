@@ -1,7 +1,6 @@
 package com.modzo.ors.stations.domain.radio.station.stream.commands;
 
 import com.modzo.ors.commons.Urls;
-import com.modzo.ors.events.domain.RadioStationStreamCreated;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
@@ -67,17 +66,6 @@ public class CreateRadioStationStream {
 
             RadioStationStream savedStream = radioStationStreams.save(stream);
 
-            RadioStation radioStation = radioStations.findById(savedStream.getRadioStationId()).get();
-
-            applicationEventPublisher.publishEvent(
-                    new RadioStationStreamCreated(savedStream,
-                            new RadioStationStreamCreated.Data(
-                                    savedStream.getId(),
-                                    savedStream.getUniqueId(),
-                                    savedStream.getCreated(),
-                                    savedStream.getRadioStationId(),
-                                    radioStation.getUniqueId(),
-                                    savedStream.getUrl())));
             return new Result(savedStream.getId());
         }
     }

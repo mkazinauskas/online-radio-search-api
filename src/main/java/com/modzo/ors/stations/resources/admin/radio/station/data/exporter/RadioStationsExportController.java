@@ -20,11 +20,14 @@ class RadioStationsExportController {
 
     @GetMapping("/admin/radio-stations/exporter")
     ResponseEntity<Resource> radioStationsExport(Pageable pageable) {
+        String filename = fileName(pageable);
+
         HttpHeaders header = new HttpHeaders();
-        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName(pageable));
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
         header.add("Cache-Control", "no-cache, no-store, must-revalidate");
         header.add("Pragma", "no-cache");
         header.add("Expires", "0");
+        header.add("File-Name", filename);
 
         Resource resource = exporterService.export(pageable);
 
@@ -36,6 +39,6 @@ class RadioStationsExportController {
     }
 
     private String fileName(Pageable pageable) {
-        return String.format("export-%s-%s", pageable.getPageNumber(), pageable.getPageSize());
+        return String.format("export-%s-%s.json", pageable.getPageNumber(), pageable.getPageSize());
     }
 }

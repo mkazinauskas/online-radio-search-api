@@ -15,8 +15,6 @@ class SearchEventsControllerSpec extends IntegrationSpec {
         given:
             Genre genre = testGenre.create()
         and:
-            eventsProcessor.process()
-        and:
             String url = '/search/genre'
         when:
             ResponseEntity<SearchGenreResultsModel> result = restTemplate.exchange(

@@ -18,8 +18,6 @@ class SearchGenreByTitleSpec extends IntegrationSpec {
     void 'should search for `#searchTerm` in `#title`'() {
         given:
             Genre savedGenre = testGenre.create("$title ${RandomStringUtils.randomAlphanumeric(5)}")
-        and:
-            eventsProcessor.process()
         when:
             Page<GenreDocument> result = testTarget.handle(new SearchGenreByTitle(searchTerm, Pageable.unpaged()))
         then:

@@ -1,9 +1,9 @@
 package com.modzo.ors.stations.domain.radio.station.genre.commands;
 
-import com.modzo.ors.events.domain.GenreCreated;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.genre.Genre;
 import com.modzo.ors.stations.domain.radio.station.genre.Genres;
+import com.modzo.ors.stations.events.StationsDomainEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,12 +47,11 @@ public class CreateGenre {
             validator.validate(command);
             Genre genre = genres.save(command.toGenre());
             applicationEventPublisher.publishEvent(
-                    new GenreCreated(genre,
-                            new GenreCreated.Data(
-                                    genre.getId(),
-                                    genre.getUniqueId(),
-                                    genre.getCreated(),
-                                    genre.getTitle())
+                    new StationsDomainEvent(
+                            genre,
+                            StationsDomainEvent.Action.CREATED,
+                            StationsDomainEvent.Type.GENRE,
+                            genre.getId()
                     )
             );
             return new Result(genre.getId());

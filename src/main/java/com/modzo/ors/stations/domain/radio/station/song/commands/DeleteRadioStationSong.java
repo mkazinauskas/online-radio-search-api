@@ -1,12 +1,9 @@
 package com.modzo.ors.stations.domain.radio.station.song.commands;
 
-import com.modzo.ors.events.domain.RadioStationSongDeleted;
 import com.modzo.ors.stations.domain.DomainException;
-import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong;
 import com.modzo.ors.stations.domain.radio.station.song.RadioStationSongs;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,18 +32,11 @@ public class DeleteRadioStationSong {
 
         private final Validator validator;
 
-        private final ApplicationEventPublisher applicationEventPublisher;
-
-        private final RadioStations radioStations;
-
         public Handler(RadioStationSongs radioStationSongs,
-                       Validator validator,
-                       ApplicationEventPublisher applicationEventPublisher,
-                       RadioStations radioStations) {
+                       Validator validator
+        ) {
             this.radioStationSongs = radioStationSongs;
             this.validator = validator;
-            this.applicationEventPublisher = applicationEventPublisher;
-            this.radioStations = radioStations;
         }
 
         @Transactional
@@ -58,20 +48,7 @@ public class DeleteRadioStationSong {
                     command.songId
             ).get();
 
-            RadioStation radioStation = radioStations.getOne(radioStationSong.getRadioStationId());
-
             radioStationSongs.delete(radioStationSong);
-
-            applicationEventPublisher.publishEvent(
-                    new RadioStationSongDeleted(
-                            radioStationSong,
-                            new RadioStationSongDeleted.Data(
-                                    radioStationSong.getId(),
-                                    radioStationSong.getUniqueId(),
-                                    radioStation.getId(),
-                                    radioStation.getUniqueId()
-                            ))
-            );
         }
     }
 

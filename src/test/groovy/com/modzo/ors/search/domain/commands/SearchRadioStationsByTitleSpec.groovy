@@ -32,8 +32,6 @@ class SearchRadioStationsByTitleSpec extends IntegrationSpec {
     void 'should search for `#searchTerm` in radio station title `#title`'() {
         given:
             RadioStation radioStation = testRadioStation.create("$title ${randomAlphanumeric(5)}")
-        and:
-            eventsProcessor.process()
         when:
             Page<RadioStationDocument> result = testTarget.handle(
                     new SearchRadioStationByTitle(searchTerm, Pageable.unpaged())

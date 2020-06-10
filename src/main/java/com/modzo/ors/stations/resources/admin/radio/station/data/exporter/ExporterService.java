@@ -4,21 +4,18 @@ import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.commands.GetRadioStations;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStreams;
-import com.modzo.ors.stations.resources.admin.radio.station.data.CsvData;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.modzo.ors.stations.resources.admin.radio.station.data.BackupData;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 class ExporterService {
-
-    private static final Logger logger = LoggerFactory.getLogger(ExporterService.class);
 
     private final GetRadioStations.Handler getRadioStationsHandler;
 
@@ -31,22 +28,24 @@ class ExporterService {
     }
 
     Resource export(Pageable pageable) {
-        Page<CsvData> radioStations = getRadioStationsHandler.handle(new GetRadioStations(pageable))
+        Page<BackupData> radioStations = getRadioStationsHandler.handle(new GetRadioStations(pageable))
                 .map(this::map);
 
-        byte[] result = CsvCreator.write(radioStations.getContent());
+        byte[] result = JsonCreator.write(radioStations.getContent());
 
         return new ByteArrayResource(result);
     }
 
-    private CsvData map(RadioStation station) {
-        String streams = getRadioStationStreamsHandler
+    private BackupData map(RadioStation station) {
+        List<RadioStationStream> radioStationStreams = getRadioStationStreamsHandler
                 .handle(new GetRadioStationStreams(station.getId(), Pageable.unpaged()))
-                .getContent().stream()
-                .map(RadioStationStream::getUrl)
-                .collect(Collectors.joining("|"));
+                .getContent();
 
-        return new CsvData(station.getTitle(), streams);
+        List<BackupData.Stream> streams = radioStationStreams.stream()
+                .map(stream -> new BackupData.Stream(stream.getUrl(), stream.isWorking()))
+                .collect(Collectors.toList());
+
+        return new BackupData(station.getUniqueId(), station.getTitle(), station.isEnabled(), streams);
     }
 
 }

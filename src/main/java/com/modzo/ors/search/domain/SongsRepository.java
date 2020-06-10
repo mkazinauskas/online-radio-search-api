@@ -4,7 +4,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 
 import java.util.Optional;
 
-public interface SongsRepository extends ElasticsearchRepository<SongDocument, String> {
+public interface SongsRepository extends ElasticsearchRepository<SongDocument, Long> {
 
     Optional<SongDocument> findByUniqueId(String uniqueId);
 

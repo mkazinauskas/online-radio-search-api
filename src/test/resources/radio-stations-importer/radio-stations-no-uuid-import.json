@@ -1,0 +1,17 @@
+[
+  {
+    "uniqueId": "DONOTIMPORT",
+    "title": "Chilis - IFC Qatar - Retail Music International NO UUID",
+    "enabled": true,
+    "streams": [
+      {
+        "url": "http://162.252.85.85:9999",
+        "working": false
+      },
+      {
+        "url": "http://162.252.85.85:9998",
+        "working": false
+      }
+    ]
+  }
+]

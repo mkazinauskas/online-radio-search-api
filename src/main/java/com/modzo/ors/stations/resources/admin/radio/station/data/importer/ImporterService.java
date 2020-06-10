@@ -2,11 +2,15 @@ package com.modzo.ors.stations.resources.admin.radio.station.data.importer;
 
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
+import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.commands.CreateRadioStation;
 import com.modzo.ors.stations.domain.radio.station.commands.FindRadioStationByTitle;
+import com.modzo.ors.stations.domain.radio.station.commands.UpdateRadioStation;
+import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.CreateRadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.FindRadioStationStreamByUrl;
-import com.modzo.ors.stations.resources.admin.radio.station.data.CsvData;
+import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateRadioStationStream;
+import com.modzo.ors.stations.resources.admin.radio.station.data.BackupData;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,20 +37,32 @@ class ImporterService {
 
     private final FindRadioStationStreamByUrl.Handler findRadioStationStreamByUrlHandler;
 
+    private final UpdateRadioStationStream.Handler updateRadioStationStreamHandler;
+
+    private final UpdateRadioStation.Handler updateRadioStationHandler;
+
+    private final RadioStations radioStations;
+
     ImporterService(FindRadioStationByTitle.Handler findRadioStationByTitleHandler,
                     CreateRadioStation.Handler createRadioStationHandler,
                     CreateRadioStationStream.Handler createRadioStationStreamHandler,
-                    FindRadioStationStreamByUrl.Handler findRadioStationStreamByUrlHandler) {
+                    FindRadioStationStreamByUrl.Handler findRadioStationStreamByUrlHandler,
+                    UpdateRadioStationStream.Handler updateRadioStationStreamHandler,
+                    UpdateRadioStation.Handler updateRadioStationHandler,
+                    RadioStations radioStations) {
         this.findRadioStationByTitleHandler = findRadioStationByTitleHandler;
         this.createRadioStationHandler = createRadioStationHandler;
         this.createRadioStationStreamHandler = createRadioStationStreamHandler;
         this.findRadioStationStreamByUrlHandler = findRadioStationStreamByUrlHandler;
+        this.updateRadioStationStreamHandler = updateRadioStationStreamHandler;
+        this.updateRadioStationHandler = updateRadioStationHandler;
+        this.radioStations = radioStations;
     }
 
-    void run(MultipartFile file) {
+    void run(MultipartFile file, boolean importUniqueIds) {
         try {
-            CsvReader.read(file)
-                    .forEach(this::doImport);
+            JsonReader.read(file)
+                    .forEach(line -> doImport(line, importUniqueIds));
         } catch (Exception exception) {
             logger.error("Failed to import radio stations", exception);
             throw new DomainException(
@@ -57,11 +73,10 @@ class ImporterService {
         }
     }
 
-    private void doImport(CsvData entry) {
-        String radioStationName = StringUtils.substring(entry.getRadioStationName(), 0, 99);
+    private void doImport(BackupData entry, boolean importUniqueIds) {
+        String radioStationName = entry.getTitle();
 
-        List<String> streamUrls = toUrls(entry.getStreamUrls());
-        if (streamUrls.isEmpty()) {
+        if (entry.getStreams().isEmpty()) {
             logger.warn(
                     "Radio station name `{}` does not have importable streams. Skipping creation.",
                     radioStationName
@@ -69,17 +84,35 @@ class ImporterService {
             return;
         }
 
-        Optional<RadioStation> existingStation = findRadioStationByTitleHandler.handle(
+        Optional<RadioStation> existingStationByUniqueId = radioStations.findByUniqueId(entry.getUniqueId());
+        if (existingStationByUniqueId.isPresent()) {
+            logger.warn("Radio station uuid `{}` already exists. Skipping creation.", entry.getUniqueId());
+            createStreamUrls(existingStationByUniqueId.get().getId(), entry.getStreams());
+            return;
+        }
+
+        Optional<RadioStation> existingStationByTitle = findRadioStationByTitleHandler.handle(
                 new FindRadioStationByTitle(radioStationName)
         );
-        if (existingStation.isPresent()) {
+
+        if (existingStationByTitle.isPresent()) {
             logger.warn("Radio station name `{}` already exists. Skipping creation.", radioStationName);
-            createStreamUrls(existingStation.get().getId(), streamUrls);
+            createStreamUrls(existingStationByTitle.get().getId(), entry.getStreams());
         } else {
             CreateRadioStation.Result result = createRadioStationHandler.handle(
-                    new CreateRadioStation(radioStationName)
+                    importUniqueIds
+                            ? new CreateRadioStation(entry.getUniqueId(), radioStationName)
+                            : new CreateRadioStation(radioStationName)
             );
-            createStreamUrls(result.id, streamUrls);
+            createStreamUrls(result.id, entry.getStreams());
+
+            RadioStation currentRadioStation = radioStations.findById(result.id).get();
+
+            updateRadioStationHandler.handle(new UpdateRadioStation(result.id, new UpdateRadioStation.DataBuilder()
+                    .fromCurrent(currentRadioStation)
+                    .setEnabled(entry.isEnabled())
+                    .build())
+            );
         }
     }
 
@@ -93,16 +126,44 @@ class ImporterService {
                 .collect(toList());
     }
 
-    private void createStreamUrls(Long id, List<String> streamUrls) {
-        streamUrls.forEach(url -> createStreamUrl(id, url));
+    private List<Boolean> toWorkingFlags(String workingChecks) {
+        if (isBlank(workingChecks)) {
+            return List.of();
+        }
+        return Arrays.stream(workingChecks.split("\\|"))
+                .filter(StringUtils::isNotBlank)
+                .map(Boolean::valueOf)
+                .collect(toList());
     }
 
-    private void createStreamUrl(Long id, String streamUrl) {
+    private void createStreamUrls(Long radioStationId, List<BackupData.Stream> streams) {
+        streams.forEach(stream -> createStreamUrl(radioStationId, stream.getUrl(), stream.isWorking()));
+    }
+
+    private void createStreamUrl(Long radioStationId, String streamUrl, boolean isWorking) {
         if (findRadioStationStreamByUrlHandler.handle(new FindRadioStationStreamByUrl(streamUrl)).isPresent()) {
             logger.warn("Stream url `{}` already exists. Skipping creation.", streamUrl);
             return;
         }
 
-        createRadioStationStreamHandler.handle(new CreateRadioStationStream(id, streamUrl));
+        CreateRadioStationStream.Result result = createRadioStationStreamHandler.handle(
+                new CreateRadioStationStream(radioStationId, streamUrl)
+        );
+
+        RadioStationStream savedStream = findRadioStationStreamByUrlHandler
+                .handle(new FindRadioStationStreamByUrl(streamUrl)).get();
+
+        updateRadioStationStreamHandler.handle(
+                new UpdateRadioStationStream(
+                        radioStationId,
+                        result.id,
+                        new UpdateRadioStationStream.DataBuilder()
+                                .setUrl(savedStream.getUrl())
+                                .setBitRate(savedStream.getBitRate())
+                                .setType(savedStream.getType().orElse(null))
+                                .setWorking(isWorking)
+                                .build()
+                )
+        );
     }
 }

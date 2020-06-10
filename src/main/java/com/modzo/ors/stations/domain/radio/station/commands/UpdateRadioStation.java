@@ -1,11 +1,11 @@
 package com.modzo.ors.stations.domain.radio.station.commands;
 
-import com.modzo.ors.events.domain.RadioStationUpdated;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.genre.Genre;
 import com.modzo.ors.stations.domain.radio.station.genre.Genres;
+import com.modzo.ors.stations.events.StationsDomainEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 import static com.nimbusds.oauth2.sdk.util.CollectionUtils.isNotEmpty;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class UpdateRadioStation {
@@ -180,24 +179,13 @@ public class UpdateRadioStation {
             radioStation.getGenres().clear();
             radioStation.getGenres().addAll(foundGenres);
 
-            RadioStationUpdated.Data eventData = new RadioStationUpdated.Data(
-                    radioStation.getId(),
-                    radioStation.getUniqueId(),
-                    radioStation.getTitle(),
-                    radioStation.getWebsite(),
-                    radioStation.isEnabled(),
-                    radioStation.getGenres().stream()
-                            .map(genre -> new RadioStationUpdated.Data.Genre(
-                                            genre.getId(),
-                                            genre.getUniqueId(),
-                                            genre.getTitle()
-                                    )
-                            )
-                            .collect(toSet())
-            );
-
             applicationEventPublisher.publishEvent(
-                    new RadioStationUpdated(radioStation, eventData)
+                    new StationsDomainEvent(
+                            radioStation,
+                            StationsDomainEvent.Action.UPDATED,
+                            StationsDomainEvent.Type.RADIO_STATION,
+                            radioStation.getId()
+                    )
             );
         }
     }

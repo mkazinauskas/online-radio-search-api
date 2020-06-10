@@ -1,0 +1,17 @@
+[
+  {
+    "uniqueId": "STfTz3JPxxO3EDnkUpBf",
+    "title": "Chilis - IFC Qatar - Retail Music International",
+    "enabled": true,
+    "streams": [
+      {
+        "url": "http://162.252.85.85:7548",
+        "working": false
+      },
+      {
+        "url": "http://162.252.85.85:7547",
+        "working": false
+      }
+    ]
+  }
+]

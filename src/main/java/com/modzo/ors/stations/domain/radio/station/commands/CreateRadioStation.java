@@ -1,21 +1,31 @@
 package com.modzo.ors.stations.domain.radio.station.commands;
 
-import com.modzo.ors.events.domain.RadioStationCreated;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
+import com.modzo.ors.stations.events.StationsDomainEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CreateRadioStation {
 
+    private final String uniqueId;
+
     private final String title;
 
     public CreateRadioStation(String title) {
+        this.uniqueId = null;
+        this.title = title;
+    }
+
+    public CreateRadioStation(String uniqueId, String title) {
+        this.uniqueId = uniqueId;
         this.title = title;
     }
 
@@ -24,11 +34,16 @@ public class CreateRadioStation {
     }
 
     private RadioStation toRadioStation() {
-        return new RadioStation(this.title);
+        if (Objects.isNull(uniqueId)) {
+            return new RadioStation(this.title);
+        } else {
+            return new RadioStation(this.uniqueId, this.title);
+        }
     }
 
     @Component
     public static class Handler {
+
         private final RadioStations radioStations;
 
         private final Validator validator;
@@ -48,19 +63,16 @@ public class CreateRadioStation {
             validator.validate(command);
             RadioStation radioStation = radioStations.save(command.toRadioStation());
             applicationEventPublisher.publishEvent(
-                    new RadioStationCreated(
+                    new StationsDomainEvent(
                             radioStation,
-                            new RadioStationCreated.Data(
-                                    radioStation.getId(),
-                                    radioStation.getUniqueId(),
-                                    radioStation.getCreated(),
-                                    radioStation.getTitle(),
-                                    radioStation.isEnabled()
-                            )
+                            StationsDomainEvent.Action.CREATED,
+                            StationsDomainEvent.Type.RADIO_STATION,
+                            radioStation.getId()
                     )
             );
             return new Result(radioStation.getId());
         }
+
     }
 
     @Component

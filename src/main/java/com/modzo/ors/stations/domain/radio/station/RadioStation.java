@@ -70,6 +70,11 @@ public class RadioStation {
         this.title = title;
     }
 
+    public RadioStation(String uniqueId, String title) {
+        this.uniqueId = uniqueId;
+        this.title = title;
+    }
+
     public Long getId() {
         return id;
     }

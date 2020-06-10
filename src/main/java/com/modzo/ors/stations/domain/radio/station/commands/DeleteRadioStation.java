@@ -1,9 +1,9 @@
 package com.modzo.ors.stations.domain.radio.station.commands;
 
-import com.modzo.ors.events.domain.RadioStationDeleted;
 import com.modzo.ors.stations.domain.DomainException;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
+import com.modzo.ors.stations.events.StationsDomainEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,12 +40,11 @@ public class DeleteRadioStation {
             radioStations.delete(radioStation);
 
             applicationEventPublisher.publishEvent(
-                    new RadioStationDeleted(
+                    new StationsDomainEvent(
                             radioStation,
-                            new RadioStationDeleted.Data(
-                                    radioStation.getId(),
-                                    radioStation.getUniqueId()
-                            )
+                            StationsDomainEvent.Action.DELETED,
+                            StationsDomainEvent.Type.RADIO_STATION,
+                            radioStation.getId()
                     )
             );
         }

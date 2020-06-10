@@ -9,6 +9,8 @@ public interface RadioStations extends JpaRepository<RadioStation, Long>, JpaSpe
 
     Optional<RadioStation> findByTitle(String title);
 
+    Optional<RadioStation> findByUniqueId(String uniqueId);
+
     Long countAllByEnabledTrue();
 
 }
