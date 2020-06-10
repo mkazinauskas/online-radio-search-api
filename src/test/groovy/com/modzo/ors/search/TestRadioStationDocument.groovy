@@ -19,7 +19,7 @@ class TestRadioStationDocument {
     RadioStationDocument create(String title = randomTitle(), boolean enabled = true) {
         RadioStationDocument radioStationDocument = new RadioStationDocument(
                 randomNumeric(10) as long,
-                randomAlphanumeric(100),
+                UUID.randomUUID(),
                 title,
                 enabled
         )

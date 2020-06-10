@@ -85,11 +85,14 @@ class ImporterService {
             return;
         }
 
-        Optional<RadioStation> existingStationByUniqueId = radioStations.findByUniqueId(entry.getUniqueId());
-        if (existingStationByUniqueId.isPresent()) {
-            logger.warn("Radio station uuid `{}` already exists. Skipping creation.", entry.getUniqueId());
-            createStreamUrls(existingStationByUniqueId.get().getId(), entry.getStreams());
-            return;
+        if (importUniqueIds) {
+            Optional<RadioStation> existingStationByUniqueId = radioStations
+                    .findByUniqueId(UUID.fromString(entry.getUniqueId()));
+            if (existingStationByUniqueId.isPresent()) {
+                logger.warn("Radio station uuid `{}` already exists. Skipping creation.", entry.getUniqueId());
+                createStreamUrls(existingStationByUniqueId.get().getId(), entry.getStreams());
+                return;
+            }
         }
 
         Optional<RadioStation> existingStationByTitle = findRadioStationByTitleHandler.handle(

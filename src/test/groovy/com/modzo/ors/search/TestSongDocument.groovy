@@ -19,7 +19,7 @@ class TestSongDocument {
     SongDocument create(String title = randomTitle()) {
         SongDocument songDocument = new SongDocument(
                 randomNumeric(10) as long,
-                randomAlphanumeric(100),
+                UUID.randomUUID(),
                 title
         )
         songsRepository.save(songDocument)

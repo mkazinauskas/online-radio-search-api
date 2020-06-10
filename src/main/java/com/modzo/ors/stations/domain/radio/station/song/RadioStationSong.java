@@ -14,7 +14,6 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import static javax.persistence.GenerationType.SEQUENCE;
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
 @Entity
 @Table(name = "radio_station_songs")

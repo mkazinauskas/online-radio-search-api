@@ -21,7 +21,7 @@ class CreateRadioStationSpec extends IntegrationSpec {
             RadioStation savedRadioStation = radioStations.findById(result.id).get()
             savedRadioStation.title == command.title
             savedRadioStation.id == result.id
-            savedRadioStation.uniqueId.size() == 20
+            savedRadioStation.uniqueId
             savedRadioStation.genres.empty
     }
 }

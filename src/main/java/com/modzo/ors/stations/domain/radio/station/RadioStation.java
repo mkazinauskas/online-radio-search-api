@@ -25,7 +25,6 @@ import static javax.persistence.CascadeType.REFRESH;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.SEQUENCE;
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
 @Entity
 @Table(name = "radio_stations")

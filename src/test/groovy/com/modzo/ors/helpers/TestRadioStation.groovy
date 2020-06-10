@@ -44,10 +44,6 @@ class TestRadioStation {
         return station
     }
 
-    static String randomWebsite() {
-        randomAlphanumeric(100)
-    }
-
     static String randomTitle() {
         randomAlphanumeric(40)
     }
