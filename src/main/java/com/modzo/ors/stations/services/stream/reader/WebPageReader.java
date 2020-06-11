@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
@@ -19,6 +20,13 @@ import static java.util.Optional.ofNullable;
 public class WebPageReader {
 
     private static final Logger log = LoggerFactory.getLogger(WebPageReader.class);
+
+    private static final Set<String> AUDIO_HEADERS = Set.of(
+            "audio",
+            "ogg",
+            "mp3",
+            "wav"
+    );
 
     private final List<UrlReader> urlReaders;
 
@@ -85,8 +93,13 @@ public class WebPageReader {
 
         public boolean hasAudioContentTypeHeader() {
             return findHeader(HttpHeaders.CONTENT_TYPE)
-                    .filter(type -> StringUtils.contains(type, "audio"))
+                    .filter(this::isAudioType)
                     .isPresent();
+        }
+
+        private boolean isAudioType(String header) {
+            return AUDIO_HEADERS.stream()
+                    .anyMatch(expected -> StringUtils.contains(header, expected));
         }
     }
 }

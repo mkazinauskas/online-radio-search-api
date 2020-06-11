@@ -45,6 +45,7 @@ public class UrlResolver {
                 .map(this.webPageReader::read)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
+                .filter(response -> response.getBody().isPresent())
                 .findFirst();
 
         workingUrlResponse.ifPresent(url -> this.saveUrl(stream, type, url));
@@ -61,4 +62,5 @@ public class UrlResolver {
             );
         }
     }
+
 }

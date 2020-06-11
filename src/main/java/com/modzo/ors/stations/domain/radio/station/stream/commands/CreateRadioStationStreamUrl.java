@@ -6,6 +6,8 @@ import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStreams;
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrl;
 import com.modzo.ors.stations.domain.radio.station.stream.StreamUrls;
+import com.modzo.ors.stations.events.StreamUrlCreatedEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,12 +47,15 @@ public class CreateRadioStationStreamUrl {
 
         private final StreamUrls streamUrls;
 
+        private final ApplicationEventPublisher publisher;
+
         public Handler(RadioStationStreams radioStationStreams,
                        Validator validator,
-                       StreamUrls streamUrls) {
+                       StreamUrls streamUrls, ApplicationEventPublisher publisher) {
             this.radioStationStreams = radioStationStreams;
             this.validator = validator;
             this.streamUrls = streamUrls;
+            this.publisher = publisher;
         }
 
         @Transactional
@@ -68,6 +73,12 @@ public class CreateRadioStationStreamUrl {
             StreamUrl savedUrl = streamUrls.save(streamUrl);
 
             radioStationStream.getUrls().put(command.type, savedUrl);
+
+            publisher.publishEvent(
+                    new StreamUrlCreatedEvent(
+                            this, command.type, radioStationStream.getRadioStationId(), command.streamId
+                    )
+            );
 
             return new CreateRadioStationStreamUrl.Result(savedUrl.getId());
         }
