@@ -4,9 +4,11 @@ import com.modzo.ors.stations.domain.radio.station.stream.RadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.GetRadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateRadioStationStream;
 import com.modzo.ors.stations.domain.radio.station.stream.commands.UpdateRadioStationStreamCheckedTime;
+import com.modzo.ors.stations.events.StreamUrlCheckSucceededEvent;
 import com.modzo.ors.stations.services.stream.reader.WebPageReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
@@ -27,16 +29,20 @@ public class StreamCheckService {
 
     private final RadioStationStatusUpdater radioStationStatusUpdater;
 
+    private final ApplicationEventPublisher applicationEventPublisher;
+
     StreamCheckService(GetRadioStationStream.Handler getRadioStationStreamHandler,
                        UpdateRadioStationStream.Handler updateRadioStationStreamHandler,
                        UpdateRadioStationStreamCheckedTime.Handler updateStreamCheckedTimeHandler,
                        WebPageReader webPageReader,
-                       RadioStationStatusUpdater radioStationStatusUpdater) {
+                       RadioStationStatusUpdater radioStationStatusUpdater,
+                       ApplicationEventPublisher applicationEventPublisher) {
         this.getRadioStationStreamHandler = getRadioStationStreamHandler;
         this.updateRadioStationStreamHandler = updateRadioStationStreamHandler;
         this.updateStreamCheckedTimeHandler = updateStreamCheckedTimeHandler;
         this.webPageReader = webPageReader;
         this.radioStationStatusUpdater = radioStationStatusUpdater;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     public void checkIfStreamWorks(long radioStationId, long streamId) {
@@ -56,6 +62,13 @@ public class StreamCheckService {
             if (!stream.isWorking()) {
                 this.updateStream(stream, true);
             }
+            applicationEventPublisher.publishEvent(
+                    new StreamUrlCheckSucceededEvent(
+                            this,
+                            stream.getRadioStationId(),
+                            stream.getId()
+                    )
+            );
         } else {
             if (stream.isWorking()) {
                 this.updateStream(stream, false);
