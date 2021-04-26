@@ -25,7 +25,6 @@ public class DefaultElasticsearchConfiguration extends AbstractElasticsearchConf
     @Value("${elasticsearch.clustername}")
     private String elasticSearchClusterName;
 
-    @Bean
     @Override
     public RestHighLevelClient elasticsearchClient() {
         final ClientConfiguration clientConfiguration = ClientConfiguration.builder()

@@ -53,10 +53,15 @@ dependencies {
     testImplementation "org.spockframework:spock-spring:${spockVersion}"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation "org.testcontainers:testcontainers:${testContainersVersion}"
-    testImplementation "org.testcontainers:postgresql:${testContainersVersion}"
     testImplementation "org.keycloak:keycloak-test-helper:${keycloakVersion}"
     testImplementation 'com.github.tomakehurst:wiremock:2.26.3'
+
+    testImplementation "org.testcontainers:spock:${testContainersVersion}"
+    testImplementation "org.testcontainers:postgresql:${testContainersVersion}"
+    testImplementation "org.testcontainers:elasticsearch:${testContainersVersion}"
+
+    //This is required for usage of RestHighLevelClient...
+    testImplementation 'org.springframework.boot:spring-boot-starter-webflux'
 
     compileOnly group: 'org.gmetrics', name: 'GMetrics', version: '0.7'
 }
