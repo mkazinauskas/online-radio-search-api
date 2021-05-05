@@ -19,7 +19,7 @@ class TestElasticsearchConfiguration extends AbstractElasticsearchConfiguration 
         ElasticsearchContainer container = new ElasticsearchContainer()
         container.start()
 
-        final ClientConfiguration clientConfiguration = ClientConfiguration.builder()
+        ClientConfiguration clientConfiguration = ClientConfiguration.builder()
                 .connectedTo(container.getHttpHostAddress())
                 .build()
 
