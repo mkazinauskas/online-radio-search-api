@@ -23,7 +23,6 @@ spring:
 elasticsearch:
   host: localhost
   port: 9211
-  clustername: online_radio_search
 
 keycloak:
   auth-server-url: http://localhost:8081/auth

@@ -2,7 +2,10 @@ package com.modzo.ors.last.searches.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.time.ZonedDateTime;
 
@@ -28,6 +31,7 @@ public class SearchedQuery {
     private String id;
 
     @JsonProperty("created")
+    @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
     private ZonedDateTime created = ZonedDateTime.now();
 
     @JsonProperty("query")
