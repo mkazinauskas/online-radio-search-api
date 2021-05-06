@@ -1,6 +1,6 @@
 [![Build on Push](https://github.com/mkazinauskas/online-radio-search-api/actions/workflows/build-on-push.yml/badge.svg)](https://github.com/mkazinauskas/online-radio-search-api/actions/workflows/build-on-push.yml)
 [![codecov](https://codecov.io/gh/mkazinauskas/online-radio-search-api/branch/master/graph/badge.svg)](https://codecov.io/gh/mkazinauskas/online-radio-search-api)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/49433a89024e4a0ca901bc26ad9b7418)](https://app.codacy.com/manual/mkazinauskas/online-radio-search?utm_source=github.com&utm_medium=referral&utm_content=mkazinauskas/online-radio-search-api&utm_campaign=Badge_Grade_Dashboard)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d321ac221f864a2192d7a64331968db5)](https://www.codacy.com/gh/mkazinauskas/online-radio-search-api/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mkazinauskas/online-radio-search-api&amp;utm_campaign=Badge_Grade)
 
 # OnlineRadioSearch.com API source code
 
