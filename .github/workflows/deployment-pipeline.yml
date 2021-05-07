@@ -103,7 +103,7 @@ jobs:
       image_version: ${{ needs.build_and_publish.outputs.image_version }}
     environment:
       name: test
-      url: ${{ TEST_URL }}
+      url: ${{ env.TEST_URL }}
     steps:
       - name: Generate image name
         id: image_info
@@ -155,7 +155,7 @@ jobs:
       image_version: ${{ needs.deploy_to_test.outputs.image_version }}
     environment:
       name: stage
-      url: ${{ STAGE_URL }}
+      url: ${{ env.STAGE_URL }}
     steps:
       - name: Generate image name
         id: image_info
