@@ -88,6 +88,7 @@ public class GetRadioStations {
                     .withTitle(filter.title)
                     .withSongId(filter.songId)
                     .withGenreId(filter.genreId)
+                    .distinct()
                     .build();
         }
 
@@ -142,6 +143,14 @@ public class GetRadioStations {
                             )
                     );
                 }
+                return this;
+            }
+
+            SpecificationBuilder distinct(){
+                specifications.add((root, query, cb) -> {
+                    query.distinct(true);
+                    return null;
+                });
                 return this;
             }
 
