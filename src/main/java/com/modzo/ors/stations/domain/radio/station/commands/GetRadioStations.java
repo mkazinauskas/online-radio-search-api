@@ -146,7 +146,7 @@ public class GetRadioStations {
                 return this;
             }
 
-            SpecificationBuilder distinct(){
+            SpecificationBuilder distinct() {
                 specifications.add((root, query, cb) -> {
                     query.distinct(true);
                     return null;
