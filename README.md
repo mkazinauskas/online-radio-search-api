@@ -6,12 +6,9 @@
 
 ## How to run
 
-### Dev Environment
-* Please run `./run-dev.sh`
-* Then go to each project folder and execute `./gradlew bootRun`
-
-### Start all
-* Just run `./run.sh` in root directory 
+* Checkout repo [https://github.com/mkazinauskas/online-radio-search-local-env](https://github.com/mkazinauskas/online-radio-search-local-env)
+* Follow instructions in checkout repo README.md file
+* Execute `./gradlew bootRun` file in this project
 
 ## As admin
 ### Get auth key
