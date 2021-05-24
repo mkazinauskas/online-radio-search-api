@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.RestClients;
 import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfiguration;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
@@ -29,8 +30,8 @@ public class DefaultElasticsearchConfiguration extends AbstractElasticsearchConf
     }
 
     @Bean
-    public ElasticsearchRestTemplate customElasticsearchTemplate() {
-        return new ElasticsearchRestTemplate(elasticsearchClient());
+    ElasticsearchOperations elasticsearchTemplate(RestHighLevelClient client) {
+        return new ElasticsearchRestTemplate(client);
     }
 
 }
