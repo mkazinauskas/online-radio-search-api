@@ -30,8 +30,8 @@ public class DefaultElasticsearchConfiguration extends AbstractElasticsearchConf
     }
 
     @Bean
-    public ElasticsearchOperations elasticsearchTemplate() {
-        return new ElasticsearchRestTemplate(elasticsearchClient());
+    ElasticsearchOperations elasticsearchTemplate(RestHighLevelClient client) {
+        return new ElasticsearchRestTemplate(client);
     }
 
 }
