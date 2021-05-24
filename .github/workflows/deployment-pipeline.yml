@@ -10,7 +10,10 @@ env:
   KUBERNETES_VERSION: 'latest' # default is latest stable
   KUBERNETES_APP_NAME: online-radio-search-api
   TEST_URL: "https://test.onlineradiosearch.com"
+  TEST_REPLICAS: 1
   STAGE_URL: "https://stage.onlineradiosearch.com"
+  STAGE_REPLICAS: 1
+  PROD_REPLICAS: 3
 
 jobs:
   build_and_publish:
@@ -135,6 +138,7 @@ jobs:
 
       - name: Prepare deployment file
         run: |
+          sed -i 's;{{REPLICAS}};${{ env.TEST_REPLICAS }};g' ".github/workflows/deployments/deployment_template.yaml"
           sed -i 's;{{APP_NAME}};${{ env.KUBERNETES_APP_NAME }};g' ".github/workflows/deployments/deployment_template.yaml"
           sed -i 's;{{NAMESPACE}};${{ secrets.NAMESPACE }};g' ".github/workflows/deployments/deployment_template.yaml"
           sed -i 's;{{IMAGE}};${{ steps.image_info.outputs.image }};g' ".github/workflows/deployments/deployment_template.yaml"
@@ -187,6 +191,7 @@ jobs:
 
       - name: Prepare deployment file
         run: |
+          sed -i 's;{{REPLICAS}};${{ env.STAGE_REPLICAS }};g' ".github/workflows/deployments/deployment_template.yaml"
           sed -i 's;{{APP_NAME}};${{ env.KUBERNETES_APP_NAME }};g' ".github/workflows/deployments/deployment_template.yaml"
           sed -i 's;{{NAMESPACE}};${{ secrets.NAMESPACE }};g' ".github/workflows/deployments/deployment_template.yaml"
           sed -i 's;{{IMAGE}};${{ steps.image_info.outputs.image }};g' ".github/workflows/deployments/deployment_template.yaml"
@@ -238,6 +243,7 @@ jobs:
 
       - name: Prepare deployment file
         run: |
+          sed -i 's;{{REPLICAS}};${{ env.PROD_REPLICAS }};g' ".github/workflows/deployments/deployment_template.yaml"
           sed -i 's;{{APP_NAME}};${{ env.KUBERNETES_APP_NAME }};g' ".github/workflows/deployments/deployment_template.yaml"
           sed -i 's;{{NAMESPACE}};${{ secrets.NAMESPACE }};g' ".github/workflows/deployments/deployment_template.yaml"
           sed -i 's;{{IMAGE}};${{ steps.image_info.outputs.image }};g' ".github/workflows/deployments/deployment_template.yaml"
