@@ -27,6 +27,7 @@ class SearchRadioStationSpec extends IntegrationSpec {
         then:
             result.statusCode == OK
         and:
+            result.body
             with(result.body) {
                 with(it.content.first()) {
                     it.id == radioStation.id

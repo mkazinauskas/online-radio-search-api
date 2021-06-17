@@ -1,19 +1,16 @@
 package com.modzo.ors.last.searches.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.DateFormat;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
-
+import javax.persistence.*;
 import java.time.ZonedDateTime;
 
-@Document(indexName = "online_radio_search_searched_queries")
+import static javax.persistence.GenerationType.SEQUENCE;
+
+@Entity
+@Table(name = "searched_queries")
 public class SearchedQuery {
 
     public enum Type {
-        SONG("song"), RADIO_STATION("radiostation"), GENRE("genre");
+        SONG("song"), RADIO_STATION("radio_station"), GENRE("genre");
 
         private final String title;
 
@@ -27,17 +24,19 @@ public class SearchedQuery {
     }
 
     @Id
-    @JsonProperty("id")
-    private String id;
+    @GeneratedValue(generator = "searched_queries_sequence", strategy = SEQUENCE)
+    @SequenceGenerator(name = "searched_queries_sequence", sequenceName = "searched_queries_sequence", allocationSize = 1)
+    @Column(name = "id")
+    private Long id;
 
-    @JsonProperty("created")
-    @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
+    @Column(name = "created", nullable = false)
     private ZonedDateTime created = ZonedDateTime.now();
 
-    @JsonProperty("query")
+    @Column(name = "query", length = 100, unique = true, nullable = false)
     private String query;
 
-    @JsonProperty("type")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
     private Type type;
 
     SearchedQuery() {
@@ -48,11 +47,11 @@ public class SearchedQuery {
         this.type = type;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

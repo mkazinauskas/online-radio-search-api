@@ -1,6 +1,6 @@
 package com.modzo.ors.search.resources.radio.station;
 
-import com.modzo.ors.search.domain.RadioStationDocument;
+import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
@@ -25,7 +25,7 @@ public class SearchRadioStationResultsModel extends PagedModel<SearchRadioStatio
     }
 
     static SearchRadioStationResultsModel create(
-            Page<RadioStationDocument> stations,
+            Page<RadioStation> stations,
             Pageable pageable,
             String query) {
         PageMetadata pageMetadata = new PageMetadata(

@@ -30,7 +30,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
     implementation 'javax.validation:validation-api:2.0.1.Final'
     implementation 'org.hibernate.validator:hibernate-validator'
 
@@ -42,6 +41,8 @@ dependencies {
     implementation 'com.rainerhahnekamp:sneakythrow:1.2.0'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.11.0'
     implementation 'com.squareup.okhttp3:okhttp:4.7.2'
+
+    implementation 'com.vladmihalcea:hibernate-types-55:2.12.0'
 
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 
@@ -59,9 +60,6 @@ dependencies {
     testImplementation "org.testcontainers:spock:${testContainersVersion}"
     testImplementation "org.testcontainers:postgresql:${testContainersVersion}"
     testImplementation "org.testcontainers:elasticsearch:${testContainersVersion}"
-
-    //This is required for usage of RestHighLevelClient...
-    testImplementation 'org.springframework.boot:spring-boot-starter-webflux'
 
     compileOnly group: 'org.gmetrics', name: 'GMetrics', version: '0.7'
 }

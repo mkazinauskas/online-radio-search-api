@@ -1,6 +1,6 @@
 package com.modzo.ors.search.resources.song;
 
-import com.modzo.ors.search.domain.SongDocument;
+import com.modzo.ors.stations.domain.song.Song;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
@@ -21,7 +21,7 @@ public class SearchSongResultsModel extends PagedModel<SearchSongResultResponse>
         super(content, metadata, links);
     }
 
-    static SearchSongResultsModel create(Page<SongDocument> songs, Pageable pageable, String query) {
+    static SearchSongResultsModel create(Page<Song> songs, Pageable pageable, String query) {
         PageMetadata pageMetadata = new PageMetadata(
                 songs.getSize(),
                 songs.getNumber(),

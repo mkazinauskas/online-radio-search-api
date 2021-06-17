@@ -2,7 +2,7 @@ package com.modzo.ors.search.resources.song;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.modzo.ors.search.domain.SongDocument;
+import com.modzo.ors.stations.domain.song.Song;
 
 import java.util.UUID;
 
@@ -23,7 +23,7 @@ public class SearchSongResultResponse {
         this.title = title;
     }
 
-    static SearchSongResultResponse create(SongDocument song) {
+    static SearchSongResultResponse create(Song song) {
         return new SearchSongResultResponse(
                 song.getId(),
                 song.getUniqueId(),
