@@ -2,9 +2,6 @@ package com.modzo.ors.stations.domain.radio.station;
 
 import com.modzo.ors.stations.domain.radio.station.genre.Genre;
 import com.modzo.ors.stations.domain.radio.station.song.RadioStationSong;
-import com.vladmihalcea.hibernate.type.search.PostgreSQLTSVectorType;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,7 +28,6 @@ import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
 @Table(name = "radio_stations")
-@TypeDef(name = "tsvector", typeClass = PostgreSQLTSVectorType.class)
 public class RadioStation {
     @Id
     @GeneratedValue(generator = "radio_stations_sequence", strategy = SEQUENCE)
@@ -45,8 +41,7 @@ public class RadioStation {
     @Column(name = "created", nullable = false)
     private ZonedDateTime created = ZonedDateTime.now();
 
-    @Type(type = "tsvector")
-    @Column(name = "title", columnDefinition = "tsvector", length = 100, unique = true, nullable = false)
+    @Column(name = "title", length = 100, unique = true, nullable = false)
     private String title;
 
     @Column(name = "website", length = 100, unique = true)

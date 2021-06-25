@@ -13,16 +13,14 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-    properties.hibernate.jdbc.lob.non_contextual_creation: true
+    properties.hibernate:
+      jdbc.lob.non_contextual_creation: true
+      metadata_builder_contributor: com.modzo.ors.configuration.hibernate.TsVectorMetaBuilderContributor
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:8766/onlineradiosearchdb
     username: online-radio-search-api-admin
     password: online-radio-search-api-password
-
-elasticsearch:
-  host: localhost
-  port: 9211
 
 keycloak:
   auth-server-url: http://localhost:8081/auth

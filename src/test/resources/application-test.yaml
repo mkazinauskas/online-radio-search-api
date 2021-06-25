@@ -2,7 +2,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-    properties.hibernate.jdbc.lob.non_contextual_creation: true
+    properties.hibernate:
+      jdbc.lob.non_contextual_creation: true
+      format_sql: true
     show-sql: true
   datasource:
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
@@ -36,3 +38,8 @@ application:
   songs.updater.scheduler.enabled: false
   info.updater.scheduler.enabled: false
   stream.checker.scheduler.enabled: false
+
+logging.level:
+  org.hibernate:
+    SQL: DEBUG
+    type: TRACE

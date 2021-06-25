@@ -33,7 +33,10 @@ public class SearchRadioStationByTitle {
         }
 
         public Page<RadioStation> handle(SearchRadioStationByTitle command) {
-            Page<RadioStation> result = radioStations.findAllByTitleAndEnabledTrue(command.title, command.pageable);
+            Page<RadioStation> result = radioStations.findAllByTitleAndEnabledTrue(
+                    command.title.replaceAll(" ", " & ") + ":*",
+                    command.pageable
+            );
 
             if (result.getNumberOfElements() > 0) {
                 lastSearchedQueryHandler.handle(
