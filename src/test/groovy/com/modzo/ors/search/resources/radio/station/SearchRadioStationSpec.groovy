@@ -46,11 +46,12 @@ class SearchRadioStationSpec extends IntegrationSpec {
                 }
             }
         where:
-            radioStationTitle                                                  | query
-            randomTitle()                                                      | radioStationTitle
-            "${randomTitle()} trixyblaze ${randomTitle()}"                     | 'trixyblaze'
-            "${randomTitle()} partializertrancoder ${randomTitle()}"           | 'partializer'
-            "${randomTitle()} partializertrancoder blazinger ${randomTitle()}" | 'partializertrancoder blazinger'
+            radioStationTitle                                           | query
+            randomTitle()                                               | radioStationTitle
+            "${randomTitle()} trixyblaze ${randomTitle()}"              | 'trixyblaze'
+            "${randomTitle()} partializertrancoder ${randomTitle()}"    | 'partializer'
+            "${randomTitle()} tristictrancoder ${randomTitle()}"        | 'trancoder'
+            "${randomTitle()} thunderstrobe blazinger ${randomTitle()}" | 'partializertrancoder blazinger'
     }
 
     private static String randomTitle() {

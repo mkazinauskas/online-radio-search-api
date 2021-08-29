@@ -20,8 +20,6 @@ public class SearchSongsByTitle {
     @Component
     public static class Handler {
 
-//        private final SongsRepository songsRepository;
-
         private final CreateSearchedQuery.Handler lastSearchedQueryHandler;
 
         public Handler(CreateSearchedQuery.Handler lastSearchedQueryHandler) {

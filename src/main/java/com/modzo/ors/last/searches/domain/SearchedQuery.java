@@ -1,6 +1,13 @@
 package com.modzo.ors.last.searches.domain;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import java.time.ZonedDateTime;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -25,7 +32,11 @@ public class SearchedQuery {
 
     @Id
     @GeneratedValue(generator = "searched_queries_sequence", strategy = SEQUENCE)
-    @SequenceGenerator(name = "searched_queries_sequence", sequenceName = "searched_queries_sequence", allocationSize = 1)
+    @SequenceGenerator(
+            name = "searched_queries_sequence",
+            sequenceName = "searched_queries_sequence",
+            allocationSize = 1
+    )
     @Column(name = "id")
     private Long id;
 
