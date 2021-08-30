@@ -13,7 +13,7 @@ public class TsVectorMetaBuilderContributor implements MetadataBuilderContributo
         metadataBuilder.applySqlFunction("fts",
                 new SQLFunctionTemplate(
                         StandardBasicTypes.BOOLEAN,
-                        "(?1 ILIKE ?2)",
+                        "(?1 ILIKE CONCAT('%',?2,'%'))",
                         true
                 )
         );
