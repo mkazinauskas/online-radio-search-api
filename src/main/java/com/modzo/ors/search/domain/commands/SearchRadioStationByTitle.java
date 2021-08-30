@@ -34,7 +34,7 @@ public class SearchRadioStationByTitle {
 
         public Page<RadioStation> handle(SearchRadioStationByTitle command) {
             Page<RadioStation> result = radioStations.findAllByTitleAndEnabledTrue(
-                    command.title.replaceAll(" ", " & ") + ":*",
+                    command.title,
                     command.pageable
             );
 

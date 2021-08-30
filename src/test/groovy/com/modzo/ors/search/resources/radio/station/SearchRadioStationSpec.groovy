@@ -7,8 +7,6 @@ import org.springframework.http.ResponseEntity
 import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils
 import spock.lang.Unroll
 
-import java.nio.charset.Charset
-
 import static org.springframework.hateoas.IanaLinkRelations.SELF
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpStatus.OK
@@ -47,11 +45,10 @@ class SearchRadioStationSpec extends IntegrationSpec {
             }
         where:
             radioStationTitle                                           | query
-            randomTitle()                                               | radioStationTitle
             "${randomTitle()} trixyblaze ${randomTitle()}"              | 'trixyblaze'
             "${randomTitle()} partializertrancoder ${randomTitle()}"    | 'partializer'
-            "${randomTitle()} tristictrancoder ${randomTitle()}"        | 'trancoder'
-            "${randomTitle()} thunderstrobe blazinger ${randomTitle()}" | 'partializertrancoder blazinger'
+            "${randomTitle()} tristicbroadersit ${randomTitle()}"       | 'broadersit'
+            "${randomTitle()} thunderstrobe blazinger ${randomTitle()}" | 'thunderstrobe blazinger'
     }
 
     private static String randomTitle() {
