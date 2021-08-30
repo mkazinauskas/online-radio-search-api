@@ -49,6 +49,8 @@ class SearchRadioStationSpec extends IntegrationSpec {
             "${randomTitle()} partializertrancoder ${randomTitle()}"    | 'partializer'
             "${randomTitle()} tristicbroadersit ${randomTitle()}"       | 'broadersit'
             "${randomTitle()} thunderstrobe blazinger ${randomTitle()}" | 'thunderstrobe blazinger'
+            "${randomTitle()} birdlandlink trap opus ${randomTitle()}"  | 'birdland opus'
+            "${randomTitle()} partl2g60l go ${randomTitle()}"           | 'g6'
     }
 
     private static String randomTitle() {
