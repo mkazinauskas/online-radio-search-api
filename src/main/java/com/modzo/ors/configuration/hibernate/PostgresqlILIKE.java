@@ -5,14 +5,16 @@ import org.hibernate.boot.spi.MetadataBuilderContributor;
 import org.hibernate.dialect.function.SQLFunctionTemplate;
 import org.hibernate.type.StandardBasicTypes;
 
-public class PostgresqlFullTextSearch implements MetadataBuilderContributor {
+public class PostgresqlILIKE implements MetadataBuilderContributor {
+
+    public static final String ILIKE_TITLE = "ILIKE";
 
     @Override
     public void contribute(MetadataBuilder metadataBuilder) {
-        metadataBuilder.applySqlFunction("full_text_search",
+        metadataBuilder.applySqlFunction(ILIKE_TITLE,
                 new SQLFunctionTemplate(
                         StandardBasicTypes.BOOLEAN,
-                        "(?1 ILIKE CONCAT('%',REPLACE(?2,' ','%'),'%'))",
+                        "(?1 ILIKE ?2)",
                         true
                 )
         );

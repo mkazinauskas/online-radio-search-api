@@ -1,5 +1,6 @@
 package com.modzo.ors.stations.domain.radio.station.commands;
 
+import com.modzo.ors.configuration.hibernate.PostgresqlILIKE;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import org.springframework.data.domain.Page;
@@ -8,11 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.JoinType;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static java.util.Objects.requireNonNull;
 
@@ -119,7 +116,18 @@ public class GetRadioStations {
 
             SpecificationBuilder withTitle(String title) {
                 if (!Objects.isNull(title)) {
-                    specifications.add((root, query, cb) -> cb.like(root.get("title"), title));
+                    String titleQuery = "%" + title.replaceAll(" ", "%") + "%";
+                    specifications.add(
+                            (root, query, cb) ->
+                                    cb.isTrue(
+                                            cb.function(
+                                                    PostgresqlILIKE.ILIKE_TITLE,
+                                                    Boolean.class,
+                                                    root.get("title"),
+                                                    cb.literal(titleQuery)
+                                            )
+                                    )
+                    );
                 }
                 return this;
             }

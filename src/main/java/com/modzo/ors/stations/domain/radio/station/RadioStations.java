@@ -18,7 +18,7 @@ public interface RadioStations extends JpaRepository<RadioStation, Long>, JpaSpe
 
     Long countAllByEnabledTrue();
 
-    @Query("SELECT rs FROM RadioStation rs WHERE full_text_search(title,:title)=true AND enabled=true")
+    @Query("SELECT rs FROM RadioStation rs WHERE ILIKE(title,:title)=true AND enabled=true")
     Page<RadioStation> findAllByTitleAndEnabledTrue(@Param("title") String title, Pageable pageable);
 
 }
