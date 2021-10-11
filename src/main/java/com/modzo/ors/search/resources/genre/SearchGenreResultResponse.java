@@ -2,7 +2,7 @@ package com.modzo.ors.search.resources.genre;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.modzo.ors.search.domain.GenreDocument;
+import com.modzo.ors.stations.domain.radio.station.genre.Genre;
 
 import java.util.UUID;
 
@@ -23,11 +23,11 @@ public class SearchGenreResultResponse {
         this.title = title;
     }
 
-    static SearchGenreResultResponse create(GenreDocument genreDocument) {
+    static SearchGenreResultResponse create(Genre genre) {
         return new SearchGenreResultResponse(
-                genreDocument.getId(),
-                genreDocument.getUniqueId(),
-                genreDocument.getTitle()
+                genre.getId(),
+                genre.getUniqueId(),
+                genre.getTitle()
         );
     }
 

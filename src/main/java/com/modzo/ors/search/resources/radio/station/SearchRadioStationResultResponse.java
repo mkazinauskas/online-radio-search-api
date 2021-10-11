@@ -2,7 +2,7 @@ package com.modzo.ors.search.resources.radio.station;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.modzo.ors.search.domain.RadioStationDocument;
+import com.modzo.ors.stations.domain.radio.station.RadioStation;
 
 import java.util.UUID;
 
@@ -27,7 +27,7 @@ public class SearchRadioStationResultResponse {
         this.website = website;
     }
 
-    static SearchRadioStationResultResponse create(RadioStationDocument radioStationDocument) {
+    static SearchRadioStationResultResponse create(RadioStation radioStationDocument) {
         return new SearchRadioStationResultResponse(
                 radioStationDocument.getId(),
                 radioStationDocument.getUniqueId(),

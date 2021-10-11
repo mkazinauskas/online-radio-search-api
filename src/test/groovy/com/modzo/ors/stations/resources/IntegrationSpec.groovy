@@ -8,8 +8,7 @@ import com.modzo.ors.helpers.TestRadioStationSong
 import com.modzo.ors.helpers.TestRadioStationStream
 import com.modzo.ors.helpers.TestRadioStationStreamUrl
 import com.modzo.ors.helpers.TestSong
-import com.modzo.ors.search.TestRadioStationDocument
-import com.modzo.ors.search.TestSongDocument
+
 import com.modzo.ors.stations.domain.radio.station.RadioStations
 import com.modzo.ors.stations.domain.radio.station.genre.Genres
 import com.modzo.ors.stations.domain.radio.station.song.RadioStationSongs
@@ -48,12 +47,6 @@ class IntegrationSpec extends Specification {
 
     @Autowired
     TestRadioStationSong testRadioStationSong
-
-    @Autowired
-    TestSongDocument testSongDocument
-
-    @Autowired
-    TestRadioStationDocument testRadioStationDocument
 
     @Autowired
     WireMockTestHelper wireMockTestHelper

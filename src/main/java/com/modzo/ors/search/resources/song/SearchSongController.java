@@ -1,7 +1,7 @@
 package com.modzo.ors.search.resources.song;
 
-import com.modzo.ors.search.domain.SongDocument;
 import com.modzo.ors.search.domain.commands.SearchSongsByTitle;
+import com.modzo.ors.stations.domain.song.Song;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ class SearchSongController {
 
     @GetMapping(value = "/search/song", params = {"title"})
     ResponseEntity<SearchSongResultsModel> search(@RequestParam("title") String title, Pageable pageable) {
-        Page<SongDocument> foundSongs = searchHandler.handle(
+        Page<Song> foundSongs = searchHandler.handle(
                 new SearchSongsByTitle(title, pageable)
         );
 

@@ -1,7 +1,7 @@
 package com.modzo.ors.search.resources.genre;
 
-import com.modzo.ors.search.domain.GenreDocument;
 import com.modzo.ors.search.domain.commands.SearchGenreByTitle;
+import com.modzo.ors.stations.domain.radio.station.genre.Genre;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ class SearchGenreController {
 
     @GetMapping(value = "/search/genre", params = {"title"})
     ResponseEntity<SearchGenreResultsModel> search(@RequestParam("title") String title, Pageable pageable) {
-        Page<GenreDocument> foundGenres = searchHandler.handle(
+        Page<Genre> foundGenres = searchHandler.handle(
                 new SearchGenreByTitle(title, pageable)
         );
         return ok(SearchGenreResultsModel.create(foundGenres, pageable, title));

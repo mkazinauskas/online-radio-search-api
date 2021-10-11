@@ -14,10 +14,6 @@ spring:
     username: online-radio-search-api-admin
     password: online-radio-search-api-password
 
-elasticsearch:
-  host: 127.0.0.1
-  port: 9211
-
 keycloak:
   auth-server-url: http://localhost:8081/auth
   resource: online-radio-search-app

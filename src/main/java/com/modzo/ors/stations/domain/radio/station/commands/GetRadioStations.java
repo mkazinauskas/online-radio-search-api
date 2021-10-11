@@ -1,5 +1,7 @@
 package com.modzo.ors.stations.domain.radio.station.commands;
 
+import com.modzo.ors.commons.SqlHelper;
+import com.modzo.ors.configuration.hibernate.PostgresqlILike;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import org.springframework.data.domain.Page;
@@ -7,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.JoinType;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,7 +122,18 @@ public class GetRadioStations {
 
             SpecificationBuilder withTitle(String title) {
                 if (!Objects.isNull(title)) {
-                    specifications.add((root, query, cb) -> cb.like(root.get("title"), title));
+                    String titleQuery = SqlHelper.toILikeSearch(title);
+                    specifications.add(
+                        (root, query, cb) -> {
+                            Expression<Boolean> searchTitle = cb.function(
+                                    PostgresqlILike.ILIKE_TITLE,
+                                    Boolean.class,
+                                    root.get("title"),
+                                    cb.literal(titleQuery)
+                            );
+                            return cb.isTrue(searchTitle);
+                        }
+                    );
                 }
                 return this;
             }

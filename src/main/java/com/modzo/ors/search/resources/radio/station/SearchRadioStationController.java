@@ -1,7 +1,7 @@
 package com.modzo.ors.search.resources.radio.station;
 
-import com.modzo.ors.search.domain.RadioStationDocument;
 import com.modzo.ors.search.domain.commands.SearchRadioStationByTitle;
+import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ class SearchRadioStationController {
 
     @GetMapping(value = "/search/radio-station", params = {"title"})
     ResponseEntity<SearchRadioStationResultsModel> search(@RequestParam("title") String title, Pageable pageable) {
-        Page<RadioStationDocument> foundStations = searchHandler.handle(
+        Page<RadioStation> foundStations = searchHandler.handle(
                 new SearchRadioStationByTitle(title, pageable)
         );
         return ok(SearchRadioStationResultsModel.create(foundStations, pageable, title));

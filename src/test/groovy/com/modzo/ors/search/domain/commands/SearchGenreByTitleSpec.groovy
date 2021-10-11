@@ -1,6 +1,5 @@
 package com.modzo.ors.search.domain.commands
 
-import com.modzo.ors.search.domain.GenreDocument
 import com.modzo.ors.stations.domain.radio.station.genre.Genre
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.apache.commons.lang3.RandomStringUtils
@@ -19,7 +18,7 @@ class SearchGenreByTitleSpec extends IntegrationSpec {
         given:
             Genre savedGenre = testGenre.create("$title ${RandomStringUtils.randomAlphanumeric(5)}")
         when:
-            Page<GenreDocument> result = testTarget.handle(new SearchGenreByTitle(searchTerm, Pageable.unpaged()))
+            Page<Genre> result = testTarget.handle(new SearchGenreByTitle(searchTerm, Pageable.unpaged()))
         then:
             result.content.find { genre -> genre.id == savedGenre.id }
         where:

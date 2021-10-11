@@ -10,10 +10,7 @@ public interface StatisticProvider {
 
     enum Type {
         RADIO_STATIONS,
-        RADIO_STATIONS_DOCUMENTS,
         RADIO_STATION_STREAMS,
-        GENRES_DOCUMENTS,
-        SONGS_DOCUMENTS,
         SEARCHED_QUERIES;
     }
 

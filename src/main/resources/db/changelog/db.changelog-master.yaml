@@ -347,3 +347,55 @@ databaseChangeLog:
             onUpdate: RESTRICT
             referencedColumnNames: id
             referencedTableName: genres
+  - changeSet:
+      id: 2-searched-queries
+      author: modestukasai
+      changes:
+        - createTable:
+            tableName: searched_queries
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: query
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+        - createSequence:
+            schemaName: public
+            sequenceName: searched_queries_sequence
+            incrementBy: 1
+            startValue: 1
+  - changeSet:
+      id: 3-enable-pg-trgm-extension
+      author: modestukasai
+      changes:
+        - sql:
+            dbms: 'postgresql'
+            endDelimiter: \nGO
+            splitStatements: true
+            sql: CREATE EXTENSION pg_trgm;
+  - changeSet:
+      id: 3-radio-station-name-index
+      author: modestukasai
+      changes:
+        - sql:
+            dbms: 'postgresql'
+            endDelimiter: \nGO
+            splitStatements: true
+            sql: CREATE INDEX radio_stations_title_gin_idx ON radio_stations USING gin (title gin_trgm_ops);

@@ -8,7 +8,7 @@ import java.time.ZonedDateTime;
 
 public class LastSearchResponse {
 
-    private final String id;
+    private final Long id;
 
     private final String query;
 
@@ -17,7 +17,7 @@ public class LastSearchResponse {
     private final ZonedDateTime created;
 
     @JsonCreator
-    private LastSearchResponse(@JsonProperty("id") String id,
+    private LastSearchResponse(@JsonProperty("id") Long id,
                                @JsonProperty("query") String query,
                                @JsonProperty("type") String type,
                                @JsonProperty("created") ZonedDateTime created) {
@@ -36,7 +36,7 @@ public class LastSearchResponse {
         );
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 

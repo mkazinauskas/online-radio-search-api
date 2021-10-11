@@ -1,6 +1,6 @@
 package com.modzo.ors.search.resources.genre;
 
-import com.modzo.ors.search.domain.GenreDocument;
+import com.modzo.ors.stations.domain.radio.station.genre.Genre;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
@@ -25,7 +25,7 @@ public class SearchGenreResultsModel extends PagedModel<SearchGenreResultRespons
     }
 
     static SearchGenreResultsModel create(
-            Page<GenreDocument> genres,
+            Page<Genre> genres,
             Pageable pageable,
             String query) {
         PageMetadata pageMetadata = new PageMetadata(

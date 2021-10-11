@@ -1,6 +1,5 @@
 package com.modzo.ors.search.domain.commands
 
-import com.modzo.ors.search.domain.SongDocument
 import com.modzo.ors.stations.domain.song.Song
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,7 +19,7 @@ class SearchSongsBySongNameSpec extends IntegrationSpec {
         given:
             Song savedSong = testSong.create("$title ${randomAlphanumeric(5)}")
         when:
-            Page<SongDocument> result = testTarget.handle(
+            Page<Song> result = testTarget.handle(
                     new SearchSongsByTitle(searchTerm, Pageable.unpaged())
             )
         then:
