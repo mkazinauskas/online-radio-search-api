@@ -43,10 +43,9 @@ class SearchSongSpec extends IntegrationSpec {
                 }
             }
         where:
-            songTitle                                              || query
-            "${randomTitle()} draryrian ${randomTitle()}"          || 'draryrian'
-            "${randomTitle()} partlg6hihltspl go ${randomTitle()}" || 'g6hihlts'
-
+            songTitle                                              | query
+            "${randomTitle()} draryrian ${randomTitle()}"          | 'draryrian'
+            "${randomTitle()} partlg6hihltspl go ${randomTitle()}" | 'g6hihlts'
     }
 
     private static String randomTitle() {

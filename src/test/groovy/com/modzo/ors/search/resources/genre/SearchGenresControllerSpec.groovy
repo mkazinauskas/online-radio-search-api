@@ -44,9 +44,9 @@ class SearchGenresControllerSpec extends IntegrationSpec {
                 }
             }
         where:
-            genreTitle                                                  || query
-            "${randomTitle()} tratret ${randomTitle()}"                 || 'tratret'
-            "${randomTitle()} partl2g60l go ${randomTitle()}"           || 'tl2g60'
+            genreTitle                                                  | query
+            "${randomTitle()} tratret ${randomTitle()}"                 | 'tratret'
+            "${randomTitle()} partl2g60l go ${randomTitle()}"           | 'tl2g60'
     }
 
     private static String randomTitle() {

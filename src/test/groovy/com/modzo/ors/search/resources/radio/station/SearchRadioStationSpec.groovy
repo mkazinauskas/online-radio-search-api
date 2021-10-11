@@ -45,13 +45,13 @@ class SearchRadioStationSpec extends IntegrationSpec {
                 }
             }
         where:
-            radioStationTitle                                           || query
-            "${randomTitle()} trixyblaze ${randomTitle()}"              || 'trixyblaze'
-            "${randomTitle()} partializertrancoder ${randomTitle()}"    || 'partializer'
-            "${randomTitle()} tristicbroadersit ${randomTitle()}"       || 'broadersit'
-            "${randomTitle()} thunderstrobe blazinger ${randomTitle()}" || 'thunderstrobe blazinger'
-            "${randomTitle()} birdlandlink trap opus ${randomTitle()}"  || 'birdland opus'
-            "${randomTitle()} partl2g60l go ${randomTitle()}"           || 'tl2g60'
+            radioStationTitle                                           | query
+            "${randomTitle()} trixyblaze ${randomTitle()}"              | 'trixyblaze'
+            "${randomTitle()} partializertrancoder ${randomTitle()}"    | 'partializer'
+            "${randomTitle()} tristicbroadersit ${randomTitle()}"       | 'broadersit'
+            "${randomTitle()} thunderstrobe blazinger ${randomTitle()}" | 'thunderstrobe blazinger'
+            "${randomTitle()} birdlandlink trap opus ${randomTitle()}"  | 'birdland opus'
+            "${randomTitle()} partl2g60l go ${randomTitle()}"           | 'tl2g60'
     }
 
     private static String randomTitle() {
