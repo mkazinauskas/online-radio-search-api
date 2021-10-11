@@ -1,6 +1,5 @@
 package com.modzo.ors.stations.domain.song;
 
-import com.modzo.ors.stations.domain.radio.station.genre.Genre;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

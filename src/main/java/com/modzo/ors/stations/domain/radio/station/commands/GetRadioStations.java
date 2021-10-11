@@ -1,7 +1,7 @@
 package com.modzo.ors.stations.domain.radio.station.commands;
 
 import com.modzo.ors.commons.SqlHelper;
-import com.modzo.ors.configuration.hibernate.PostgresqlILIKE;
+import com.modzo.ors.configuration.hibernate.PostgresqlILike;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
 import org.springframework.data.domain.Page;
@@ -126,7 +126,7 @@ public class GetRadioStations {
                     specifications.add(
                         (root, query, cb) -> {
                             Expression<Boolean> searchTitle = cb.function(
-                                    PostgresqlILIKE.ILIKE_TITLE,
+                                    PostgresqlILike.ILIKE_TITLE,
                                     Boolean.class,
                                     root.get("title"),
                                     cb.literal(titleQuery)

@@ -5,7 +5,7 @@ import org.hibernate.boot.spi.MetadataBuilderContributor;
 import org.hibernate.dialect.function.SQLFunctionTemplate;
 import org.hibernate.type.StandardBasicTypes;
 
-public class PostgresqlILIKE implements MetadataBuilderContributor {
+public class PostgresqlILike implements MetadataBuilderContributor {
 
     public static final String ILIKE_TITLE = "ILIKE";
 
