@@ -1,5 +1,7 @@
 package com.modzo.ors.search.domain.commands;
 
+import com.modzo.ors.commons.SqlHelper;
+import com.modzo.ors.last.searches.domain.SearchedQuery;
 import com.modzo.ors.last.searches.domain.commands.CreateSearchedQuery;
 import com.modzo.ors.stations.domain.radio.station.genre.Genre;
 import com.modzo.ors.stations.domain.radio.station.genre.Genres;
@@ -32,34 +34,18 @@ public class SearchGenreByTitle {
         }
 
         public Page<Genre> handle(SearchGenreByTitle command) {
-//            NativeSearchQueryBuilder searchQuery = new NativeSearchQueryBuilder()
-//                    .withQuery(searchInTitle(command))
-//                    .withPageable(command.pageable)
-//                    .withSort(sortByRelevance());
-//
-//            var result = genresRepository.search(searchQuery.build());
-//
-//            if (result.getNumberOfElements() > 0) {
-//                lastSearchedQueryHandler.handle(
-//                        new CreateSearchedQuery(command.title, SearchedQuery.Type.GENRE)
-//                );
-//            }
-//            return result;
-            return null;
+            var result = genres.findAllByTitleAndEnabledTrue(
+                    SqlHelper.toILikeSearch(command.title),
+                    command.pageable
+            );
+
+            if (result.getNumberOfElements() > 0) {
+                lastSearchedQueryHandler.handle(
+                        new CreateSearchedQuery(command.title, SearchedQuery.Type.GENRE)
+                );
+            }
+            return result;
         }
 
-//        private QueryBuilder searchInTitle(SearchGenreByTitle command) {
-//            String title = "*" + command.title.replaceAll(" ", "* *") + "*";
-//            QueryStringQueryBuilder partialSearch = queryStringQuery(title).field("title");
-//
-//            CommonTermsQueryBuilder findTitle = commonTermsQuery("title", command.title);
-//            return boolQuery()
-//                    .should(partialSearch)
-//                    .should(findTitle);
-//        }
-//
-//        private ScoreSortBuilder sortByRelevance() {
-//            return SortBuilders.scoreSort();
-//        }
     }
 }

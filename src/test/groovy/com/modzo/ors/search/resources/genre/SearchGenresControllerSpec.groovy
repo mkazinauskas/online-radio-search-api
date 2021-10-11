@@ -4,21 +4,24 @@ import com.modzo.ors.HttpEntityBuilder
 import com.modzo.ors.stations.domain.radio.station.genre.Genre
 import com.modzo.ors.stations.resources.IntegrationSpec
 import org.springframework.http.ResponseEntity
+import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils
+import spock.lang.Unroll
 
 import static org.springframework.hateoas.IanaLinkRelations.SELF
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpStatus.OK
 
-class SearchEventsControllerSpec extends IntegrationSpec {
+class SearchGenresControllerSpec extends IntegrationSpec {
 
-    void 'should find genre by title'() {
+    @Unroll
+    void 'should find genre by title #genreTitle'() {
         given:
-            Genre genre = testGenre.create()
+            Genre genre = testGenre.create(genreTitle)
         and:
             String url = '/search/genre'
         when:
             ResponseEntity<SearchGenreResultsModel> result = restTemplate.exchange(
-                    url + "?title=${genre.title}",
+                    url + "?title=${query}",
                     GET,
                     HttpEntityBuilder.builder()
                             .build(),
@@ -28,6 +31,7 @@ class SearchEventsControllerSpec extends IntegrationSpec {
             result.statusCode == OK
         and:
             with(result.body) {
+                it.content.size() == 1
                 with(it.content.first()) {
                     it.id == genre.id
                     it.uniqueId == genre.uniqueId
@@ -35,9 +39,18 @@ class SearchEventsControllerSpec extends IntegrationSpec {
                 }
                 with(it.links.first()) {
                     rel == SELF
-                    href.endsWith("${url}?title=${genre.title}")
+                    String encodedQuery = query.replaceAll(' ', '%20')
+                    href.endsWith("${url}?title=${encodedQuery}")
                 }
             }
+        where:
+            genreTitle                                                  || query
+            "${randomTitle()} tratret ${randomTitle()}"                 || 'tratret'
+            "${randomTitle()} partl2g60l go ${randomTitle()}"           || 'tl2g60'
+    }
+
+    private static String randomTitle() {
+        return RandomStringUtils.randomAlphanumeric(6)
     }
 
 }
