@@ -1,5 +1,6 @@
 package com.modzo.ors.search.domain.commands;
 
+import com.modzo.ors.commons.SqlHelper;
 import com.modzo.ors.last.searches.domain.SearchedQuery;
 import com.modzo.ors.last.searches.domain.commands.CreateSearchedQuery;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
@@ -34,7 +35,7 @@ public class SearchRadioStationByTitle {
 
         public Page<RadioStation> handle(SearchRadioStationByTitle command) {
             Page<RadioStation> result = radioStations.findAllByTitleAndEnabledTrue(
-                    command.title,
+                    SqlHelper.toILikeSearch(command.title),
                     command.pageable
             );
 

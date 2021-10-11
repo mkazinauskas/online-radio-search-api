@@ -32,6 +32,7 @@ class SearchRadioStationSpec extends IntegrationSpec {
         and:
             result.body
             with(result.body) {
+                it.content.size() == 1
                 with(it.content.first()) {
                     it.id == radioStation.id
                     it.uniqueId == radioStation.uniqueId
@@ -50,7 +51,7 @@ class SearchRadioStationSpec extends IntegrationSpec {
             "${randomTitle()} tristicbroadersit ${randomTitle()}"       | 'broadersit'
             "${randomTitle()} thunderstrobe blazinger ${randomTitle()}" | 'thunderstrobe blazinger'
             "${randomTitle()} birdlandlink trap opus ${randomTitle()}"  | 'birdland opus'
-            "${randomTitle()} partl2g60l go ${randomTitle()}"           | 'g6'
+            "${randomTitle()} partl2g60l go ${randomTitle()}"           | 'tl2g60'
     }
 
     private static String randomTitle() {

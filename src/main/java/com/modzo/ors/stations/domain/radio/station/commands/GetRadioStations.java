@@ -1,5 +1,6 @@
 package com.modzo.ors.stations.domain.radio.station.commands;
 
+import com.modzo.ors.commons.SqlHelper;
 import com.modzo.ors.configuration.hibernate.PostgresqlILIKE;
 import com.modzo.ors.stations.domain.radio.station.RadioStation;
 import com.modzo.ors.stations.domain.radio.station.RadioStations;
@@ -116,7 +117,7 @@ public class GetRadioStations {
 
             SpecificationBuilder withTitle(String title) {
                 if (!Objects.isNull(title)) {
-                    String titleQuery = "%" + title.replaceAll(" ", "%") + "%";
+                    String titleQuery = SqlHelper.toILikeSearch(title);
                     specifications.add(
                             (root, query, cb) ->
                                     cb.isTrue(
