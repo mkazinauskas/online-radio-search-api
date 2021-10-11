@@ -9,8 +9,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.JoinType;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;
 
@@ -119,15 +124,15 @@ public class GetRadioStations {
                 if (!Objects.isNull(title)) {
                     String titleQuery = SqlHelper.toILikeSearch(title);
                     specifications.add(
-                            (root, query, cb) ->
-                                    cb.isTrue(
-                                            cb.function(
-                                                    PostgresqlILIKE.ILIKE_TITLE,
-                                                    Boolean.class,
-                                                    root.get("title"),
-                                                    cb.literal(titleQuery)
-                                            )
-                                    )
+                        (root, query, cb) -> {
+                            Expression<Boolean> searchTitle = cb.function(
+                                    PostgresqlILIKE.ILIKE_TITLE,
+                                    Boolean.class,
+                                    root.get("title"),
+                                    cb.literal(titleQuery)
+                            );
+                            return cb.isTrue(searchTitle);
+                        }
                     );
                 }
                 return this;
