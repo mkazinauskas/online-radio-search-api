@@ -391,7 +391,7 @@ databaseChangeLog:
             splitStatements: true
             sql: CREATE EXTENSION pg_trgm;
   - changeSet:
-      id: 3-radio-station-name-index
+      id: 3-radio-station-title-index
       author: modestukasai
       changes:
         - sql:
@@ -399,3 +399,21 @@ databaseChangeLog:
             endDelimiter: \nGO
             splitStatements: true
             sql: CREATE INDEX radio_stations_title_gin_idx ON radio_stations USING gin (title gin_trgm_ops);
+  - changeSet:
+      id: 4-genres-title-index
+      author: modestukasai
+      changes:
+        - sql:
+            dbms: 'postgresql'
+            endDelimiter: \nGO
+            splitStatements: true
+            sql: CREATE INDEX genres_title_gin_idx ON genres USING gin (title gin_trgm_ops);
+  - changeSet:
+      id: 5-songs-title-index
+      author: modestukasai
+      changes:
+        - sql:
+            dbms: 'postgresql'
+            endDelimiter: \nGO
+            splitStatements: true
+            sql: CREATE INDEX songs_title_gin_idx ON songs USING gin (title gin_trgm_ops);
